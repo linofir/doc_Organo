@@ -1,46 +1,25 @@
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.ConstrainedExecution;
 
-namespace DocAPI.Models;
+namespace DocAPI.Data.Dtos;
 
-public class Paciente
+public class CreatePacienteDto
 {
-    [Key]
-    [Required(ErrorMessage = "Este campo é obrigatóriocdcd")]
-    public string? ID { get; set; }
     [Required(ErrorMessage = "O nome do paciente é obrigatório")]
     public string? Nome { get; set; }
     [Required(ErrorMessage = "O Nascimento do paciente é obrigatório")]
     public string? Nascimento { get; set; }
     public int Idade { get; set; }
     [Required(ErrorMessage = "O CPF do paciente é obrigatório")]
-    [MaxLength(11, ErrorMessage = "O máximo de caracteres é 11")]
+    [StringLength(11, ErrorMessage = "O máximo de caracteres é 11")]
     public string? CPF { get; set; }
     [Required(ErrorMessage = "O RG do paciente é obrigatório")]
-    [MaxLength(11, ErrorMessage = "O máximo de caracteres é 11")]
+    [StringLength(11, ErrorMessage = "O máximo de caracteres é 11")]
     public string? RG { get; set; }
     [Required(ErrorMessage = "O email do paciente é obrigatório")]
     public string? Email { get; set; }
     [Required(ErrorMessage = "O telefone do paciente é obrigatório")]
     public string? Telefone { get; set; }
-    public string? Descricao 
-    {
-        get
-        {
-            string descricao = $@"
-        ID = {ID}
-        Nome = {Nome};
-        Nascimento = {Nascimento};
-        Idade = {Idade};
-        CPF = {CPF};
-        RG = {RG};
-        Email = {Email};
-        Telefone = {Telefone};
-
-        ";
-            return descricao;
-        }
-    }
+    
     
     // public Paciente(string id, string? nome, string nascimento, int idade, string cpf, string rg, string? email, string? telefone, int myProperty)
     // {
@@ -54,8 +33,8 @@ public class Paciente
         // Telefone = telefone;
 
     // }
-    public Paciente()
-    {
-        ID = Guid.NewGuid().ToString();
-    }
+    // public Paciente()
+    // {
+    //     ID = Guid.NewGuid().ToString();
+    // }
 }

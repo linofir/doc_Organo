@@ -31,3 +31,11 @@ C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\obj\Debug\net7.0\refint\D
 C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\obj\Debug\net7.0\DocAPI.pdb
 C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\obj\Debug\net7.0\DocAPI.genruntimeconfig.cache
 C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\obj\Debug\net7.0\ref\DocAPI.dll
+C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\bin\Debug\net7.0\Humanizer.dll
+C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.dll
+C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Design.dll
+C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\bin\Debug\net7.0\MySqlConnector.dll
+C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\bin\Debug\net7.0\Pomelo.EntityFrameworkCore.MySql.dll
+C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\bin\Debug\net7.0\AutoMapper.dll
