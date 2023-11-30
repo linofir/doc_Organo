@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DocAPI.Data.Dtos;
 
-public class CreatePacienteDto
+public class UpdatePacienteDto
 {
     [Required(ErrorMessage = "O nome do paciente é obrigatório")]
     public string? Nome { get; set; }

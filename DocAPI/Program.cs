@@ -13,13 +13,15 @@ builder.Services.AddDbContext<PacienteContext>(opts => opts.UseMySql(connectionS
 var config = new MapperConfiguration(cfg =>
 {
     cfg.AddProfile<PacienteProfile>();
+    cfg.AddMaps(typeof(Program).Assembly);
 });
 
 IMapper mapper = config.CreateMapper();
 
-// builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddSingleton<IMapper>(mapper);
 
-builder.Services.AddControllers();
+
+builder.Services.AddControllers().AddNewtonsoftJson();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
