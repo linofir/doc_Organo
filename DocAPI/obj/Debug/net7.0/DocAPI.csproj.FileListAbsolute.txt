@@ -43,3 +43,5 @@ C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\bin\Debug\net7.0\Microsof
 C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\bin\Debug\net7.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\bin\Debug\net7.0\Newtonsoft.Json.dll
 C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\bin\Debug\net7.0\Newtonsoft.Json.Bson.dll
+C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\bin\Debug\net7.0\Castle.Core.dll
+C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Proxies.dll
