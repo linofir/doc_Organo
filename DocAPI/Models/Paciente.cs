@@ -23,6 +23,7 @@ public class Paciente
     public string? Email { get; set; }
     [Required(ErrorMessage = "O telefone do paciente é obrigatório")]
     public string? Telefone { get; set; }
+    public virtual ICollection<Consulta>? Consultas { get ; set;}
     public string? Descricao 
     {
         get

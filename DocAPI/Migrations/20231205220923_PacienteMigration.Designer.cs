@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DocAPI.Migrations
 {
     [DbContext(typeof(PacienteContext))]
-    [Migration("20231204164647_ConsultorioMigration")]
-    partial class ConsultorioMigration
+    [Migration("20231205220923_PacienteMigration")]
+    partial class PacienteMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,6 +30,11 @@ namespace DocAPI.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("ConsultorioID")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("PacienteID")
+                        .IsRequired()
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("Status")
@@ -37,8 +42,9 @@ namespace DocAPI.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("ConsultorioID")
-                        .IsUnique();
+                    b.HasIndex("ConsultorioID");
+
+                    b.HasIndex("PacienteID");
 
                     b.ToTable("Consultas");
                 });
@@ -104,16 +110,26 @@ namespace DocAPI.Migrations
 
             modelBuilder.Entity("DocAPI.Models.Consulta", b =>
                 {
-                    b.HasOne("DocAPI.Models.Consultorio", "Consultorio")
-                        .WithOne("Consulta")
-                        .HasForeignKey("DocAPI.Models.Consulta", "ConsultorioID");
+                    b.HasOne("DocAPI.Models.Consultorio", "Local")
+                        .WithMany()
+                        .HasForeignKey("ConsultorioID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Consultorio");
+                    b.HasOne("DocAPI.Models.Paciente", "Paciente")
+                        .WithMany("Consultas")
+                        .HasForeignKey("PacienteID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Local");
+
+                    b.Navigation("Paciente");
                 });
 
-            modelBuilder.Entity("DocAPI.Models.Consultorio", b =>
+            modelBuilder.Entity("DocAPI.Models.Paciente", b =>
                 {
-                    b.Navigation("Consulta");
+                    b.Navigation("Consultas");
                 });
 #pragma warning restore 612, 618
         }
