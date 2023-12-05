@@ -8,4 +8,5 @@ public class UpdateConsultaDto
     public DateTime Agendamento { get; set; }
     public string? Status { get; set; }
     public string? ConsultorioID { get; set; }
+    public string? PacineteID {get; set;}
 }
