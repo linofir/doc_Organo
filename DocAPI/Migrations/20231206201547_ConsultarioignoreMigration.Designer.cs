@@ -3,6 +3,7 @@ using System;
 using DocAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DocAPI.Migrations
 {
     [DbContext(typeof(PacienteContext))]
-    partial class PacienteContextModelSnapshot : ModelSnapshot
+    [Migration("20231206201547_ConsultarioignoreMigration")]
+    partial class ConsultarioignoreMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,9 +30,11 @@ namespace DocAPI.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("ConsultorioID")
+                        .IsRequired()
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("PacienteID")
+                        .IsRequired()
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("Status")
@@ -108,11 +112,15 @@ namespace DocAPI.Migrations
                 {
                     b.HasOne("DocAPI.Models.Consultorio", "Local")
                         .WithMany("Consultas")
-                        .HasForeignKey("ConsultorioID");
+                        .HasForeignKey("ConsultorioID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("DocAPI.Models.Paciente", "Paciente")
                         .WithMany("Consultas")
-                        .HasForeignKey("PacienteID");
+                        .HasForeignKey("PacienteID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Local");
 

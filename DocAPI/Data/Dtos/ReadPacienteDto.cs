@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace DocAPI.Data.Dtos;
 
@@ -12,5 +12,6 @@ public class ReadPacienteDto
     public string? Email { get; set; }
     public string? Telefone { get; set; }
     public DateTime HorarioDaAcao { get; set; } = DateTime.Now;
+    // public ICollection<ReadConsultaDto>? Consultas { get; set; }
     
 }

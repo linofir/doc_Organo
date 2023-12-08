@@ -11,14 +11,11 @@ public class ConsultaProfile : Profile
         CreateMap<CreateConsultaDto, Consulta>();
         CreateMap<Consulta, ReadConsultaDto>()
         .ForMember(
-            consultaDto => 
-            consultaDto.Consultorio, 
-            opt => opt.MapFrom(
-                consulta => consulta.Local))
+            consultaDto => consultaDto.Consultorio, 
+            opt => opt.MapFrom(consulta => consulta.Local))
         .ForMember(
-        consultaDto => consultaDto.Paciente, 
-        opt => opt.MapFrom(consulta => consulta.Paciente));;
-        
+            consultaDto => consultaDto.Paciente, 
+            opt => opt.MapFrom(consulta => consulta.Paciente));
         CreateMap<UpdateConsultaDto, Consulta>();
         CreateMap<Consulta, UpdateConsultaDto>();
 

@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.ConstrainedExecution;
+using System.Text.Json.Serialization;
 
 namespace DocAPI.Models;
 

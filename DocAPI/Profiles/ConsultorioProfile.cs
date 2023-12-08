@@ -10,6 +10,9 @@ public class ConsultorioProfile : Profile
     {
         CreateMap<CreateConsultorioDto, Consultorio>();
         CreateMap<Consultorio, ReadConsultorioDto>();
+        // .ForMember( 
+        //     consultorioDto => consultorioDto.Consultas,
+        //     opt => opt.MapFrom( consultorio => consultorio.Consultas));
         CreateMap<UpdateConsultorioDto, Consultorio>();
         CreateMap<Consultorio, UpdateConsultorioDto>();
 
