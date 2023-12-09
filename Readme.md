@@ -15,3 +15,5 @@
 * Implementar relação Paciente com Consulta. ok
 * Implementar a exibição das listas de consultas por pacientes e por consultório. pendente/estudar melhor forma
 * Implementar relação Paciente - Consultório.
+* Aplicar regras de deleção. para todas entidades.
+* Consultas Específicas, LINQ.
