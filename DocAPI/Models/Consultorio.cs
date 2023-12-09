@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace DocAPI.Models;
 
@@ -12,8 +13,7 @@ public class Consultorio
     [Required(ErrorMessage ="O número é necessário")]
     public int Numero { get; set; }
     public string? Complemento { get; set; }
-    //public virtual Consulta? Consulta { get; set; }
-
+    public virtual ICollection<Consulta>? Consultas { get; set; }
     public Consultorio()
     {
         ID = Guid.NewGuid().ToString();

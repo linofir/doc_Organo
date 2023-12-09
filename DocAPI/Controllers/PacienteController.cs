@@ -4,6 +4,7 @@ using DocAPI.Data.Dtos;
 using DocAPI.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DocAPI.Controllers;
 
@@ -36,7 +37,7 @@ public class PacienteController : ControllerBase
     public IActionResult PesquisaPacientes([FromQuery]int skip = 0, [FromQuery]int take = 2)
     {
         if(_context.Pacientes == null) return NotFound();
-        return Ok(_mapper.Map<List<ReadPacienteDto>>(_context.Pacientes.Skip(skip).Take(take)));
+        return Ok(_mapper.Map<List<ReadPacienteDto>>(_context.Pacientes.Skip(skip).Take(take).ToList()));
     }
 
     [HttpGet("secret")]

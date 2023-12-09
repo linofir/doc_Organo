@@ -3,6 +3,7 @@ using System;
 using DocAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DocAPI.Migrations
 {
     [DbContext(typeof(PacienteContext))]
-    partial class PacienteContextModelSnapshot : ModelSnapshot
+    [Migration("20231206193927_ConsultorioConsultasMigration")]
+    partial class ConsultorioConsultasMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,21 +23,28 @@ namespace DocAPI.Migrations
 
             modelBuilder.Entity("DocAPI.Models.Consulta", b =>
                 {
-                    b.Property<string>("PacienteID")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("ConsultorioID")
+                    b.Property<string>("ID")
                         .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("Agendamento")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("ConsultorioID")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("PacienteID")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
                     b.Property<string>("Status")
                         .HasColumnType("longtext");
 
-                    b.HasKey("PacienteID", "ConsultorioID");
+                    b.HasKey("ID");
 
                     b.HasIndex("ConsultorioID");
+
+                    b.HasIndex("PacienteID");
 
                     b.ToTable("Consultas");
                 });

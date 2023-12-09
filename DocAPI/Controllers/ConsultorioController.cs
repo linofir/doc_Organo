@@ -33,10 +33,10 @@ public class ConsultorioController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult PesquisaConsultorios([FromQuery]int skip = 0, [FromQuery]int take = 2)
+    public IActionResult PesquisaConsultorios([FromQuery]int skip = 0, [FromQuery]int take = 5)
     {
         if(_context.Consultorios == null) return NotFound();
-        return Ok(_mapper.Map<List<ReadConsultorioDto>>(_context.Consultorios.Skip(skip).Take(take)));
+        return Ok(_mapper.Map<List<ReadConsultorioDto>>(_context.Consultorios.Skip(skip).Take(take).ToList()));
     }
 
     [HttpGet("secret")]

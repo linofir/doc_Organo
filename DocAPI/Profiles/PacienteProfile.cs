@@ -13,5 +13,8 @@ public class PacienteProfile : Profile
         CreateMap<UpdatePacienteDto, Paciente>();
         CreateMap<Paciente, UpdatePacienteDto>();
         CreateMap<Paciente, ReadPacienteDto>();
+        // .ForMember(
+        //     pacienteDto => pacienteDto.Consultas,
+        //     opt => opt.MapFrom( paciente => paciente.Consultas));
     }
 }

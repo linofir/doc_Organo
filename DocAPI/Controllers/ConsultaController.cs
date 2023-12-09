@@ -27,13 +27,13 @@ public class ConsultaController : ControllerBase
         _context.Consultas!.Add(consulta);
         _context.SaveChanges();
         // Console.WriteLine($"O cadastro d@ {consulta.Nome} foi efetuado ");
-        Console.WriteLine($"foi criado o ID: {consulta.ID}");
+        Console.WriteLine($"foi criado o ID: {consulta.PacienteID}, consultorio: {consulta.ConsultorioID} ");
        
-        return CreatedAtAction(nameof(PesquisaConsultaID), new{id = consulta.ID}, consulta);
+        return CreatedAtAction(nameof(PesquisaConsultaID), new{pacienteId = consulta.PacienteID, consultorioId = consulta.ConsultorioID} , consulta);
     }
 
     [HttpGet]
-    public IActionResult PesquisaConsultas([FromQuery]int skip = 0, [FromQuery]int take = 5)
+    public IActionResult PesquisaConsultas([FromQuery]int skip = 0, [FromQuery]int take = 5) 
     {
         if(_context.Consultas == null) return NotFound();
         return Ok(_mapper.Map<List<ReadConsultaDto>>(_context.Consultas.Skip(skip).Take(take).ToList()));
@@ -46,20 +46,20 @@ public class ConsultaController : ControllerBase
         return Ok(_context.Consultas.Skip(skip).Take(take));
     }
 
-    [HttpGet("{id}")]
-    public IActionResult PesquisaConsultaID(string id)
+    [HttpGet("{pacienteId}/{consultorioId}")]
+    public IActionResult PesquisaConsultaID(string pacienteId, string consultorioId)
     {
-        Consulta consultaEncontrado = _context.Consultas!.FirstOrDefault(consulta => consulta.ID == id)!;
+        Consulta consultaEncontrado = _context.Consultas!.FirstOrDefault(consulta => consulta.PacienteID == pacienteId && consulta.ConsultorioID == consultorioId)!;
        
         if(consultaEncontrado == null) return NotFound();
         var filmeDto = _mapper.Map<ReadConsultaDto>(consultaEncontrado);
         return Ok(filmeDto);
     }
 
-    [HttpPut("{id}")]
-    public IActionResult AlteraConsultaID(string id, [FromBody] UpdateConsultaDto consultaDto)
+    [HttpPut("{pacienteId}/{consultorioId}")]
+    public IActionResult AlteraConsultaID(string pacienteId, string consultorioId, [FromBody] UpdateConsultaDto consultaDto)
     {
-        Consulta consulta = _context.Consultas!.FirstOrDefault(consulta => consulta.ID == id)!;
+        Consulta consulta = _context.Consultas!.FirstOrDefault(consulta => consulta.PacienteID == pacienteId && consulta.ConsultorioID == consultorioId)!;
         if(consulta == null) return NotFound("O consulta não foi encontrado");
         else
         {
@@ -69,10 +69,10 @@ public class ConsultaController : ControllerBase
         }
     }
 
-    [HttpPatch("{id}")]
-    public IActionResult AlteraconsultaPatchID(string id, [FromBody] JsonPatchDocument<UpdateConsultaDto> patch)
+    [HttpPatch("{pacienteId}/{consultorioId}")]
+    public IActionResult AlteraconsultaPatchID(string pacienteId, string consultorioId, [FromBody] JsonPatchDocument<UpdateConsultaDto> patch)
     {
-        Consulta consulta = _context.Consultas!.FirstOrDefault(consulta => consulta.ID == id)!;
+        Consulta consulta = _context.Consultas!.FirstOrDefault(consulta => consulta.PacienteID == pacienteId && consulta.ConsultorioID == consultorioId)!;
         if(consulta == null) return NotFound("O consulta não foi encontrado");
         else
         {
@@ -88,11 +88,11 @@ public class ConsultaController : ControllerBase
         }
     }
 
-    [HttpDelete("{id}")]
-    public IActionResult DeletaConsultaID(string id)
+    [HttpDelete("{pacienteId}/{consultorioId}")]
+    public IActionResult DeletaConsultaID(string pacienteId, string consultorioId)
     {
 
-        Consulta consultaEncontrado = _context.Consultas!.FirstOrDefault(consulta => consulta.ID == id)!;
+        Consulta consultaEncontrado = _context.Consultas!.FirstOrDefault(consulta => consulta.PacienteID == pacienteId && consulta.ConsultorioID == consultorioId)!;
        
         if(consultaEncontrado == null) return NotFound();
         _context.Remove(consultaEncontrado);

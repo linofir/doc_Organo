@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using DocAPI.Models;
 
 namespace DocAPI.Data.Dtos;
 
@@ -19,5 +20,6 @@ public class CreatePacienteDto
     public string? Email { get; set; }
     [Required(ErrorMessage = "O telefone do paciente é obrigatório")]
     public string? Telefone { get; set; }
+    
     
 }

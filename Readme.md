@@ -6,11 +6,14 @@
 * dotnet run --project DocAPI/DocAPI.csproj 
 
 # ToDO
-* Criar Um CRUD.
-* Estruturar um DB usando o framework Entity.
-* Estruturar o Mapper.
-* Implemantar novas entidades: Consulta, consultório.
-* Definir suas relações, config do mapper.
-* configurar laziness.
-* Implementar relação Paciente com Consulta.
-
+* Criar Um CRUD. ok
+* Estruturar um DB usando o framework Entity. ok
+* Estruturar o Mapper. ok
+* Implemantar novas entidades: Consulta, consultório. ok
+* Definir suas relações, config do mapper. ok
+* configurar laziness. ok
+* Implementar relação Paciente com Consulta. ok
+* Implementar a exibição das listas de consultas por pacientes e por consultório. pendente/estudar melhor forma
+* Implementar relação Paciente - Consultório.
+* Aplicar regras de deleção. para todas entidades.
+* Consultas Específicas, LINQ.
