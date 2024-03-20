@@ -4,6 +4,7 @@
 
 # Start 
 * dotnet run --project DocAPI/DocAPI.csproj 
+* Rotas definidas pelo post
 
 # ToDO
 * Criar Um CRUD. ok
