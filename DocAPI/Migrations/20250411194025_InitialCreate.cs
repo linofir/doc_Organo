@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DocAPI.Migrations
 {
-    public partial class PacienteMigration : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -38,16 +38,29 @@ namespace DocAPI.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Nome = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Nascimento = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Idade = table.Column<int>(type: "int", nullable: false),
+                    Nascimento = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     CPF = table.Column<string>(type: "varchar(11)", maxLength: 11, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    RG = table.Column<string>(type: "varchar(11)", maxLength: 11, nullable: false)
+                    RG = table.Column<string>(type: "varchar(11)", maxLength: 11, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Email = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Telefone = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Plano = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Carteira = table.Column<int>(type: "int", nullable: false),
+                    Endereco_Logradouro = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Endereco_Numero = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Endereco_Bairro = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Endereco_Cidade = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Endereco_UF = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Endereco_CEP = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -60,19 +73,17 @@ namespace DocAPI.Migrations
                 name: "Consultas",
                 columns: table => new
                 {
-                    ID = table.Column<string>(type: "varchar(255)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Agendamento = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Status = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
                     ConsultorioID = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     PacienteID = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Agendamento = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Status = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Consultas", x => x.ID);
+                    table.PrimaryKey("PK_Consultas", x => new { x.PacienteID, x.ConsultorioID });
                     table.ForeignKey(
                         name: "FK_Consultas_Consultorios_ConsultorioID",
                         column: x => x.ConsultorioID,
@@ -92,11 +103,6 @@ namespace DocAPI.Migrations
                 name: "IX_Consultas_ConsultorioID",
                 table: "Consultas",
                 column: "ConsultorioID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Consultas_PacienteID",
-                table: "Consultas",
-                column: "PacienteID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

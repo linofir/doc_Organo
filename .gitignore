@@ -1,0 +1,41 @@
+# Build results
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Rider
+.idea/
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
+
+# Secrets
+DocAPI/Secrets/
+
+# Outros arquivos sensíveis
+*.pfx
+*.key
+*.pem
+
+# Pacotes NuGet
+*.nupkg
+*.snupkg
+
+# Configs temporárias
+*.tmp
+*.bak
+
+# Dotnet watch
+**/node_modules/

@@ -70,23 +70,26 @@ namespace DocAPI.Migrations
                         .HasMaxLength(11)
                         .HasColumnType("varchar(11)");
 
+                    b.Property<int?>("Carteira")
+                        .IsRequired()
+                        .HasColumnType("int");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("Idade")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Nascimento")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<DateTime>("Nascimento")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("RG")
+                    b.Property<string>("Plano")
                         .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("RG")
                         .HasMaxLength(11)
                         .HasColumnType("varchar(11)");
 
@@ -116,6 +119,49 @@ namespace DocAPI.Migrations
                     b.Navigation("Local");
 
                     b.Navigation("Paciente");
+                });
+
+            modelBuilder.Entity("DocAPI.Models.Paciente", b =>
+                {
+                    b.OwnsOne("DocAPI.Models.Endereco", "Endereco", b1 =>
+                        {
+                            b1.Property<string>("PacienteID")
+                                .HasColumnType("varchar(255)");
+
+                            b1.Property<string>("Bairro")
+                                .IsRequired()
+                                .HasColumnType("longtext");
+
+                            b1.Property<string>("CEP")
+                                .IsRequired()
+                                .HasColumnType("longtext");
+
+                            b1.Property<string>("Cidade")
+                                .IsRequired()
+                                .HasColumnType("longtext");
+
+                            b1.Property<string>("Logradouro")
+                                .IsRequired()
+                                .HasColumnType("longtext");
+
+                            b1.Property<string>("Numero")
+                                .IsRequired()
+                                .HasColumnType("longtext");
+
+                            b1.Property<string>("UF")
+                                .IsRequired()
+                                .HasColumnType("longtext");
+
+                            b1.HasKey("PacienteID");
+
+                            b1.ToTable("Pacientes");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PacienteID");
+                        });
+
+                    b.Navigation("Endereco")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DocAPI.Models.Consultorio", b =>

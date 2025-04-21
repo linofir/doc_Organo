@@ -16,5 +16,10 @@ public class PacienteProfile : Profile
         // .ForMember(
         //     pacienteDto => pacienteDto.Consultas,
         //     opt => opt.MapFrom( paciente => paciente.Consultas));
+         // Mapeamento de Endereço
+        CreateMap<CreateEnderecoDto, Endereco>();
+        CreateMap<UpdateEnderecoDto, Endereco>();
+        CreateMap<Endereco, UpdateEnderecoDto>();
+        CreateMap<Endereco, ReadEnderecoDto>();
     }
 }

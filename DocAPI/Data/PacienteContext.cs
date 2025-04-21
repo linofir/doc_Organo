@@ -26,6 +26,9 @@ public class PacienteContext : DbContext
         .WithMany(consultorio => consultorio.Consultas)
         .HasForeignKey(consulta => consulta.ConsultorioID);
 
+        builder.Entity<Paciente>()
+                .OwnsOne(p => p.Endereco);
+
     }
 
     public DbSet<Paciente>? Pacientes { get; set;}

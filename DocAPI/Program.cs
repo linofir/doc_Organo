@@ -2,6 +2,7 @@ using DocAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using DocAPI.Profiles;
+using DocAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,10 +36,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+var googleSheetsService = new GoogleSheetsDB();
+googleSheetsService.LerPlanilha();
 
 app.Run();
