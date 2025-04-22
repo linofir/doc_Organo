@@ -1,0 +1,3058 @@
+[
+  {
+    "Codigo": "Código",
+    "Nome": "Nome"
+  },
+  {
+    "Codigo": "10106146",
+    "Nome": "ATENDIMENTO AMBULATORIAL EM PUERICULTURA (COM DIRETRIZ\rCLINICA DEFINIDA PELA ANS)"
+  },
+  {
+    "Codigo": "10101039",
+    "Nome": "CONSULTA EM PRONTO SOCORRO"
+  },
+  {
+    "Codigo": "10101012",
+    "Nome": "CONSULTA EM CONSULTÓRIO (NO HORÁRIO NORMAL OU\rPREESTABELECIDO)"
+  },
+  {
+    "Codigo": "40305015",
+    "Nome": "1,25-DIHIDROXI VITAMINA D - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40305740",
+    "Nome": "11-DESOXICORTICOSTERONA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316017",
+    "Nome": "17-ALFA-HIDROXIPROGESTERONA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40305066",
+    "Nome": "17-CETOSTERÓIDES (17-CTS) - CROMATOGRAFIA - PESQUISA E/OU\rDOSAGEM"
+  },
+  {
+    "Codigo": "40305074",
+    "Nome": "17-CETOSTERÓIDES RELAÇÃO ALFA/BETA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40305082",
+    "Nome": "17-CETOSTERÓIDES TOTAIS (17-CTS) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40305783",
+    "Nome": "17-HIDROXICORTICOSTERÓIDES (17-OHS) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40305090",
+    "Nome": "17-HIDROXIPREGNENOLONA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316025",
+    "Nome": "3 ALFA ANDROSTONEDIOL GLUCORONÍDEO (3ALFDADIOL) - PESQUISA\rE/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301028",
+    "Nome": "5-NUCLEOTIDASE - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40310019",
+    "Nome": "A FRESCO, EXAME"
+  },
+  {
+    "Codigo": "40308901",
+    "Nome": "ACETILCOLINA, ANTICORPOS BLOQUEADOR RECEPTOR"
+  },
+  {
+    "Codigo": "40323030",
+    "Nome": "ACETILCOLINA, ANTICORPOS LIGADOR RECEPTOR"
+  },
+  {
+    "Codigo": "40323048",
+    "Nome": "ACETILCOLINA, ANTICORPOS MODULADOR RECEPTOR"
+  },
+  {
+    "Codigo": "40301044",
+    "Nome": "ACETILCOLINESTERASE, EM ERITRÓCITOS - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40305112",
+    "Nome": "ÁCIDO 5 HIDRÓXI INDOL ACÉTICO, DOSAGEM NA URINA"
+  },
+  {
+    "Codigo": "40301060",
+    "Nome": "ÁCIDO ASCÓRBICO (VITAMINA C) - PESQUISA E/OU DOSAGEM "
+  },
+  {
+    "Codigo": "40311015",
+    "Nome": "ÁCIDO CÍTRICO - PESQUISA E/OU DOSAGEM NA URINA "
+  },
+  {
+    "Codigo": "40313018",
+    "Nome": "ÁCIDO DELTA AMINOLEVULÍNICO (PARA CHUMBO INORGÂNICO) -  PESQUISA E/OU DOSAGEM  "
+  },
+  {
+    "Codigo": "40313026",
+    "Nome": "ÁCIDO DELTA AMINOLEVULÍNICO DESIDRATASE (PARA CHUMBO\rINORGÂNICO) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40313034",
+    "Nome": "ÁCIDO FENILGLIOXÍLICO (PARA ESTIRENO) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301087",
+    "Nome": "ÁCIDO FÓLICO, PESQUISA E/OU DOSAGEM NOS ERITRÓCITOS"
+  },
+  {
+    "Codigo": "40313042",
+    "Nome": "ÁCIDO HIPÚRICO (PARA TOLUENO) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40305120",
+    "Nome": "ÁCIDO HOMO VANÍLICO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40311023",
+    "Nome": "ÁCIDO HOMOGENTÍSICO - PESQUISA E/OU DOSAGEM NA URINA"
+  },
+  {
+    "Codigo": "40301109",
+    "Nome": "ÁCIDO LÁCTICO (LACTATO) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40313050",
+    "Nome": "ÁCIDO MANDÉLICO (PARA ESTIRENO) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40313069",
+    "Nome": "ÁCIDO METILHIPÚRICO (PARA XILENOS) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301125",
+    "Nome": "ÁCIDO OXÁLICO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301133",
+    "Nome": "ÁCIDO PIRÚVICO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40313077",
+    "Nome": "ÁCIDO SALICÍLICO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301141",
+    "Nome": "ÁCIDO SIÁLICO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301150",
+    "Nome": "ÁCIDO ÚRICO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301168",
+    "Nome": "ÁCIDO VALPRÓICO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316033",
+    "Nome": "ÁCIDO VANILMANDÉLICO (VMA) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301184",
+    "Nome": "ÁCIDOS GRAXOS LIVRES - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301192",
+    "Nome": "ÁCIDOS ORGÂNICOS (PERFIL QUANTITATIVO)"
+  },
+  {
+    "Codigo": "40301214",
+    "Nome": "ACILCARNITINAS (PERFIL QUANTITATIVO) (COM DIRETRIZ DE UTILIZAÇÃO DEFINIDA\rPELA ANS)"
+  },
+  {
+    "Codigo": "40309010",
+    "Nome": "ADENOSINA DE AMINASE (ADA) - PESQUISA E/OU DOSAGEM EM\rLÍQUIDOS ORGÂNICOS"
+  },
+  {
+    "Codigo": "40306011",
+    "Nome": "ADENOVÍRUS, IGG - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306020",
+    "Nome": "ADENOVÍRUS, IGM - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316041",
+    "Nome": "ADRENOCORTICOTRÓFICO, HORMÔNIO (ACTH) - PESQUISA E/OU\rDOSAGEM"
+  },
+  {
+    "Codigo": "40301222",
+    "Nome": "ALBUMINA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301230",
+    "Nome": "ALDOLASE - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316050",
+    "Nome": "ALDOSTERONA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307905",
+    "Nome": "ALÉRGENOS - PERFIL ANTIGÊNICO (PAINEL C/36 ANTÍGENOS) - PESQUISA\rE/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40303012",
+    "Nome": "ALFA -1-ANTITRIPSINA, (FEZES) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40322360",
+    "Nome": "ALFA FETOPROTEÍNA L3, LÍQUOR"
+  },
+  {
+    "Codigo": "40301249",
+    "Nome": "ALFA-1-ANTITRIPSINA, PESQUISA E/OU DOSAGEM NO SORO"
+  },
+  {
+    "Codigo": "40301257",
+    "Nome": "ALFA-1-GLICOPROTEÍNA ÁCIDA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301265",
+    "Nome": "ALFA-2-MACROGLOBULINA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316068",
+    "Nome": "ALFA-FETOPROTEÍNA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40322386",
+    "Nome": "ALFA-GALACTOSIDADE, DOSAGEM PLÁSMATICA"
+  },
+  {
+    "Codigo": "40301273",
+    "Nome": "ALUMÍNIO, PESQUISA E/OU DOSAGEM NO SORO"
+  },
+  {
+    "Codigo": "40308421",
+    "Nome": "AMEBA, PESQUISA"
+  },
+  {
+    "Codigo": "40302130",
+    "Nome": "AMILASE OU ALFA-AMILASE, ISOENZIMAS - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301281",
+    "Nome": "AMILASE - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301290",
+    "Nome": "AMINOÁCIDOS, FRACIONAMENTO E QUANTIFICAÇÃO"
+  },
+  {
+    "Codigo": "40301320",
+    "Nome": "AMÔNIA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40305163",
+    "Nome": "AMP CÍCLICO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40303020",
+    "Nome": "ANAL SWAB, PESQUISA DE OXIÚRUS"
+  },
+  {
+    "Codigo": "40316076",
+    "Nome": "ANDROSTENEDIONA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40308553",
+    "Nome": "ANTI TRANSGLUTAMINASE TECIDUAL - IGA"
+  },
+  {
+    "Codigo": "40306054",
+    "Nome": "ANTI-ACTINA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40310418",
+    "Nome": "ANTIBIOGRAMA (TESTE DE SENSIBILIDADE E ANTIBIÓTICOS E\rQUIMIOTERÁPICOS), POR BACTÉRIA - NÃO AUTOMATIZADO"
+  },
+  {
+    "Codigo": "40310426",
+    "Nome": "ANTIBIOGRAMA AUTOMATIZADO"
+  },
+  {
+    "Codigo": "40310035",
+    "Nome": "ANTIBIOGRAMA P/ BACILOS ÁLCOOL-RESISTENTES - DROGAS DE 2 LINHAS"
+  },
+  {
+    "Codigo": "40301346",
+    "Nome": "ANTIBIÓTICOS, PESQUISA E/OU DOSAGEM NO SORO, CADA"
+  },
+  {
+    "Codigo": "40306046",
+    "Nome": "ANTICANDIDA - IGG E IGM (CADA) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306135",
+    "Nome": "ANTICARDIOLIPINA - IGA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306143",
+    "Nome": "ANTICARDIOLIPINA - IGG - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306151",
+    "Nome": "ANTICARDIOLIPINA - IGM - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306160",
+    "Nome": "ANTICENTRÔMERO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40304019",
+    "Nome": "ANTICOAGULANTE LÚPICO, PESQUISA"
+  },
+  {
+    "Codigo": "40304027",
+    "Nome": "ANTICORPO ANTI A E B, PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40309304",
+    "Nome": "ANTICORPO ANTIESPERMATOZÓIDE - PESQUISA E/OU DOSAGEM EM\rLÍQUIDOS ORGÂNICOS"
+  },
+  {
+    "Codigo": "40316084",
+    "Nome": "ANTICORPO ANTI-RECEPTOR DE TSH (TRAB) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306194",
+    "Nome": "ANTICORPO ANTIVÍRUS DA HEPATITE E (TOTAL) - PESQUISA E/OU\rDOSAGEM"
+  },
+  {
+    "Codigo": "40306259",
+    "Nome": "ANTICORPOS ANTIENDOMISIO - IGG, IGM, IGA (CADA) - PESQUISA E/OU\rDOSAGEM"
+  },
+  {
+    "Codigo": "40306208",
+    "Nome": "ANTICORPOS ANTI-ILHOTA DE LANGHERANS - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316092",
+    "Nome": "ANTICORPOS ANTIINSULINA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40304035",
+    "Nome": "ANTICORPOS ANTIPLAQUETÁRIOS, CITOMETRIA DE FLUXO"
+  },
+  {
+    "Codigo": "40316106",
+    "Nome": "ANTICORPOS ANTITIREÓIDE (TIREOGLOBULINA) - PESQUISA E/OU\rDOSAGEM"
+  },
+  {
+    "Codigo": "40304051",
+    "Nome": "ANTICORPOS IRREGULARES, PESQUISA (MEIO SALINO A TEMPERATURA\rAMBIENTE E 37o E TESTE INDIRETO DE COOMBS)"
+  },
+  {
+    "Codigo": "40304043",
+    "Nome": "ANTICORPOS IRREGULARES - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306267",
+    "Nome": "ANTICORPOS NATURAIS - ISOAGLUTININAS, PESQUISAS"
+  },
+  {
+    "Codigo": "40306275",
+    "Nome": "ANTICORPOS NATURAIS - ISOAGLUTININAS, TITULAGEM"
+  },
+  {
+    "Codigo": "40306283",
+    "Nome": "ANTICORTEX SUPRA-RENAL - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306062",
+    "Nome": "ANTI-DNA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306291",
+    "Nome": "ANTIESCLERODERMA (SCL 70) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307948",
+    "Nome": "ANTIFÍGADO (GLOMÉRULO, TUB. RENAL CORTE RIM DE RATO), IFI -\rPESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316114",
+    "Nome": "ANTÍGENO AUSTRÁLIA (HBSAG) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316122",
+    "Nome": "ANTÍGENO CARCINOEMBRIOGÊNICO (CEA) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316130",
+    "Nome": "ANTÍGENO ESPECÍFICO PROSTÁTICO LIVRE (PSA LIVRE) - PESQUISA E/OU\rDOSAGEM"
+  },
+  {
+    "Codigo": "40316149",
+    "Nome": "ANTÍGENO ESPECÍFICO PROSTÁTICO TOTAL (PSA) - PESQUISA E/OU\rDOSAGEM"
+  },
+  {
+    "Codigo": "40310043",
+    "Nome": "ANTÍGENOS FÚNGICOS, PESQUISA"
+  },
+  {
+    "Codigo": "40306305",
+    "Nome": "ANTIGLIADINA (GLÚTEN) - IGA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306313",
+    "Nome": "ANTIGLIADINA (GLÚTEN) - IGG - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306070",
+    "Nome": "ANTI-JO1 - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306089",
+    "Nome": "ANTI-LA/SSB - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306097",
+    "Nome": "ANTI-LKM-1 - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306330",
+    "Nome": "ANTIMEMBRANA BASAL - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306348",
+    "Nome": "ANTIMICROSSOMAL - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306364",
+    "Nome": "ANTIMITOCONDRIA, M2 - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306356",
+    "Nome": "ANTIMITOCONDRIA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306372",
+    "Nome": "ANTIMÚSCULO CARDÍACO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306380",
+    "Nome": "ANTIMÚSCULO ESTRIADO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306399",
+    "Nome": "ANTIMÚSCULO LISO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306402",
+    "Nome": "ANTINEUTRÓFILOS (ANCA)  C - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306410",
+    "Nome": "ANTINEUTRÓFILOS (ANCA)  P - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306429",
+    "Nome": "ANTIPARIETAL - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306437",
+    "Nome": "ANTIPEROXIDASE TIREOIDEANA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306100",
+    "Nome": "ANTI-RNP - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306119",
+    "Nome": "ANTI-RO/SSA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306127",
+    "Nome": "ANTI-SM - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316157",
+    "Nome": "ANTI-TPO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40304060",
+    "Nome": "ANTITROMBINA III, DOSAGEM"
+  },
+  {
+    "Codigo": "40301354",
+    "Nome": "APOLIPOPROTEÍNA A (APO A) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301362",
+    "Nome": "APOLIPOPROTEÍNA B (APO B) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306445",
+    "Nome": "ASLO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306453",
+    "Nome": "ASPERGILUS, REAÇÃO SOROLÓGICA"
+  },
+  {
+    "Codigo": "40304078",
+    "Nome": "ATIVADOR TISSULAR DE PLASMINOGÊNIO (TPA) - PESQUISA E/OU\rDOSAGEM"
+  },
+  {
+    "Codigo": "40310051",
+    "Nome": "B.A.A.R. (ZIEHL OU FLUORESCÊNCIA, PESQUISA DIRETA E APÓS\rHOMOGENEIZAÇÃO) - PESQUISA"
+  },
+  {
+    "Codigo": "40310060",
+    "Nome": "BACTERIOSCOPIA (GRAM, ZIEHL, ALBERT  ETC), POR LÂMINA"
+  },
+  {
+    "Codigo": "40306470",
+    "Nome": "BETA-2-MICROGLOBULINA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301389",
+    "Nome": "BETA-GLICURONIDASE - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40322408",
+    "Nome": "BICARBONATO NA URINA, AMOSTRA ISOLADA"
+  },
+  {
+    "Codigo": "40301397",
+    "Nome": "BILIRRUBINAS (DIRETA, INDIRETA E TOTAL) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40309029",
+    "Nome": "BIOQUÍMICA ICR (PROTEÍNAS + PANDY + GLICOSE + CLORO) - PESQUISA\rE/OU DOSAGEM EM LÍQUIDOS ORGÂNICOS"
+  },
+  {
+    "Codigo": "40306488",
+    "Nome": "BIOTINIDASE ATIVIDADE DA, QUALITATIVO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306496",
+    "Nome": "BLASTOMICOSE, REAÇÃO SOROLÓGICA"
+  },
+  {
+    "Codigo": "40306500",
+    "Nome": "BRUCELA - IGG - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306518",
+    "Nome": "BRUCELA - IGM - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306534",
+    "Nome": "C1Q - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306542",
+    "Nome": "C3 PROATIVADOR - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306550",
+    "Nome": "C3A (FATOR B) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40323978",
+    "Nome": "CADEIAS LEVES LIVRES KAPPA/LAMBDA EM URINA, DOSAGEM"
+  },
+  {
+    "Codigo": "40301400",
+    "Nome": "CÁLCIO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301419",
+    "Nome": "CÁLCIO IÔNICO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316165",
+    "Nome": "CALCITONINA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40311040",
+    "Nome": "CÁLCULOS URINÁRIOS - ANÁLISE"
+  },
+  {
+    "Codigo": "40301427",
+    "Nome": "CAPACIDADE DE FIXAÇÃO DE FERRO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301435",
+    "Nome": "CARBAMAZEPINA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40313093",
+    "Nome": "CARBOXIHEMOGLOBINA (PARA MONÓXIDO DE CARBONO\rDICLOROMETANO) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40314120",
+    "Nome": "HIV - CARGA VIRAL PCR - PESQUISA"
+  },
+  {
+    "Codigo": "40301460",
+    "Nome": "CAROTENO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40311058",
+    "Nome": "CATECOLAMINAS FRACIONADAS - DOPAMINA, EPINEFRINA,\rNOREPINEFRINA (CADA) - PESQUISA E/OU DOSAGEM NA URINA"
+  },
+  {
+    "Codigo": "40316173",
+    "Nome": "CATECOLAMINAS - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306593",
+    "Nome": "CAXUMBA, IGG - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306607",
+    "Nome": "CAXUMBA, IGM - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40304086",
+    "Nome": "CD... (ANTÍGENO DE DIF. CELULAR, CADA DETERMINAÇÃO) - PESQUISA\rE/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40304795",
+    "Nome": "CÉLULAS LE - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40309037",
+    "Nome": "CÉLULAS, CONTAGEM TOTAL E ESPECÍFICA - PESQUISA E/OU DOSAGEM\rEM LÍQUIDOS ORGÂNICOS"
+  },
+  {
+    "Codigo": "40301478",
+    "Nome": "CERULOPLASMINA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307964",
+    "Nome": "CHAGAS, HEMOAGLUTINAÇÃO"
+  },
+  {
+    "Codigo": "40306615",
+    "Nome": "CHAGAS IGG - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306623",
+    "Nome": "CHAGAS IGM - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306631",
+    "Nome": "CHLAMYDIA - IGG - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306640",
+    "Nome": "CHLAMYDIA - IGM - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40314537",
+    "Nome": "CHLAMYDIA - PCR, AMPLIAÇÃO DE DNA"
+  },
+  {
+    "Codigo": "40314243",
+    "Nome": "CHLAMYDIA POR BIOLOGIA MOLECULAR - PESQUISA"
+  },
+  {
+    "Codigo": "40310078",
+    "Nome": "CHLAMYDIA, CULTURA"
+  },
+  {
+    "Codigo": "40313107",
+    "Nome": "CHUMBO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301486",
+    "Nome": "CICLOSPORINA, METHOTREXATE - CADA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306658",
+    "Nome": "CISTICERCOSE, AC - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40311244",
+    "Nome": "CISTINA - PESQUISA E/OU DOSAGEM NA URINA"
+  },
+  {
+    "Codigo": "40314251",
+    "Nome": "CITOGENÉTICA DE MEDULA ÓSSEA"
+  },
+  {
+    "Codigo": "40314022",
+    "Nome": "CITOMEGALOVÍRUS - QUALITATIVO, POR PCR, PESQUISA (COM DIRETRIZ\rDE UTILIZAÇÃO DEFINIDA PELA ANS)"
+  },
+  {
+    "Codigo": "40306666",
+    "Nome": "CITOMEGALOVÍRUS IGG - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306674",
+    "Nome": "CITOMEGALOVÍRUS IGM - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40304094",
+    "Nome": "CITOQUÍMICA PARA CLASSIFICAR LEUCEMIA: ESTERASE, FOSFATASE\rLEUCOCITÁRIA, PAS, PEROXIDASE OU SB,  ETC - CADA"
+  },
+  {
+    "Codigo": "40301494",
+    "Nome": "CLEARANCE DE ÁCIDO ÚRICO"
+  },
+  {
+    "Codigo": "40301508",
+    "Nome": "CLEARANCE DE CREATININA"
+  },
+  {
+    "Codigo": "40301516",
+    "Nome": "CLEARANCE DE FOSFATO"
+  },
+  {
+    "Codigo": "40301524",
+    "Nome": "CLEARANCE DE URÉIA"
+  },
+  {
+    "Codigo": "40309401",
+    "Nome": "CLEMENTS, TESTE"
+  },
+  {
+    "Codigo": "40301540",
+    "Nome": "CLOMIPRAMINA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301559",
+    "Nome": "CLORO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306682",
+    "Nome": "CLOSTRIDIUM DIFFICILE, TOXINA A - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40304922",
+    "Nome": "COAGULOGRAMA (TS, TC, PROVA DO LAÇO, RETRAÇÃO DO COÁGULO,\rCONTAGEM DE PLAQUETAS, TEMPO DE PROTOMBINA, TEMPO DE\rTROMBOPLASTINA, PARCIAL ATIVADO) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301567",
+    "Nome": "COBRE - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40310086",
+    "Nome": "CÓLERA - IDENTIFICAÇÃO (SOROTIPAGEM INCLUÍDA)"
+  },
+  {
+    "Codigo": "40301583",
+    "Nome": "COLESTEROL (HDL) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301591",
+    "Nome": "COLESTEROL (LDL) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40302695",
+    "Nome": "COLESTEROL (VLDL) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301605",
+    "Nome": "COLESTEROL TOTAL - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40313115",
+    "Nome": "COLINESTERASE (PARA CARBAMATOS  ORGANOFOSFORADOS) - PESQUISA E/OU\rDOSAGEM"
+  },
+  {
+    "Codigo": "40306690",
+    "Nome": "COMPLEMENTO C2 - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307999",
+    "Nome": "COMPLEMENTO C3, C4 - TURBID. OU NEFOLOMÉTRICO C3A - PESQUISA\rE/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306704",
+    "Nome": "COMPLEMENTO C3 - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306712",
+    "Nome": "COMPLEMENTO C4 - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306747",
+    "Nome": "COMPLEMENTO CH-50 - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316181",
+    "Nome": "COMPOSTO S (11-DESOXICORTISOL) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40304809",
+    "Nome": "CONSUMO DE PROTROMBINA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40311295",
+    "Nome": "CONTAGEM SEDIMENTAR DE ADDIS"
+  },
+  {
+    "Codigo": "40304108",
+    "Nome": "COOMBS DIRETO"
+  },
+  {
+    "Codigo": "40304884",
+    "Nome": "COOMBS INDIRETO"
+  },
+  {
+    "Codigo": "40303039",
+    "Nome": "COPROLÓGICO FUNCIONAL (CARACTERES, PH, DIGESTIBILIDADE, AMÔNIA,\rÁCIDOS ORGÂNICOS E INTERPRETAÇÃO)"
+  },
+  {
+    "Codigo": "40311074",
+    "Nome": "COPROPORFIRINA III - PESQUISA E/OU DOSAGEM NA URINA"
+  },
+  {
+    "Codigo": "40313123",
+    "Nome": "COPROPORFIRINAS (PARA CHUMBO INORGÂNICO) - PESQUISA E/OU\rDOSAGEM"
+  },
+  {
+    "Codigo": "40311082",
+    "Nome": "CORPOS CETÔNICOS, PESQUISA - NA URINA"
+  },
+  {
+    "Codigo": "40310094",
+    "Nome": "CORPÚSCULOS DE DONOVANI, PESQUISA DIRETA DE"
+  },
+  {
+    "Codigo": "40305210",
+    "Nome": "CORTISOL LIVRE - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316190",
+    "Nome": "CORTISOL - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301621",
+    "Nome": "CREATINA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301630",
+    "Nome": "CREATININA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301664",
+    "Nome": "CREATINO FOSFOQUINASE - FRAÇÃO MB - ATIVIDADE - PESQUISA E/OU\rDOSAGEM"
+  },
+  {
+    "Codigo": "40301656",
+    "Nome": "CREATINO FOSFOQUINASE - FRAÇÃO MB - MASSA - PESQUISA E/OU\rDOSAGEM"
+  },
+  {
+    "Codigo": "40301648",
+    "Nome": "CREATINO FOSFOQUINASE TOTAL (CK) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316203",
+    "Nome": "CRESCIMENTO, HORMÔNIO DO (HGH) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306755",
+    "Nome": "CRIO-AGLUTININA, GLOBULINA, DOSAGEM, CADA"
+  },
+  {
+    "Codigo": "40306763",
+    "Nome": "CRIO-AGLUTININA, GLOBULINA, PESQUISA, CADA"
+  },
+  {
+    "Codigo": "40308014",
+    "Nome": "CRIOGLOBULINAS, CARACTERIZAÇÃO - IMUNOELETROFORESE"
+  },
+  {
+    "Codigo": "40310108",
+    "Nome": "CRIPTOCOCO (TINTA DA CHINA), PESQUISA DE"
+  },
+  {
+    "Codigo": "40309053",
+    "Nome": "CRIPTOCOCOSE, CÂNDIDA, ASPÉRGILUS (LÁTEX) - PESQUISA E/OU\rDOSAGEM EM LÍQUIDOS ORGÂNICOS"
+  },
+  {
+    "Codigo": "40310116",
+    "Nome": "CRIPTOSPORIDIUM, PESQUISA"
+  },
+  {
+    "Codigo": "40309509",
+    "Nome": "CRISTAIS COM LUZ POLARIZADA - PESQUISA E/OU DOSAGEM EM\rLÍQUIDOS ORGÂNICOS"
+  },
+  {
+    "Codigo": "40311090",
+    "Nome": "CROMATOGRAFIA DE AÇÚCARES - NA URINA"
+  },
+  {
+    "Codigo": "40301672",
+    "Nome": "CROMATOGRAFIA DE AMINOÁCIDOS (PERFIL QUALITATITIVO) - PESQUISA\rE/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40313310",
+    "Nome": "CROMO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40314049",
+    "Nome": "CROMOSSOMO PHILADELFIA - PESQUISA"
+  },
+  {
+    "Codigo": "40306771",
+    "Nome": "CROSS MATCH (PROVA CRUZADA DE HISTOCOMPATIBILIDADE PARA\rTRANSPLANTE RENAL)"
+  },
+  {
+    "Codigo": "40310400",
+    "Nome": "CULTURA AUTOMATIZADA - MICROBIOLOGIA"
+  },
+  {
+    "Codigo": "40310124",
+    "Nome": "CULTURA BACTERIANA (EM DIVERSOS MATERIAIS BIOLÓGICOS)"
+  },
+  {
+    "Codigo": "40310671",
+    "Nome": "CULTURA EM LEITE MATERNO"
+  },
+  {
+    "Codigo": "40306780",
+    "Nome": "CULTURA OU ESTIMULAÇÃO DOS LINFÓCITOS \"IN VITRO\" POR\rCONCANAVALINA, PHA OU POKWEED"
+  },
+  {
+    "Codigo": "40310132",
+    "Nome": "CULTURA PARA BACTÉRIAS ANAERÓBICAS"
+  },
+  {
+    "Codigo": "40310140",
+    "Nome": "CULTURA PARA FUNGOS"
+  },
+  {
+    "Codigo": "40310159",
+    "Nome": "CULTURA PARA MYCOBACTERIUM"
+  },
+  {
+    "Codigo": "40310167",
+    "Nome": "CULTURA QUANTITATIVA DE SECREÇÕES PULMONARES, QUANDO NECESSITAR\rTRATAMENTO PRÉVIO C/ N.C.A."
+  },
+  {
+    "Codigo": "40310647",
+    "Nome": "CULTURA QUANTITATIVA QUEIMADOS (PELE)"
+  },
+  {
+    "Codigo": "40310175",
+    "Nome": "CULTURA, FEZES: SALMONELA, SHIGELLAE E ESC. COLI\rENTEROPATOGÊNICAS, ENTEROINVASORA (SOROL. INCLUÍDA) +\rCAMPYLOBACTER SP. + E. COLI ENTERO-HEMORRÁGICA"
+  },
+  {
+    "Codigo": "40310183",
+    "Nome": "CULTURA, FEZES: SALMONELLA, SHIGELLA E ESCHERICHIA COLI\rENTEROPATOGÊNICAS (SOROLOGIA INCLUÍDA)"
+  },
+  {
+    "Codigo": "40310191",
+    "Nome": "CULTURA, HERPESVÍRUS OU OUTRO"
+  },
+  {
+    "Codigo": "40310205",
+    "Nome": "CULTURA, MICOPLASMA OU UREAPLASMA"
+  },
+  {
+    "Codigo": "40310213",
+    "Nome": "CULTURA, URINA COM CONTAGEM DE COLÔNIAS"
+  },
+  {
+    "Codigo": "40301680",
+    "Nome": "CURVA GLICÊMICA (4 DOSAGENS) VIA ORAL OU ENDOVENOSA"
+  },
+  {
+    "Codigo": "40305228",
+    "Nome": "CURVA GLICÊMICA (6 DOSAGENS) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40322300",
+    "Nome": "CURVA GLICÊMICA CLÁSSICA (5 DOSAGENS)"
+  },
+  {
+    "Codigo": "40305236",
+    "Nome": "CURVA INSULÍNICA  (6 DOSAGENS) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40317269",
+    "Nome": "CURVA INSULÍNICA E GLICÊMICA (2 DOSAGENS)"
+  },
+  {
+    "Codigo": "40316211",
+    "Nome": "DEHIDROEPIANDROSTERONA (DHEA) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316220",
+    "Nome": "DEHIDROTESTOSTERONA (DHT) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306798",
+    "Nome": "DENGUE - IGG E IGM (CADA) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301699",
+    "Nome": "DESIDROGENASE ALFA-HIDROXIBUTÍRICA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301702",
+    "Nome": "DESIDROGENASE GLUTÂMICA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301737",
+    "Nome": "DESIDROGENASE LÁCTICA - ISOENZIMAS FRACIONADAS - PESQUISA E/OU\rDOSAGEM"
+  },
+  {
+    "Codigo": "40301729",
+    "Nome": "DESIDROGENASE LÁCTICA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301745",
+    "Nome": "BENZODIAZEPÍNICOS E SIMILARES (CADA) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301753",
+    "Nome": "DIGITOXINA OU DIGOXINA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40311104",
+    "Nome": "DISMORFISMO ERITROCITÁRIO, PESQUISA (CONTRASTE DE FASE) - NA URINA"
+  },
+  {
+    "Codigo": "40308022",
+    "Nome": "DNCB - TESTE DE CONTATO"
+  },
+  {
+    "Codigo": "40316785",
+    "Nome": "DOSAGEM DE ÁCIDO HIPÚRICO EM URINA"
+  },
+  {
+    "Codigo": "40305279",
+    "Nome": "DOSAGEM DE RECEPTOR DE PROGESTERONA OU DE ESTROGÊNIO"
+  },
+  {
+    "Codigo": "40316238",
+    "Nome": "DROGAS (IMUNOSSUPRESSORA, ANTICONVULSIVANTE, DIGITÁLICO, ETC.)\rCADA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306801",
+    "Nome": "ECHOVÍRUS (PAINEL) SOROLOGIA PARA"
+  },
+  {
+    "Codigo": "40301761",
+    "Nome": "ELETROFERESE DE PROTEÍNAS"
+  },
+  {
+    "Codigo": "40301770",
+    "Nome": "ELETROFORESE DE GLICOPROTEÍNAS"
+  },
+  {
+    "Codigo": "40301788",
+    "Nome": "ELETROFORESE DE LIPOPROTEÍNAS"
+  },
+  {
+    "Codigo": "40302717",
+    "Nome": "ELETROFORESE DE PROTEÍNAS DE ALTA RESOLUÇÃO (COM DIRETRIZ DE\rUTILIZAÇÃO DEFINIDA PELA ANS)"
+  },
+  {
+    "Codigo": "40309061",
+    "Nome": "ELETROFORESE DE PROTEÍNAS NO LÍQUOR, COM CONCENTRAÇÃO -\rPESQUISA E/OU DOSAGEM EM LÍQUIDOS ORGÂNICOS"
+  },
+  {
+    "Codigo": "40311309",
+    "Nome": "ELETROFORESE DE PROTEÍNAS URINÁRIAS, COM CONCENTRAÇÃO"
+  },
+  {
+    "Codigo": "40301796",
+    "Nome": "ENOLASE - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40305287",
+    "Nome": "ENZIMA CONVERSORA DA ANGIOTENSINA (ECA) - PESQUISA E/OU\rDOSAGEM"
+  },
+  {
+    "Codigo": "40304116",
+    "Nome": "ENZIMAS  ERITROCITÁRIAS,  (ADENILATOQUINASE,  DESIDROGENASE\rLÁCTICA,  FOSFOFRUCTOQUINASE,  FOSFOGLICERATO QUINASE,\rGLICERALDEÍDO, 3  - FOSFATO   DESIDROGENASE, GLICOSE  FOSFATO\rISOMERASE,  GLICOSE 6 - FOSFATO DESIDROGENASE, GLUTATION PEROXIDASE,\rGLUTATION"
+  },
+  {
+    "Codigo": "40304817",
+    "Nome": "ENZIMAS ERITROCITÁRIAS, RASTREIO PARA DEFICIÊNCIA"
+  },
+  {
+    "Codigo": "40306810",
+    "Nome": "EQUINOCOCOSE (HIDATIDOSE), REAÇÃO SOROLÓGICA"
+  },
+  {
+    "Codigo": "40305295",
+    "Nome": "ERITROPOIETINA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40311112",
+    "Nome": "ERROS INATOS DO METABOLISMO BATERIAS DE TESTES QUÍMICOS DE\rTRIAGEM EM URINA (MÍNIMO DE 6 TESTES)"
+  },
+  {
+    "Codigo": "40309410",
+    "Nome": "ESPECTROFOTOMETRIA DE LÍQUIDO AMNIÓTICO"
+  },
+  {
+    "Codigo": "40309312",
+    "Nome": "ESPERMOGRAMA (CARACTERES FÍSICOS, PH, FLUDIFICAÇÃO, MOTILIDADE,\rVITALIDADE, CONTAGEM E MORFOLOGIA)"
+  },
+  {
+    "Codigo": "40309320",
+    "Nome": "ESPERMOGRAMA E TESTE DE PENETRAÇÃO \"IN VITRO\", VELOCIDADE\rPENETRAÇÃO VERTICAL, COLOCAÇÃO  VITAL, TESTE DE REVITALIZAÇÃO"
+  },
+  {
+    "Codigo": "40304825",
+    "Nome": "ESPLENOGRAMA (CITOLOGIA)"
+  },
+  {
+    "Codigo": "40303187",
+    "Nome": "ESTERCOBILINOGÊNIO FECAL, DOSAGEM"
+  },
+  {
+    "Codigo": "40316246",
+    "Nome": "ESTRADIOL - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40310221",
+    "Nome": "ESTREPTOCOCOS - A, TESTE RÁPIDO"
+  },
+  {
+    "Codigo": "40316254",
+    "Nome": "ESTRIOL - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40305597",
+    "Nome": "ESTROGÊNIOS TOTAIS (FENOLESTERÓIDES) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316262",
+    "Nome": "ESTRONA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40313140",
+    "Nome": "ETANOL - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301800",
+    "Nome": "ETOSSUXIMIDA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40304132",
+    "Nome": "FALCIZAÇÃO, TESTE DE"
+  },
+  {
+    "Codigo": "40304140",
+    "Nome": "FATOR 4 PLAQUETÁRIO, DOSAGENS"
+  },
+  {
+    "Codigo": "40306852",
+    "Nome": "FATOR ANTINÚCLEO, (FAN) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40304159",
+    "Nome": "FATOR II, DOSAGEM"
+  },
+  {
+    "Codigo": "40304167",
+    "Nome": "FATOR IX, DOSAGEM"
+  },
+  {
+    "Codigo": "40306860",
+    "Nome": "FATOR REUMATÓIDE, QUANTITATIVO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40308030",
+    "Nome": "FATOR REUMATÓIDE, TESTE DO LÁTEX (QUALITATIVO) - PESQUISA"
+  },
+  {
+    "Codigo": "40304175",
+    "Nome": "FATOR V, DOSAGEM"
+  },
+  {
+    "Codigo": "40304680",
+    "Nome": "FATOR VII - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40304183",
+    "Nome": "FATOR VIII, DOSAGEM"
+  },
+  {
+    "Codigo": "40304191",
+    "Nome": "FATOR VIII, DOSAGEM DO ANTÍGENO (VON WILLEBRAND)"
+  },
+  {
+    "Codigo": "40304205",
+    "Nome": "FATOR VIII, DOSAGEM DO INIBIDOR"
+  },
+  {
+    "Codigo": "40319091",
+    "Nome": "FATOR X ATIVADO"
+  },
+  {
+    "Codigo": "40304213",
+    "Nome": "FATOR X, DOSAGEM"
+  },
+  {
+    "Codigo": "40304221",
+    "Nome": "FATOR XI, DOSAGEM"
+  },
+  {
+    "Codigo": "40304230",
+    "Nome": "FATOR XII, DOSAGEM"
+  },
+  {
+    "Codigo": "40304698",
+    "Nome": "FATOR XIII, DOSAGEM, TESTE FUNCIONAL"
+  },
+  {
+    "Codigo": "40304248",
+    "Nome": "FATOR XIII, PESQUISA"
+  },
+  {
+    "Codigo": "40301818",
+    "Nome": "FENILALANINA, PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40311317",
+    "Nome": "FENILCETONÚRIA, PESQUISA"
+  },
+  {
+    "Codigo": "40301826",
+    "Nome": "FENITOÍNA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301834",
+    "Nome": "FENOBARBITAL - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40313158",
+    "Nome": "FENOL (PARA BENZENO, FENOL) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40304256",
+    "Nome": "FENOTIPAGEM DO SISTEMA RH-HR (ANTI RHO(D) + ANTI RH(C) + ANTI RH(E)"
+  },
+  {
+    "Codigo": "40316270",
+    "Nome": "FERRITINA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301842",
+    "Nome": "FERRO SÉRICO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40304264",
+    "Nome": "FIBRINOGÊNIO, TESTE FUNCIONAL, DOSAGEM"
+  },
+  {
+    "Codigo": "40306879",
+    "Nome": "FILARIA SOROLOGIA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40304272",
+    "Nome": "FILÁRIA, PESQUISA"
+  },
+  {
+    "Codigo": "40313166",
+    "Nome": "FLÚOR (PARA FLUORETOS) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316289",
+    "Nome": "FOLÍCULO ESTIMULANTE, HORMÔNIO (FSH) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301850",
+    "Nome": "FORMALDEÍDO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40313174",
+    "Nome": "FORMALDEÍDO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301877",
+    "Nome": "FOSFATASE ÁCIDA TOTAL - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301869",
+    "Nome": "FOSFATASE ÁCIDA FRAÇÃO PROSTÁTICA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301893",
+    "Nome": "FOSFATASE ALCALINA COM FRACIONAMENTO DE ISOENZIMAS - PESQUISA E/OU\rDOSAGEM"
+  },
+  {
+    "Codigo": "40301915",
+    "Nome": "FOSFATASE ALCALINA TERMO-ESTÁVEL - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301885",
+    "Nome": "FOSFATASE ALCALINA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301923",
+    "Nome": "FOSFOLIPÍDIOS - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40309428",
+    "Nome": "FOSFOLIPÍDIOS (RELAÇÃO LECITINA/ESFINGOMIELINA) - PESQUISA E/OU\rDOSAGEM EM LÍQUIDOS ORGÂNICOS"
+  },
+  {
+    "Codigo": "40301931",
+    "Nome": "FÓSFORO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301940",
+    "Nome": "FÓSFORO, PROVA DE REABSORÇÃO TUBULAR"
+  },
+  {
+    "Codigo": "40301958",
+    "Nome": "FRUTOSAMINAS (PROTEÍNAS GLICOSILADAS) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301966",
+    "Nome": "FRUTOSE - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40311120",
+    "Nome": "FRUTOSÚRIA, PESQUISA"
+  },
+  {
+    "Codigo": "40310230",
+    "Nome": "FUNGOS, PESQUISA DE (A FRESCO LACTOFENOL, TINTA DA CHINA)"
+  },
+  {
+    "Codigo": "40305341",
+    "Nome": "GAD-AB-ANTIDESCARBOXILASE DO ÁCIDO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301974",
+    "Nome": "GALACTOSE - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40311139",
+    "Nome": "GALACTOSÚRIA, PESQUISA"
+  },
+  {
+    "Codigo": "40301990",
+    "Nome": "GAMA-GLUTAMIL TRANSFERASE - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40302024",
+    "Nome": "GASOMETRIA + HB + HT + NA +  K + CL + CA + GLICOSE + LACTATO\r(QUANDO EFETUADO NO GASÔMETRO) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40302016",
+    "Nome": "GASOMETRIA (PH, PCO2, SA, O2, EXCESSO BASE) - PESQUISA E/OU\rDOSAGEM"
+  },
+  {
+    "Codigo": "40316297",
+    "Nome": "GASTRINA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40312070",
+    "Nome": "GASTROACIDOGRAMA - SECREÇÃO BASAL PARA 60' E 4 AMOSTRAS APÓS\rO ESTÍMULO (FORNECIMENTO DE MATERIAL INCLUSIVE TUBAGEM), TESTE"
+  },
+  {
+    "Codigo": "40306887",
+    "Nome": "GENOTIPAGEM DO SISTEMA HLA"
+  },
+  {
+    "Codigo": "40306895",
+    "Nome": "GIARDIA, REAÇÃO SOROLÓGICA"
+  },
+  {
+    "Codigo": "40302032",
+    "Nome": "GLICEMIA APÓS SOBRECARGA COM DEXTROSOL OU GLICOSE - PESQUISA\rE/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40302040",
+    "Nome": "GLICOSE - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40302059",
+    "Nome": "GLICOSE-6-FOSFATO DEIDROGENASE (G6FD) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316300",
+    "Nome": "GLOBULINA DE LIGAÇÃO DE HORMÔNIOS SEXUAIS (SHBG) - PESQUISA\rE/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316319",
+    "Nome": "GLOBULINA TRANSPORTADORA DA TIROXINA (TBG) - PESQUISA E/OU\rDOSAGEM"
+  },
+  {
+    "Codigo": "40305368",
+    "Nome": "GLUCAGON, DOSAGEM"
+  },
+  {
+    "Codigo": "40316327",
+    "Nome": "GONADOTRÓFICO CORIÔNICO, HORMÔNIO (HCG) - PESQUISA E/OU\rDOSAGEM"
+  },
+  {
+    "Codigo": "40316866",
+    "Nome": "GONADOTROFINA CORIÔNICA - HEMAGLUTINAÇÃO OU LÁTEX"
+  },
+  {
+    "Codigo": "40303055",
+    "Nome": "GORDURA FECAL, DOSAGEM"
+  },
+  {
+    "Codigo": "40304280",
+    "Nome": "GRUPO ABO, CLASSIFICAÇÃO REVERSA - DETERMINAÇÃO"
+  },
+  {
+    "Codigo": "40304299",
+    "Nome": "GRUPO SANGUÍNEO ABO, E FATOR RHO (INCLUI DU) - DETERMINAÇÃO"
+  },
+  {
+    "Codigo": "40309070",
+    "Nome": "H. INFLUENZAE, S. PNEUMONIEAE, N. MENINGITIDIS A, B E C W135 (CADA)\r- PESQUISA E/OU DOSAGEM EM LÍQUIDOS ORGÂNICOS"
+  },
+  {
+    "Codigo": "40309088",
+    "Nome": "HAEMOPHILUS INFLUENZAE - PESQUISA DE ANTICORPOS (CADA)-\rPESQUISA E/OU DOSAGEM EM LÍQUIDOS ORGÂNICOS"
+  },
+  {
+    "Codigo": "40304302",
+    "Nome": "HAM, TESTE DE (HEMÓLISE ÁCIDA)"
+  },
+  {
+    "Codigo": "40302067",
+    "Nome": "HAPTOGLOBINA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40304310",
+    "Nome": "HEINZ, CORPÚSCULOS, PESQUISA"
+  },
+  {
+    "Codigo": "40306909",
+    "Nome": "HELICOBACTER PYLORI - IGA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306917",
+    "Nome": "HELICOBACTER PYLORI - IGG - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306925",
+    "Nome": "HELICOBACTER PYLORI - IGM - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40304329",
+    "Nome": "HEMÁCIAS FETAIS, PESQUISA"
+  },
+  {
+    "Codigo": "40319113",
+    "Nome": "HEMÁCIAS, CONTAGEM"
+  },
+  {
+    "Codigo": "40319121",
+    "Nome": "HEMÁCIAS, TEMPO DE SOBREVIDA DAS"
+  },
+  {
+    "Codigo": "40304337",
+    "Nome": "HEMATÓCRITO, DETERMINAÇÃO DO"
+  },
+  {
+    "Codigo": "40303063",
+    "Nome": "HEMATOXILINA FÉRRICA, PESQUISA DE PROTOZOÁRIOS NAS FEZES"
+  },
+  {
+    "Codigo": "40310248",
+    "Nome": "HEMOCULTURA (POR AMOSTRA)"
+  },
+  {
+    "Codigo": "40310256",
+    "Nome": "HEMOCULTURA AUTOMATIZADA (POR AMOSTRA)"
+  },
+  {
+    "Codigo": "40310264",
+    "Nome": "HEMOCULTURA PARA BACTÉRIAS ANAERÓBIAS (POR AMOSTRA)"
+  },
+  {
+    "Codigo": "40319130",
+    "Nome": "HEMOGLOBINA FETAL, DOSAGEM"
+  },
+  {
+    "Codigo": "40302075",
+    "Nome": "HEMOGLOBINA GLICADA (A1 TOTAL) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40302733",
+    "Nome": "HEMOGLOBINA GLICADA (FRAÇÃO A1C) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40311430",
+    "Nome": "HEMOGLOBINA LIVRE NA URINA (AMOSTRA ISOLADA)"
+  },
+  {
+    "Codigo": "40302083",
+    "Nome": "HEMOGLOBINA PLASMÁTICA LIVRE - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40304345",
+    "Nome": "HEMOGLOBINA, DOSAGEM"
+  },
+  {
+    "Codigo": "40304353",
+    "Nome": "HEMOGLOBINA (ELETROFORESE) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40304850",
+    "Nome": "HEMOGLOBINOPATIA - TRIAGEM (EL.HB., HEMOGLOB. FETAL.\rRETICULÓCITOS, CORPOS DE H, T. FALCIZAÇÃO HEMÁCIAS, RESIST.\rOSMÓTICA, TERMO ESTABILIDADE)"
+  },
+  {
+    "Codigo": "40304361",
+    "Nome": "HEMOGRAMA COM CONTAGEM DE PLAQUETAS OU FRAÇÕES\r(ERITROGRAMA, LEUCOGRAMA, PLAQUETAS)"
+  },
+  {
+    "Codigo": "40319148",
+    "Nome": "HEMÓLISE"
+  },
+  {
+    "Codigo": "40310272",
+    "Nome": "HEMOPHILUS (BORDETELLA) PERTUSSIS - PESQUISA"
+  },
+  {
+    "Codigo": "40304370",
+    "Nome": "HEMOSSEDIMENTAÇÃO, (VHS) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40304388",
+    "Nome": "HEMOSSIDERINA (SIDERÓCITOS), SANGUE OU URINA - PESQUISA E/OU\rDOSAGEM"
+  },
+  {
+    "Codigo": "40306933",
+    "Nome": "HEPATITE A - HAV - IGG - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306941",
+    "Nome": "HEPATITE A - HAV - IGM - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306950",
+    "Nome": "HEPATITE B - HBCAC - IGG (ANTI-CORE IGG OU ACOREG) - PESQUISA E/OU\rDOSAGEM"
+  },
+  {
+    "Codigo": "40306968",
+    "Nome": "HEPATITE B - HBCAC - IGM (ANTI-CORE IGM OU ACOREM) - PESQUISA\rE/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306976",
+    "Nome": "HEPATITE B - HBEAC (ANTI HBE) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306984",
+    "Nome": "HEPATITE B - HBEAG (ANTÍGENO \"E\") - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40306992",
+    "Nome": "HEPATITE B - HBSAC (ANTI-ANTÍGENO DE SUPERFÍCIE) - PESQUISA E/OU\rDOSAGEM"
+  },
+  {
+    "Codigo": "40307018",
+    "Nome": "HEPATITE B - HBSAG (AU, ANTÍGENO AUSTRÁLIA) - PESQUISA E/OU\rDOSAGEM"
+  },
+  {
+    "Codigo": "40314081",
+    "Nome": "HEPATITE B (QUANTITATIVO) PCR, PESQUISA (COM DIRETRIZ DE\rUTILIZAÇÃO DEFINIDA PELA ANS)"
+  },
+  {
+    "Codigo": "40307034",
+    "Nome": "HEPATITE C - ANTI-HCV - IGM - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307026",
+    "Nome": "HEPATITE C - ANTI-HCV - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307042",
+    "Nome": "HEPATITE C - IMUNOBLOT - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40314090",
+    "Nome": "HEPATITE C (QUALITATIVO) POR PCR - PESQUISA"
+  },
+  {
+    "Codigo": "40314103",
+    "Nome": "HEPATITE C (QUANTITATIVO) POR PCR - PESQUISA"
+  },
+  {
+    "Codigo": "40307050",
+    "Nome": "HEPATITE DELTA, ANTICORPO IGG - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307069",
+    "Nome": "HEPATITE DELTA, ANTICORPO IGM - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307077",
+    "Nome": "HEPATITE DELTA, ANTÍGENO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307085",
+    "Nome": "HERPES SIMPLES - IGG - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307093",
+    "Nome": "HERPES SIMPLES - IGM - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307107",
+    "Nome": "HERPES ZOSTER - IGG - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307115",
+    "Nome": "HERPES ZOSTER - IGM - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40302105",
+    "Nome": "HIDROXIPROLINA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307123",
+    "Nome": "HIPERSENSIBILIDADE RETARDADA (INTRADERMO REAÇÃO IDER )\rCANDIDINA, CAXUMBA, ESTREPTOQUINASE-DORNASE, PPD, TRICOFITINA, VÍRUS\rVACINAL, OUTRO(S), CADA"
+  },
+  {
+    "Codigo": "40311325",
+    "Nome": "HISTIDINA, PESQUISA - NA URINA"
+  },
+  {
+    "Codigo": "40307140",
+    "Nome": "HISTONA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307158",
+    "Nome": "HISTOPLASMOSE, REAÇÃO SOROLÓGICA"
+  },
+  {
+    "Codigo": "40307166",
+    "Nome": "HIV - ANTÍGENO P24 - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40314138",
+    "Nome": "HIV - QUALITATIVO POR PCR - PESQUISA"
+  },
+  {
+    "Codigo": "40307174",
+    "Nome": "HIV1 OU HIV2, PESQUISA DE ANTICORPOS"
+  },
+  {
+    "Codigo": "40307182",
+    "Nome": "HIV1+ HIV2, (DETERMINAÇÃO CONJUNTA), PESQUISA DE ANTICORPOS"
+  },
+  {
+    "Codigo": "40307190",
+    "Nome": "HLA-DR - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307204",
+    "Nome": "HLA-DR+DQ - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40302113",
+    "Nome": "HOMOCISTEÍNA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40305384",
+    "Nome": "HORMÔNIO ANTIDIURÉTICO (VASOPRESSINA) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40305759",
+    "Nome": "HORMÔNIO GONODOTROFICO CORIONICO QUALITATIVO (HCG-BETAHCG) -\rPESQUISA"
+  },
+  {
+    "Codigo": "40305767",
+    "Nome": "HORMÔNIO GONODOTROFICO CORIONICO QUANTITATIVO (HCG-BETAHCG) -\rDOSAGEM"
+  },
+  {
+    "Codigo": "40316335",
+    "Nome": "HORMÔNIO LUTEINIZANTE (LH) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40314154",
+    "Nome": "HPV (VÍRUS DO PAPILOMA HUMANO) + SUBTIPAGEM QUANDO\rNECESSÁRIO PCR - PESQUISA"
+  },
+  {
+    "Codigo": "40314448",
+    "Nome": "HPV ONCOPROTEÍNAS VIRAIS E6/E7, PESQUISA"
+  },
+  {
+    "Codigo": "40307212",
+    "Nome": "HTLV1 OU HTLV2 PESQUISA DE ANTICORPO (CADA)"
+  },
+  {
+    "Codigo": "40303071",
+    "Nome": "IDENTIFICAÇÃO DE HELMINTOS,  EXAME DE FRAGMENTOS - NAS FEZES"
+  },
+  {
+    "Codigo": "40322173",
+    "Nome": "IDURONATO-2 SULFATASE, DOSAGEM"
+  },
+  {
+    "Codigo": "40307239",
+    "Nome": "IGA NA SALIVA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307220",
+    "Nome": "IGA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307247",
+    "Nome": "IGD - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307255",
+    "Nome": "IGE, GRUPO ESPECÍFICO, CADA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307263",
+    "Nome": "IGE, POR ALÉRGENO (CADA) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307271",
+    "Nome": "IGE, TOTAL - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40305406",
+    "Nome": "IGF BP3 (PROTEÍNA LIGADORA DOS FATORES DE CRESCIMENTO \"INSULIN-\rLIKE\") - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307280",
+    "Nome": "IGG - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307298",
+    "Nome": "IGG, SUBCLASSES 1,2,3,4 (CADA) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307301",
+    "Nome": "IGM - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40302121",
+    "Nome": "IMIPRAMINA - DESIPRAMINA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307336",
+    "Nome": "IMUNOELETROFORESE (ESTUDO DA GAMOPATIA) - PESQUISA E/OU\rDOSAGEM"
+  },
+  {
+    "Codigo": "40304701",
+    "Nome": "IMUNOFENOTIPAGEM PARA DOENÇA RESIDUAL MÍNIMA (*)"
+  },
+  {
+    "Codigo": "40304710",
+    "Nome": "IMUNOFENOTIPAGEM PARA HEMOGLOBINÚRIA PAROXISTICA NOTURNA\r(*)"
+  },
+  {
+    "Codigo": "40304736",
+    "Nome": "IMUNOFENOTIPAGEM PARA LINFOMA NÃO HODGKIN / SINDROME\rLINFOPROLIFERATIVA CRÔNICA (*)"
+  },
+  {
+    "Codigo": "40316343",
+    "Nome": "IMUNOGLOBULINA (IGE) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40309096",
+    "Nome": "ÍNDICE DE IMUNOPRODUÇÃO (ELETROF. E IGG EM SORO E LÍQUOR) -\rPESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316351",
+    "Nome": "ÍNDICE DE TIROXINA LIVRE (ITL) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307344",
+    "Nome": "INIBIDOR DE C1 ESTERASE - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316955",
+    "Nome": "INSULINA LIVRE"
+  },
+  {
+    "Codigo": "40316963",
+    "Nome": "INSULINA TOTAL E LIVRE"
+  },
+  {
+    "Codigo": "40316360",
+    "Nome": "INSULINA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40312046",
+    "Nome": "IONTOFORESE PARA A COLETA DE SUOR, COM DOSAGEM DE CLORO"
+  },
+  {
+    "Codigo": "40302156",
+    "Nome": "ISONIAZIDA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40302164",
+    "Nome": "LACTOSE, TESTE DE TOLERÂNCIA"
+  },
+  {
+    "Codigo": "40303080",
+    "Nome": "LARVAS (FEZES), PESQUISA"
+  },
+  {
+    "Codigo": "40309100",
+    "Nome": "LCR AMBULATORIAL ROTINA (ASPECTOS COR + ÍNDICE DE COR +\rCONTAGEM GLOBAL E  ESPECÍFICA  DE LEUCÓCITOS E  HEMÁCIAS +\rCITOLOGIA  ONCÓTICA + PROTEÍNA + GLICOSE + CLORO + ELETROFORESE  COM\rCONCENTRAÇÃO + IGG + REAÇÕES PARA NEUROCISTICERCOSE (2) + REAÇÕES\rPARA NEUROLES (2)"
+  },
+  {
+    "Codigo": "40309118",
+    "Nome": "LCR HOSPITALAR NEUROLOGIA (ASPECTOS COR + ÍNDICES DE COR +\rCONTAGEM GLOBAL E ESPECÍFICA DE  LEUCÓCITOS E HEMÁCIAS +\rPROTEÍNA + GLICOSE + CLORO + REAÇÕES PARA NEUROCISTICERCOSE (2)\r+ REAÇÕES PARA  NEUROLUES (2) + BACTERIOSCOPIA + CULTURA + LÁTEX PARA\rBACTÉRIAS)"
+  },
+  {
+    "Codigo": "40309126",
+    "Nome": "LCR PRONTO SOCORRO (ASPECTOS COR + ÍNDICE  DE COR + CONTAGEM\rGLOBAL  E  ESPECÍFICA  DE  LEUCÓCITOS  E HEMÁCIAS + PROTEÍNA +\rGLICOSE + CLORO + LACTATO + BACTERIOSCOPIA + CULTURA + LÁTEX PARA\rBACTÉRIAS)"
+  },
+  {
+    "Codigo": "40307387",
+    "Nome": "LEGIONELLA - IGG E IGM (CADA) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40310434",
+    "Nome": "LEISHMANIA, PESQUISA - PESQUISA"
+  },
+  {
+    "Codigo": "40307395",
+    "Nome": "LEISHMANIOSE - IGG E IGM (CADA) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40310280",
+    "Nome": "HANSEN, PESQUISA DE (POR MATERIAL)"
+  },
+  {
+    "Codigo": "40310299",
+    "Nome": "LEPTOSPIRA (CAMPO ESCURO APÓS CONCENTRAÇÃO) PESQUISA"
+  },
+  {
+    "Codigo": "40307409",
+    "Nome": "LEPTOSPIROSE - IGG - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307417",
+    "Nome": "LEPTOSPIROSE - IGM - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307425",
+    "Nome": "LEPTOSPIROSE, AGLUTINAÇÃO - PESQUISA"
+  },
+  {
+    "Codigo": "40303098",
+    "Nome": "LEUCÓCITOS E HEMÁCIAS, PESQUISA NAS FEZES"
+  },
+  {
+    "Codigo": "40304418",
+    "Nome": "LEUCÓCITOS, CONTAGEM"
+  },
+  {
+    "Codigo": "40303101",
+    "Nome": "LEVEDURAS, PESQUISA NAS FEZES"
+  },
+  {
+    "Codigo": "40321347",
+    "Nome": "LEVETIRACETAM, DOSAGEM"
+  },
+  {
+    "Codigo": "40307433",
+    "Nome": "LINFÓCITOS T \"HELPER\" CONTAGEM DE (IF COM OKT-4) (CD-4+)\rCITOMETRIA DE FLUXO"
+  },
+  {
+    "Codigo": "40307441",
+    "Nome": "LINFÓCITOS T SUPRESSORES CONTAGEM DE (IF COM OKT-8) (D-8)\rCITOMETRIA DE FLUXO"
+  },
+  {
+    "Codigo": "40302199",
+    "Nome": "LIPASE - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40302636",
+    "Nome": "LIPÍDIOS TOTAIS - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40311147",
+    "Nome": "LIPÓIDES, PESQUISA - NA URINA"
+  },
+  {
+    "Codigo": "40307450",
+    "Nome": "LISTERIOSE, REAÇÃO SOROLÓGICA"
+  },
+  {
+    "Codigo": "40302229",
+    "Nome": "LÍTIO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307468",
+    "Nome": "LYME - IGG - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307476",
+    "Nome": "LYME - IGM - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40305775",
+    "Nome": "MACROPROLACTINA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40302237",
+    "Nome": "MAGNÉSIO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307484",
+    "Nome": "MALÁRIA - IGG - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307492",
+    "Nome": "MALÁRIA - IGM - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40302644",
+    "Nome": "MALTOSE, TESTE DE TOLERÂNCIA"
+  },
+  {
+    "Codigo": "40316378",
+    "Nome": "MARCADORES TUMORAIS (CA 19.9, CA 125, CA 72-4, CA 15-3, ETC.) CADA -\rPESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40304485",
+    "Nome": "MEDULA ÓSSEA, ASPIRAÇÃO PARA MIELOGRAMA OU MICROBIOLÓGICO"
+  },
+  {
+    "Codigo": "40311155",
+    "Nome": "MELANINA, PESQUISA - NA URINA"
+  },
+  {
+    "Codigo": "40313182",
+    "Nome": "META-HEMOGLOBINA (PARA ANILINA NITROBENZENO) - PESQUISA E/OU\rDOSAGEM"
+  },
+  {
+    "Codigo": "40304434",
+    "Nome": "META-HEMOGLOBINA, DETERMINAÇÃO DA"
+  },
+  {
+    "Codigo": "40313190",
+    "Nome": "METAIS AL, AS, CD, CR, MN, HG, NI, ZN, CO, OUTRO (S) ABSORÇÃO\rATÔMICA (CADA) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40311163",
+    "Nome": "METANEFRINAS URINÁRIAS, DOSAGEM"
+  },
+  {
+    "Codigo": "40313204",
+    "Nome": "METANOL - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307522",
+    "Nome": "MICOPLASMA PNEUMONIAE - IGG - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307530",
+    "Nome": "MICOPLASMA PNEUMONIAE - IGM - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40311171",
+    "Nome": "MICROALBUMINÚRIA"
+  },
+  {
+    "Codigo": "40319172",
+    "Nome": "MICROESFERÓCITOS, PESQUISA DE"
+  },
+  {
+    "Codigo": "40310302",
+    "Nome": "MICROORGANISMOS - TESTE DE SENSIBILIDADE A DROGAS MIC, POR\rDROGA TESTADA"
+  },
+  {
+    "Codigo": "40310370",
+    "Nome": "MICROSPORÍDIA, PESQUISA NAS FEZES"
+  },
+  {
+    "Codigo": "40304892",
+    "Nome": "MIELOGRAMA"
+  },
+  {
+    "Codigo": "40302245",
+    "Nome": "MIOGLOBINA, PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40311341",
+    "Nome": "MIOGLOBINA, PESQUISA - NA URINA"
+  },
+  {
+    "Codigo": "40307565",
+    "Nome": "MONONUCLEOSE - EPSTEIN BARR - IGG - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307573",
+    "Nome": "MONONUCLEOSE, ANTI-VCA (EBV) IGG - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307581",
+    "Nome": "MONONUCLEOSE, ANTI-VCA (EBV) IGM - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40312054",
+    "Nome": "MUCO-NASAL, PESQUISA DE EOSINÓFILOS E MASTÓCITOS"
+  },
+  {
+    "Codigo": "40302652",
+    "Nome": "MUCOPOLISSACARIDOSE, PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40314170",
+    "Nome": "MYCOBACTÉRIA PCR - PESQUISA"
+  },
+  {
+    "Codigo": "40322190",
+    "Nome": "N-ACETILGLICOSAMINIDASE, DOSAGEM"
+  },
+  {
+    "Codigo": "40403262",
+    "Nome": "NAT/HCV POR COMPONENTE HEMOTERÁPICO - PESQUISA E/OU\rDOSAGEM"
+  },
+  {
+    "Codigo": "40403270",
+    "Nome": "NAT/HCV POR UNIDADE DE SANGUE TOTAL - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40403289",
+    "Nome": "NAT/HIV POR COMPONENTE HEMOTERÁPICO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40403297",
+    "Nome": "NAT/HIV POR UNIDADE DE SANGUE TOTAL - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40308090",
+    "Nome": "NBT ESTIMULADO"
+  },
+  {
+    "Codigo": "40321410",
+    "Nome": "NEURONTIN"
+  },
+  {
+    "Codigo": "40305449",
+    "Nome": "N-TELOPEPTÍDEO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40302679",
+    "Nome": "OCITOCINASE, PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40303268",
+    "Nome": "OOGRAMA NAS FEZES"
+  },
+  {
+    "Codigo": "40311350",
+    "Nome": "OSMOLALIDADE, DETERMINAÇÃO - NA URINA"
+  },
+  {
+    "Codigo": "40302270",
+    "Nome": "OSMOLALIDADE - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316386",
+    "Nome": "OSTEOCALCINA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40302288",
+    "Nome": "OXCARBAZEPINA, PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40313212",
+    "Nome": "P-AMINOFENOL (PARA ANILINA) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40312097",
+    "Nome": "PANCREOZIMA - SECRETINA NO SUCO DUODENAL, TESTE"
+  },
+  {
+    "Codigo": "40310310",
+    "Nome": "PARACOCCIDIOIDES, PESQUISA DE"
+  },
+  {
+    "Codigo": "40303110",
+    "Nome": "PARASITOLÓGICO - NAS FEZES"
+  },
+  {
+    "Codigo": "40303128",
+    "Nome": "PARASITOLÓGICO, COLHEITA MÚLTIPLA COM FORNECIMENTO DO\rLÍQUIDO CONSERVANTE NAS FEZES"
+  },
+  {
+    "Codigo": "40305465",
+    "Nome": "PARATORMÔNIO - PTH OU FRAÇÃO (CADA) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307611",
+    "Nome": "PARVOVÍRUS - IGG, IGM (CADA) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40321479",
+    "Nome": "PENICILINA, DOSAGEM"
+  },
+  {
+    "Codigo": "40316394",
+    "Nome": "PEPTÍDEO C - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40302776",
+    "Nome": "PEPTÍDEO NATRIURÉTICO BNP/PROBNP - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307620",
+    "Nome": "PEPTÍDIO INTESTINAL VASOATIVO, DOSAGEM"
+  },
+  {
+    "Codigo": "40312062",
+    "Nome": "PERFIL  METABÓLICO  PARA  LITÍASE  RENAL: SANGUE (CA, P, AU, CR)\rURINA: (CA, AU, P, CITR, PESQ. CISTINA) AMP-CÍCLICO"
+  },
+  {
+    "Codigo": "40302750",
+    "Nome": "PERFIL LIPÍDICO / LIPIDOGRAMA (LÍPIDIOS TOTAIS, COLESTEROL,\rTRIGLICERÍDIOS E ELETROFORESE LIPOPROTEÍNAS) - PESQUISA E/OU\rDOSAGEM"
+  },
+  {
+    "Codigo": "40312127",
+    "Nome": "PERFIL REUMATOLÓGICO (ÁCIDO ÚRICO, ELETROFORESE DE PROTEÍNAS,\rFAN, VHS, PROVA DO LÁTEX P/F. R, W. ROSE)"
+  },
+  {
+    "Codigo": "40323595",
+    "Nome": "PESQUISA DE ADENOVIRUS"
+  },
+  {
+    "Codigo": "40310515",
+    "Nome": "PESQUISA DE ANTÍGENOS BACTERIANOS"
+  },
+  {
+    "Codigo": "40314278",
+    "Nome": "PESQUISA DE OUTROS AGENTES POR PCR"
+  },
+  {
+    "Codigo": "40311180",
+    "Nome": "PESQUISA OU DOSAGEM DE UM COMPONENTE URINÁRIO"
+  },
+  {
+    "Codigo": "40302296",
+    "Nome": "PIRUVATO QUINASE - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40304450",
+    "Nome": "PLAQUETAS, TESTE DE AGREGAÇÃO (POR AGENTE AGREGANTE), CADA"
+  },
+  {
+    "Codigo": "40304469",
+    "Nome": "PLASMINOGÊNIO, DOSAGEM"
+  },
+  {
+    "Codigo": "40304477",
+    "Nome": "PLASMÓDIO, PESQUISA"
+  },
+  {
+    "Codigo": "40310329",
+    "Nome": "PNEUMOCYSTI CARINII, PESQUISA POR COLORAÇÃO ESPECIAL"
+  },
+  {
+    "Codigo": "40302300",
+    "Nome": "PORFIRINAS QUANTITATIVAS (CADA) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40311198",
+    "Nome": "PORFOBILINOGÊNIO, PESQUISA - NA URINA"
+  },
+  {
+    "Codigo": "40311252",
+    "Nome": "PORFOBILINOGÊNIO - NA URINA"
+  },
+  {
+    "Codigo": "40302318",
+    "Nome": "POTÁSSIO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307638",
+    "Nome": "PPD (TUBERCULINA), IDER"
+  },
+  {
+    "Codigo": "40305503",
+    "Nome": "PREGNANDIOL - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40302334",
+    "Nome": "PRIMIDONA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40304493",
+    "Nome": "PRODUTOS DE DEGRADAÇÃO DA FIBRINA, QUALITATIVO - PESQUISA E/OU\rDOSAGEM"
+  },
+  {
+    "Codigo": "40316408",
+    "Nome": "PROGESTERONA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316416",
+    "Nome": "PROLACTINA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40308383",
+    "Nome": "PROTEÍNA C REATIVA, QUALITATIVA - PESQUISA"
+  },
+  {
+    "Codigo": "40308391",
+    "Nome": "PROTEÍNA C REATIVA, QUANTITATIVA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40304507",
+    "Nome": "PROTEÍNA C - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40309142",
+    "Nome": "PROTEÍNA MIELINA BÁSICA, ANTICORPO ANTI - PESQUISA E/OU DOSAGEM\rEM LÍQUIDOS ORGÂNICOS"
+  },
+  {
+    "Codigo": "40311201",
+    "Nome": "PROTEÍNAS DE BENCE JONES, PESQUISA - NA URINA"
+  },
+  {
+    "Codigo": "40302377",
+    "Nome": "PROTEÍNAS TOTAIS - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40302385",
+    "Nome": "PROTEÍNAS TOTAIS ALBUMINA E GLOBULINA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40304787",
+    "Nome": "PROTEÍNA S LIVRE, DOSAGEM"
+  },
+  {
+    "Codigo": "40304523",
+    "Nome": "PROTOPORFIRINA ERITROCITÁRIA LIVRE - ZINCO - PESQUISA E/OU\rDOSAGEM"
+  },
+  {
+    "Codigo": "40313247",
+    "Nome": "PROTOPORFIRINAS ZN (PARA CHUMBO INORGÂNICO) - PESQUISA E/OU\rDOSAGEM"
+  },
+  {
+    "Codigo": "40310540",
+    "Nome": "PROTOZOÁRIOS, CULTURA PARA"
+  },
+  {
+    "Codigo": "40319326",
+    "Nome": "PROTROMBINA, PESQUISA DE MUTAÇÃO (COM DIRETRIZ DE UTILIZAÇÃO DEFINIDA\rPELA ANS)"
+  },
+  {
+    "Codigo": "40312143",
+    "Nome": "PROVA ATIVIDADE DE FEBRE REUMÁTICA (ASLO, ELETROFORESE DE\rPROTEÍNAS, MUCO-PROTEÍNAS E PROTEÍNA \"C\" REATIVA)"
+  },
+  {
+    "Codigo": "40311368",
+    "Nome": "PROVA DE CONCENTRAÇÃO (FISHBERG OU VOLHARD) - NA URINA"
+  },
+  {
+    "Codigo": "40317080",
+    "Nome": "PROVA DE SOBRECARGA DE GLICOSE PARA INSULINA"
+  },
+  {
+    "Codigo": "40304531",
+    "Nome": "PROVA DO LAÇO"
+  },
+  {
+    "Codigo": "40305546",
+    "Nome": "PROVA DO LH-RH, DOSAGEM DO FSH SEM FORNECIMENTO DE\rMEDICAMENTO (CADA)"
+  },
+  {
+    "Codigo": "40305554",
+    "Nome": "PROVA DO LH-RH, DOSAGEM DO LH SEM FORNECIMENTO DE\rMEDICAMENTO (CADA)"
+  },
+  {
+    "Codigo": "40305562",
+    "Nome": "PROVA DO TRH-HPR, DOSAGEM DO HPR SEM FORNECIMENTO DO\rMATERIAL (CADA)"
+  },
+  {
+    "Codigo": "40305570",
+    "Nome": "PROVA DO TRH-TSH, DOSAGEM DO TSH SEM FORNECIMENTO DO\rMATERIAL (CADA)"
+  },
+  {
+    "Codigo": "40305589",
+    "Nome": "PROVA PARA DIABETE INSÍPIDO (RESTRIÇÃO HÍDRICA  NACL 3%\rVASOPRESSINA)"
+  },
+  {
+    "Codigo": "40312151",
+    "Nome": "PROVAS DE FUNÇÃO HEPÁTICA (BILIRRUBINAS, ELETROFORESE DE\rPROTEÍNAS, FA, TGO, TGP E GAMA-PGT)"
+  },
+  {
+    "Codigo": "40305627",
+    "Nome": "PROVAS DE FUNÇÃO TIREOIDEANA (T3, T4, ÍNDICES E TSH)"
+  },
+  {
+    "Codigo": "40308359",
+    "Nome": "PSITACOSE - IGG - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40308367",
+    "Nome": "PSITACOSE - IGM - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316424",
+    "Nome": "PTH - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40309150",
+    "Nome": "PUNÇÃO CISTERNAL SUBOCCIPTAL COM MANOMETRIA PARA COLETA DE\rLÍQUIDO CEFALORRAQUEANO"
+  },
+  {
+    "Codigo": "40309169",
+    "Nome": "PUNÇÃO LOMBAR COM MANOMETRIA PARA COLETA DE LÍQUIDO\rCEFALORRAQUEANO"
+  },
+  {
+    "Codigo": "40309517",
+    "Nome": "RAGÓCITOS, PESQUISA"
+  },
+  {
+    "Codigo": "40307689",
+    "Nome": "REAÇÃO SOROLÓGICA PARA COXSACKIE, NEUTRALIZAÇÃO IGG"
+  },
+  {
+    "Codigo": "40316432",
+    "Nome": "RENINA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40302407",
+    "Nome": "RESERVA ALCALINA (BICARBONATO) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40314294",
+    "Nome": "RESISTÊNCIA A AGENTES ANTIVIRAIS POR BIOLOGIA MOLECULAR (CADA DROGA) -\rPESQUISA"
+  },
+  {
+    "Codigo": "40304540",
+    "Nome": "RESISTÊNCIA GLOBULAR, CURVA DE"
+  },
+  {
+    "Codigo": "40317439",
+    "Nome": "RESTRIÇÃO HÍDRICA, TESTE"
+  },
+  {
+    "Codigo": "40304558",
+    "Nome": "RETICULÓCITOS, CONTAGEM"
+  },
+  {
+    "Codigo": "40304566",
+    "Nome": "RETRAÇÃO DO COÁGULO - PESQUISA"
+  },
+  {
+    "Codigo": "40304574",
+    "Nome": "RISTOCETINA, CO-FATOR, TESTE FUNCIONAL, DOSAGEM"
+  },
+  {
+    "Codigo": "40310337",
+    "Nome": "ROTAVÍRUS, PESQUISA, ELISA"
+  },
+  {
+    "Codigo": "40312100",
+    "Nome": "ROTINA DA BILES A, B, C E DO SUCO DUODENAL (CARACTERES FÍSICOS E\rMICROSCÓPICOS INCLUSIVE TUBAGEM)"
+  },
+  {
+    "Codigo": "40311210",
+    "Nome": "ROTINA DE URINA (CARACTERES FÍSICOS, ELEMENTOS ANORMAIS E\rSEDIMENTOSCOPIA)"
+  },
+  {
+    "Codigo": "40309444",
+    "Nome": "ROTINA DO LÍQUIDO AMNIÓTICO-AMNIOGRAMA (CITOLÓGICO\rESPECTROFOTOMETRIA, CREATININA E TESTE DE CLEMENTS)"
+  },
+  {
+    "Codigo": "40309525",
+    "Nome": "ROTINA LÍQUIDO SINOVIAL - CARACTERES FÍSICOS, CITOLOGIA, PROTEÍNAS, ÁCIDO\rÚRICO, LÁTEX P/ F.R., BACT."
+  },
+  {
+    "Codigo": "40307697",
+    "Nome": "RUBÉOLA - IGG - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307700",
+    "Nome": "RUBÉOLA - IGM - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40302415",
+    "Nome": "SACAROSE, TESTE DE TOLERÂNCIA"
+  },
+  {
+    "Codigo": "40313336",
+    "Nome": "SALICILATOS, PESQUISA"
+  },
+  {
+    "Codigo": "40303136",
+    "Nome": "SANGUE OCULTO, PESQUISA NAS FEZES"
+  },
+  {
+    "Codigo": "40308120",
+    "Nome": "SARAMPO - ANTICORPOS IGG - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40308138",
+    "Nome": "SARAMPO - ANTICORPOS IGM - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307719",
+    "Nome": "SCHISTOSOMOSE - IGG - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307727",
+    "Nome": "SCHISTOSOMOSE - IGM - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40303144",
+    "Nome": "SHISTOSSOMA, PESQUISA OVOS EM FRAGMENTOS MUCOSA APÓS BIÓPSIA RETAL"
+  },
+  {
+    "Codigo": "40307735",
+    "Nome": "SÍFILIS - FTA-ABS-IGG - PESQUISA"
+  },
+  {
+    "Codigo": "40307743",
+    "Nome": "SÍFILIS - FTA-ABS-IGM - PESQUISA"
+  },
+  {
+    "Codigo": "40307751",
+    "Nome": "SÍFILIS - TPHA - PESQUISA"
+  },
+  {
+    "Codigo": "40307760",
+    "Nome": "SÍFILIS - VDRL"
+  },
+  {
+    "Codigo": "40308294",
+    "Nome": "SÍFILIS IGM - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40302423",
+    "Nome": "SÓDIO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316440",
+    "Nome": "SOMATOMEDINA C (IGF1) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40303152",
+    "Nome": "SUBSTÂNCIAS REDUTORAS NAS FEZES - PESQUISA"
+  },
+  {
+    "Codigo": "40316459",
+    "Nome": "SULFATO DE DEHIDROEPIANDROSTERONA (S-DHEA) - PESQUISA E/OU\rDOSAGEM"
+  },
+  {
+    "Codigo": "40313263",
+    "Nome": "SULFATOS ORGÂNICOS OU INORGÂNICOS, PESQUISA (CADA)"
+  },
+  {
+    "Codigo": "40304876",
+    "Nome": "SULFO-HEMOGLOBINA, DETERMINAÇÃO DA"
+  },
+  {
+    "Codigo": "40316467",
+    "Nome": "T3 LIVRE - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316475",
+    "Nome": "T3 RETENÇÃO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316483",
+    "Nome": "T3 REVERSO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316491",
+    "Nome": "T4 LIVRE - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40304582",
+    "Nome": "TEMPO DE COAGULAÇÃO - DETERMINAÇÃO"
+  },
+  {
+    "Codigo": "40319270",
+    "Nome": "TEMPO DE LISE DE EUGLOBULINA"
+  },
+  {
+    "Codigo": "40304590",
+    "Nome": "TEMPO DE PROTROMBINA - DETERMINAÇÃO"
+  },
+  {
+    "Codigo": "40304914",
+    "Nome": "TEMPO DE SANGRAMENTO (DUKE) - DETERMINAÇÃO"
+  },
+  {
+    "Codigo": "40304612",
+    "Nome": "TEMPO DE SANGRAMENTO DE IVY - DETEMINAÇÃO"
+  },
+  {
+    "Codigo": "40304620",
+    "Nome": "TEMPO DE TROMBINA - DETERMINAÇÃO"
+  },
+  {
+    "Codigo": "40304639",
+    "Nome": "TEMPO DE TROMBOPLASTINA PARCIAL ATIVADA - DETERMINAÇÃO"
+  },
+  {
+    "Codigo": "40302474",
+    "Nome": "TEOFILINA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40319288",
+    "Nome": "TESTE CRUZADO DE GRUPOS SANGUÍNEOS"
+  },
+  {
+    "Codigo": "40311473",
+    "Nome": "TESTE DE CONCENTRAÇÃO URINÁRIA APÓS DDAVP"
+  },
+  {
+    "Codigo": "41401247",
+    "Nome": "TESTE DE HUHNER"
+  },
+  {
+    "Codigo": "41401255",
+    "Nome": "TESTE DE MITSUDA"
+  },
+  {
+    "Codigo": "40310566",
+    "Nome": "TESTE DE SENSIBILIDADE MYCOBACTERIUM CEPAS DE BACTÉRIAS"
+  },
+  {
+    "Codigo": "40302482",
+    "Nome": "TESTE DE TOLERÂNCIA A INSULINA OU HIPOGLICEMIANTES ORAIS (ATÉ 6 DOSAGENS)"
+  },
+  {
+    "Codigo": "40312178",
+    "Nome": "TESTE DO PEZINHO AMPLIADO (TSH NEONATAL + 17 OH PROGESTERONA\r+ FENILALANINA + TRIPSINA IMUNO-REATIVA + ELETROFORESE DE HB PARA\rTRIAGEM DE HEMOPATIAS)"
+  },
+  {
+    "Codigo": "40312160",
+    "Nome": "TESTE DO PEZINHO BÁSICO (TSH NEONATAL + FENILALANINA +\rELETROFORESE DE HB PARA TRIAGEM DE HEMOPATIAS)"
+  },
+  {
+    "Codigo": "40302709",
+    "Nome": "TESTE ORAL DE TOLERÂNCIA À GLICOSE - 2 DOSAGENS"
+  },
+  {
+    "Codigo": "40316505",
+    "Nome": "TESTOSTERONA LIVRE - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316513",
+    "Nome": "TESTOSTERONA TOTAL - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316521",
+    "Nome": "TIREOESTIMULANTE, HORMÔNIO (TSH) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316530",
+    "Nome": "TIREOGLOBULINA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40311392",
+    "Nome": "TIROSINOSE, PESQUISA - NA URINA"
+  },
+  {
+    "Codigo": "40316548",
+    "Nome": "TIROXINA (T4) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307794",
+    "Nome": "TOXOCARA CANNIS - IGG - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307808",
+    "Nome": "TOXOCARA CANNIS - IGM - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40308154",
+    "Nome": "TOXOPLASMOSE - IGA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307824",
+    "Nome": "TOXOPLASMOSE IGG - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307832",
+    "Nome": "TOXOPLASMOSE IGM - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40302504",
+    "Nome": "TRANSAMINASE OXALACÉTICA (AMINO TRANSFERASE ASPARTATO) -\rPESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40302512",
+    "Nome": "TRANSAMINASE PIRÚVICA (AMINO TRANSFERASE DE ALANINA) -\rPESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40302520",
+    "Nome": "TRANSFERRINA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40310345",
+    "Nome": "TREPONEMA (CAMPO ESCURO) - PESQUISA"
+  },
+  {
+    "Codigo": "40313280",
+    "Nome": "TRICLOROCOMPOSTOS TOTAIS (PARA TETRACLOROETILENO,\rTRICLOROETANO, TRICLOROETILENO) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40302547",
+    "Nome": "TRIGLICERÍDEOS - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316556",
+    "Nome": "TRIIODOTIRONINA (T3) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40302555",
+    "Nome": "TRIMIPRAMINA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40304647",
+    "Nome": "TRIPANOSSOMA, PESQUISA"
+  },
+  {
+    "Codigo": "40302563",
+    "Nome": "TRIPSINA IMUNO REATIVA (IRT) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40303160",
+    "Nome": "TRIPSINA, PROVA DE (DIGESTÃO DA GELATINA)"
+  },
+  {
+    "Codigo": "40304655",
+    "Nome": "TROMBOELASTOGRAMA  - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40302571",
+    "Nome": "TROPONINA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307840",
+    "Nome": "UREASE, TESTE RÁPIDO PARA HELICOBACTER PYLORI"
+  },
+  {
+    "Codigo": "40302580",
+    "Nome": "URÉIA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40302598",
+    "Nome": "UROBILINOGÊNIO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40311228",
+    "Nome": "UROPORFIRINAS, DOSAGEM"
+  },
+  {
+    "Codigo": "40308162",
+    "Nome": "VARICELA, IGG - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40308170",
+    "Nome": "VARICELA, IGM - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307859",
+    "Nome": "VÍRUS SINCICIAL RESPIRATÓRIO - ELISA - IGG - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40302830",
+    "Nome": "VITAMINA \"D\" 25 HIDROXI, PESQUISA E/OU DOSAGEM (VITAMINA D3)"
+  },
+  {
+    "Codigo": "40302601",
+    "Nome": "VITAMINA A, PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316572",
+    "Nome": "VITAMINA B12 - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307867",
+    "Nome": "WAALER-ROSE (FATOR REUMATÓIDE) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307875",
+    "Nome": "WESTERN BLOT (ANTICORPOS ANTI-HIV) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40307883",
+    "Nome": "WESTERN BLOT (ANTICORPOS ANTI-HTVI OU HTLVII) (CADA) - PESQUISA\rE/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40302628",
+    "Nome": "XILOSE, TESTE DE ABSORÇÃO À"
+  },
+  {
+    "Codigo": "40313328",
+    "Nome": "ZINCO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301010",
+    "Nome": "3-METIL HISTIDINA, PESQUISA E/OU DOSAGEM NO SORO"
+  },
+  {
+    "Codigo": "40301036",
+    "Nome": "ACETAMINOFEN - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40313301",
+    "Nome": "ÁCIDO METIL MALÔNICO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301206",
+    "Nome": "ACILCARNITINAS (PERFIL QUALITATIVO) (COM DIRETRIZ DE UTILIZAÇÃO DEFINIDA\rPELA ANS)"
+  },
+  {
+    "Codigo": "40308308",
+    "Nome": "AMEBÍASE, IGG - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40309266",
+    "Nome": "AMINOÁCIDOS NO LÍQUIDO CEFALORRAQUIDIANO"
+  },
+  {
+    "Codigo": "40301303",
+    "Nome": "AMIODARONA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40301311",
+    "Nome": "AMITRIPTILINA, NORTRIPTILINA (CADA) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40319318",
+    "Nome": "ANÁLISE DE MULTÍMEROS PARA PACIENTES COM DOENÇA DE VON\rWILLEBRAND"
+  },
+  {
+    "Codigo": "40304671",
+    "Nome": "ANTICORPO ANTIMIELOPEROXIDASE, MPO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40323897",
+    "Nome": "ANTICORPOS ANTIDIFTERIA"
+  },
+  {
+    "Codigo": "40308529",
+    "Nome": "ANTICORPOS ANTIPNEUMOCOCOS"
+  },
+  {
+    "Codigo": "40323900",
+    "Nome": "ANTICORPOS ANTITÉTANO"
+  },
+  {
+    "Codigo": "40310604",
+    "Nome": "ANTIFUNGIGRAMA"
+  },
+  {
+    "Codigo": "40404030",
+    "Nome": "ANTIGENEMIA PARA DIAGNÓSTICO DE CMV PÓS TRANSPLANTE"
+  },
+  {
+    "Codigo": "40308405",
+    "Nome": "ASLO, QUANTITATIVO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40404048",
+    "Nome": "AVALIAÇÃO QUIMERISMO - VNTR - DOADOR - PRÉ TRANSPLANTE"
+  },
+  {
+    "Codigo": "40404056",
+    "Nome": "AVALIAÇÃO QUIMERISMO - VNTR - PACIENTE - PRÉ TRANSPLANTE"
+  },
+  {
+    "Codigo": "40404064",
+    "Nome": "AVALIAÇÃO QUIMERISMO POR STR - PACIENTE - PÓS TRANSPLANTE"
+  },
+  {
+    "Codigo": "40304930",
+    "Nome": "BAÇO, EXAME DE ESFREGAÇO DE ASPIRADO"
+  },
+  {
+    "Codigo": "40301370",
+    "Nome": "BARBITÚRICOS, ANTIDEPRESSIVOS TRICÍCLICOS (CADA) - PESQUISA E/OU\rDOSAGEM"
+  },
+  {
+    "Codigo": "40310361",
+    "Nome": "CITOMEGALOVÍRUS - SHELL VIAL - PESQUISA"
+  },
+  {
+    "Codigo": "40314030",
+    "Nome": "CITOMEGALOVÍRUS - QUANTITATIVO, POR PCR - PESQUISA"
+  },
+  {
+    "Codigo": "40404072",
+    "Nome": "COLETA DE LINFÓCITOS DE SANGUE PERIFÉRICO POR AFÉRESE PARA\rTRATAMENTO DE RECIDIVAS PÓS TCTH ALOGÊNICO"
+  },
+  {
+    "Codigo": "40404080",
+    "Nome": "CONTROLE MICROBIOLÓGICO DA MEDULA ÓSSEA NO TCTH ALOGÊNICO"
+  },
+  {
+    "Codigo": "40404099",
+    "Nome": "CONTROLE MICROBIOLÓGICO DAS CÉLULAS TRONCO PERIFÉRICAS NO\rTCTH ALOGÊNICO"
+  },
+  {
+    "Codigo": "40404102",
+    "Nome": "DEPLEÇÃO DE PLASMA EM TCTH ALOGÊNICOS COM INCOMPATIBILIDADE ABO\rMENOR"
+  },
+  {
+    "Codigo": "40314359",
+    "Nome": "EPSTEIN BARR VÍRUS POR PCR"
+  },
+  {
+    "Codigo": "40303179",
+    "Nome": "ESTEATÓCRITO, TRIAGEM PARA GORDURA FECAL"
+  },
+  {
+    "Codigo": "40304752",
+    "Nome": "FATOR IX, DOSAGEM DO INIBIDOR"
+  },
+  {
+    "Codigo": "40301982",
+    "Nome": "GALACTOSE 1-FOSFATOURIDIL TRANSFERASE, PESQUISA E/OU DOSAGEM\r(COM DIRETRIZ DE UTILIZAÇÃO DEFINIDA PELA ANS)"
+  },
+  {
+    "Codigo": "40323404",
+    "Nome": "HEPATITE E - IGM/IGG"
+  },
+  {
+    "Codigo": "40308235",
+    "Nome": "HER-2 - DOSAGEM DO RECEPTOR (COM DIRETRIZ DE UTILIZAÇÃO\rDEFINIDA PELA ANS)"
+  },
+  {
+    "Codigo": "40302091",
+    "Nome": "HEXOSAMINIDASE A - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40314502",
+    "Nome": "HIV AMPLIFICAÇÃO DO DNA (PCR)"
+  },
+  {
+    "Codigo": "40302725",
+    "Nome": "IMUNOFIXAÇÃO - CADA FRAÇÃO (COM DIRETRIZ DE UTILIZAÇÃO DEFINIDA PELA\rANS)"
+  },
+  {
+    "Codigo": "40302741",
+    "Nome": "LAMOTRIGINA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40302180",
+    "Nome": "LIDOCAINA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40304949",
+    "Nome": "LINFONODO, EXAME DE ESFREGAÇO DE ASPIRADO"
+  },
+  {
+    "Codigo": "40313344",
+    "Nome": "METIL ETIL CETONA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40308340",
+    "Nome": "MONONUCLEOSE, SOROLOGIA PARA (MONOTESTE OU PAUL-BUNNEL), CADA"
+  },
+  {
+    "Codigo": "40302768",
+    "Nome": "PAPP-A - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40308413",
+    "Nome": "PARACOCCIDIOIDOMICOSE, ANTICORPOS TOTAIS / IGG - PESQUISA E/OU\rDOSAGEM"
+  },
+  {
+    "Codigo": "40404129",
+    "Nome": "PCR EM TEMPO REAL PARA DIAGNÓSTICO DE EBV - PÓS TRANSPLANTE"
+  },
+  {
+    "Codigo": "40404137",
+    "Nome": "PCR EM TEMPO REAL PARA DIAGNÓSTICO DE HERPES VIRUS 6 - POS\rTRANSPLANTE"
+  },
+  {
+    "Codigo": "40404145",
+    "Nome": "PCR EM TEMPO REAL PARA DIAGNÓSTICO DE HERPES VIRUS 8 - POS\rTRANSPLANTE"
+  },
+  {
+    "Codigo": "40314286",
+    "Nome": "PESQUISA DE MUTAÇÃO DE ALELO ESPECÍFICO POR PCR (COM DIRETRIZ\rDE UTILIZAÇÃO DEFINIDA PELA ANS)"
+  },
+  {
+    "Codigo": "40311503",
+    "Nome": "PESQUISA DE SULFATÍDEOS E MATERIAL METACROMÁTICO NA URINA"
+  },
+  {
+    "Codigo": "40302326",
+    "Nome": "PRÉ-ALBUMINA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40302342",
+    "Nome": "PROCAINAMIDA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40302350",
+    "Nome": "PROPANOLOL - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40404170",
+    "Nome": "QUANTIFICAÇÃO DE CD14 DA COLETA DE CÉLULAS TRONCO PERIFÉRICAS\rPARA TCTH ALOGÊNICO"
+  },
+  {
+    "Codigo": "40404188",
+    "Nome": "QUANTIFICAÇÃO DE CD19 DA COLETA DE CÉLULAS TRONCO PERIFÉRICAS\rPARA TCTH ALOGÊNICO"
+  },
+  {
+    "Codigo": "40404196",
+    "Nome": "QUANTIFICAÇÃO DE CD3  DA COLETA DE CÉLULAS TRONCO PERIFÉRICAS\rPARA TCTH ALOGÊNICO"
+  },
+  {
+    "Codigo": "40404200",
+    "Nome": "QUANTIFICAÇÃO DE CD3  DA COLETA DE LINFÓCITOS PARA TRATAMENTO\rDE RECIDIVAS PÓS TCTH ALOGÊNICO"
+  },
+  {
+    "Codigo": "40404218",
+    "Nome": "QUANTIFICAÇÃO DE CD4 DA COLETA DE CÉLULAS TRONCO PERIFÉRICAS\rPARA TCTH ALOGÊNICO"
+  },
+  {
+    "Codigo": "40404226",
+    "Nome": "QUANTIFICAÇÃO DE CD8 DA COLETA DE CÉLULAS TRONCO PERIFÉRICAS\rPARA TCTH ALOGÊNICO"
+  },
+  {
+    "Codigo": "40404234",
+    "Nome": "QUANTIFICAÇÃO DE LEUCÓCITOS TOTAIS DA COLETA DE CÉLULAS\rTRONCO PERIFÉRICAS PARA TCTH ALOGÊNICO"
+  },
+  {
+    "Codigo": "40404242",
+    "Nome": "QUANTIFICAÇÃO DE LEUCÓCITOS TOTAIS DA MEDULA ÓSSEA NO TCTH ALOGÊNICO"
+  },
+  {
+    "Codigo": "40302393",
+    "Nome": "QUINIDINA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40404250",
+    "Nome": "SEDIMENTAÇÃO DE HEMÁCIAS EM TCTH ALOGÊNICOS COM\rINCOMPATIBILIDADE ABO MAIOR"
+  },
+  {
+    "Codigo": "40308286",
+    "Nome": "SÍFILIS ANTICORPO TOTAL - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40302431",
+    "Nome": "SUCCINIL ACETONA - PESQUISA E/OU DOSAGEM (COM DIRETRIZ DE\rUTILIZAÇÃO DEFINIDA PELA ANS)"
+  },
+  {
+    "Codigo": "40302458",
+    "Nome": "TACROLIMUS - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40323919",
+    "Nome": "TESTE RÁPIDO PARA DETECÇÃO DE HIV EM GESTANTE"
+  },
+  {
+    "Codigo": "40302539",
+    "Nome": "TRIAZOLAM - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40316564",
+    "Nome": "VASOPRESSINA (ADH) - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40404277",
+    "Nome": "VIABILIDADE CELULAR DA MEDULA ÓSSEA POR CITOMETRIA DE FLUXO\rAPÓS O DESCONGELAMENTO"
+  },
+  {
+    "Codigo": "40404285",
+    "Nome": "VIABILIDADE CELULAR DAS CÉLULAS TRONCO PERIFÉRICAS POR\rCITOMETRIA DE FLUXO APÓS O DESCONGELAMENTO"
+  },
+  {
+    "Codigo": "40404269",
+    "Nome": "VIABILIDADE CELULAR DOS LINFÓCITOS PERIFÉRICOS POR CITOMETRIA DE\rFLUXO PARA TRATAMENTO DAS RECIDIVAS PÓS TCTH ALOGÊNICO"
+  },
+  {
+    "Codigo": "40311236",
+    "Nome": "2,5-HEXANODIONA, DOSAGEM NA URINA"
+  },
+  {
+    "Codigo": "10106049",
+    "Nome": "ATENDIMENTO PEDIÁTRICO A GESTANTES (3o TRIMESTRE)"
+  },
+  {
+    "Codigo": "40306461",
+    "Nome": "AVIDEZ DE IGG PARA TOXOPLASMOSE, CITOMEGALIA, RUBÉLOA, EB E\rOUTROS, CADA - PESQUISA E/OU DOSAGEM  (COM DIRETRIZ DE UTILIZAÇÃO\rDEFINIDA PELA ANS)"
+  },
+  {
+    "Codigo": "40306739",
+    "Nome": "COMPLEMENTO CH-100 - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40304906",
+    "Nome": "DÍMERO D - PESQUISA E/OU DOSAGEM (COM DIRETRIZ DE UTILIZAÇÃO DEFINIDA\rPELA ANS)"
+  },
+  {
+    "Codigo": "40314057",
+    "Nome": "FATOR V DE LAYDEN POR PCR, PESQUISA (COM DIRETRIZ DE UTILIZAÇÃO DEFINIDA\rPELA ANS)"
+  },
+  {
+    "Codigo": "40314065",
+    "Nome": "FIBROSE CÍSTICA, PESQUISA DE UMA MUTAÇÃO (COM DIRETRIZ DE\rUTILIZAÇÃO DEFINIDA PELA ANS)"
+  },
+  {
+    "Codigo": "40301907",
+    "Nome": "FOSFATASE ALCALINA FRAÇÃO ÓSSEA - ELISA - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40314111",
+    "Nome": "HEPATITE C - GENOTIPAGEM, PESQUISA (COM DIRETRIZ DE UTILIZAÇÃO DEFINIDA\rPELA ANS)"
+  },
+  {
+    "Codigo": "40314146",
+    "Nome": "HIV, GENOTIPAGEM, PESQUISA (COM DIRETRIZ DE UTILIZAÇÃO DEFINIDA PELA ANS)"
+  },
+  {
+    "Codigo": "40304728",
+    "Nome": "IMUNOFENOTIPAGEM PARA LEUCEMIAS AGUDAS OU SINDROME\rMIELODISPLÁSICA (*)"
+  },
+  {
+    "Codigo": "40307352",
+    "Nome": "ISOSPORA, PESQUISA DE ANTÍGENO - PESQUISA E/OU DOSAGEM"
+  },
+  {
+    "Codigo": "40309436",
+    "Nome": "MATURIDADE PULMONAR FETAL - - PESQUISA E/OU DOSAGEM EM\rLÍQUIDOS ORGÂNICOS"
+  },
+  {
+    "Codigo": "40309134",
+    "Nome": "PESQUISA DE BANDAS OLIGOCLONAIS POR ISOFOCALIZAÇÃO - PESQUISA\rE/OU DOSAGEM EM LÍQUIDOS ORGÂNICOS"
+  },
+  {
+    "Codigo": "40304515",
+    "Nome": "PROTEÍNA S, TESTE FUNCIONAL"
+  },
+  {
+    "Codigo": "40310388",
+    "Nome": "SARCOPTES SCABEI, PESQUISA"
+  },
+  {
+    "Codigo": "40314235",
+    "Nome": "X-FRÁGIL POR PCR, PESQUISA (COM DIRETRIZ DE UTILIZAÇÃO DEFINIDA PELA ANS)"
+  },
+  {
+    "Codigo": "50000560",
+    "Nome": "CONSULTA AMBULATORIAL POR NUTRICIONISTA (COM DIRETRIZ DE\rUTILIZAÇÃO DEFINIDA PELA ANS)"
+  },
+  {
+    "Codigo": "40324176",
+    "Nome": "Chikungunya, anticorpos"
+  },
+  {
+    "Codigo": "40324192",
+    "Nome": "Antígeno NS1 do vírus da dengue, pesquisa"
+  },
+  {
+    "Codigo": "40324559",
+    "Nome": "Dengue, anticorpos IgG, soro (teste rápido)"
+  },
+  {
+    "Codigo": "40324567",
+    "Nome": "Dengue, anticorpos IgM, soro (teste rápido)"
+  }
+]

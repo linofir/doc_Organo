@@ -22,6 +22,10 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Tabula" Version="0.1.5" />
+    <PackageReference Include="Tabula.Csv" Version="0.1.5" />
+    <PackageReference Include="Tabula.Json" Version="0.1.5" />
+    <PackageReference Include="UglyToad.PdfPig" Version="1.7.0-custom-5" />
   </ItemGroup>
 
 </Project>

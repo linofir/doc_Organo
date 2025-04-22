@@ -27,7 +27,7 @@ public class Paciente
     }
     [Required(ErrorMessage = "O CPF da paciente é obrigatório")]
     [MaxLength(11, ErrorMessage = "O máximo de caracteres é 11")]
-    public string CPF { get; set; }
+    public string? CPF { get; set; }
     [MaxLength(11, ErrorMessage = "O máximo de caracteres é 11")]
     public string? RG { get; set; }
     [Required(ErrorMessage = "O email da paciente é obrigatório")]
@@ -35,7 +35,7 @@ public class Paciente
     [Required(ErrorMessage = "O telefone da paciente é obrigatório")]
     public string? Telefone { get; set; }
     [Required(ErrorMessage = "O Plano de saúde do paciente é obrigatório")]
-    public string? Plano { get; set; }
+    public string? Plano { get; set; }// possível enum
     [Required(ErrorMessage = "A carteira da paciente é obrigatório")]
     public int? Carteira { get; set; }
     public virtual Endereco Endereco { get; set; } 

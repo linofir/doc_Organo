@@ -54,3 +54,14 @@ C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\bin\Debug\net7.0\Google.A
 C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\bin\Debug\net7.0\System.CodeDom.dll
 C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\bin\Debug\net7.0\System.Management.dll
 C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\bin\Debug\net7.0\runtimes\win\lib\net7.0\System.Management.dll
+C:\Users\lino\Projetos_Programação\doc_Organo\DocApi\bin\Debug\net7.0\UglyToad.PdfPig.dll
+C:\Users\lino\Projetos_Programação\doc_Organo\DocApi\bin\Debug\net7.0\UglyToad.PdfPig.Core.dll
+C:\Users\lino\Projetos_Programação\doc_Organo\DocApi\bin\Debug\net7.0\UglyToad.PdfPig.Fonts.dll
+C:\Users\lino\Projetos_Programação\doc_Organo\DocApi\bin\Debug\net7.0\UglyToad.PdfPig.Tokenization.dll
+C:\Users\lino\Projetos_Programação\doc_Organo\DocApi\bin\Debug\net7.0\UglyToad.PdfPig.Tokens.dll
+C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\bin\Debug\net7.0\CsvHelper.dll
+C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\bin\Debug\net7.0\UglyToad.PdfPig.DocumentLayoutAnalysis.dll
+C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\bin\Debug\net7.0\UglyToad.PdfPig.Package.dll
+C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\bin\Debug\net7.0\Tabula.dll
+C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\bin\Debug\net7.0\Tabula.Csv.dll
+C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\bin\Debug\net7.0\Tabula.Json.dll

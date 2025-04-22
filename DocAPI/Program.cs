@@ -3,8 +3,16 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using DocAPI.Profiles;
 using DocAPI.Services;
+using DocAPI.CLI;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//CLI
+if (args.Contains("--extract"))
+{
+    ExtractExamesCli.Run(args);
+    return;
+}
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("PacienteConnection");
@@ -43,7 +51,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-var googleSheetsService = new GoogleSheetsDB();
-googleSheetsService.LerPlanilha();
+// var googleSheetsService = new GoogleSheetsDB();
+// googleSheetsService.LerPlanilha();
 
 app.Run();
