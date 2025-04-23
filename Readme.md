@@ -45,26 +45,30 @@
         ✔ Faça suas alterações e commits normalmente: git add . ; git commit -m "nome-feature" ; git push origin nome-da-sua-branch
         ✔ (Opcional) Crie um Pull Request no GitHub: Se estiver colaborando com outras pessoas ou quiser deixar documentado, abra um Pull Request no site do GitHub. Isso te dá chance de revisar e aprovar antes de mesclar.
         ✔ Mescle para main: Quando tiver certeza que está tudo funcionando e testado, você pode fazer o merge: git checkout main ; git pull origin main; git merge nome-da-sua-branch; git push origin main; 
-        ✔ Deletar brench antiga: git branch -d nome-da-sua-branch ; git push origin --delete nome-da-sua-branch
+        ✔ Deletar branch antiga: git branch -d nome-da-sua-branch ; git push origin --delete nome-da-sua-branch
  
 ## Services
 * DB no google sheets(Etapa de desenvolvimento)
     * Criar diretriz.
 * PdfExtract ok
-# ToDo
-* Adaptar e criar novo DB 
+# ToDo new-model-Agendamento-Dtos-AM
+* Adaptar e criar novo DB
     * Novos modelos.
         - Paciente OK
         - Endereco Ok
-        - Prontuário, aperfeiçoar as props
-            - Lista de Exames, Lista, criação do service de extração, crição do cli ok
-            - Nova classe internacao OK
+        - Prontuário
+            - criação dos props
+            - Lista de Exames, criação do service de extração, crição do cli ok
             - Criar base de dados procedimentos e CID
         - Agendamento Cirurgico
         - FollowUP
     * Dtos
         - Paciente Ok
-        - Endereco
+        - Endereco 
+        - Prontuario
+        - Agendamento
+        - FollowUp
+
     * Profile
         - Paciente Ok
     * DB google sheets

@@ -10,7 +10,8 @@ public class PacienteProfile : Profile
     public PacienteProfile()
     {
         CreateMap<CreatePacienteDto , Paciente>();
-        CreateMap<UpdatePacienteDto, Paciente>();
+        CreateMap<UpdatePacienteDto, Paciente>()
+            .ForMember(dest => dest.ID, opt => opt.Ignore());
         CreateMap<Paciente, UpdatePacienteDto>();
         CreateMap<Paciente, ReadPacienteDto>();
         // .ForMember(

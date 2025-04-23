@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace DocAPI.Models
+namespace DocAPI.Models;
+
+public class Prontuario
 {
-    public class Prontuario
-    {
         [Key]
         [Required(ErrorMessage = "Este campo é obrigatório")]
         public string ID { get; set; }
@@ -14,7 +14,8 @@ namespace DocAPI.Models
             ID = Guid.NewGuid().ToString();
             DescricaoBasica = new DescricaoBasica(paciente); 
         }
-
+        [Required(ErrorMessage = "A data é obrigatória")]
+        public DateTime DataRequisicao;
         [Required]
         public DescricaoBasica? DescricaoBasica { get; set; }
 
@@ -27,7 +28,7 @@ namespace DocAPI.Models
         [Required]
         public AntecedentesFamiliares? AntecedentesFamiliares { get; set; }
 
-        public List<AcoesCD> CD { get; set; }   
+        public List<AcoesCD>? CD { get; set; }   
 
         public string InformacoesExtras { get; set; } = string.Empty;
 
@@ -126,6 +127,7 @@ namespace DocAPI.Models
     {
         public string Codigo { get; set; } = string.Empty;
         public string Nome { get; set; } = string.Empty;
+    
     }
     public class Internacao
     {
@@ -140,9 +142,9 @@ namespace DocAPI.Models
         public string Local  { get; set; } = string.Empty; 
         public long Guia  { get; set; } 
 
-    }
+    }    
 
-}
+
 
 public enum StatusVacinaHPV
 {
