@@ -39,7 +39,6 @@ public class Paciente
     [Required(ErrorMessage = "A carteira da paciente é obrigatório")]
     public int? Carteira { get; set; }
     public virtual Endereco Endereco { get; set; } 
-    public virtual ICollection<Consulta>? Consultas { get ; set;}
     public string? Descricao 
     {
         get
