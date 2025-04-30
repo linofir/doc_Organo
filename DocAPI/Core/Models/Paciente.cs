@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.ConstrainedExecution;
 using System.Text.Json.Serialization;
 
-namespace DocAPI.Models;
+namespace DocAPI.Core.Models;
 
 public class Paciente
 {
@@ -37,7 +37,7 @@ public class Paciente
     [Required(ErrorMessage = "O Plano de saúde do paciente é obrigatório")]
     public string? Plano { get; set; }// possível enum
     [Required(ErrorMessage = "A carteira da paciente é obrigatório")]
-    public int? Carteira { get; set; }
+    public string? Carteira { get; set; }
     public virtual Endereco Endereco { get; set; } 
     public string? Descricao 
     {

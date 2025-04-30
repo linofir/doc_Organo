@@ -3,7 +3,7 @@ using Tabula.Extractors;
 using UglyToad.PdfPig;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using DocAPI.Models;
+using DocAPI.Core.Models;
 using UglyToad.PdfPig.Graphics.Colors;
 
 namespace DocAPI.Services;
