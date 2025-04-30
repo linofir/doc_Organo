@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using DocAPI.Models;
+using DocAPI.Core.Models;
 
 namespace DocAPI.Data.Dtos;
 

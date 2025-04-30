@@ -1,5 +1,5 @@
 using System.Text.Json.Serialization;
-using DocAPI.Models;
+using DocAPI.Core.Models;
 
 namespace DocAPI.Data.Dtos;
 
@@ -23,7 +23,7 @@ public class ReadPacienteDto
     public string Email { get; set; }
     public string Telefone { get; set; }
     public string Plano { get; set; }
-    public int Carteira { get; set; }
+    public string Carteira { get; set; }
     public ReadEnderecoDto Endereco { get; set; } = new();
     public DateTime HorarioDaAcao { get; set; } = DateTime.Now;
     // public ICollection<ReadConsultaDto>? Consultas { get; set; }

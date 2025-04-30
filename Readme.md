@@ -6,10 +6,10 @@
 * [PDFPig](https://github.com/UglyToad/PdfPig/wiki)
 * [TabulaSharp](https://github.com/BobLd/tabula-sharp?tab=readme-ov-file)
 
-# Start 
+# Comands 
 * dotnet run --project DocAPI/DocAPI.csproj 
-* dotnet run --extract
-* Rotas definidas pelo post
+* Run script that extract data from PDF.
+    dotnet run --extract
 
 # Diretrizes 
    
@@ -34,9 +34,13 @@
         ✔ Criar classe no Models/
         ✔ Criar os DTOs em Data/Dtos/
         ✔ Criar Profile do AutoMapper
+        ✔ Criar interfaces
         ✔ Incluir no DbContext, ou adaptações google sheets DB( etapa dev)
         ✔ Criar migration e aplicar
         ✔ Criar controller REST básico
+
+    * Criar Controllers
+        ✔ Criar diretriz    
    
     
     * GitHub, Doc_Organo
@@ -49,9 +53,19 @@
  
 ## Services
 * DB no google sheets(Etapa de desenvolvimento)
-    * Criar diretriz.
+    ✔ Criar Task necessária na Interface 
+    ✔ Criar a comunicação com a interface e a função no PacienteSheetsRepository
+    ✔ Criar funções necessárias na GoogleSheetsDB, repositorio
+    ✔ Criar Controller
+
 * PdfExtract ok
-# ToDo new-model-Agendamento-Dtos-AM
+
+# ToDo  
+* Atividades auxiliares
+    * Update de estruturas
+        - Criação de Core OK
+        - Criação de infrastructure 
+
 * Adaptar e criar novo DB
     * Novos modelos.
         - Paciente OK
@@ -60,24 +74,38 @@
             - criação dos props
             - Lista de Exames, criação do service de extração, crição do cli ok
             - Criar base de dados procedimentos e CID
-        - Agendamento Cirurgico
+        - Agendamento Cirurgico ok
         - FollowUP
     * Dtos
         - Paciente Ok
-        - Endereco 
-        - Prontuario
-        - Agendamento
+        - Endereco ok
+        - Prontuario ok
+        - Agendamento ok
         - FollowUp
 
     * Profile
         - Paciente Ok
+        - Prontuario Ok
+        - Agendamento Ok
+    * Definir interfaces
+        - Paciente 
+        - Prontuario
+        - Agendamento
     * DB google sheets
         - Configurar as APis na cloud OK
-        - Criar novo serviço, criar teste de primeiro acesso
-        - Usar o mesmo formato dos DTOs para montar essas operações. Depois trocar essa camada por uma baseada no EF Core com mínimo esforço.
-        - 
+        - Criar novo serviço, criar teste de primeiro acesso ok
+        - Criar Requisições Paciente
+    * Criar Controllers
+        - Paciente, definir endpoints básicos
+        - Prontuario
     * DBContext
-        - Adicionar endereço
+        - Criar do zero
+    * Pull atual new-intefaces-update-gSheetsDB
+        - Reestruturação do app, core, repositories. Infrastructure/sheetsDB
+        - Exclusão das entidades Consulta e consultorio e suas referencias.
+        - Criação de nova diretriz para conexão do DB, usango googleSheets.
+        - EndPoints GET, PUT, POST DELETE para pacientes    
+        - Atualização de program.cs, HTTP, conexao para o DB.
 * Criar projeto do front
 * Criar projeto do frontll
     * Básico

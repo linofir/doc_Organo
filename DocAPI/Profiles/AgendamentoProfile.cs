@@ -1,5 +1,5 @@
 using AutoMapper;
-using DocAPI.Models;
+using DocAPI.Core.Models;
 using DocAPI.Data.Dtos.AgendamentoDtos;
 
 namespace DocAPI.Profiles

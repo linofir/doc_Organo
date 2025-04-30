@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using DocAPI.Models;
+using DocAPI.Core.Models;
 
-namespace DocAPI.Models;
+namespace DocAPI.Core.Models;
 public class Agendamento
 {
     public string ID { get; set; }

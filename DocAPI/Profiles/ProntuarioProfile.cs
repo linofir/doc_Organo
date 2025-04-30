@@ -1,5 +1,5 @@
 using AutoMapper;
-using DocAPI.Models;
+using DocAPI.Core.Models;
 using DocAPI.Data.Dtos.ProntuarioDtos;
 
 namespace DocAPI.Profiles
@@ -11,10 +11,10 @@ namespace DocAPI.Profiles
             /* ---------- Prontuário ---------- */
             CreateMap<CreateProntuarioDto, Prontuario>();
             CreateMap<UpdateProntuarioDto, Prontuario>()
-                .ForMember(dest => dest.ID,   opt => opt.Ignore())               // chave não muda
-                .ForMember(dest => dest.DescricaoBasica!.NomePaciente,
+                .ForPath(dest => dest.ID,   opt => opt.Ignore())               // chave não muda
+                .ForPath(dest => dest.DescricaoBasica!.NomePaciente,
                          opt => opt.Ignore())                                  // vem do paciente
-                .ForMember(dest => dest.DescricaoBasica!.Idade,
+                .ForPath(dest => dest.DescricaoBasica!.Idade,
                         opt => opt.Ignore());
             CreateMap<Prontuario, ReadProntuarioDto>();
 

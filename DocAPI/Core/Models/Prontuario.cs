@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace DocAPI.Models;
+namespace DocAPI.Core.Models;
 
 public class Prontuario
 {

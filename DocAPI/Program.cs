@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using DocAPI.Profiles;
 using DocAPI.Services;
+using DocAPI.Infrastructure.Sheets;
+using DocAPI.Core.Repositories;
 using DocAPI.CLI;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,11 +31,14 @@ IMapper mapper = config.CreateMapper();
 
 builder.Services.AddSingleton<IMapper>(mapper);
 
+builder.Services.AddSingleton<GoogleSheetsDB>();
+builder.Services.AddScoped<IPacienteRepository, PacienteSheetsRepository>();
 
 builder.Services.AddControllers().AddNewtonsoftJson();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddSwaggerGen();
+
 
 var app = builder.Build();
 
@@ -50,8 +55,5 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
-// var googleSheetsService = new GoogleSheetsDB();
-// googleSheetsService.LerPlanilha();
 
 app.Run();

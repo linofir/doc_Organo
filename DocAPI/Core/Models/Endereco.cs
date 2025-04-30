@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace DocAPI.Models;
+namespace DocAPI.Core.Models;
 
 public class Endereco
 {

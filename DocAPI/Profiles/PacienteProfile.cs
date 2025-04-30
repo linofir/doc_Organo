@@ -1,4 +1,4 @@
-using DocAPI.Models;
+using DocAPI.Core.Models;
 using DocAPI.Data.Dtos;
 using AutoMapper;
 
