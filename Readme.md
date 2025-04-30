@@ -55,12 +55,12 @@
 * DB no google sheets(Etapa de desenvolvimento)
     ✔ Criar Task necessária na Interface 
     ✔ Criar a comunicação com a interface e a função no PacienteSheetsRepository
-    ✔ Criar funções necessárias na GoogleSheetsDB
+    ✔ Criar funções necessárias na GoogleSheetsDB, repositorio
     ✔ Criar Controller
 
 * PdfExtract ok
 
-# ToDo  new-intefaces-update-gSheetsDB
+# ToDo  
 * Atividades auxiliares
     * Update de estruturas
         - Criação de Core OK
@@ -96,9 +96,16 @@
         - Criar novo serviço, criar teste de primeiro acesso ok
         - Criar Requisições Paciente
     * Criar Controllers
-        - Paciente, definir quais requisições
+        - Paciente, definir endpoints básicos
+        - Prontuario
     * DBContext
         - Criar do zero
+    * Pull atual new-intefaces-update-gSheetsDB
+        - Reestruturação do app, core, repositories. Infrastructure/sheetsDB
+        - Exclusão das entidades Consulta e consultorio e suas referencias.
+        - Criação de nova diretriz para conexão do DB, usango googleSheets.
+        - EndPoints GET, PUT, POST DELETE para pacientes    
+        - Atualização de program.cs, HTTP, conexao para o DB.
 * Criar projeto do front
 * Criar projeto do frontll
     * Básico

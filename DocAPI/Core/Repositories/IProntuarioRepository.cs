@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using DocAPI.Core.Models;
 
 namespace DocAPI.Core.Repositories;
-public interface IPacienteRepository
+public interface IProntuarioRepository
 {
     Task<IEnumerable<Paciente>> GetAllAsync(int skip = 0, int take = 10);
     Task<Paciente?> GetByIdAsync(string id);

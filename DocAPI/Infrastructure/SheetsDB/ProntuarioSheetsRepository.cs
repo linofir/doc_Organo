@@ -6,17 +6,13 @@ using Google.Apis.Sheets.v4.Data;
 
 namespace DocAPI.Infrastructure.Sheets;
 
-public class PacienteSheetsRepository : IPacienteRepository
+public class ProntuarioSheetsRepository : IProntuarioRepository
 {
     private readonly GoogleSheetsDB _sheetsDB;
-    public PacienteSheetsRepository(GoogleSheetsDB sheets)
+    public ProntuarioSheetsRepository(GoogleSheetsDB sheets)
     {
         _sheetsDB = sheets;
     }
-    // public Task<Paciente?> ObterAsync(string id)
-    // {
-    //     throw new NotImplementedException();
-    // }
     public async Task<IEnumerable<Paciente>> GetAllAsync(int skip = 0, int take = 10)
     {
         var pacientes = await GetPacientesAsync();
@@ -43,9 +39,6 @@ public class PacienteSheetsRepository : IPacienteRepository
         await DeletePacienteAsync(id);
     }
     
-
-    
-
     public async Task<List<Paciente>> GetPacientesAsync()
     {
         var values = await _sheetsDB.LerRangeAsync("Pacientes!A3:O"); // de A até a coluna ID
@@ -62,7 +55,6 @@ public class PacienteSheetsRepository : IPacienteRepository
                 Console.WriteLine($"Linha {i + 3} ignorada: colunas insuficientes ({row.Count}).");
                 continue;
             }
-
             try
             {
                 var nascimentoString = row[2]?.ToString();

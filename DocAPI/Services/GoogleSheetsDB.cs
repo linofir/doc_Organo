@@ -36,29 +36,29 @@ namespace DocAPI.Services
             });
              return service;
         }
-        public void LerPlanilha()
-        {
-            var service = CreateService();
+        // public void LerPlanilha()
+        // {
+        //     var service = CreateService();
 
-            // ID da planilha e range (ex: aba "Página1", colunas A até E)
-            var range = "Pacientes!A1:E10";
+        //     // ID da planilha e range (ex: aba "Página1", colunas A até E)
+        //     var range = "Pacientes!A1:E10";
 
-            SpreadsheetsResource.ValuesResource.GetRequest request = service.Spreadsheets.Values.Get(_spreadsheetId, range);
-            ValueRange response = request.Execute();
-            var values = response.Values;
+        //     SpreadsheetsResource.ValuesResource.GetRequest request = service.Spreadsheets.Values.Get(_spreadsheetId, range);
+        //     ValueRange response = request.Execute();
+        //     var values = response.Values;
 
-            if (values == null || values.Count == 0)
-            {
-                Console.WriteLine("Nenhum dado encontrado.");
-            }
-            else
-            {
-                foreach (var row in values)
-                {
-                    Console.WriteLine(string.Join(" | ", row));
-                }
-            }
-        }
+        //     if (values == null || values.Count == 0)
+        //     {
+        //         Console.WriteLine("Nenhum dado encontrado.");
+        //     }
+        //     else
+        //     {
+        //         foreach (var row in values)
+        //         {
+        //             Console.WriteLine(string.Join(" | ", row));
+        //         }
+        //     }
+        // }
         public async Task<IList<IList<object>>> LerRangeAsync(string range)
         {
             var service = CreateService();
@@ -80,6 +80,44 @@ namespace DocAPI.Services
             updateRequest.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.RAW;
             await updateRequest.ExecuteAsync();
         }
+        public async Task DeleteLineAsync(int sheetLine, string sheetName)
+        {
+            var service = CreateService();
+
+            var deleteRequest = new Request
+            {
+                DeleteDimension = new DeleteDimensionRequest
+                {
+                    Range = new DimensionRange
+                    {
+                        SheetId = await GetSheetIdByName(sheetName),
+                        Dimension = "ROWS",
+                        StartIndex = sheetLine,
+                        EndIndex = sheetLine + 1
+                    }
+                }
+            };
+
+            var batchUpdateRequest = new BatchUpdateSpreadsheetRequest
+            {
+                Requests = new List<Request> { deleteRequest }
+            };
+            Console.WriteLine("test deleteAPI");
+            await service.Spreadsheets.BatchUpdate(batchUpdateRequest, _spreadsheetId).ExecuteAsync();
+        }
+        private async Task<int> GetSheetIdByName(string sheetName)
+        {
+            var service = CreateService();
+            var spreadsheet = await service.Spreadsheets.Get(_spreadsheetId).ExecuteAsync();
+            var sheet = spreadsheet.Sheets.FirstOrDefault(s => s.Properties.Title == sheetName);
+
+            if (sheet == null)
+                throw new Exception($"Aba '{sheetName}' não encontrada.");
+
+            Console.WriteLine((int)sheet.Properties.SheetId!);
+            return (int)sheet.Properties.SheetId!;
+        }
+
 
     }
 }

@@ -141,6 +141,24 @@ public async Task<IActionResult> UpdatePaciente(string id, [FromBody] UpdatePaci
     //         return NoContent();
     //     }
     // }
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeletePaciente(string id)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(id))
+            return BadRequest("O ID do paciente é obrigatório.");
+            await _repository.DeleteAsync(id);
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao excluir paciente: {ex.Message}");
+            return NotFound("Paciente não encontrado.");
+        }
+    }
+    
+
 
     // [HttpDelete("{id}")]
     // public IActionResult DeletaPacienteID(string id)
