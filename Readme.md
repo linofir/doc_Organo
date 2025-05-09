@@ -64,7 +64,7 @@
 * Atividades auxiliares
     * Update de estruturas
         - Criação de Core OK
-        - Criação de infrastructure 
+        - Criação de infrastructure ok
 
 * Adaptar e criar novo DB
     * Novos modelos.
@@ -88,24 +88,22 @@
         - Prontuario Ok
         - Agendamento Ok
     * Definir interfaces
-        - Paciente 
-        - Prontuario
+        - Paciente ok
+        - Prontuario ok
         - Agendamento
     * DB google sheets
         - Configurar as APis na cloud OK
         - Criar novo serviço, criar teste de primeiro acesso ok
-        - Criar Requisições Paciente
+        - Criar Requisições Paciente ok
     * Criar Controllers
-        - Paciente, definir endpoints básicos
-        - Prontuario
+        - Paciente, definir endpoints básicos ok
+        - Prontuario, definir endpoints básicos 
     * DBContext
         - Criar do zero
-    * Pull atual new-intefaces-update-gSheetsDB
-        - Reestruturação do app, core, repositories. Infrastructure/sheetsDB
-        - Exclusão das entidades Consulta e consultorio e suas referencias.
-        - Criação de nova diretriz para conexão do DB, usango googleSheets.
-        - EndPoints GET, PUT, POST DELETE para pacientes    
-        - Atualização de program.cs, HTTP, conexao para o DB.
+    * Pull atual create-Prontuario-endpoints
+        - Adaptar GoogleSheetsDB pra todas entidades, ou criar novos métodos se possível.
+        - Criar todos métodos do repositório.
+        - Criar endpoints 
 * Criar projeto do front
 * Criar projeto do frontll
     * Básico

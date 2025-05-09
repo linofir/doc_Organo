@@ -13,10 +13,6 @@ public class PacienteSheetsRepository : IPacienteRepository
     {
         _sheetsDB = sheets;
     }
-    // public Task<Paciente?> ObterAsync(string id)
-    // {
-    //     throw new NotImplementedException();
-    // }
     public async Task<IEnumerable<Paciente>> GetAllAsync(int skip = 0, int take = 10)
     {
         var pacientes = await GetPacientesAsync();
@@ -24,8 +20,42 @@ public class PacienteSheetsRepository : IPacienteRepository
     }
     public async Task<Paciente?> GetByIdAsync(string id)
     {
-        var pacientes = await GetPacientesAsync();
-        return pacientes.FirstOrDefault(p => p.ID == id);
+        //Console.WriteLine("👉 Início de GetByIdAsync");
+
+        List<Paciente> pacientes;
+        pacientes = await GetPacientesAsync();
+        // try
+        // {
+        //     Console.WriteLine("✅ GetPacientesAsync retornou com sucesso.");
+        // }
+        // catch (Exception ex)
+        // {
+        //     Console.WriteLine($"❌ Erro em GetPacientesAsync: {ex.Message}");
+        //     throw;
+        // }
+        // Console.WriteLine($"🔍 Buscando paciente com ID: '{id?.Trim()}'");
+        // Console.WriteLine("🧾 Lista de IDs disponíveis:");
+
+        // foreach (var p in pacientes)
+        // {
+        //     Console.WriteLine($"- '{p.ID?.Trim()}'");
+        // }
+
+        var paciente = pacientes.FirstOrDefault(p =>
+            !string.IsNullOrWhiteSpace(p.ID) &&
+            !string.IsNullOrWhiteSpace(id) &&
+            p.ID.Trim().Equals(id.Trim(), StringComparison.OrdinalIgnoreCase));
+
+        if (paciente == null)
+        {
+            Console.WriteLine($"❌ Paciente com ID '{id}' não encontrado.");
+        }
+        // else
+        // {
+        //     //Console.WriteLine($"✅ Paciente encontrado: {paciente.Nome}");
+        // }
+
+        return paciente;
     }
 
     public async Task CreateAsync(Paciente paciente)
@@ -51,7 +81,7 @@ public class PacienteSheetsRepository : IPacienteRepository
         var values = await _sheetsDB.LerRangeAsync("Pacientes!A3:O"); // de A até a coluna ID
         var pacientes = new List<Paciente>();
         var limit = values.Count;
-        Console.WriteLine($"Total de linhas com algum dado: {limit}");       
+        //Console.WriteLine($"Total de linhas com algum dado: {limit}");       
         for (int i = 0; i < limit; i++)
         {
             var row = values[i];
@@ -62,7 +92,6 @@ public class PacienteSheetsRepository : IPacienteRepository
                 Console.WriteLine($"Linha {i + 3} ignorada: colunas insuficientes ({row.Count}).");
                 continue;
             }
-
             try
             {
                 var nascimentoString = row[2]?.ToString();

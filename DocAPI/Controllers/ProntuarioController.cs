@@ -1,6 +1,6 @@
 using AutoMapper;
 using DocAPI.Data;
-using DocAPI.Data.Dtos;
+using DocAPI.Data.Dtos.ProntuarioDtos;
 using DocAPI.Core.Models;
 using DocAPI.Core.Repositories;
 using Microsoft.AspNetCore.JsonPatch;
@@ -34,21 +34,21 @@ public class ProntuarioController : ControllerBase
     //     return CreatedAtAction(nameof(GetByID), new { id = paciente.ID }, paciente);
     // }
 
-    // [HttpGet]
-    // public async Task<IActionResult> GetPacientes([FromQuery] int skip = 0, [FromQuery] int take = 10)
-    // {
-    //     if(_repository == null) return NotFound();
-    //     var pacientes = await _repository.GetAllAsync(skip, take);
-    //     return Ok(_mapper.Map<IEnumerable<ReadPacienteDto>>(pacientes));
-    // }
+    [HttpGet]
+    public async Task<IActionResult> GetProntuarios([FromQuery] int skip = 0, [FromQuery] int take = 10)
+    {
+        if(_repository == null) return NotFound();
+        var prontuarios = await _repository.GetAllAsync(skip, take);
+        return Ok(_mapper.Map<IEnumerable<ReadProntuarioDto>>(prontuarios));
+    }
 
-    // [HttpGet("{id}")]
-    // public async Task<IActionResult> GetByID(string id)
-    // {
-    //     var paciente = await _repository.GetByIdAsync(id);
-    //     if (paciente == null) return NotFound();
-    //     return Ok(_mapper.Map<ReadPacienteDto>(paciente));
-    // }
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetByID(string id)
+    {
+        var prontuario = await _repository.GetByIdAsync(id);
+        if (prontuario == null) return NotFound();
+        return Ok(_mapper.Map<ReadProntuarioDto>(prontuario));
+    }
 
     // [HttpPut("{id}")]
     // public async Task<IActionResult> UpdatePaciente(string id, [FromBody] UpdatePacienteDto dto)

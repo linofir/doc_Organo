@@ -6,6 +6,7 @@ using DocAPI.Services;
 using DocAPI.Infrastructure.Sheets;
 using DocAPI.Core.Repositories;
 using DocAPI.CLI;
+using Newtonsoft.Json.Converters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,8 +34,12 @@ builder.Services.AddSingleton<IMapper>(mapper);
 
 builder.Services.AddSingleton<GoogleSheetsDB>();
 builder.Services.AddScoped<IPacienteRepository, PacienteSheetsRepository>();
+builder.Services.AddScoped<IProntuarioRepository, ProntuarioSheetsRepository>();
 
-builder.Services.AddControllers().AddNewtonsoftJson();
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+    {
+        options.SerializerSettings.Converters.Add(new StringEnumConverter());
+    });
 builder.Services.AddEndpointsApiExplorer();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddSwaggerGen();

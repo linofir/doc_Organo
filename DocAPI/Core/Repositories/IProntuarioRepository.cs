@@ -5,9 +5,9 @@ using DocAPI.Core.Models;
 namespace DocAPI.Core.Repositories;
 public interface IProntuarioRepository
 {
-    Task<IEnumerable<Paciente>> GetAllAsync(int skip = 0, int take = 10);
-    Task<Paciente?> GetByIdAsync(string id);
-    Task CreateAsync(Paciente novoPaciente);
-    Task UpdateAsync(Paciente paciente, string id);
+    Task<IEnumerable<Prontuario>> GetAllAsync(int skip = 0, int take = 10);
+    Task<Prontuario?> GetByIdAsync(string id);
+    Task CreateAsync(Prontuario novoProntuario);
+    Task UpdateAsync(Prontuario prontuario, string id);
     Task DeleteAsync(string id);
 }

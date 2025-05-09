@@ -38,8 +38,6 @@ public class Prontuario
 
     public class DescricaoBasica
     {
-        public DescricaoBasica() {}
-
         public DescricaoBasica(Paciente paciente)
         {
             NomePaciente = paciente.Nome;
@@ -149,16 +147,18 @@ public class Prontuario
 public enum StatusVacinaHPV
 {
     [Display(Name = "Sim, 1 dose")]
-    UmaDose,
+    UmaDose = 1,
 
     [Display(Name = "Sim, 2 doses")]
-    DuasDoses,
+    DuasDoses = 2,
 
     [Display(Name = "Sim, 3 doses")]
-    TresDoses,
+    TresDoses = 3,
 
     [Display(Name = "Sem vacina")]
-    SemVacina
+    SemVacina = 4,
+    [Display(Name = "Sem informação")]
+    SemInfo = 5
 
     //Como usar no Display.Name, front
     // var displayName = pronto.AGO.VacinaHPV
@@ -176,7 +176,7 @@ public enum AcoesCD
     [Display(Name = "Pedido de exame")]
     PedidoExame,
 
-    [Display(Name = "Indicação de Encaminhamentos")]
+    [Display(Name = "indicação de encaminhamentos")]
     IndicacaoEncaminhamentos,
 
     [Display(Name = "Informativos de instrumentadora")]
@@ -186,6 +186,8 @@ public enum AcoesCD
     TermoCirurgico,
 
     [Display(Name = "Pasta Informativa")]
-    PastaInformativa
+    PastaInformativa,
+    [Display(Name = "Sem Info")]
+    SemInformacao
    
 }
