@@ -71,9 +71,9 @@
         - Paciente OK
         - Endereco Ok
         - Prontuário
-            - criação dos props
+            - criação dos props ok
             - Lista de Exames, criação do service de extração, crição do cli ok
-            - Criar base de dados procedimentos e CID
+            - Criar base de dados procedimentos e CID ok
         - Agendamento Cirurgico ok
         - FollowUP
     * Dtos
@@ -99,11 +99,12 @@
         - Paciente, definir endpoints básicos ok
         - Prontuario, definir endpoints básicos 
     * DBContext
-        - Criar do zero
+        - Criar do zero 
     * Pull atual create-Prontuario-endpoints
         - Adaptar GoogleSheetsDB pra todas entidades, ou criar novos métodos se possível.
         - Criar todos métodos do repositório.
         - Criar endpoints 
+            - GET all e ID ok
 * Criar projeto do front
 * Criar projeto do frontll
     * Básico

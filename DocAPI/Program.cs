@@ -25,10 +25,13 @@ if (args.Contains("--extract"))
 var config = new MapperConfiguration(cfg =>
 {
     cfg.AddProfile<PacienteProfile>();
+    cfg.AddProfile<ProntuarioProfile>();
     cfg.AddMaps(typeof(Program).Assembly);
 });
 
 IMapper mapper = config.CreateMapper();
+//builder.Services.AddAutoMapper(typeof(Program).Assembly); outra opção
+
 
 builder.Services.AddSingleton<IMapper>(mapper);
 

@@ -5,29 +5,25 @@ using DocAPI.Core.Models;
 namespace DocAPI.Data.Dtos.ProntuarioDtos
 {
     public class ReadProntuarioDto
-    {
-        public string ID { get; set; } = string.Empty;
+{
+    public string ID { get; set; }
 
-        public DateTime DataRequisicao { get; set; }
+    public DateTime DataRequisicao { get; set; }
 
-        /* --- referência básica do paciente --- */
-        public string PacienteId   { get; set; } = string.Empty;
-        public string NomePaciente { get; set; } = string.Empty;
+    public DescricaoBasica DescricaoBasica { get; set; }
 
-        /* --- blocos aninhados --- */
-        public DescricaoBasicaDto        DescricaoBasica        { get; set; } = new();
-        public AgoDto                    AGO                    { get; set; } = new();
-        public AntecedentesDto           Antecedentes           { get; set; } = new();
-        public AntecedentesFamiliaresDto AntecedentesFamiliares { get; set; } = new();
+    public AGO AGO { get; set; }
 
-        public List<AcoesCD> CD { get; set; } = new();
+    public Antecedentes Antecedentes { get; set; }
 
-        public string InformacoesExtras { get; set; } = string.Empty;
+    public AntecedentesFamiliares AntecedentesFamiliares { get; set; }
 
-        public List<ExameDto> Exames { get; set; } = new();
+    public List<AcoesCD> CD { get; set; }
 
-        public InternacaoDto? SolicitacaoInternacao { get; set; }
+    public string InformacoesExtras { get; set; }
 
-        public DateTime ConsultadoEm { get; set; } = DateTime.Now; // carimbo de leitura
-    }
+    public List<Exame> Exames { get; set; }
+
+    public Internacao SolicitacaoInternacao { get; set; }
+}
 }

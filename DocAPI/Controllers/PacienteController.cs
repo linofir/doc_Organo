@@ -35,7 +35,7 @@ public class PacienteController : ControllerBase
     }
 
     // [HttpPost]
-    // public IActionResult CadastrarPaciente([FromBody] CreatePacienteDto pacienteDto)
+    // public IActionResult CadastrarProntuario([FromBody] CreateProntuarioDto pacienteDto)
     // {
     //     Paciente paciente = _mapper.Map<Paciente>(pacienteDto);
     //     _context.Pacientes!.Add(paciente);

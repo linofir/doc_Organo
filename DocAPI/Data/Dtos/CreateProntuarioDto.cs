@@ -1,51 +1,43 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using DocAPI.Core.Models;
 
 namespace DocAPI.Data.Dtos.ProntuarioDtos
 {
     public class CreateProntuarioDto
     {
-        /* ------------ Dados básicos ------------ */
-        [Required(ErrorMessage = "A data é obrigatória")]
+        [Required]
         public DateTime DataRequisicao { get; set; }
 
-        [Required]                               // virá do Paciente pré‑selecionado (no controller/service)
-        public string? PacienteId { get; set; }   // ID do paciente que está criando o prontuário
+        [Required]
+        public DescricaoBasicaDto DescricaoBasica { get; set; }
 
-        /* --------- Descrição Básica --------- */
-        public DescricaoBasicaDto DescricaoBasica { get; set; } = new();
+        [Required]
+        public AGODto AGO { get; set; }
 
-        /* ------------- AGO ------------- */
-        public AgoDto AGO { get; set; } = new();
+        [Required]
+        public AntecedentesDto Antecedentes { get; set; }
 
-        /* ------------- AP -------------- */
-        public AntecedentesDto Antecedentes { get; set; } = new();
+        [Required]
+        public AntecedentesFamiliaresDto AntecedentesFamiliares { get; set; }
 
-        /* ------------- AF -------------- */
-        public AntecedentesFamiliaresDto AntecedentesFamiliares { get; set; } = new();
+        public List<AcoesCD> CD { get; set; }
 
-        /* ------------- CD -------------- */
-        [Required(ErrorMessage = "Selecione ao menos uma ação em CD")]
-        public List<AcoesCD> CD { get; set; } = new();
-
-        /* ---------- Extras ---------- */
         public string InformacoesExtras { get; set; } = string.Empty;
-
-        /* ---------- Exames ---------- */
-        public List<ExameDto> Exames { get; set; } = new();
-
-        /* ------- Solicitação de Internação ------- */
-        public InternacaoDto? SolicitacaoInternacao { get; set; }
+        public List<ExameDto> Exames { get; set; }
+        public SolicitacaoInternacaoDto SolicitacaoInternacao { get; set; }
     }
-
     /* ============ Dtos aninhados ============ */
 
     public class DescricaoBasicaDto
     {
+        [Required]                               // virá do Paciente pré‑selecionado (no controller/service)
+        public string? PacienteId { get; set; }   // ID do paciente que está criando o prontuário
         [Required(ErrorMessage = "O nome do paciente é obrigatório")]
         public string NomePaciente { get; set; } = string.Empty;
+        public string? Cpf { get; set; }
 
         [Required(ErrorMessage = "A idade é obrigatória")]
         public int Idade { get; set; }
@@ -58,10 +50,12 @@ namespace DocAPI.Data.Dtos.ProntuarioDtos
 
         [Required(ErrorMessage = "O campo queixa/encaminhamento é obrigatório")]
         public string QD { get; set; } = string.Empty;
+        public string AtividadeFisica { get; set; } = string.Empty;
     }
 
-    public class AgoDto
+    public class AGODto
     {
+        public string Menarca { get; set; } = string.Empty;
         [Required(ErrorMessage = "O campo DUM é obrigatório")]
         public string DUM { get; set; } = string.Empty;
 
@@ -124,25 +118,23 @@ namespace DocAPI.Data.Dtos.ProntuarioDtos
 
     public class ExameDto
     {
-        [Required]
         public string Codigo { get; set; } = string.Empty;
-
-        [Required]
         public string Nome { get; set; } = string.Empty;
     }
 
-    public class InternacaoDto
+    public class SolicitacaoInternacaoDto
     {
         public List<string> Procedimentos { get; set; } = new();
 
-        [Required(ErrorMessage = "A indicação clínica é obrigatória")]
+        public DateTime? Data { get; set; }
         public string IndicacaoClinica { get; set; } = string.Empty;
 
         public string Observacao { get; set; } = string.Empty;
 
         public string CID { get; set; } = string.Empty;
-
-        public DateTime? Data { get; set; }
+        public string TempoDoenca { get; set; } = string.Empty;
+        public string Diarias { get; set; } = string.Empty;
+        public string Tipo { get; set; } = string.Empty;
 
         public string Regime { get; set; } = string.Empty;
 

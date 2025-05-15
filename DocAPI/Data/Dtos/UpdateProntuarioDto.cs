@@ -7,33 +7,27 @@ namespace DocAPI.Data.Dtos.ProntuarioDtos
 {
     public class UpdateProntuarioDto
     {
-        [Required(ErrorMessage = "A data é obrigatória")]
+        [Required]
         public DateTime DataRequisicao { get; set; }
 
-        // Continua referenciando o paciente já existente, caso queira permitir troca:
-        [Required(ErrorMessage = "O paciente é obrigatório")]
-        public string PacienteId { get; set; } = string.Empty;
-
-        /* --- blocos aninhados --- */
         [Required]
-        public DescricaoBasicaDto DescricaoBasica { get; set; } = new();
+        public DescricaoBasica DescricaoBasica { get; set; }
 
         [Required]
-        public AgoDto AGO { get; set; } = new();
+        public AGO AGO { get; set; }
 
         [Required]
-        public AntecedentesDto Antecedentes { get; set; } = new();
+        public Antecedentes Antecedentes { get; set; }
 
         [Required]
-        public AntecedentesFamiliaresDto AntecedentesFamiliares { get; set; } = new();
+        public AntecedentesFamiliares AntecedentesFamiliares { get; set; }
 
-        [Required(ErrorMessage = "Selecione ao menos uma ação em CD")]
-        public List<AcoesCD> CD { get; set; } = new();
+        public List<AcoesCD> CD { get; set; }
 
         public string InformacoesExtras { get; set; } = string.Empty;
 
-        public List<ExameDto> Exames { get; set; } = new();
+        public List<Exame> Exames { get; set; }
 
-        public InternacaoDto? SolicitacaoInternacao { get; set; }
+        public Internacao SolicitacaoInternacao { get; set; }
     }
 }

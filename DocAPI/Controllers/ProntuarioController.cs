@@ -23,16 +23,18 @@ public class ProntuarioController : ControllerBase
         _repository = repository;
         _mapper = mapper;
     }
-    // [HttpPost]
-    // public async Task<IActionResult> Post([FromBody] CreatePacienteDto dto)
-    // {
-    //     var paciente = _mapper.Map<Paciente>(dto);
+    [HttpPost]
+    public async Task<IActionResult> Post([FromBody] CreateProntuarioDto dto)
+    {
+        var prontuario = _mapper.Map<Prontuario>(dto);
 
-    //     await _repository.CreateAsync(paciente);
-    //     Console.WriteLine($"O cadastro d@ {paciente.Nome} foi efetuado ");
-    //     Console.WriteLine($"foi criado o ID: {paciente.ID}");
-    //     return CreatedAtAction(nameof(GetByID), new { id = paciente.ID }, paciente);
-    // }
+        await _repository.CreateAsync(prontuario);
+        Console.WriteLine($"O prontuário d@ {prontuario.DescricaoBasica.NomePaciente} foi efetuado ");
+        Console.WriteLine($"foi criado o ID: {prontuario.ID}");
+        var prontuarioDto = _mapper.Map<ReadProntuarioDto>(prontuario);
+        return CreatedAtAction(nameof(GetByID), new { id = prontuario.ID }, prontuarioDto);
+        // return CreatedAtAction(nameof(GetByID), new { id = prontuario.ID }, prontuario);
+    }
 
     [HttpGet]
     public async Task<IActionResult> GetProntuarios([FromQuery] int skip = 0, [FromQuery] int take = 10)

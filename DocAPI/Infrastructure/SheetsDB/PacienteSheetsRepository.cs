@@ -57,7 +57,6 @@ public class PacienteSheetsRepository : IPacienteRepository
 
         return paciente;
     }
-
     public async Task CreateAsync(Paciente paciente)
     {
         await AddPacienteAsync( paciente);
@@ -72,10 +71,6 @@ public class PacienteSheetsRepository : IPacienteRepository
     {
         await DeletePacienteAsync(id);
     }
-    
-
-    
-
     public async Task<List<Paciente>> GetPacientesAsync()
     {
         var values = await _sheetsDB.LerRangeAsync("Pacientes!A3:O"); // de A até a coluna ID
@@ -96,12 +91,10 @@ public class PacienteSheetsRepository : IPacienteRepository
             {
                 var nascimentoString = row[2]?.ToString();
                 DateTime nascimento = DateTime.MinValue;
-
                 if (!string.IsNullOrWhiteSpace(nascimentoString))
                 {
                     DateTime.TryParse(nascimentoString, out nascimento);
                 }
-
                 var paciente = new Paciente
                 {
                     CPF = row[0]?.ToString(),
@@ -129,16 +122,15 @@ public class PacienteSheetsRepository : IPacienteRepository
             {
                 Console.WriteLine($"Erro ao processar linha {i + 3}: {ex.Message}");
             }
-
         }
-
         return pacientes;
     }
     public async Task AddPacienteAsync(Paciente paciente)
     {
         // 1. Ler as linhas existentes
-        var valores = await _sheetsDB.LerRangeAsync("Pacientes!A3:O");
-        int novaLinhaIndex = valores.Count + 3; // +3 porque a planilha começa na linha 3
+        var pacientesheet = await _sheetsDB.LerRangeAsync("Pacientes!A3:O");
+        int novaLinhaIndex = pacientesheet.Count(r => r.Any(cell => !string.IsNullOrWhiteSpace(cell?.ToString()))) + 3;
+        // int novaLinhaIndex = valores.Count + 3; // +3 porque a planilha começa na linha 3
         // 2. Preparar os valores a serem inseridos
         ValueRange body = new ValueRange
         {
@@ -162,8 +154,6 @@ public class PacienteSheetsRepository : IPacienteRepository
                 }
             }
         };
-
-
         // 3. Escrever os dados na próxima linha disponível
         string rangeDestino = $"Pacientes!A{novaLinhaIndex}:O{novaLinhaIndex}";
         Console.WriteLine($"A nova Paciente será acrescentada na { rangeDestino}");
@@ -215,7 +205,6 @@ public class PacienteSheetsRepository : IPacienteRepository
     }
     public async Task DeletePacienteAsync(string id)
     {
-
         // Passo 1: Buscar a linha do paciente (por ID)
         var allPacientes = await GetPacientesAsync();
         int linhaIndex = allPacientes.FindIndex(p => p.ID == id);
@@ -230,9 +219,6 @@ public class PacienteSheetsRepository : IPacienteRepository
 
         await _sheetsDB.DeleteLineAsync(linhaNoSheet, "Pacientes");
     }
-    
-
-
 }
 
 

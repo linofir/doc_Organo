@@ -6,61 +6,69 @@ namespace DocAPI.Core.Models;
 
 public class Prontuario
 {
-        [Key]
-        [Required(ErrorMessage = "Este campo é obrigatório")]
-        public string ID { get; set; }
-        public Prontuario(Paciente paciente)
-        {
-            ID = Guid.NewGuid().ToString();
-            DescricaoBasica = new DescricaoBasica(paciente); 
-        }
-        [Required(ErrorMessage = "A data é obrigatória")]
-        public DateTime DataRequisicao;
-        [Required]
-        public DescricaoBasica? DescricaoBasica { get; set; }
-
-        [Required]
-        public AGO? AGO { get; set; }
-
-        [Required]
-        public Antecedentes? Antecedentes { get; set; }
-
-        [Required]
-        public AntecedentesFamiliares? AntecedentesFamiliares { get; set; }
-
-        public List<AcoesCD>? CD { get; set; }   
-
-        public string InformacoesExtras { get; set; } = string.Empty;
-
-        public List<Exame> Exames { get; set; }
-        public Internacao SolicitacaoInternacao { get; set;}
-    }
-
-    public class DescricaoBasica
+    public Prontuario() { }
+    [Key]
+    [Required(ErrorMessage = "Este campo é obrigatório")]
+    public string ID { get; set; }
+    public Prontuario(Paciente paciente)
     {
-        public DescricaoBasica(Paciente paciente)
-        {
-            NomePaciente = paciente.Nome;
-            Idade = paciente.Idade;
-        } 
-        [Required]
-        public string? NomePaciente { get; set; } 
-
-        [Required]
-        public int Idade { get; set; } 
-
-        [Required(ErrorMessage = "O campo profissão é obrigatório")]
-        public string? Profissao { get; set; }
-
-        [Required(ErrorMessage = "O campo religião é obrigatório")]
-        public string? Religiao { get; set; }
-
-        [Required(ErrorMessage = "O campo queixa/encaminhamento é obrigatório")]
-        public string? QD { get; set; }
+        ID = Guid.NewGuid().ToString();
+        DescricaoBasica = new DescricaoBasica(paciente); 
     }
+    [Required(ErrorMessage = "A data é obrigatória")]
+    public DateTime DataRequisicao {get; set; } 
+    [Required]
+    public DescricaoBasica? DescricaoBasica { get; set; }
 
+    [Required]
+    public AGO? AGO { get; set; }
+
+    [Required]
+    public Antecedentes? Antecedentes { get; set; }
+
+    [Required]
+    public AntecedentesFamiliares? AntecedentesFamiliares { get; set; }
+
+    public List<AcoesCD>? CD { get; set; }   
+
+    public string InformacoesExtras { get; set; } = string.Empty;
+
+    public List<Exame> Exames { get; set; }
+    public Internacao SolicitacaoInternacao { get; set;}
+}        
+
+public class DescricaoBasica
+{
+    public DescricaoBasica() {}
+    public DescricaoBasica(Paciente paciente)
+    {
+        NomePaciente = paciente.Nome;
+        Idade = paciente.Idade;
+        PacienteId = paciente.ID;
+        Cpf = paciente.CPF;
+    }
+    [Required]
+    public string? PacienteId { get; set; }
+    [Required]
+    public string? NomePaciente { get; set; } 
+    public string? Cpf { get; set; } 
+    [Required]
+    public int Idade { get; set; } 
+
+    [Required(ErrorMessage = "O campo profissão é obrigatório")]
+    public string? Profissao { get; set; }
+
+    [Required(ErrorMessage = "O campo religião é obrigatório")]
+    public string? Religiao { get; set; }
+
+    [Required(ErrorMessage = "O campo queixa/encaminhamento é obrigatório")]
+    public string? QD { get; set; }
+    public string AtividadeFisica { get; set; } = string.Empty; ////////////////////
+}
+    
     public class AGO
     {
+        public string Menarca { get; set; } = string.Empty; 
         [Required(ErrorMessage = "O campo DUM é obrigatório")]
         public string? DUM { get; set; }
 
@@ -130,10 +138,13 @@ public class Prontuario
     public class Internacao
     {
         public List<string> Procedimentos { get; set; } = new();
-        public string IndicaçãoClinica { get; set; } = string.Empty;
+        public DateTime Data { get; set; }
+        public string IndicacaoClinica { get; set; } = string.Empty;
         public string Observacao { get; set; } = string.Empty;
         public string CID { get; set; } = string.Empty; 
-        public DateTime Data { get; set; }
+        public string TempoDoenca { get; set; } = string.Empty;
+        public string Diarias { get; set; } = string.Empty;
+        public string Tipo { get; set; } = string.Empty;
         public string Regime { get; set; } = string.Empty;
         public string Carater { get; set; } = string.Empty;
         public bool UsaOPME { get; set; }
@@ -176,7 +187,7 @@ public enum AcoesCD
     [Display(Name = "Pedido de exame")]
     PedidoExame,
 
-    [Display(Name = "indicação de encaminhamentos")]
+    [Display(Name = "Indicação de encaminhamentos")]
     IndicacaoEncaminhamentos,
 
     [Display(Name = "Informativos de instrumentadora")]
