@@ -103,8 +103,17 @@
     * Pull atual create-Prontuario-endpoints
         - Adaptar GoogleSheetsDB pra todas entidades, ou criar novos métodos se possível.
         - Criar todos métodos do repositório.
+        - Alterações no model, 
+            - novas porpriedades em internacao, descricao basica
+        - Alterações nos Dtos de Prontuario.
+        - Alterações no Profile do mapper.
         - Criar endpoints 
-            - GET all e ID ok
+            - GET all e ID ok, POST ok, PUT ok, DELETE 
+        - Testes para os enpoints
+            - Criar testes especificos para cada endpoint
+            - Corrigir erros no POST, não aceita null em solicitacao de internacao, testar exames.
+            - Caminhos possíveis de PUT
+
 * Criar projeto do front
 * Criar projeto do frontll
     * Básico

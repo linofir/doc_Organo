@@ -17,13 +17,23 @@ namespace DocAPI.Profiles
             CreateMap<ExameDto, Core.Models.Exame>();
             CreateMap<SolicitacaoInternacaoDto, Core.Models.Internacao>();
             CreateMap<UpdateProntuarioDto, Prontuario>()
-                .ForPath(dest => dest.ID,   opt => opt.Ignore())               // chave não muda
-                .ForPath(dest => dest.DescricaoBasica!.NomePaciente,
-                         opt => opt.Ignore()) 
-                .ForPath(dest => dest.DescricaoBasica!.PacienteId,
-                         opt => opt.Ignore())                                 // vem do paciente
-                .ForPath(dest => dest.DescricaoBasica!.Idade,
-                        opt => opt.Ignore());
+                .ForMember(dest => dest.ID, opt => opt.Ignore())
+                .ForMember(dest => dest.DescricaoBasica, opt => opt.MapFrom(src => src.DescricaoBasica))
+                .ForMember(dest => dest.AGO, opt => opt.MapFrom(src => src.AGO))
+                .ForMember(dest => dest.Antecedentes, opt => opt.MapFrom(src => src.Antecedentes))
+                .ForMember(dest => dest.AntecedentesFamiliares, opt => opt.MapFrom(src => src.AntecedentesFamiliares))
+                .ForMember(dest => dest.Exames, opt => opt.MapFrom(src => src.Exames))
+                .ForMember(dest => dest.SolicitacaoInternacao, opt => opt.MapFrom(src => src.SolicitacaoInternacao));
+            // CreateMap<UpdateProntuarioDto, Prontuario>()
+            //     .ForPath(dest => dest.ID,   opt => opt.Ignore())               // chave não muda
+            //     .ForPath(dest => dest.DescricaoBasica!.NomePaciente,
+            //              opt => opt.Ignore()) 
+            //     .ForPath(dest => dest.DescricaoBasica!.PacienteId,
+            //              opt => opt.Ignore())                                 // vem do paciente
+            //     .ForPath(dest => dest.DescricaoBasica!.Idade,
+            //             opt => opt.Ignore())
+            //     .ForPath(dest => dest.DescricaoBasica!.Cpf,
+            //             opt => opt.Ignore());
             CreateMap<Prontuario, ReadProntuarioDto>();
 
             // /* ---------- Descrição Básica ---------- */

@@ -37,18 +37,16 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
         await AddProntuarioAsync( prontuario);
     }
 
-    public  Task UpdateAsync(Prontuario prontuario, string id)
+    public async Task UpdateAsync(Prontuario prontuario, string id)
     {
-        // await UpdatePacienteAsync(paciente, id);
-        throw new NotImplementedException();
+        await UpdateProntuarioAsync(prontuario, id);
     }
 
-    public  Task DeleteAsync(string id)
+    public async Task DeleteAsync(string id)
     {
-        // await DeletePacienteAsync(id);
-        throw new NotImplementedException();
+        await DeleteProntuarioAsync(id);
+        // throw new NotImplementedException();
     }
-    
     public async Task<List<Prontuario>> GetProntuariosAsync()
     {
         var prontuarioSheet = await _sheetsDB.LerRangeAsync("Prontuario!A2:AJ");
@@ -192,11 +190,8 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
         var pedidosExameSheet = await _sheetsDB.LerRangeAsync("PedidosExame!A2:D");
         var pedidosCirurgiaSheet = await _sheetsDB.LerRangeAsync("PedidosCirurgia!A2:P");
         int novaLinhaProntuarioIndex = prontuarioSheet.Count(r => r.Any(cell => !string.IsNullOrWhiteSpace(cell?.ToString()))) + 2;
-        // int novaLinhaProntuarioIndex = prontuarioSheet.Count + 1; 
         int novaLinhaExameIndex = pedidosExameSheet.Count(r => r.Any(cell => !string.IsNullOrWhiteSpace(cell?.ToString()))) + 2;
-        // int novaLinhaExameIndex = pedidosExameSheet.Count + 1; 
         int novaLinhaCirurgiaIndex = pedidosCirurgiaSheet.Count(r => r.Any(cell => !string.IsNullOrWhiteSpace(cell?.ToString()))) + 2;
-        // int novaLinhaCrirurgiaIndex = pedidosCirurgiaSheet.Count + 1; 
         //2. Preparar os valores a serem inseridos
         var descricao = prontuario.DescricaoBasica;
         var ago = prontuario.AGO;
@@ -326,72 +321,237 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
         Console.WriteLine($"O novo prontuário será acrescentada na { rangeDestinoCirurgias }");
         await _sheetsDB.WriteRangeAsync(rangeDestinoCirurgias, bodyCirurgias.Values);
     }
-    // public async Task UpdateProntuarioAsync(Prontuario prontuario, string id)
-    // {
-    //     // Passo 1: Buscar a linha do prontExames e pedidosCirurgia (por ID)
-    //     var prontuarioSheet = await _sheetsDB.LerRangeAsync("Prontuario!A2:AJ");
-    //     var rowProntuario = prontuarioSheet.FirstOrDefault(r => r.Equals(row[35].ToString == id  ));
-        
-    //     // int linhaIndexProntuario = prontuarioSheet.FindIndex(p => p.ID == id);
-        
-    //     int linhaIndexExames = await GetAllAsync()
-    //     //int linhaIndex = allPacientes.FindIndex(p => p.ID == paciente.ID);
+    public async Task UpdateProntuarioAsync(Prontuario prontuario, string id)
+    {
+        Console.WriteLine("update method active");
+        var prontuarioSheetraw = await _sheetsDB.LerRangeAsync("Prontuario!A2:AJ"); // ou outro range total
+        var prontuarioSheet = prontuarioSheetraw.ToList();
+        int linhaIndexPront = prontuarioSheet.FindIndex(r => r.Count > 0 && r[35]?.ToString() == id); 
+        if (linhaIndexPront == -1)throw new Exception("Prontuário não encontrado na aba Prontuario.");
 
-    //     if (linhaIndex == -1)
-    //         throw new Exception("Paciente não encontrado na planilha.");
+        int linhaNoSheetPront = linhaIndexPront + 2; 
+        Console.WriteLine($"line to be updated:{linhaNoSheetPront}");
+        var descricao = prontuario.DescricaoBasica;
+        var ago = prontuario.AGO;
+        var ap = prontuario.Antecedentes;
+        var af = prontuario.AntecedentesFamiliares;
+        var displayVacina = ago.VacinaHPV
+            .GetType()
+            .GetMember(ago.VacinaHPV.ToString())
+            .First()
+            .GetCustomAttribute<DisplayAttribute>()
+            ?.Name ?? ago.VacinaHPV.ToString();
 
-    //     // Passo 2: A linha no Google Sheets começa em 2 (1 para header)
-    //     int linhaNoSheet = linhaIndex + 3;
+        var acoes = prontuario.CD != null
+            ? string.Join(", ", prontuario.CD.Select(cd =>
+                cd.GetType()
+                .GetMember(cd.ToString())
+                .First()
+                .GetCustomAttribute<DisplayAttribute>()?.Name ?? cd.ToString()))
+            : "";
+        var dataHoje = DateTime.Now.ToString("dd/MM/yyyy");
+        ValueRange bodyProntuario = new()
+        {
+            Values = new List<IList<object>> {
+                new List<object> {
+                    descricao.NomePaciente,
+                    descricao.Cpf,
+                    descricao.Idade,
+                    descricao.Profissao,
+                    descricao.Religiao,
+                    descricao.QD,
+                    descricao.AtividadeFisica,
+                    ago.Menarca,
+                    ago.DUM,
+                    ago.Paridade,
+                    ago.DesejoGestacao,
+                    ago.Intercorrencias,
+                    ago.Amamentacao,
+                    ago.VidaSexual,
+                    ago.Relacionamento,
+                    ago.Parceiros,
+                    ago.Coitarca,
+                    ago.IST,
+                    displayVacina,
+                    ago.CCO,
+                    ago.MAC_TRH,
+                    ap.Comorbidades,
+                    ap.Medicacao,
+                    ap.Neoplasias,
+                    ap.Cirurgias,
+                    ap.Alergias,
+                    ap.Vicios,
+                    ap.HabitoIntestinal,
+                    ap.Vacinas,
+                    af.Neoplasias,
+                    af.Comorbidades,
+                    prontuario.InformacoesExtras,
+                    dataHoje,
+                    acoes,
+                    descricao.PacienteId,
+                    prontuario.ID
+                }
+            }
+        };
+        Console.WriteLine($"Testando instancia de prontuario: {descricao.NomePaciente}");
+        string rangePront = $"Prontuario!A{linhaNoSheetPront}:AJ{linhaNoSheetPront}";
+        await _sheetsDB.WriteRangeAsync(rangePront, bodyProntuario.Values);
 
-    //     // Passo 3: Criar os dados atualizados
-    //     var valoresAtualizados = new List<IList<object?>>
-    //     {
-    //         new List<object?>
-    //         {
-    //             paciente.CPF,
-    //             paciente.Nome,
-    //             paciente.Nascimento.ToString("dd/MM/yyyy"),
-    //             paciente.Plano,
-    //             paciente.ID,
-    //             paciente.Carteira,
-    //             paciente.Email,
-    //             paciente.Telefone,
-    //             paciente.Endereco?.Logradouro,
-    //             paciente.Endereco?.Numero,
-    //             paciente.Endereco?.Bairro,
-    //             paciente.Endereco?.Cidade,
-    //             paciente.Endereco?.UF,
-    //             paciente.Endereco?.CEP,
-    //             paciente.RG
-    //         }
-    //     };
+        // --- 2. Atualizar PEDIDOS DE EXAMES ---
+        var examesSheetraw = await _sheetsDB.LerRangeAsync("PedidosExame!A2:D");
+        var examesSheet = examesSheetraw.ToList();
+        int linhaIndexExame = examesSheet.FindIndex(r => r.Count > 0 && r[3]?.ToString() == id); 
 
-    //     // 5. Montar o range da linha específica (A até O)
-    //     string range = $"Pacientes!A{linhaNoSheet}:O{linhaNoSheet}";
+        if (linhaIndexExame != -1)
+        {
+            int linhaNoSheetExame = linhaIndexExame + 2;
+            string examesFormatados = string.Join("; ", prontuario.Exames.Select(exame => $"{exame.Codigo} - {exame.Nome}"));
+            ValueRange bodyExames = new()
+            {
+                Values = new List<IList<object>>
+                {
+                    new List<object>
+                    {
+                        descricao.NomePaciente,
+                        prontuario.DataRequisicao.ToString("dd/MM/yyyy"),
+                        examesFormatados,
+                        prontuario.ID
+                    }
+                }
+            };
+            string rangeExames = $"PedidosExame!A{linhaNoSheetExame}:D{linhaNoSheetExame}";
+            await _sheetsDB.WriteRangeAsync(rangeExames, bodyExames.Values);
+        }
+        else if (prontuario.Exames != null && prontuario.Exames.Any())
+        {
+            // Inserir nova linha
+            string examesFormatados = string.Join("; ", prontuario.Exames.Select(exame => $"{exame.Codigo} - {exame.Nome}"));
+            ValueRange bodyExames = new()
+            {
+                Values = new List<IList<object>>
+                {
+                    new List<object>
+                    {
+                        descricao.NomePaciente,
+                        prontuario.DataRequisicao.ToString("dd/MM/yyyy"),
+                        examesFormatados,
+                        prontuario.ID
+                    }
+                }
+            };
+            await _sheetsDB.WriteRangeAsync("PedidosExame!A:D", bodyExames.Values); // Append insere no fim da planilha
+        }
 
-    //     Console.WriteLine($"Atualizando paciente com ID '{paciente.ID}' na linha {linhaNoSheet}");
+        // --- 3. Atualizar PEDIDOS DE CIRURGIA ---
+        var cirurgiasSheetRaw = await _sheetsDB.LerRangeAsync("PedidosCirurgia!A2:P");
+        var cirurgiasSheet = cirurgiasSheetRaw.ToList();
+        int linhaIndexCirurgia = cirurgiasSheet.FindIndex(r => r.Count > 0 && r[15]?.ToString() == id);
 
-    //     // 6. Escrever na planilha
-    //     await _sheetsDB.WriteRangeAsync(range, valoresAtualizados);
-    // }
-    // public async Task DeletePacienteAsync(string id)
-    // {
+        if (linhaIndexCirurgia != -1)
+        {
+            int linhaNoSheetCirurgia = linhaIndexCirurgia + 2;
+            Console.WriteLine($"linha ce cirurgia a ser alterada: {linhaNoSheetCirurgia}");
+            string procedimentosFormatados = string.Join("; ", prontuario.SolicitacaoInternacao.Procedimentos.Select(proc => $"{proc}"));
+            ValueRange bodyCirurgias = new()
+            {
+                // Values = prontuario.SolicitacaoInternacao?.Procedimentos?.Select(...) ?? new List<IList<object>>()
+                Values = new List<IList<object>>
+                {
+                    new List<object>
+                    {
+                        descricao.NomePaciente,
+                        prontuario.DataRequisicao.ToString("dd/MM/yyyy"),
+                        procedimentosFormatados,
+                        prontuario.SolicitacaoInternacao.IndicacaoClinica,
+                        prontuario.SolicitacaoInternacao.Observacao,
+                        prontuario.SolicitacaoInternacao.CID,
+                        prontuario.SolicitacaoInternacao.TempoDoenca, // Tempo da doença - campo não mapeado
+                        prontuario.SolicitacaoInternacao.Diarias, // Diárias - campo não mapeado
+                        prontuario.SolicitacaoInternacao.Tipo,
+                        prontuario.SolicitacaoInternacao.Regime,
+                        prontuario.SolicitacaoInternacao.Carater,
+                        prontuario.SolicitacaoInternacao.UsaOPME ? "Sim" : "Não",
+                        prontuario.SolicitacaoInternacao.Local,
+                        prontuario.SolicitacaoInternacao.Guia, // Solicitação
+                        prontuario.SolicitacaoInternacao.Guia, // Autorização
+                        prontuario.ID
+                    }
+                }
+            };
+            Console.WriteLine($"valor da obs: {prontuario.SolicitacaoInternacao.Observacao}");
+            string rangeCirurgias = $"PedidosCirurgia!A{linhaNoSheetCirurgia}:P{linhaNoSheetCirurgia}";
+            await _sheetsDB.WriteRangeAsync(rangeCirurgias, bodyCirurgias.Values);
+        }
+        else if (prontuario.SolicitacaoInternacao?.Procedimentos != null && prontuario.SolicitacaoInternacao.Procedimentos.Any())
+        {
+            Console.WriteLine("Dentro do else");
+            var pedidosCirurgiaSheet = await _sheetsDB.LerRangeAsync("PedidosCirurgia!A2:P");
+            int novaLinhaCirurgiaIndex = pedidosCirurgiaSheet.Count(r => r.Any(cell => !string.IsNullOrWhiteSpace(cell?.ToString()))) + 2;
 
-    //     // Passo 1: Buscar a linha do paciente (por ID)
-    //     var allPacientes = await GetPacientesAsync();
-    //     int linhaIndex = allPacientes.FindIndex(p => p.ID == id);
-    //     //int linhaIndex = allPacientes.FindIndex(p => p.ID == paciente.ID);
+            string procedimentosFormatados = string.Join("; ", prontuario.SolicitacaoInternacao.Procedimentos.Select(proc => proc));
+            ValueRange bodyCirurgias = new()
+            {
+                Values = new List<IList<object>>
+                {
+                    new List<object>
+                    {
+                        descricao.NomePaciente,
+                        prontuario.DataRequisicao.ToString("dd/MM/yyyy"),
+                        procedimentosFormatados,
+                        prontuario.SolicitacaoInternacao.IndicacaoClinica,
+                        prontuario.SolicitacaoInternacao.Observacao,
+                        prontuario.SolicitacaoInternacao.CID,
+                        prontuario.SolicitacaoInternacao.TempoDoenca,
+                        prontuario.SolicitacaoInternacao.Diarias,
+                        prontuario.SolicitacaoInternacao.Tipo,
+                        prontuario.SolicitacaoInternacao.Regime,
+                        prontuario.SolicitacaoInternacao.Carater,
+                        prontuario.SolicitacaoInternacao.UsaOPME ? "Sim" : "Não",
+                        prontuario.SolicitacaoInternacao.Local,
+                        prontuario.SolicitacaoInternacao.Guia,
+                        prontuario.SolicitacaoInternacao.Guia,
+                        prontuario.ID
+                    }
+                }
+            };
+            string rangeCirurgia = $"Prontuario!A{novaLinhaCirurgiaIndex}:AJ{novaLinhaCirurgiaIndex}";
+            await _sheetsDB.WriteRangeAsync(rangeCirurgia, bodyCirurgias.Values);
+        }
+    }
+    public async Task DeleteProntuarioAsync(string id)
+    {
+        var prontuarioSheetraw = await _sheetsDB.LerRangeAsync("Prontuario!A2:AJ"); // ou outro range total
+        var prontuarioSheet = prontuarioSheetraw.ToList();
+        int linhaIndexPront = prontuarioSheet.FindIndex(r => r.Count > 0 && r[35]?.ToString() == id); // Supondo que a coluna AJ (índice 35) seja o ID
 
-    //     if (linhaIndex == -1)
-    //         throw new Exception("Paciente não encontrado na planilha.");
+        if (linhaIndexPront == -1)throw new Exception("Prontuário não encontrado na aba Prontuario.");
+        // Passo 2: A linha no Google Sheets começa em 2 (1 para header)
+        int linhaProntuarioNoSheet = linhaIndexPront + 2;
+        await _sheetsDB.DeleteLineAsync(linhaProntuarioNoSheet, "Prontuario");
+        Console.WriteLine($"A linha deletada será {linhaProntuarioNoSheet}");
+        //exames
+        var examesSheetraw = await _sheetsDB.LerRangeAsync("PedidosExame!A2:D");
+        var examesSheet = examesSheetraw.ToList();
+        int linhaIndexExame = examesSheet.FindIndex(r => r.Count > 0 && r[3]?.ToString() == id); 
 
-    //     // Passo 2: A linha no Google Sheets começa em 2 (1 para header)
-    //     int linhaNoSheet = linhaIndex + 2;
-    //     Console.WriteLine($"A linha deletada será {linhaNoSheet}");
+        if (linhaIndexExame != -1)
+        {
+            int linhaNoSheetExame = linhaIndexExame + 2;
+            await _sheetsDB.DeleteLineAsync(linhaNoSheetExame, "PedidosExame");
+            Console.WriteLine($"A linha deletada será {linhaNoSheetExame}");
+        }else Console.WriteLine("Não existe exame pare esse prontuário");
+        //Cirurgia
+        var cirurgiasSheetRaw = await _sheetsDB.LerRangeAsync("PedidosCirurgia!A2:P");
+        var cirurgiasSheet = cirurgiasSheetRaw.ToList();
+        int linhaIndexCirurgia = cirurgiasSheet.FindIndex(r => r.Count > 0 && r[15]?.ToString() == id);
 
-    //     await _sheetsDB.DeleteLineAsync(linhaNoSheet, "Pacientes");
-    // }
-    
+        if (linhaIndexCirurgia != -1)
+        {
+            int linhaNoSheetCirurgia = linhaIndexCirurgia + 2;
+            await _sheetsDB.DeleteLineAsync(linhaNoSheetCirurgia, "PedidosCirurgia");
+            Console.WriteLine($"A linha deletada será {linhaNoSheetCirurgia}");
+        }else Console.WriteLine("Não existe procedimento pare esse prontuário");
+    }
     public static List<AcoesCD> ParseCd(List<string>? acoesList)
     {
         if (acoesList == null) return new();
@@ -424,6 +584,168 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
             "Sem Vacina" => StatusVacinaHPV.SemVacina,
             "Sem info" or "Sem informação" => StatusVacinaHPV.SemInfo,
             _ => throw new ArgumentException($"Valor inválido para StatusVacinaHPV: '{valor}'")
+        };
+    }
+    //public async Task UpdateProntuarioAsync(Prontuario prontuario, string id)
+    // {
+    //     // 1. Buscar as planilhas
+    //     var prontuarioSheet = await _sheetsDB.LerRangeAsync("Prontuario!A2:AJ");
+    //     var pedidosExameSheet = await _sheetsDB.LerRangeAsync("PedidosExame!A2:D");
+    //     var pedidosCirurgiaSheet = await _sheetsDB.LerRangeAsync("PedidosCirurgia!A2:P");
+
+    //     // 2. Descobrir índices das linhas com base no ID
+    //     int linhaProntuario = EncontrarLinhaPorId(prontuarioSheet, id) + 2;
+    //     int linhaExame = EncontrarLinhaPorId(pedidosExameSheet, id) + 2;
+    //     int linhaCirurgia = EncontrarLinhaPorId(pedidosCirurgiaSheet, id) + 2;
+
+    //     if (linhaProntuario < 2 || linhaExame < 2 || linhaCirurgia < 2)
+    //         throw new Exception("ID de prontuário não encontrado em uma das planilhas.");
+
+    //     // 3. Preparar os valores formatados
+    //     var paciente = await _iPacienteRepository.GetByIdAsync(prontuario.DescricaoBasica.PacienteId);
+    //     if (paciente == null)
+    //         throw new Exception("Paciente não encontrado.");
+
+    //     var displayVacina = prontuario.AGO.VacinaHPV
+    //         .GetType()
+    //         .GetMember(prontuario.AGO.VacinaHPV.ToString())
+    //         .First()
+    //         .GetCustomAttribute<DisplayAttribute>()?.Name ?? prontuario.AGO.VacinaHPV.ToString();
+
+    //     var acoes = prontuario.CD != null
+    //         ? string.Join(", ", prontuario.CD.Select(cd =>
+    //             cd.GetType()
+    //             .GetMember(cd.ToString())
+    //             .First()
+    //             .GetCustomAttribute<DisplayAttribute>()?.Name ?? cd.ToString()))
+    //         : "";
+
+    //     var dataHoje = DateTime.Now.ToString("dd/MM/yyyy");
+
+    //     // 4. Montar ValueRange para cada aba
+    //     var bodyProntuario = ConstruirBodyProntuario(prontuario, paciente, displayVacina, dataHoje, acoes);
+    //     var bodyExames = ConstruirBodyExames(prontuario, dataHoje);
+    //     var bodyCirurgias = ConstruirBodyCirurgias(prontuario, dataHoje);
+
+    //     // 5. Escrever os dados nas respectivas linhas
+    //     await _sheetsDB.WriteRangeAsync($"Prontuario!A{linhaProntuario}:AJ{linhaProntuario}", bodyProntuario.Values);
+    //     await _sheetsDB.WriteRangeAsync($"PedidosExame!A{linhaExame}:D{linhaExame}", bodyExames.Values);
+    //     await _sheetsDB.WriteRangeAsync($"PedidosCirurgia!A{linhaCirurgia}:P{linhaCirurgia}", bodyCirurgias.Values);
+    // }
+    private ValueRange ConstruirBodyProntuario(Prontuario prontuario)
+    {
+        var descricao = prontuario.DescricaoBasica;
+        var ago = prontuario.AGO;
+        var ap = prontuario.Antecedentes;
+        var af = prontuario.AntecedentesFamiliares;
+
+        var displayVacina = ago.VacinaHPV
+            .GetType()
+            .GetMember(ago.VacinaHPV.ToString())
+            .First()
+            .GetCustomAttribute<DisplayAttribute>()
+            ?.Name ?? ago.VacinaHPV.ToString();
+
+        var acoes = prontuario.CD != null
+            ? string.Join(", ", prontuario.CD.Select(cd =>
+                cd.GetType()
+                .GetMember(cd.ToString())
+                .First()
+                .GetCustomAttribute<DisplayAttribute>()?.Name ?? cd.ToString()))
+            : "";
+        var dataHoje = DateTime.Now.ToString("dd/MM/yyyy");
+
+        return new ValueRange
+        {
+            Values = new List<IList<object>> {
+                new List<object> {
+                    descricao.NomePaciente,
+                    descricao.Cpf,
+                    descricao.Idade,
+                    descricao.Profissao,
+                    descricao.Religiao,
+                    descricao.QD,
+                    descricao.AtividadeFisica,
+                    ago.Menarca,
+                    ago.DUM,
+                    ago.Paridade,
+                    ago.DesejoGestacao,
+                    ago.Intercorrencias,
+                    ago.Amamentacao,
+                    ago.VidaSexual,
+                    ago.Relacionamento,
+                    ago.Parceiros,
+                    ago.Coitarca,
+                    ago.IST,
+                    displayVacina,
+                    ago.CCO,
+                    ago.MAC_TRH,
+                    ap.Comorbidades,
+                    ap.Medicacao,
+                    ap.Neoplasias,
+                    ap.Cirurgias,
+                    ap.Alergias,
+                    ap.Vicios,
+                    ap.HabitoIntestinal,
+                    ap.Vacinas,
+                    af.Neoplasias,
+                    af.Comorbidades,
+                    prontuario.InformacoesExtras,
+                    dataHoje,
+                    acoes,
+                    descricao.PacienteId,
+                    prontuario.ID
+                }
+            }
+        };
+    }
+    private ValueRange ConstruirBodyExames(Prontuario prontuario)
+    {
+        var descricao = prontuario.DescricaoBasica;
+
+        string examesFormatados = string.Join("; ", prontuario.Exames.Select(exame => $"{exame.Codigo} - {exame.Nome}"));
+
+        return new ValueRange
+        {
+            Values = new List<IList<object>> {
+                new List<object> {
+                    descricao.NomePaciente,
+                    prontuario.DataRequisicao.ToString("dd/MM/yyyy"),
+                    examesFormatados,
+                    prontuario.ID
+                }
+            }
+        };
+    }
+    private ValueRange ConstruirBodyCirurgias(Prontuario prontuario, string dataHoje)
+    {
+        var descricao = prontuario.DescricaoBasica;
+        var solicitacao = prontuario.SolicitacaoInternacao;
+
+        string procedimentosFormatados = string.Join("; ", solicitacao.Procedimentos.Select(p => p.ToString()));
+
+        return new ValueRange
+        {
+            Values = new List<IList<object>> {
+                new List<object> {
+                    descricao.NomePaciente,
+                    prontuario.DataRequisicao.ToString("dd/MM/yyyy"),
+                    procedimentosFormatados,
+                    solicitacao.IndicacaoClinica,
+                    solicitacao.Observacao,
+                    solicitacao.CID,
+                    solicitacao.TempoDoenca,
+                    solicitacao.Diarias,
+                    solicitacao.Tipo,
+                    solicitacao.Regime,
+                    solicitacao.Carater,
+                    solicitacao.UsaOPME ? "Sim" : "Não",
+                    solicitacao.Local,
+                    solicitacao.Guia, // Solicitação
+                    solicitacao.Guia, // Autorização
+                    prontuario.ID
+                }
+            }
         };
     }
 }

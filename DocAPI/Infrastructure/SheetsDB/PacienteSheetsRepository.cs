@@ -206,18 +206,25 @@ public class PacienteSheetsRepository : IPacienteRepository
     public async Task DeletePacienteAsync(string id)
     {
         // Passo 1: Buscar a linha do paciente (por ID)
-        var allPacientes = await GetPacientesAsync();
-        int linhaIndex = allPacientes.FindIndex(p => p.ID == id);
+        // var allPacientes = await GetPacientesAsync();
+        // int linhaIndex = allPacientes.FindIndex(p => p.ID == id);
         //int linhaIndex = allPacientes.FindIndex(p => p.ID == paciente.ID);
+        var pacienteSheetraw = await _sheetsDB.LerRangeAsync("Pacientes!A3:O"); // ou outro range total
+        var pacienteSheet = pacienteSheetraw.ToList();
+        int linhaIndexPaciente = pacienteSheet.FindIndex(r => r.Count > 0 && r[4]?.ToString() == id); // Supondo que a coluna AJ (índice 35) seja o ID
 
-        if (linhaIndex == -1)
-            throw new Exception("Paciente não encontrado na planilha.");
-
+        if (linhaIndexPaciente == -1)throw new Exception("Paciente não encontrado na aba Prontuario.");
         // Passo 2: A linha no Google Sheets começa em 2 (1 para header)
-        int linhaNoSheet = linhaIndex + 2;
-        Console.WriteLine($"A linha deletada será {linhaNoSheet}");
+        int linhaPacienteNoSheet = linhaIndexPaciente + 3;
 
-        await _sheetsDB.DeleteLineAsync(linhaNoSheet, "Pacientes");
+        // if (linhaProntuarioNoSheet == -1)
+        //     throw new Exception("Paciente não encontrado na planilha.");
+
+        // // Passo 2: A linha no Google Sheets começa em 2 (1 para header)
+        // int linhaNoSheet = linhaProntuarioNoSheet + 2;
+        Console.WriteLine($"A linha deletada será {linhaPacienteNoSheet}");
+
+        await _sheetsDB.DeleteLineAsync(linhaPacienteNoSheet, "Pacientes");
     }
 }
 

@@ -52,47 +52,48 @@ public class ProntuarioController : ControllerBase
         return Ok(_mapper.Map<ReadProntuarioDto>(prontuario));
     }
 
-    // [HttpPut("{id}")]
-    // public async Task<IActionResult> UpdatePaciente(string id, [FromBody] UpdatePacienteDto dto)
-    // {
-    //     try
-    //     {
-    //         // 1. Verifica se o ID foi fornecido
-    //         if (string.IsNullOrEmpty(id))
-    //             return BadRequest("O ID do paciente é obrigatório.");
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateProntuario(string id, [FromBody] UpdateProntuarioDto dto)
+    {
+        try
+        {
+            // 1. Verifica se o ID foi fornecido
+            if (string.IsNullOrEmpty(id))
+                return BadRequest("O ID do prontuario é obrigatório.");
+            if (dto == null)
+                return BadRequest("O corpo da requisição está vazio ou inválido.");
+            // 2. Mapeia o DTO para a entidade Paciente
+            var prontuarioAtualizado = _mapper.Map<Prontuario>(dto);
 
-    //         // 2. Mapeia o DTO para a entidade Paciente
-    //         var pacienteAtualizado = _mapper.Map<Paciente>(dto);
+            // 3. Atualiza o paciente na planilha
+            await _repository.UpdateAsync(prontuarioAtualizado, id);
 
-    //         // 3. Atualiza o paciente na planilha
-    //         await _repository.UpdateAsync(pacienteAtualizado, id);
+            // 4. Retorna sucesso
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao atualizar prontuario: {ex.Message}");
+            return StatusCode(500, "Erro interno ao atualizar prontuario.");
+        }
+    }
 
-    //         // 4. Retorna sucesso
-    //         return NoContent();
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         Console.WriteLine($"Erro ao atualizar paciente: {ex.Message}");
-    //         return StatusCode(500, "Erro interno ao atualizar paciente.");
-    //     }
-    // }
-
-    // [HttpDelete("{id}")]
-    // public async Task<IActionResult> DeletePaciente(string id)
-    // {
-    //     try
-    //     {
-    //         if (string.IsNullOrEmpty(id))
-    //         return BadRequest("O ID do paciente é obrigatório.");
-    //         await _repository.DeleteAsync(id);
-    //         return NoContent();
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         Console.WriteLine($"Erro ao excluir paciente: {ex.Message}");
-    //         return NotFound("Paciente não encontrado.");
-    //     }
-    // }
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteProntuario(string id)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(id))
+            return BadRequest("O ID do prontuario é obrigatório.");
+            await _repository.DeleteAsync(id);
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao excluir prontuario: {ex.Message}");
+            return NotFound("Prontuario não encontrado.");
+        }
+    }
     
 
 

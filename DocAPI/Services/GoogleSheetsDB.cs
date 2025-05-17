@@ -65,7 +65,6 @@ namespace DocAPI.Services
 
             var request = service.Spreadsheets.Values.Get(_spreadsheetId, range);
             var response = await request.ExecuteAsync();
-            // Console.WriteLine(response.Values.Count);
             return response.Values;
         }
         public async Task WriteRangeAsync(string cell, IList<IList<object?>> value)
@@ -92,8 +91,8 @@ namespace DocAPI.Services
                     {
                         SheetId = await GetSheetIdByName(sheetName),
                         Dimension = "ROWS",
-                        StartIndex = sheetLine,
-                        EndIndex = sheetLine + 1
+                        StartIndex = sheetLine - 1,
+                        EndIndex = sheetLine
                     }
                 }
             };
@@ -102,7 +101,7 @@ namespace DocAPI.Services
             {
                 Requests = new List<Request> { deleteRequest }
             };
-            Console.WriteLine("test deleteAPI");
+            Console.WriteLine($"Deletando linha {sheetLine} da aba {sheetName}, StartIndex: {sheetLine - 1}");
             await service.Spreadsheets.BatchUpdate(batchUpdateRequest, _spreadsheetId).ExecuteAsync();
         }
         private async Task<int> GetSheetIdByName(string sheetName)
@@ -114,7 +113,7 @@ namespace DocAPI.Services
             if (sheet == null)
                 throw new Exception($"Aba '{sheetName}' não encontrada.");
 
-            Console.WriteLine((int)sheet.Properties.SheetId!);
+            //Console.WriteLine((int)sheet.Properties.SheetId!);
             return (int)sheet.Properties.SheetId!;
         }
 
