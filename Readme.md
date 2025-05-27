@@ -60,7 +60,7 @@
 
 * PdfExtract ok
 
-# ToDo  
+# ToDo  Product Log
 * Atividades auxiliares
     * Update de estruturas
         - Criação de Core OK
@@ -100,21 +100,60 @@
         - Prontuario, definir endpoints básicos 
     * DBContext
         - Criar do zero 
-    * Pull atual create-Prontuario-endpoints
-        - Adaptar GoogleSheetsDB pra todas entidades, ou criar novos métodos se possível.
-        - Criar todos métodos do repositório.
-        - Alterações no model, 
-            - novas porpriedades em internacao, descricao basica
-        - Alterações nos Dtos de Prontuario.
-        - Alterações no Profile do mapper.
-        - Criar endpoints 
-            - GET all e ID ok, POST ok, PUT ok, DELETE 
-        - Testes para os enpoints
-            - Criar testes especificos para cada endpoint
-            - Corrigir erros no POST, não aceita null em solicitacao de internacao, testar exames.
-            - Caminhos possíveis de PUT
 
-* Criar projeto do front
+
+* create-Prontuario-endpoints
+    - Adaptar GoogleSheetsDB pra todas entidades, ou criar novos métodos se possível.
+    - Criar todos métodos do repositório.
+    - Alterações no model, 
+        - novas porpriedades em internacao, descricao basica
+    - Alterações nos Dtos de Prontuario.
+    - Alterações no Profile do mapper, prontuario
+    - Criar endpoints 
+        - GET all e ID ok, POST ok, PUT ok, DELETE  ok
+* Testes 
+    * Organização
+        - Estrutura,  Pastas (Testes unitários (Unit), Testes de integração(integration), Testes end-to-end (E2E))
+        -Fluxo 
+        ```mermaid
+            graph TD
+            A[Escreve Endpoint / Serviço] --> B[Testes Automatizados]
+            B --> C[Logs Detalhados]
+            C --> D[Monitoramento de Uso]
+            D --> E[Feedback do Usuário]
+            E --> F[Priorização de Melhorias]
+            F --> A
+        ```
+    *  Implementar ferramentas  
+        * Testes Automatizados	
+            -xUnit + mocks, Validar serviços locais e integração com o Sheets
+        * log
+            - ILogger, Console.WriteLine, arquivos .log, Logue tempo de execução, falhas e IDs manipulados
+        * Monitoramento
+            - Middleware personalizado ou AppInsights, Log de requisições (tempo, erros, etc.)
+        * Feedback 
+            - Notas internas, formulário no frontend, Receba ideias de usuários sobre uso real
+        * Analise de erros
+            -Logs e relatórios, Reproduza o erro com dados de logs e crie testes para isso
+        * Adicionar sistema de métricas (Prometheus + Grafana ou AppInsights)
+        * Criar testes de carga com k6 ou JMeter
+        * Testes E2E com Blazor usando Playwright
+
+    * endpoints e serviços ja identificados
+        - Criar testes especificos para cada endpoint
+        - Corrigir erros no POST, não aceita null em solicitacao de internacao, testar exames.
+        - Caminhos possíveis de PUT
+* feature-prontuarioFromPdf  ATUAL
+    - criar e delatar ultima branch
+    - Atualizar modelo de prontuario com todas propriedades ok
+    - Criar serviço
+        -identificar páginas automaticamente.
+    - Testar com diferentes prontuários e adaptar padrões.
+    - Validar paciente com CPF ou nome e vincular via ID.
+    - Armazenar no banco ou planilha após conversão.
+    - Adicionar logs e tratamento de exceções.
+    - Criar endpoint
+
 * Criar projeto do frontll
     * Básico
         ```bash
