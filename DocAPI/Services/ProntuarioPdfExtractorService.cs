@@ -58,7 +58,7 @@ public class ProntuarioPdfExtractorService
         var prontuario = ExtrairProntuarioViaRegex(paginasTexto);
         // Console.WriteLine($"página 7: {paginasTexto[6]}");
         // Console.WriteLine($"página 8: {paginasTexto[7]}");
-        Console.WriteLine($"página 9: {paginasTexto[8]}");
+        // Console.WriteLine($"página 9: {paginasTexto[8]}");
 
         return prontuario;
     }
@@ -73,7 +73,7 @@ public class ProntuarioPdfExtractorService
             CD = ExtrairAcoesCD(paginasTexto),
             // InformacoesExtras = "", // pode ser extraído ou preenchido depois
             Exames = ExtrairExames(paginasTexto),
-            // SolicitacaoInternacao = ExtrairInternacao(paginasTexto),
+            SolicitacaoInternacao = ExtrairInternacao(paginasTexto),
             // DataRequisicao = DateTime.Now // ou extraído, se presente
         };
 
@@ -220,7 +220,7 @@ public class ProntuarioPdfExtractorService
         );
 
         var examesEncontrados = new List<Exame>();
-        Console.WriteLine($"Total de páginas para verificar: {paginasTexto.Count}");
+        // Console.WriteLine($"Total de páginas para verificar: {paginasTexto.Count}");
 
         for(int i = 0; i < paginasTexto.Count(); i++)
         {
@@ -266,7 +266,7 @@ public class ProntuarioPdfExtractorService
             }
             else
             {
-                Console.WriteLine($"Página {i + 1} não contém o marcador 'Pedido de ExameCaráter da solicitação:'.");
+                // Console.WriteLine($"Página {i + 1} não contém o marcador 'Pedido de ExameCaráter da solicitação:'.");
             }
         }
         Console.WriteLine($"--- Extração de Exames Finalizada. Total de exames encontrados: {examesEncontrados.Count} ---");
@@ -274,26 +274,124 @@ public class ProntuarioPdfExtractorService
     }
 
 
-    private Internacao ExtrairInternacao(string texto)
+    private Internacao ExtrairInternacao(List<string> paginasTexto)
     {
-        return new Internacao
+        var identificador = "GUIA DE SOLICITAÇÃODE INTERNAÇÃO";
+        Console.WriteLine($"--------Extração de Internação--------");
+        for(int i = 0; i < paginasTexto.Count(); i++)
         {
-            Procedimentos = new List<string> {
-                ExtrairCampo(texto, "Descrição", "Qtde.")
-            },
-            IndicacaoClinica = ExtrairCampo(texto, "Indicação Clínica", "CID"),
-            CID = ExtrairCampo(texto, "CID", "Data da Solicitação"),
-            TempoDoenca = ExtrairCampo(texto, "Tempo da doença", "Diárias"),
-            Diarias = ExtrairCampo(texto, "Diárias", "Internação"),
-            Tipo = ExtrairCampo(texto, "Tipo de Internação", "Regime"),
-            Regime = ExtrairCampo(texto, "Regime de Internação", "Caráter"),
-            Carater = ExtrairCampo(texto, "Caráter de Internação", "OPME"),
-            UsaOPME = texto.Contains("Previsão de uso OPME") && texto.Contains("S"),
-            Local = ExtrairCampo(texto, "Hospital / local Solicitado", "Data da Solicitação"),
-            Guia = long.TryParse(ExtrairCampo(texto, "GUIA DE SOLICITAÇÃO", "Registro ANS"), out var guia) ? guia : 0
-        };
-    }
+            var textoPagina = paginasTexto[i];
+            // Console.WriteLine($"--- Verificando Página {i + 1} ---");
+            if(textoPagina.Contains(identificador))
+            {
+                //Console.WriteLine($"A página {i+1} foi identificada, esse texto completo: {textoPagina}");
+                var listaBlocos = new List<string>(){"Dados do Beneficiário", "Dados do Hospital / Local Solicitado / Dados da internação", "Procedimentos ou Itens Assistenciais Solicitados", "Dados da Autorização", "Data da SolicitaçãoImpresso por: isisfirmano"};
 
+                var blocoDados = ExtrairCampoCondicional(textoPagina, listaBlocos[1], listaBlocos);
+                var blocoProcedimentos = ExtrairCampoCondicional(textoPagina, listaBlocos[2], listaBlocos);
+                //Console.WriteLine("------Blocos identificados------");
+                //Console.WriteLine($"Dados relevantes : {blocoDados}");
+                //Console.WriteLine($"Dados Procedimentos : {blocoProcedimentos}");
+
+                var listaCondicoesFimDados = new List<string>()
+                {
+                    "19 - Código na Operadora / CNPJ", //0
+                    "20 - Nome do Hospital / local Solicitado", //1
+                    "22 - Caráter de Internação", //2
+                    "23 - Tipo de Internação", //3
+                    "24 - Regime de Internação",//diarias 4
+                    "25 - ",//indicacao clinica 5
+                    "28 - Indicação Clínica",// 6
+                    "33 - Indicação de Acidente",// 7
+                    "29 - CID 10 Principal",// 8
+                    "21 - Data sugerida para internação",// 9
+                    "26 - "//10
+                };
+                var indicacaoClinicaBruta = ExtrairCampoCondicional(textoPagina, listaCondicoesFimDados[5], listaCondicoesFimDados);
+
+                // Remover o prefixo indesejado de indicacao clinica
+                if (indicacaoClinicaBruta != null)
+                {
+                    var textoRemover = "Qtde. Diárias Solicitadas";
+                    var index = indicacaoClinicaBruta.IndexOf(textoRemover);
+                    if (index != -1)
+                    {
+                        indicacaoClinicaBruta = indicacaoClinicaBruta.Substring(index + textoRemover.Length).Trim();
+                    }
+                }
+                var lista = ExtrairListaProcedimentos(blocoProcedimentos);
+                return new Internacao
+                {
+                    Procedimentos = lista,
+                    IndicacaoClinica = indicacaoClinicaBruta,
+                    CID = ExtrairCampoCondicional(textoPagina, listaCondicoesFimDados[7], listaCondicoesFimDados),
+                    TempoDoenca = "Não implementado",
+                    Diarias = ExtrairCampoCondicional(textoPagina, listaCondicoesFimDados[4], listaCondicoesFimDados),
+                    Tipo = ExtrairCampoCondicional(textoPagina, listaCondicoesFimDados[2], listaCondicoesFimDados),
+                    Regime = ExtrairCampoCondicional(textoPagina, listaCondicoesFimDados[3], listaCondicoesFimDados),
+                    Carater = ExtrairCampoCondicional(textoPagina, listaCondicoesFimDados[1], listaCondicoesFimDados),
+                    UsaOPME = ExtrairCampoCondicional(textoPagina, listaCondicoesFimDados[9], listaCondicoesFimDados).Contains("S"),
+                    Local = ExtrairCampoCondicional(textoPagina, listaCondicoesFimDados[0], listaCondicoesFimDados),
+                    Guia = 0000,
+                    Observacao = "não implementado"
+                };
+
+
+            }
+            // else if(textoPagina.Any(identificador))
+            // {
+
+            // }
+        }
+        return new Internacao(){};
+    }
+//  
+private List<string> ExtrairListaProcedimentos(string blocoProcedimentosTexto)
+{
+    var descricoesProcedimentos = new List<string>();
+
+    var startIndex = blocoProcedimentosTexto.IndexOf("Qtde. Aut");
+    if (startIndex == -1)
+    {
+        //Console.WriteLine("Cabeçalho 'Qtde. Aut' não encontrado na seção de procedimentos.");
+        return descricoesProcedimentos;
+    }
+    var textoProcedimentosLimpo = blocoProcedimentosTexto.Substring(startIndex + "Qtde. Aut".Length).Trim();
+
+    // Regex para capturar cada PROCEDIMENTO COMPLETO como um único 'match'.
+    // Esta regex vai procurar:
+    // (\d{9,10})           -> Grupo 1: O ID completo do procedimento (9 ou 10 dígitos, como "2231303153").
+    // (.*?)                -> Grupo 2: A descrição real do procedimento (não-gananciosa).
+    // (\d+\s*-\s*\d*)      -> Grupo 3: A quantidade e o indicador de linha (como "11 -").
+    // (?=\d{9,10}|$):      -> Lookahead: Termina antes do próximo ID longo (9-10 dígitos) ou no final da string.
+    var regexProcedimentoCompleto = new Regex(
+        @"(\d{9,10})(.+?)(\d+\s*-\s*\d*)(?=\d{9,10}|$)",
+        RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled
+    );
+
+    //Console.WriteLine($"  -> Texto de procedimentos para REGEX principal: '{textoProcedimentosLimpo}'");
+
+    foreach (Match match in regexProcedimentoCompleto.Matches(textoProcedimentosLimpo))
+    {
+        // Grupo 1: O ID completo (ex: "2231303153") - não precisamos dele para a lista de descrições.
+        // Grupo 2: A descrição bruta (ex: "Traquelectomia - amputação, conização - (com ou sem cirurgia de alta frequência / CAF)")
+        // Grupo 3: A quantidade e o indicador de linha (ex: "11 -") - também não precisamos dele para a lista.
+        // Console.WriteLine($"Procedimento sujo identificado: {match}");
+        // Console.WriteLine($"Grupo 1: {match.Groups[1].Value}");
+        // Console.WriteLine($"Grupo 2: {match.Groups[2].Value}");
+        // Console.WriteLine($"Grupo 3: {match.Groups[3].Value}");
+
+        var rawDescription = match.Groups[2].Value;
+        
+        // Limpar a descrição: remover espaços extras no início/fim e consolidar espaços internos.
+        var cleanedDescription = LimparTexto(rawDescription);
+        
+        descricoesProcedimentos.Add(cleanedDescription);
+        //Console.WriteLine($"    -> Descrição Extraída: '{cleanedDescription}'");
+    }
+    Console.WriteLine($"procedimentos extraidos: {descricoesProcedimentos.Count()}");
+    return descricoesProcedimentos;
+}
     // Métodos auxiliares
     private string ExtrairCampo(string texto, string inicio, string proximoCampo)
     {
