@@ -345,63 +345,7 @@ public class ProntuarioPdfExtractorService
         }
         return new Internacao(){};
     }
-//  
-private List<string> ExtrairListaProcedimentos(string blocoProcedimentosTexto)
-{
-    var descricoesProcedimentos = new List<string>();
-
-    var startIndex = blocoProcedimentosTexto.IndexOf("Qtde. Aut");
-    if (startIndex == -1)
-    {
-        //Console.WriteLine("Cabeçalho 'Qtde. Aut' não encontrado na seção de procedimentos.");
-        return descricoesProcedimentos;
-    }
-    var textoProcedimentosLimpo = blocoProcedimentosTexto.Substring(startIndex + "Qtde. Aut".Length).Trim();
-
-    // Regex para capturar cada PROCEDIMENTO COMPLETO como um único 'match'.
-    // Esta regex vai procurar:
-    // (\d{9,10})           -> Grupo 1: O ID completo do procedimento (9 ou 10 dígitos, como "2231303153").
-    // (.*?)                -> Grupo 2: A descrição real do procedimento (não-gananciosa).
-    // (\d+\s*-\s*\d*)      -> Grupo 3: A quantidade e o indicador de linha (como "11 -").
-    // (?=\d{9,10}|$):      -> Lookahead: Termina antes do próximo ID longo (9-10 dígitos) ou no final da string.
-    var regexProcedimentoCompleto = new Regex(
-        @"(\d{9,10})(.+?)(\d+\s*-\s*\d*)(?=\d{9,10}|$)",
-        RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled
-    );
-
-    //Console.WriteLine($"  -> Texto de procedimentos para REGEX principal: '{textoProcedimentosLimpo}'");
-
-    foreach (Match match in regexProcedimentoCompleto.Matches(textoProcedimentosLimpo))
-    {
-        // Grupo 1: O ID completo (ex: "2231303153") - não precisamos dele para a lista de descrições.
-        // Grupo 2: A descrição bruta (ex: "Traquelectomia - amputação, conização - (com ou sem cirurgia de alta frequência / CAF)")
-        // Grupo 3: A quantidade e o indicador de linha (ex: "11 -") - também não precisamos dele para a lista.
-        // Console.WriteLine($"Procedimento sujo identificado: {match}");
-        // Console.WriteLine($"Grupo 1: {match.Groups[1].Value}");
-        // Console.WriteLine($"Grupo 2: {match.Groups[2].Value}");
-        // Console.WriteLine($"Grupo 3: {match.Groups[3].Value}");
-
-        var rawDescription = match.Groups[2].Value;
-        
-        // Limpar a descrição: remover espaços extras no início/fim e consolidar espaços internos.
-        var cleanedDescription = LimparTexto(rawDescription);
-        
-        descricoesProcedimentos.Add(cleanedDescription);
-        //Console.WriteLine($"    -> Descrição Extraída: '{cleanedDescription}'");
-    }
-    Console.WriteLine($"procedimentos extraidos: {descricoesProcedimentos.Count()}");
-    return descricoesProcedimentos;
-}
-    // Métodos auxiliares
-    private string ExtrairCampo(string texto, string inicio, string proximoCampo)
-    {
-        if( texto.Contains(inicio))
-        {
-            var padrao = $@"{inicio}\s+(.*?)\s+{proximoCampo}";
-            var match = Regex.Match(texto, padrao, RegexOptions.Singleline | RegexOptions.IgnoreCase);
-            return match.Success ? LimparTexto(match.Groups[1].Value) : "";
-        }else return "não extraiu";
-    }
+// Métodos auxiliares
     private string ExtrairCampoCondicional(string texto, string inicio, List<string> proximoCampo)
     {
         var indexInicio = proximoCampo.IndexOf(inicio);
@@ -479,6 +423,52 @@ private List<string> ExtrairListaProcedimentos(string blocoProcedimentosTexto)
     private string LimparTexto(string input)
     {
         return Regex.Replace(input ?? "", @"\s{2,}", " ").Trim();
+    }
+    private List<string> ExtrairListaProcedimentos(string blocoProcedimentosTexto)
+    {
+        var descricoesProcedimentos = new List<string>();
+
+        var startIndex = blocoProcedimentosTexto.IndexOf("Qtde. Aut");
+        if (startIndex == -1)
+        {
+            //Console.WriteLine("Cabeçalho 'Qtde. Aut' não encontrado na seção de procedimentos.");
+            return descricoesProcedimentos;
+        }
+        var textoProcedimentosLimpo = blocoProcedimentosTexto.Substring(startIndex + "Qtde. Aut".Length).Trim();
+
+        // Regex para capturar cada PROCEDIMENTO COMPLETO como um único 'match'.
+        // Esta regex vai procurar:
+        // (\d{9,10})           -> Grupo 1: O ID completo do procedimento (9 ou 10 dígitos, como "2231303153").
+        // (.*?)                -> Grupo 2: A descrição real do procedimento (não-gananciosa).
+        // (\d+\s*-\s*\d*)      -> Grupo 3: A quantidade e o indicador de linha (como "11 -").
+        // (?=\d{9,10}|$):      -> Lookahead: Termina antes do próximo ID longo (9-10 dígitos) ou no final da string.
+        var regexProcedimentoCompleto = new Regex(
+            @"(\d{9,10})(.+?)(\d+\s*-\s*\d*)(?=\d{9,10}|$)",
+            RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled
+        );
+
+        //Console.WriteLine($"  -> Texto de procedimentos para REGEX principal: '{textoProcedimentosLimpo}'");
+
+        foreach (Match match in regexProcedimentoCompleto.Matches(textoProcedimentosLimpo))
+        {
+            // Grupo 1: O ID completo (ex: "2231303153") - não precisamos dele para a lista de descrições.
+            // Grupo 2: A descrição bruta (ex: "Traquelectomia - amputação, conização - (com ou sem cirurgia de alta frequência / CAF)")
+            // Grupo 3: A quantidade e o indicador de linha (ex: "11 -") - também não precisamos dele para a lista.
+            // Console.WriteLine($"Procedimento sujo identificado: {match}");
+            // Console.WriteLine($"Grupo 1: {match.Groups[1].Value}");
+            // Console.WriteLine($"Grupo 2: {match.Groups[2].Value}");
+            // Console.WriteLine($"Grupo 3: {match.Groups[3].Value}");
+
+            var rawDescription = match.Groups[2].Value;
+            
+            // Limpar a descrição: remover espaços extras no início/fim e consolidar espaços internos.
+            var cleanedDescription = LimparTexto(rawDescription);
+            
+            descricoesProcedimentos.Add(cleanedDescription);
+            //Console.WriteLine($"    -> Descrição Extraída: '{cleanedDescription}'");
+        }
+        Console.WriteLine($"procedimentos extraidos: {descricoesProcedimentos.Count()}");
+        return descricoesProcedimentos;
     }
     // private Prontuario ExtrairProntuarioViaAcroForm(AcroForm form)
     // {

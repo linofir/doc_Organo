@@ -98,6 +98,7 @@
     * Criar Controllers
         - Paciente, definir endpoints básicos ok
         - Prontuario, definir endpoints básicos 
+        - Requisições from form.
     * DBContext
         - Criar do zero 
 
@@ -150,8 +151,8 @@
         - identificar páginas automaticamente.
         - método de extração Internação
     - Validar paciente com CPF ou nome e vincular via ID. ok
-    - Criar endpoint
-        - Armazenar no banco ou planilha após conversão.
+    - Criar endpoint Ok
+        - Armazenar no banco ou planilha após conversão. OK
     - Adicionar logs e tratamento de exceções.
     - Testar com diferentes prontuários e adaptar padrões.
 
