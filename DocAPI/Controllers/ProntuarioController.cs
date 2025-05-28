@@ -29,13 +29,77 @@ public class ProntuarioController : ControllerBase
         var prontuario = _mapper.Map<Prontuario>(dto);
 
         await _repository.CreateAsync(prontuario);
-        Console.WriteLine($"O prontuário d@ {prontuario.DescricaoBasica.NomePaciente} foi efetuado ");
+        Console.WriteLine($"O prontuário d@ {prontuario.DescricaoBasica!.NomePaciente} foi efetuado ");
         Console.WriteLine($"foi criado o ID: {prontuario.ID}");
         var prontuarioDto = _mapper.Map<ReadProntuarioDto>(prontuario);
         return CreatedAtAction(nameof(GetByID), new { id = prontuario.ID }, prontuarioDto);
         // return CreatedAtAction(nameof(GetByID), new { id = prontuario.ID }, prontuario);
     }
+    [HttpPost("from-pdf")] // Use uma rota mais descritiva
+    public async Task<IActionResult> PostFromPDF([FromForm] string pacienteId, [FromForm] IFormFile pdfFile)
+    {
+        if (pdfFile == null || pdfFile.Length == 0)
+        {
+            return BadRequest("Nenhum arquivo PDF foi enviado.");
+        }
 
+        if (string.IsNullOrWhiteSpace(pacienteId))
+        {
+            return BadRequest("O ID do paciente é obrigatório.");
+        }
+
+        // Aqui você precisará de um caminho temporário ou de um Stream para passar para o repositório
+        // Geralmente, para processamento imediato, um MemoryStream é uma boa opção.
+        // Se o seu repositório espera um 'pdfPath' (caminho físico), você precisará salvar o arquivo temporariamente.
+        string tempFilePath = null!;
+        Prontuario prontuario = null!;
+
+        try
+        {
+            // Opção A: Passar um Stream diretamente (melhor se seu repositório puder lidar com Stream)
+            // using (var stream = pdfFile.OpenReadStream())
+            // {
+            //     prontuario = await _repository.CreateFromPdfStreamAsync(pacienteId, stream);
+            // }
+
+            // Opção B: Salvar temporariamente para passar o caminho (se seu repositório espera um path)
+            // Certifique-se de ter uma forma de gerar um caminho temporário seguro
+            tempFilePath = Path.GetTempFileName();
+            using (var stream = new FileStream(tempFilePath, FileMode.Create))
+            {
+                await pdfFile.CopyToAsync(stream);
+            }
+
+            prontuario = await _repository.CreateFromPdfAsync(pacienteId, tempFilePath);
+
+            if (prontuario == null)
+            {
+                return StatusCode(500, "Erro ao processar o PDF e criar o prontuário.");
+            }
+
+            Console.WriteLine($"O prontuário d@ {prontuario.DescricaoBasica!.NomePaciente} foi efetuado ");
+            Console.WriteLine($"foi criado o ID: {prontuario.ID}");
+
+            // Mapeie para um DTO de leitura se necessário
+            var prontuarioDto = _mapper.Map<ReadProntuarioDto>(prontuario);
+
+            // Retorna 201 Created
+            return CreatedAtAction(nameof(GetByID), new { id = prontuario.ID }, prontuarioDto);
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Erro ao processar PDF: {ex.Message}");
+            return StatusCode(500, $"Erro interno do servidor: {ex.Message}");
+        }
+        finally
+        {
+            // Garante que o arquivo temporário seja excluído, se foi criado
+            if (tempFilePath != null && System.IO.File.Exists(tempFilePath))
+            {
+                System.IO.File.Delete(tempFilePath);
+            }
+        }
+    }
     [HttpGet]
     public async Task<IActionResult> GetProntuarios([FromQuery] int skip = 0, [FromQuery] int take = 10)
     {

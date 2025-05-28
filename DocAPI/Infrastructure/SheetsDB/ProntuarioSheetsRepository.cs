@@ -47,6 +47,11 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
         await DeleteProntuarioAsync(id);
         // throw new NotImplementedException();
     }
+    public async Task<Prontuario> CreateFromPdfAsync(string pacienteId, string pdfPath)
+    {
+        
+        return await AddProntuarioFromPdfAsync(pacienteId, pdfPath);
+    }
     public async Task<List<Prontuario>> GetProntuariosAsync()
     {
         var prontuarioSheet = await _sheetsDB.LerRangeAsync("Prontuario!A2:AJ");
@@ -320,6 +325,19 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
         string rangeDestinoCirurgias = $"PedidosCirurgia!A{novaLinhaCirurgiaIndex}:P{novaLinhaCirurgiaIndex}";
         Console.WriteLine($"O novo prontuário será acrescentada na { rangeDestinoCirurgias }");
         await _sheetsDB.WriteRangeAsync(rangeDestinoCirurgias, bodyCirurgias.Values);
+    }
+    public async Task<Prontuario> AddProntuarioFromPdfAsync(string pacienteId, string pdfPath)
+    {
+        var paciente = await _iPacienteRepository.GetByIdAsync(pacienteId);
+
+        if (paciente == null)
+        {
+            throw new Exception("Paciente não encontrado.");
+        }
+        var serviceExtractor = new ProntuarioPdfExtractorService(paciente);
+        var prontuario = await serviceExtractor.ExtrairProntuarioDePdfAsync(pdfPath); 
+        await AddProntuarioAsync(prontuario);
+        return prontuario;
     }
     public async Task UpdateProntuarioAsync(Prontuario prontuario, string id)
     {

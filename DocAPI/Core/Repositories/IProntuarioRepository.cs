@@ -10,4 +10,5 @@ public interface IProntuarioRepository
     Task CreateAsync(Prontuario novoProntuario);
     Task UpdateAsync(Prontuario prontuario, string id);
     Task DeleteAsync(string id);
+    Task<Prontuario> CreateFromPdfAsync(string pacienteId, string pdfPath);
 }
