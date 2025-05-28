@@ -153,16 +153,12 @@
         - Criar testes especificos para cada endpoint
         - Corrigir erros no POST, não aceita null em solicitacao de internacao, testar exames.
         - Caminhos possíveis de PUT
-* feature-prontuarioFromPdf  ATUAL
-    - criar e delatar ultima branch(create-Prontuario-endpoints)
-    - Atualizar modelo de prontuario com todas propriedades ok
+* feature-createRelatorioPdf  ATUAL
     - Criar serviço
         - Métodos para todas propriedades e auxiliares
-        - identificar páginas automaticamente.
-    - Validar paciente com CPF ou nome e vincular via ID. ok
-    - Criar endpoint Ok
-        - Adapar método repoditório Ok
-        - Armazenar no banco ou planilha após conversão. OK
+    - Criar endpoint 
+        - Adapar método repoditório 
+        - Armazenar no banco ou planilha após conversão. 
         - Criar controller
    
     
