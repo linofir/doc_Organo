@@ -8,6 +8,8 @@ using DocAPI.Core.Models;
 using UglyToad.PdfPig.Graphics.Colors;
 using UglyToad.PdfPig.AcroForms;
 using UglyToad.PdfPig.AcroForms.Fields;
+using Castle.Components.DictionaryAdapter;
+using System.Runtime.InteropServices;
 public class ProntuarioPdfExtractorService
 {
     //pathPDF  @"C:\Users\lino\Dropbox\io\Doc_Organo\teste_prontuario.pdf";
@@ -74,24 +76,26 @@ public class ProntuarioPdfExtractorService
             // InformacoesExtras = "", // pode ser extraído ou preenchido depois
             Exames = ExtrairExames(paginasTexto),
             SolicitacaoInternacao = ExtrairInternacao(paginasTexto),
-            // DataRequisicao = DateTime.Now // ou extraído, se presente
+            DataRequisicao = DateTime.Now 
         };
 
     }
 
     private DescricaoBasica ExtrairDescricaoBasica(List<string> paginasTexto)
     {
+        string condicaoPagina = "Descrição básica";
         for(int i = 0; i == paginasTexto.Count(); i++)
         {
-            if (paginasTexto[i].Contains("Descrição básica")) Console.WriteLine($"página {i+1}: {paginasTexto[i]}");
+            if (paginasTexto[i].Contains(condicaoPagina)) Console.WriteLine($"Página - {i+1} - {condicaoPagina}: {paginasTexto[i]}");
         }
-        var listaConsdicoesFim = new List<string>(){"*Nome da Paciente:","*Idade:","*Profissão:","*Religião:","*QD(Queixa/Encaminhamento):","Dra Isis Caroline Firmano"};
+        var listaConsdicoesFim = new List<string>(){"*Nome da Paciente:","*Idade:","*Profissão:","*Religião:","*QD(Queixa/Encaminhamento):","*Atividade Física:","Dra Isis Caroline Firmano"};
         if (paginasTexto.Count == 0) return new DescricaoBasica();
         if (paginasTexto[5].Contains("Descrição básica") )
         {
             return new DescricaoBasica
             {
                 NomePaciente = Paciente.Nome,
+                Cpf = Paciente.CPF,
                 Idade = Paciente.Idade,
                 Profissao = ExtrairCampoCondicional(paginasTexto[5], listaConsdicoesFim[2], listaConsdicoesFim),
                 Religiao = ExtrairCampoCondicional(paginasTexto[5], listaConsdicoesFim[3], listaConsdicoesFim),
@@ -273,7 +277,6 @@ public class ProntuarioPdfExtractorService
         return examesEncontrados;
     }
 
-
     private Internacao ExtrairInternacao(List<string> paginasTexto)
     {
         var identificador = "GUIA DE SOLICITAÇÃODE INTERNAÇÃO";
@@ -285,13 +288,23 @@ public class ProntuarioPdfExtractorService
             if(textoPagina.Contains(identificador))
             {
                 //Console.WriteLine($"A página {i+1} foi identificada, esse texto completo: {textoPagina}");
-                var listaBlocos = new List<string>(){"Dados do Beneficiário", "Dados do Hospital / Local Solicitado / Dados da internação", "Procedimentos ou Itens Assistenciais Solicitados", "Dados da Autorização", "Data da SolicitaçãoImpresso por: isisfirmano"};
+                var listaBlocos = new List<string>(){"GUIA DE SOLICITAÇÃODE INTERNAÇÃO","Dados do Beneficiário", "Dados do Hospital / Local Solicitado / Dados da internação", "Procedimentos ou Itens Assistenciais Solicitados", "Dados da Autorização", "Data da SolicitaçãoImpresso por: isisfirmano"};
 
-                var blocoDados = ExtrairCampoCondicional(textoPagina, listaBlocos[1], listaBlocos);
-                var blocoProcedimentos = ExtrairCampoCondicional(textoPagina, listaBlocos[2], listaBlocos);
+                var blocoGuia = ExtrairCampoCondicional(textoPagina, listaBlocos[0], listaBlocos);
+                var blocoDados = ExtrairCampoCondicional(textoPagina, listaBlocos[2], listaBlocos);
+                var blocoProcedimentos = ExtrairCampoCondicional(textoPagina, listaBlocos[3], listaBlocos);
+                var blocoAutorizacao = ExtrairCampoCondicional(textoPagina, listaBlocos[4], listaBlocos);
                 //Console.WriteLine("------Blocos identificados------");
                 //Console.WriteLine($"Dados relevantes : {blocoDados}");
                 //Console.WriteLine($"Dados Procedimentos : {blocoProcedimentos}");
+                // Console.WriteLine($"Dados Procedimentos : {blocoAutorizacao}");
+                // Console.WriteLine($"Dados Procedimentos : {blocoGuia}");
+
+                var listaCondicoesFimGuia = new List<string>()
+                {
+                    "6 - Data de Validade da Senha", //0
+                    "3 - Número da Guia Atribuído pela Operadora", //1
+                };
 
                 var listaCondicoesFimDados = new List<string>()
                 {
@@ -307,8 +320,9 @@ public class ProntuarioPdfExtractorService
                     "21 - Data sugerida para internação",// 9
                     "26 - "//10
                 };
-                var indicacaoClinicaBruta = ExtrairCampoCondicional(textoPagina, listaCondicoesFimDados[5], listaCondicoesFimDados);
 
+
+                var indicacaoClinicaBruta = ExtrairCampoCondicional(blocoDados, listaCondicoesFimDados[5], listaCondicoesFimDados);
                 // Remover o prefixo indesejado de indicacao clinica
                 if (indicacaoClinicaBruta != null)
                 {
@@ -319,21 +333,31 @@ public class ProntuarioPdfExtractorService
                         indicacaoClinicaBruta = indicacaoClinicaBruta.Substring(index + textoRemover.Length).Trim();
                     }
                 }
+                //52 - Assinatura do Médico Solicitante 53 - Assinatura do Beneficiário Responsável
+                var listaCondicoesFimAutorizacao = new List<string>()
+                {
+                    "44 - Código CNES", //0
+                    "45 - Observação", //1
+                    "54 - Assinatura do Responsável pela Autorização",//2
+                    "51 -" //3
+                };
+
                 var lista = ExtrairListaProcedimentos(blocoProcedimentos);
                 return new Internacao
                 {
                     Procedimentos = lista,
-                    IndicacaoClinica = indicacaoClinicaBruta,
-                    CID = ExtrairCampoCondicional(textoPagina, listaCondicoesFimDados[7], listaCondicoesFimDados),
+                    Data =DateTime.TryParse(ExtrairCampoCondicional(blocoAutorizacao, listaCondicoesFimAutorizacao[2], listaCondicoesFimAutorizacao), out var date) ? date : DateTime.Now,
+                    IndicacaoClinica = indicacaoClinicaBruta!,
+                    CID = ExtrairCampoCondicional(blocoDados, listaCondicoesFimDados[7], listaCondicoesFimDados),
                     TempoDoenca = "Não implementado",
-                    Diarias = ExtrairCampoCondicional(textoPagina, listaCondicoesFimDados[4], listaCondicoesFimDados),
-                    Tipo = ExtrairCampoCondicional(textoPagina, listaCondicoesFimDados[2], listaCondicoesFimDados),
-                    Regime = ExtrairCampoCondicional(textoPagina, listaCondicoesFimDados[3], listaCondicoesFimDados),
-                    Carater = ExtrairCampoCondicional(textoPagina, listaCondicoesFimDados[1], listaCondicoesFimDados),
-                    UsaOPME = ExtrairCampoCondicional(textoPagina, listaCondicoesFimDados[9], listaCondicoesFimDados).Contains("S"),
-                    Local = ExtrairCampoCondicional(textoPagina, listaCondicoesFimDados[0], listaCondicoesFimDados),
-                    Guia = 0000,
-                    Observacao = "não implementado"
+                    Diarias = ExtrairCampoCondicional(blocoDados, listaCondicoesFimDados[4], listaCondicoesFimDados),
+                    Tipo = ExtrairCampoCondicional(blocoDados, listaCondicoesFimDados[2], listaCondicoesFimDados),
+                    Regime = ExtrairCampoCondicional(blocoDados, listaCondicoesFimDados[3], listaCondicoesFimDados),
+                    Carater = ExtrairCampoCondicional(blocoDados, listaCondicoesFimDados[1], listaCondicoesFimDados),
+                    UsaOPME = ExtrairCampoCondicional(blocoDados, listaCondicoesFimDados[9], listaCondicoesFimDados).Contains("S"),
+                    Local = ExtrairCampoCondicional(blocoDados, listaCondicoesFimDados[0], listaCondicoesFimDados),
+                    Guia =  long.TryParse(ExtrairCampoCondicional(blocoGuia, listaCondicoesFimGuia[0], listaCondicoesFimGuia).ToString(), out var guia) ? guia : 0,
+                    Observacao = ExtrairCampoCondicional(blocoAutorizacao, listaCondicoesFimAutorizacao[0], listaCondicoesFimAutorizacao)
                 };
 
 

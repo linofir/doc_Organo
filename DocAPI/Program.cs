@@ -67,41 +67,41 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// var paciente = new Paciente
-// {
-//     CPF = "98765432101",
-//     Nome = "Maria Teste",
-//     Nascimento = new DateTime(1991, 6, 11),
-//     Plano = "Plano prata",
-//     Carteira = "CBA123456",
-//     Email = "maria.teste@example.com",
-//     Telefone = "(12) 98765-4321",
-//     Endereco = new Endereco
-//     {
-//         Logradouro = "Rua das Árvores",
-//         Numero = "321",
-//             Bairro = "Jardim das Palmeiras",
-//             Cidade = "São Paulo",
-//         UF = "SP",
-//         CEP = "93210-567"
-//     },
-//     RG = "135798462"
-// };
-// var pathPDF = @"C:\Users\lino\Dropbox\io\Doc_Organo\prontuariov4.pdf";
-// var serviceExtractor = new ProntuarioPdfExtractorService(paciente);
-// var prontuario = await serviceExtractor.ExtrairProntuarioDePdfAsync(pathPDF);
+var paciente = new Paciente
+{
+    CPF = "98765432101",
+    Nome = "Maria Teste",
+    Nascimento = new DateTime(1991, 6, 11),
+    Plano = "Plano prata",
+    Carteira = "CBA123456",
+    Email = "maria.teste@example.com",
+    Telefone = "(12) 98765-4321",
+    Endereco = new Endereco
+    {
+        Logradouro = "Rua das Árvores",
+        Numero = "321",
+            Bairro = "Jardim das Palmeiras",
+            Cidade = "São Paulo",
+        UF = "SP",
+        CEP = "93210-567"
+    },
+    RG = "135798462"
+};
+var pathPDF = @"C:\Users\lino\Dropbox\io\Doc_Organo\prontuariov4.pdf";
+var serviceExtractor = new ProntuarioPdfExtractorService(paciente);
+var prontuario = await serviceExtractor.ExtrairProntuarioDePdfAsync(pathPDF);
 
-// var json = JsonSerializer.Serialize(
-// prontuario,
-// new JsonSerializerOptions
-// {
-//     WriteIndented = true,
-//     Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-// }
-// );  
+var json = JsonSerializer.Serialize(
+prontuario,
+new JsonSerializerOptions
+{
+    WriteIndented = true,
+    Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+}
+);  
 
-// Console.WriteLine("🔎 Prontuário extraído:");
-// Console.WriteLine(json);
+Console.WriteLine("🔎 Prontuário extraído:");
+Console.WriteLine(json);
 
 // var paciente = new Paciente
 // {

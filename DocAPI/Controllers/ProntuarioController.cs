@@ -29,7 +29,7 @@ public class ProntuarioController : ControllerBase
         var prontuario = _mapper.Map<Prontuario>(dto);
 
         await _repository.CreateAsync(prontuario);
-        Console.WriteLine($"O prontuário d@ {prontuario.DescricaoBasica.NomePaciente} foi efetuado ");
+        Console.WriteLine($"O prontuário d@ {prontuario.DescricaoBasica!.NomePaciente} foi efetuado ");
         Console.WriteLine($"foi criado o ID: {prontuario.ID}");
         var prontuarioDto = _mapper.Map<ReadProntuarioDto>(prontuario);
         return CreatedAtAction(nameof(GetByID), new { id = prontuario.ID }, prontuarioDto);
@@ -51,8 +51,8 @@ public class ProntuarioController : ControllerBase
         // Aqui você precisará de um caminho temporário ou de um Stream para passar para o repositório
         // Geralmente, para processamento imediato, um MemoryStream é uma boa opção.
         // Se o seu repositório espera um 'pdfPath' (caminho físico), você precisará salvar o arquivo temporariamente.
-        string tempFilePath = null;
-        Prontuario prontuario = null;
+        string tempFilePath = null!;
+        Prontuario prontuario = null!;
 
         try
         {
@@ -77,7 +77,7 @@ public class ProntuarioController : ControllerBase
                 return StatusCode(500, "Erro ao processar o PDF e criar o prontuário.");
             }
 
-            Console.WriteLine($"O prontuário d@ {prontuario.DescricaoBasica.NomePaciente} foi efetuado ");
+            Console.WriteLine($"O prontuário d@ {prontuario.DescricaoBasica!.NomePaciente} foi efetuado ");
             Console.WriteLine($"foi criado o ID: {prontuario.ID}");
 
             // Mapeie para um DTO de leitura se necessário

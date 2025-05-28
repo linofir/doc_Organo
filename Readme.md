@@ -95,12 +95,20 @@
         - Configurar as APis na cloud OK
         - Criar novo serviço, criar teste de primeiro acesso ok
         - Criar Requisições Paciente ok
+        - Refatorar com métodos auxiliares, contrução do body das planilhas
     * Criar Controllers
         - Paciente, definir endpoints básicos ok
         - Prontuario, definir endpoints básicos 
         - Requisições from form.
     * DBContext
         - Criar do zero 
+* Services
+    * ProntuarioPdfExtractosService
+        - identificar páginas automaticamente.
+        - Testar com diferentes prontuários e adaptar padrões.
+         - Adicionar logs e tratamento de exceções.
+* Refatorando Geral.
+    - Debug de null reference
 
 
 * create-Prontuario-endpoints
@@ -148,13 +156,14 @@
     - criar e delatar ultima branch(create-Prontuario-endpoints)
     - Atualizar modelo de prontuario com todas propriedades ok
     - Criar serviço
+        - Métodos para todas propriedades e auxiliares
         - identificar páginas automaticamente.
-        - método de extração Internação
     - Validar paciente com CPF ou nome e vincular via ID. ok
     - Criar endpoint Ok
+        - Adapar método Ok
         - Armazenar no banco ou planilha após conversão. OK
-    - Adicionar logs e tratamento de exceções.
-    - Testar com diferentes prontuários e adaptar padrões.
+   
+    
 
 * Criar projeto do frontll
     * Básico
