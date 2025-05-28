@@ -105,8 +105,9 @@
 * Services
     * ProntuarioPdfExtractosService
         - identificar páginas automaticamente.
+        - adaptar método para lidar com filesteam, ao invés de path.
         - Testar com diferentes prontuários e adaptar padrões.
-         - Adicionar logs e tratamento de exceções.
+        - Adicionar logs e tratamento de exceções.
 * Refatorando Geral.
     - Debug de null reference
 
@@ -160,8 +161,9 @@
         - identificar páginas automaticamente.
     - Validar paciente com CPF ou nome e vincular via ID. ok
     - Criar endpoint Ok
-        - Adapar método Ok
+        - Adapar método repoditório Ok
         - Armazenar no banco ou planilha após conversão. OK
+        - Criar controller
    
     
 
