@@ -10,6 +10,8 @@ using UglyToad.PdfPig.AcroForms;
 using UglyToad.PdfPig.AcroForms.Fields;
 using Castle.Components.DictionaryAdapter;
 using System.Runtime.InteropServices;
+
+namespace DocAPI.Services;
 public class ProntuarioPdfExtractorService
 {
     //pathPDF  @"C:\Users\lino\Dropbox\io\Doc_Organo\teste_prontuario.pdf";

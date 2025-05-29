@@ -154,11 +154,14 @@
         - Corrigir erros no POST, não aceita null em solicitacao de internacao, testar exames.
         - Caminhos possíveis de PUT
 * feature-createRelatorioPdf  ATUAL
+    -instalar  QuestPDF
     - Criar serviço
         - Métodos para todas propriedades e auxiliares
+    - Adapar método repoditório e interfaces
+        - Pesquisa por cpf paciente
+        - pesquisar todos prontuarios por Id e Cpf da paciente.
+    - Adaptar program.cs
     - Criar endpoint 
-        - Adapar método repoditório 
-        - Armazenar no banco ou planilha após conversão. 
         - Criar controller
    
     
