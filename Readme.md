@@ -108,6 +108,10 @@
         - adaptar método para lidar com filesteam, ao invés de path.
         - Testar com diferentes prontuários e adaptar padrões.
         - Adicionar logs e tratamento de exceções.
+    * PdfGeneratorService
+        - Criar cenários, logs de erros
+        - Desenvolver validações.
+        
 * Refatorando Geral.
     - Debug de null reference
 
@@ -156,13 +160,17 @@
 * feature-createRelatorioPdf  ATUAL
     -instalar  QuestPDF
     - Criar serviço
-        - Métodos para todas propriedades e auxiliares
+        - Métodos para todas propriedades e auxiliares OK
     - Adapar método repoditório e interfaces
-        - Pesquisa por cpf paciente
-        - pesquisar todos prontuarios por Id e Cpf da paciente.
-    - Adaptar program.cs
+        - Pesquisa por cpf paciente. Ok
+        - pesquisar todos prontuarios por Id e Cpf da paciente.OK
+        - Método que gera o relatorio. OK
+    - Adaptar program.cs OK
     - Criar endpoint 
-        - Criar controller
+        - Criar controller OK
+    - Testes
+        - Criar cenários, logs de erros
+        - Desenvolver validações.
    
     
 

@@ -15,10 +15,12 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
 {
     private readonly GoogleSheetsDB _sheetsDB;
     private readonly IPacienteRepository _iPacienteRepository;
-    public ProntuarioSheetsRepository(GoogleSheetsDB sheets, IPacienteRepository iPacienteRepository)
+    private readonly PdfGeneratorService _pdfGeneratorService;
+    public ProntuarioSheetsRepository(GoogleSheetsDB sheets, IPacienteRepository iPacienteRepository, PdfGeneratorService pdfGeneratorService)
     {
         _sheetsDB = sheets;
         _iPacienteRepository = iPacienteRepository;
+        _pdfGeneratorService = pdfGeneratorService;
     }
     public async Task<IEnumerable<Prontuario>> GetAllAsync(int skip = 0, int take = 10)
     {
@@ -51,6 +53,48 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
     {
         
         return await AddProntuarioFromPdfAsync(pacienteId, pdfPath);
+    }
+    public async Task<List<Prontuario>> GetProntuarioOfPacienteAsync( Paciente paciente )
+    {
+        return await CollectProntuariosOfPacienteAsync(paciente);
+        // throw new NotImplementedException();
+    }
+    public async Task<Stream> CreateReportByIdAsync( string pacienteId )
+    {
+        var paciente = await  _iPacienteRepository.GetByIdAsync(pacienteId);
+        if(paciente == null)
+        {
+            throw new InvalidOperationException($"Paciente com ID '{pacienteId}' não encontrado.");
+        }
+        var prontuariosOfPaciente = await GetProntuarioOfPacienteAsync( paciente);
+        return _pdfGeneratorService.GeneratePatientReportPdf( paciente, prontuariosOfPaciente);
+    }
+
+    public async Task<Stream> CreateReportByCpfAsync( string pacienteCpf )
+    {
+        var paciente = await _iPacienteRepository.GetByCpfAsync(pacienteCpf);
+        if(paciente == null)
+        {
+            throw new InvalidOperationException($"Paciente com CPF '{pacienteCpf}' não encontrado.");
+        }
+        var prontuariosOfPaciente = await GetProntuarioOfPacienteAsync( paciente);
+        return _pdfGeneratorService.GeneratePatientReportPdf( paciente, prontuariosOfPaciente);
+    }
+    public async Task<List<Prontuario>> CollectProntuariosOfPacienteAsync(Paciente pacienteToCheck)
+    {
+        Console.WriteLine($"teste no collect paciente id: {pacienteToCheck.ID}");
+        var prontuariosOfPaciente = new List<Prontuario>{};
+        var prontuariosList = await GetProntuariosAsync();
+        foreach (var prontuario in prontuariosList)
+        {
+            var pacienteId = prontuario.DescricaoBasica!.PacienteId;
+            if(pacienteId == pacienteToCheck.ID)
+            {
+                prontuariosOfPaciente.Add(prontuario);
+                Console.WriteLine($"paciente encontrado: {prontuario.DescricaoBasica.NomePaciente}");
+            }
+        }
+        return prontuariosOfPaciente;
     }
     public async Task<List<Prontuario>> GetProntuariosAsync()
     {

@@ -115,6 +115,64 @@ public class ProntuarioController : ControllerBase
         if (prontuario == null) return NotFound();
         return Ok(_mapper.Map<ReadProntuarioDto>(prontuario));
     }
+    [HttpGet("{id}/report-id")]
+    public async Task<IActionResult> GetPatientReportPdf(string id)
+    {
+        // 1. Validação de entrada (Ex: se o ID não é vazio)
+        if (string.IsNullOrWhiteSpace(id))
+        {
+            return BadRequest("O ID do paciente não pode ser vazio.");
+        }
+
+        try
+        {
+            // 2. Chama o repositório que contém a lógica de negócio e as validações
+            var pdfStream = await _repository.CreateReportByIdAsync(id);
+
+            // 3. Retorna o resultado (se nenhuma exceção foi lançada)
+            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            return File(pdfStream, "application/pdf", $"RelatorioPaciente_{id}.pdf");
+        }
+        catch (InvalidOperationException ex) // Captura a exceção de negócio
+        {
+            return NotFound(ex.Message); // Retorna 404 Not Found
+        }
+        catch (Exception ex)
+        {
+            // Logar o erro completo para depuração (ex: via ILogger)
+            Console.Error.WriteLine($"Erro inesperado ao gerar relatório PDF para paciente ID {id}: {ex.Message} - {ex.StackTrace}");
+            return StatusCode(500, "Erro interno do servidor ao gerar o relatório."); // Retorna 500 Internal Server Error
+        }
+    }
+
+    // Você pode ter um endpoint similar para CPF
+    [HttpGet("{cpf}/report-cpf")]
+    public async Task<IActionResult> GetPatientReportPdfByCpf(string cpf)
+    {
+        if (string.IsNullOrWhiteSpace(cpf))
+        {
+            return BadRequest("O CPF não pode ser vazio.");
+        }
+        // Validação de formato de CPF (ex: regex) aqui no controller
+        // if (!IsValidCpfFormat(cpf)) { return BadRequest("Formato de CPF inválido."); }
+
+        try
+        {
+            var pdfStream = await _repository.CreateReportByCpfAsync(cpf);
+            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            return File(pdfStream, "application/pdf", $"RelatorioPaciente_{cpf}.pdf");
+        }
+        catch (InvalidOperationException ex)
+        {
+            return NotFound(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Erro inesperado ao gerar relatório PDF para CPF {cpf}: {ex.Message} - {ex.StackTrace}");
+            return StatusCode(500, "Erro interno do servidor ao gerar o relatório.");
+        }
+    }
+
 
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateProntuario(string id, [FromBody] UpdateProntuarioDto dto)
