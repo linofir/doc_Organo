@@ -21,6 +21,7 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.2" />
+    <PackageReference Include="QuestPDF" Version="2025.5.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageReference Include="Tabula" Version="0.1.5" />
     <PackageReference Include="Tabula.Csv" Version="0.1.5" />

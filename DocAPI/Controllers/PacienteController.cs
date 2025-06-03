@@ -73,6 +73,14 @@ public class PacienteController : ControllerBase
         if (paciente == null) return NotFound();
         return Ok(_mapper.Map<ReadPacienteDto>(paciente));
     }
+    [HttpGet("cpf/{cpf}")]
+    public async Task<IActionResult> GetByCpf(string cpf)
+    {
+        Console.WriteLine("test controller");
+        var paciente = await _repository.GetByCpfAsync(cpf);
+        if (paciente == null) return NotFound();
+        return Ok(_mapper.Map<ReadPacienteDto>(paciente));
+    }
 
     // [HttpGet("{id}")]
     // public IActionResult GetByID(string id)
@@ -84,7 +92,7 @@ public class PacienteController : ControllerBase
     //     return Ok(filmeDto);
     // }
 
-    [HttpPut("{id}")]
+[HttpPut("{id}")]
 public async Task<IActionResult> UpdatePaciente(string id, [FromBody] UpdatePacienteDto dto)
 {
     try

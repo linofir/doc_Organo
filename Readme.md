@@ -105,8 +105,13 @@
 * Services
     * ProntuarioPdfExtractosService
         - identificar páginas automaticamente.
+        - adaptar método para lidar com filesteam, ao invés de path.
         - Testar com diferentes prontuários e adaptar padrões.
-         - Adicionar logs e tratamento de exceções.
+        - Adicionar logs e tratamento de exceções.
+    * PdfGeneratorService
+        - Criar cenários, logs de erros
+        - Desenvolver validações.
+        
 * Refatorando Geral.
     - Debug de null reference
 
@@ -152,16 +157,21 @@
         - Criar testes especificos para cada endpoint
         - Corrigir erros no POST, não aceita null em solicitacao de internacao, testar exames.
         - Caminhos possíveis de PUT
-* feature-prontuarioFromPdf  ATUAL
-    - criar e delatar ultima branch(create-Prontuario-endpoints)
-    - Atualizar modelo de prontuario com todas propriedades ok
+* feature-createRelatorioPdf  ATUAL
+    -instalar  QuestPDF
     - Criar serviço
-        - Métodos para todas propriedades e auxiliares
-        - identificar páginas automaticamente.
-    - Validar paciente com CPF ou nome e vincular via ID. ok
-    - Criar endpoint Ok
-        - Adapar método Ok
-        - Armazenar no banco ou planilha após conversão. OK
+        - Métodos para todas propriedades e auxiliares OK
+    - Adapar método repoditório e interfaces
+        - Pesquisa por cpf paciente. Ok
+        - pesquisar todos prontuarios por Id e Cpf da paciente.OK
+        - Método que gera o relatorio. OK
+    - Adaptar program.cs OK
+    - Criar endpoint 
+        - Criar controller OK
+    - Testes
+        - Identificar os Logs atuantes. 
+        - Criar cenários, logs de erros
+        - Desenvolver validações.
    
     
 
