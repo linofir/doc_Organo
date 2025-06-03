@@ -169,6 +169,7 @@
     - Criar endpoint 
         - Criar controller OK
     - Testes
+        - Identificar os Logs atuantes. 
         - Criar cenários, logs de erros
         - Desenvolver validações.
    
