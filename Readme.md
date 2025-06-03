@@ -50,7 +50,7 @@
         ✔ (Opcional) Crie um Pull Request no GitHub: Se estiver colaborando com outras pessoas ou quiser deixar documentado, abra um Pull Request no site do GitHub. Isso te dá chance de revisar e aprovar antes de mesclar.
         ✔ Mescle para main: Quando tiver certeza que está tudo funcionando e testado, você pode fazer o merge: git checkout main ; git pull origin main; git merge nome-da-sua-branch; git push origin main; 
         ✔ Deletar branch antiga: git branch -d nome-da-sua-branch ; git push origin --delete nome-da-sua-branch
- 
+ feature-createRelatorioPdf
 ## Services
 * DB no google sheets(Etapa de desenvolvimento)
     ✔ Criar Task necessária na Interface 
@@ -109,6 +109,7 @@
         - Testar com diferentes prontuários e adaptar padrões.
         - Adicionar logs e tratamento de exceções.
     * PdfGeneratorService
+        - Identificar os Logs atuantes. 
         - Criar cenários, logs de erros
         - Desenvolver validações.
         
@@ -157,17 +158,15 @@
         - Criar testes especificos para cada endpoint
         - Corrigir erros no POST, não aceita null em solicitacao de internacao, testar exames.
         - Caminhos possíveis de PUT
-* feature-createRelatorioPdf  ATUAL
+* feature-CollectDemonstrativoDataService ATUAL
     -instalar  QuestPDF
     - Criar serviço
-        - Métodos para todas propriedades e auxiliares OK
+        - Métodos para todas propriedades e auxiliares 
     - Adapar método repoditório e interfaces
-        - Pesquisa por cpf paciente. Ok
-        - pesquisar todos prontuarios por Id e Cpf da paciente.OK
-        - Método que gera o relatorio. OK
     - Adaptar program.cs OK
     - Criar endpoint 
         - Criar controller OK
+        - Adaptar program.cs
     - Testes
         - Identificar os Logs atuantes. 
         - Criar cenários, logs de erros
