@@ -5,6 +5,8 @@
 # Extrernal Docs
 * [PDFPig](https://github.com/UglyToad/PdfPig/wiki)
 * [TabulaSharp](https://github.com/BobLd/tabula-sharp?tab=readme-ov-file)
+* [Closedxml](https://www.nuget.org/packages/closedxml/)
+* [NPOI](https://www.nuget.org/packages/npoi/)
 
 # Comands 
 * dotnet run --project DocAPI/DocAPI.csproj 
@@ -160,7 +162,7 @@
         - Caminhos possíveis de PUT
 * feature-CollectDemonstrativoDataService ATUAL
     -instalar  QuestPDF
-    - Criar serviço
+    - Criar serviço que extrai os dados
         - Métodos para todas propriedades e auxiliares 
     - Adapar método repoditório e interfaces
     - Adaptar program.cs OK

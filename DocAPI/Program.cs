@@ -71,5 +71,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+var pathToXlsFile = @"C:\Users\lino\Downloads\transferir (1).xls";
+var service = new CollectDemonstrativoDataService(pathToXlsFile);
+
 app.Run();
 
