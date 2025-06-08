@@ -11,6 +11,7 @@ using DocAPI.Core.Models;
 using UglyToad.PdfPig.Graphics.Colors;
 using System.Text.Json;
 using QuestPDF.Infrastructure;
+using System.Net.Http;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -72,9 +73,65 @@ app.UseAuthorization();
 app.MapControllers();
 
 var pathToXlsFile = @"C:\Users\lino\Downloads\transferir (3).xls";
-var service = new CollectDemonstrativoDataService(pathToXlsFile);
-var listaCompleta = service.ExtrairDadosFinanceiros();
-service.ObterDadosExtraidosComoJson(listaCompleta);
+var service = new FileDataExtractorService(pathToXlsFile);
+// string novoCaminho = @"C:\Users\lino\Dropbox\io\Doc_Organo\Descricao.xlsx";
+var listaCompleta = await service.ExtractDataFromFileAsync(pathToXlsFile);
+var listaJson = service.PrintDadosExtraidosComoJson(listaCompleta);
+//Console.WriteLine(result);
+
+string jsonOutputPath = @"C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\Secrets\DescricaoFinanceiraTeste.json";
+File.WriteAllText(jsonOutputPath, listaJson);
+Console.WriteLine($"\nDados extraídos com sucesso e salvos em: {jsonOutputPath}");
+            
+
+// var httpClientTest = new HttpClient();
+// // Opcional: configurar um timeout para o HttpClient
+// httpClientTest.Timeout = TimeSpan.FromSeconds(30); // 30 segundos de timeout
+
+// var service = new HtmlDataExtractorService(httpClientTest); // Use o nome da sua classe de serviço
+
+// var urlTest = "https://cooperado.unimedsorocaba.coop.br/UnimedMVC/Demonstrativo/AnaliticoVisualiza?crm=151200&sequencia=508487&periodo=202505&nrPagamento=508487&imprimir=True";
+
+// try
+// {
+//     Console.WriteLine($"Tentando extrair dados da URL: {urlTest}");
+//     List<ListaDados> dadosExtraidos = await service.ExtractDataFromUrlAsync(urlTest);
+
+//     Console.WriteLine("Dados extraídos com sucesso. Imprimindo como JSON...");
+//     // Crie uma instância da sua classe que contém o método PrintDadosExtraidosComoJson
+//     // Você pode colocar esse método dentro do próprio ThirdPartyDataExtractorService ou em uma classe utilitária.
+//     // Assumindo que você o colocou em uma classe utilitária por enquanto, ou no próprio serviço:
+//     var jsonOutput = service.PrintDadosExtraidosComoJson(dadosExtraidos); // Assumindo que está no serviço
+//     Console.WriteLine(jsonOutput);
+
+//     Console.WriteLine($"Total de Tipos de Guia encontrados: {dadosExtraidos.Count}");
+//     foreach (var lista in dadosExtraidos)
+//     {
+//         Console.WriteLine($"  Tipo de Guia: {lista.TipoGuia ?? "N/A"}, Total de Dados Financeiros: {lista.Dados?.Count ?? 0}");
+//     }
+// }
+// catch (HttpRequestException ex)
+// {
+//     Console.Error.WriteLine($"Erro HTTP ao acessar a URL: {ex.Message}");
+//     Console.Error.WriteLine($"Status Code: {ex.StatusCode}");
+// }
+// catch (Exception ex)
+// {
+//     Console.Error.WriteLine($"Erro inesperado durante a extração: {ex.Message}");
+//     Console.Error.WriteLine($"StackTrace: {ex.StackTrace}");
+// }
+// finally
+// {
+//     // É uma boa prática descartar HttpClient quando criado manualmente e não gerenciado por AddHttpClient()
+//     httpClientTest.Dispose();
+// }
+
+// var service = new HtmlDataExtractorService( httpClientTest);
+// var urlTest = "https://cooperado.unimedsorocaba.coop.br/UnimedMVC/Demonstrativo/AnaliticoVisualiza?crm=151200&sequencia=508487&periodo=202505&nrPagamento=508487&imprimir=True";
+// ListaDados listaDados = new ListaDados();
+// List<ListaDados> lista = new List<ListaDados>();
+// lista = await service.ExtractDataFromUrlAsync(urlTest);
+// service.PrintDadosExtraidosComoJson(lista);
 
 app.Run();
 

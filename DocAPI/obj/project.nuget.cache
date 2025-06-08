@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Au16CPWsHEF1AYc/p2v5SN39xUwewetUSbpvZJYdybEsYFVCdClOimWtL2LuJWqmIX0yJKbs6Qj6KNJ/KDfb+A==",
+  "dgSpecHash": "f/SlWc+98hKPRlbpu+MJpTa+9amTPKvw6Oa+C7+TjrZMxfaVnCUAuc8trgHT8r+ENtx1+BsZJUpmDP+pxlPfNQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\lino\\Projetos_Programação\\doc_Organo\\DocAPI\\DocAPI.csproj",
   "expectedPackageFiles": [
@@ -20,6 +20,7 @@
     "C:\\Users\\lino\\.nuget\\packages\\google.apis.core\\1.69.0\\google.apis.core.1.69.0.nupkg.sha512",
     "C:\\Users\\lino\\.nuget\\packages\\google.apis.drive.v3\\1.69.0.3740\\google.apis.drive.v3.1.69.0.3740.nupkg.sha512",
     "C:\\Users\\lino\\.nuget\\packages\\google.apis.sheets.v4\\1.69.0.3743\\google.apis.sheets.v4.1.69.0.3743.nupkg.sha512",
+    "C:\\Users\\lino\\.nuget\\packages\\htmlagilitypack\\1.12.1\\htmlagilitypack.1.12.1.nupkg.sha512",
     "C:\\Users\\lino\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\lino\\.nuget\\packages\\mathnet.numerics.signed\\5.0.0\\mathnet.numerics.signed.5.0.0.nupkg.sha512",
     "C:\\Users\\lino\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\7.0.0\\microsoft.aspnetcore.jsonpatch.7.0.0.nupkg.sha512",

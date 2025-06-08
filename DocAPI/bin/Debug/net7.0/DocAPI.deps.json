@@ -13,6 +13,7 @@
           "Google.Apis.Auth": "1.69.0",
           "Google.Apis.Drive.v3": "1.69.0.3740",
           "Google.Apis.Sheets.v4": "1.69.0.3743",
+          "HtmlAgilityPack": "1.12.1",
           "Microsoft.AspNetCore.Mvc.NewtonsoftJson": "7.0.0",
           "Microsoft.AspNetCore.OpenApi": "7.0.11",
           "Microsoft.EntityFrameworkCore": "6.0.10",
@@ -204,6 +205,14 @@
           "lib/net6.0/Google.Apis.Sheets.v4.dll": {
             "assemblyVersion": "1.69.0.3743",
             "fileVersion": "1.69.0.3743"
+          }
+        }
+      },
+      "HtmlAgilityPack/1.12.1": {
+        "runtime": {
+          "lib/netstandard2.0/HtmlAgilityPack.dll": {
+            "assemblyVersion": "1.12.1.0",
+            "fileVersion": "1.12.1.0"
           }
         }
       },
@@ -1753,6 +1762,13 @@
       "sha512": "sha512-OovUVqCSg6NwGXxucOQcv4WjOfowX1+iQotEd9b/ZHHpuhCDYOpipSZN+AFusTonYq+OKQHjWxz8KJ8az4kHzw==",
       "path": "google.apis.sheets.v4/1.69.0.3743",
       "hashPath": "google.apis.sheets.v4.1.69.0.3743.nupkg.sha512"
+    },
+    "HtmlAgilityPack/1.12.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-SP6/2Y26CXtxjXn0Wwsom9Ek35SNWKHEu/IWhNEFejBSSVWWXPRSlpqpBSYWv1SQhYFnwMO01xVbEdK3iRR4hg==",
+      "path": "htmlagilitypack/1.12.1",
+      "hashPath": "htmlagilitypack.1.12.1.nupkg.sha512"
     },
     "Humanizer.Core/2.8.26": {
       "type": "package",

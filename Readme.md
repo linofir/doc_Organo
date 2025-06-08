@@ -7,6 +7,7 @@
 * [TabulaSharp](https://github.com/BobLd/tabula-sharp?tab=readme-ov-file)
 * [Closedxml](https://www.nuget.org/packages/closedxml/)
 * [NPOI](https://www.nuget.org/packages/npoi/)
+* [htmlagilitypack](https://www.nuget.org/packages/htmlagilitypack/)
 
 # Comands 
 * dotnet run --project DocAPI/DocAPI.csproj 
@@ -122,6 +123,8 @@
 * create-Prontuario-endpoints
     - Adaptar GoogleSheetsDB pra todas entidades, ou criar novos métodos se possível.
     - Criar todos métodos do repositório.
+        
+            
     - Alterações no model, 
         - novas porpriedades em internacao, descricao basica
     - Alterações nos Dtos de Prontuario.
@@ -163,7 +166,21 @@
 * feature-CollectDemonstrativoDataService ATUAL
     -instalar  QuestPDF
     - Criar serviço que extrai os dados
-        - Métodos para todas propriedades e auxiliares 
+        - Classe de extração pelo arquivo.
+            - Métodos de extração dos dados por html.OK
+            - Método de Método para leitura dos arquivos. 
+                - Validação do arquivo. OK
+                - Leitura. Ok
+                - Armazenamento json. 
+                    - Categorizar Descrições por Períodos, para isso Coletar info do período dos dados.
+            - Logica para validação financeira
+        - Classe de extração usadno scrapping Incompleto
+            - Método de extração da url. Incompleto
+            - Fazer uma requisição GET inicial para a página de login:
+            - Fazer uma requisição POST para a URL de processamento de login
+            - Gerenciar Cookies:
+            - Automatizar, periodicidade . 
+* Próximo dev.
     - Adapar método repoditório e interfaces
     - Adaptar program.cs OK
     - Criar endpoint 
