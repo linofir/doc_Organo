@@ -75,13 +75,21 @@ app.MapControllers();
 var pathToXlsFile = @"C:\Users\lino\Downloads\transferir (3).xls";
 var service = new FileDataExtractorService(pathToXlsFile);
 // string novoCaminho = @"C:\Users\lino\Dropbox\io\Doc_Organo\Descricao.xlsx";
-var listaCompleta = await service.ExtractDataFromFileAsync(pathToXlsFile);
-var listaJson = service.PrintDadosExtraidosComoJson(listaCompleta);
+var descritivo = await service.ExtractDataFromFileAsync(pathToXlsFile);
+Console.WriteLine($"período do descritivo: {descritivo}");
+var descritivoJson = await service.PrintDadosExtraidosComoJson(new List<DescritivoFinanceiro>(){descritivo});
 //Console.WriteLine(result);
+if (descritivo != null)
+{
+    service.SaveDescritivo(descritivo);
+}
 
 string jsonOutputPath = @"C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\Secrets\DescricaoFinanceiraTeste.json";
-File.WriteAllText(jsonOutputPath, listaJson);
+await File.WriteAllTextAsync(jsonOutputPath, descritivoJson);
 Console.WriteLine($"\nDados extraídos com sucesso e salvos em: {jsonOutputPath}");
+
+
+// Dictionary<>
             
 
 // var httpClientTest = new HttpClient();

@@ -139,3 +139,5 @@ C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\bin\Debug\net7.0\System.S
 C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\bin\Debug\net7.0\System.Security.Cryptography.Xml.dll
 C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\bin\Debug\net7.0\runtimes\win\lib\net7.0\System.Security.Cryptography.Pkcs.dll
 C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\bin\Debug\net7.0\HtmlAgilityPack.dll
+C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\bin\Debug\net7.0\Secrets\DescricaoFinanceiraTeste.json
+C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\bin\Debug\net7.0\Secrets\DescricoesFinanceiras\DescricaoFinanceira2025.json

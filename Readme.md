@@ -172,14 +172,15 @@
                 - Validação do arquivo. OK
                 - Leitura. Ok
                 - Armazenamento json. 
-                    - Categorizar Descrições por Períodos, para isso Coletar info do período dos dados.
+                    - Categorizar Descrições por Períodos, para isso Coletar info do período dos dados. 
+                    - Criar método que Cria o arquivo json para DB.
             - Logica para validação financeira
         - Classe de extração usadno scrapping Incompleto
             - Método de extração da url. Incompleto
             - Fazer uma requisição GET inicial para a página de login:
             - Fazer uma requisição POST para a URL de processamento de login
             - Gerenciar Cookies:
-            - Automatizar, periodicidade . 
+            - Automatizar, periodicidade
 * Próximo dev.
     - Adapar método repoditório e interfaces
     - Adaptar program.cs OK

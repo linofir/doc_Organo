@@ -11,6 +11,7 @@ using DocumentFormat.OpenXml.Drawing;
 using System.Globalization;
 using HtmlAgilityPack;
 using NPOI.SS.Formula.Functions;
+using System.Text;
 
 namespace DocAPI.Services;
 public class DadosFinanceiros
@@ -34,7 +35,13 @@ public class DadosFinanceiros
 public class ListaDados
 {
     public string? TipoGuia { get; set; }
+    // public string? Periodo { get; set; }
     public List<DadosFinanceiros>? Dados { get; set; }
+}
+public class DescritivoFinanceiro
+{
+    public DateOnly? Periodo { get; set; }
+    public List<ListaDados>? Descritivo { get; set; }
 }
 
 public class FileDataExtractorService
@@ -88,7 +95,7 @@ public class FileDataExtractorService
 
         return $"Desconhecido (Header: {headerHex})";
     }
-    public async Task<List<ListaDados>> ExtractDataFromFileAsync(string filePath)
+    public async Task<DescritivoFinanceiro> ExtractDataFromFileAsync(string filePath)
     {
         if (!File.Exists(filePath))
         {
@@ -111,12 +118,47 @@ public class FileDataExtractorService
         // Console.WriteLine("--- Fim do Conteúdo HTML ---");
         return ParseAndProcessHtml(htmlContent);
     }
-    public List<ListaDados> ParseAndProcessHtml(string htmlContent)
+    public DescritivoFinanceiro ParseAndProcessHtml(string htmlContent)
     {
         var htmlDoc = new HtmlDocument();
         htmlDoc.LoadHtml(htmlContent);
 
+        DescritivoFinanceiro descritivo = new DescritivoFinanceiro();
         var allCategorizedData = new List<ListaDados>();
+
+        var periodoNode = htmlDoc.DocumentNode.SelectSingleNode("//td[@class='grid-periodo']");
+
+        if (periodoNode != null)
+        {
+            string fullText = CleanHtmlText(periodoNode.InnerHtml);
+            const string searchString = "Período:";
+            int startIndex = fullText.IndexOf(searchString, StringComparison.OrdinalIgnoreCase);
+
+            if (startIndex != -1)
+            {
+                string datePart = fullText.Substring(startIndex + searchString.Length).Trim(); // Obtém "05/2025"
+
+                // Tenta parsear "MM/yyyy" para DateOnly
+                if (DateOnly.TryParseExact(datePart, "MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateOnly result))
+                {
+                    descritivo.Periodo = result;
+                    Console.WriteLine($"Período de Referência encontrado: {descritivo.Periodo}");
+                }
+                else
+                {
+                    Console.Error.WriteLine($"Aviso: Não foi possível parsear o período '{datePart}' (formato esperado MM/yyyy) para DateOnly.");
+                }
+            }
+            else
+            {
+                Console.Error.WriteLine($"Aviso: Texto 'Período:' não encontrado na célula com classe 'grid-periodo'.");
+            }
+        }
+        else
+        {
+            Console.Error.WriteLine($"Aviso: Célula com classe 'grid-periodo' não encontrada no HTML.");
+        }
+
 
         // Seleciona todas as tabelas cujos IDs começam com "DataTables_Table_"
         // usando um seletor XPath mais genérico ou LINQ para filtrar os nós
@@ -128,7 +170,7 @@ public class FileDataExtractorService
             foreach (var tableNode in dataTableNodes)
             {
                 var tableId = tableNode.Id; // Obtém o ID da tabela
-                Console.WriteLine($"Processando tabela com ID: {tableId}");
+                // Console.WriteLine($"Processando tabela com ID: {tableId}");
 
                 allCategorizedData.Add(ExtractTableData(htmlDoc, tableId));
             }
@@ -137,8 +179,8 @@ public class FileDataExtractorService
         {
             Console.WriteLine("Nenhuma tabela com ID 'DataTables_Table_X' encontrada.");
         }
-
-        return allCategorizedData;
+        descritivo.Descritivo = allCategorizedData;
+        return descritivo;
     }
     private ListaDados ExtractTableData(HtmlDocument htmlDoc, string tableId)
     {
@@ -152,7 +194,7 @@ public class FileDataExtractorService
             var thead = tableNode.SelectSingleNode(".//thead");
             if(thead != null)
             {
-                Console.WriteLine($"thead encontrado..");
+                // Console.WriteLine($"thead encontrado..");
                 var headerTds = thead.SelectNodes(".//tr");
                 var lastTrInThead = thead.SelectNodes(".//tr")?.LastOrDefault();
                 if( lastTrInThead != null)
@@ -161,7 +203,7 @@ public class FileDataExtractorService
 
                         if (tdWithTipoGuia != null)
                         {
-                            Console.WriteLine("Encontrou o campo tipo");
+                            // Console.WriteLine("Encontrou o campo tipo");
                             string fullText = CleanHtmlText(tdWithTipoGuia.InnerHtml);
                             const string searchString = "Tipo de guia:";
                             int startIndex = fullText.IndexOf(searchString, StringComparison.OrdinalIgnoreCase);
@@ -170,7 +212,7 @@ public class FileDataExtractorService
                             {
                                 string tipoGuiaValue = fullText.Substring(startIndex + searchString.Length).Trim();
                                 listaDadosFinanceiros.TipoGuia = tipoGuiaValue;
-                                Console.WriteLine($"Tipo de Guia encontrado para tabela {tableId}: {tipoGuiaValue}");
+                                // Console.WriteLine($"Tipo de Guia encontrado para tabela {tableId}: {tipoGuiaValue}");
                             }else
                             {
                                 Console.WriteLine($"Aviso: 'Tipo de guia:' texto não encontrado na célula esperada no último tr do thead para tabela {tableId}.");
@@ -259,6 +301,7 @@ public class FileDataExtractorService
                 listaDadosFinanceiros.Dados = dadosFinanceiros;
             }
         }
+        // Console.WriteLine($"Dados extraídos...Tipo de Guia:{listaDadosFinanceiros.TipoGuia}");
         return listaDadosFinanceiros;
     }
     private string CleanHtmlText(string html)
@@ -509,16 +552,189 @@ public class FileDataExtractorService
 
         return listaCompleta;
     }
-    public string PrintDadosExtraidosComoJson(List<ListaDados> dadosExtraidos)
+    public async Task<string> PrintDadosExtraidosComoJson(List<DescritivoFinanceiro> dadosExtraidos)
     {
         var options = new JsonSerializerOptions
-        {
-            WriteIndented = true, // para formatar bonitinho
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase, // estilo camelCase
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-        };
+    {
+        WriteIndented = true, // para formatar bonitinho
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase, // estilo camelCase
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+    };
 
-        return JsonSerializer.Serialize(dadosExtraidos, options);
+    // Cria um MemoryStream para escrever o JSON de forma assíncrona
+    using (var stream = new MemoryStream())
+    {
+        // Serializa os dados para o stream de forma assíncrona
+        await JsonSerializer.SerializeAsync(stream, dadosExtraidos, options);
+
+        // Volta a posição do stream para o início para que possamos ler o conteúdo
+        stream.Seek(0, SeekOrigin.Begin);
+
+        // Lê o conteúdo do stream para uma string de forma assíncrona
+        using (var reader = new StreamReader(stream, Encoding.UTF8))
+        {
+            return await reader.ReadToEndAsync();
+        }
+    }
+    }
+    public async Task SaveDescritivo(DescritivoFinanceiro newDescritivo)
+    {
+        Console.WriteLine("Salvando...");
+        string baseDirectory = @"C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\Secrets\";
+        string outputDirectory = System.IO.Path.Combine(baseDirectory, "DescricoesFinanceiras");
+        string descricoesFinanceirasAnuaisPath = System.IO.Path.Combine(outputDirectory, "DescricaoFinanceira2025.json");
+
+        // OU (se você insiste neste caminho)
+        // string descricoesFinanceirasAnuaisPath = @"C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\Secrets\DescrivoesFinanceiras\DescricaoFinanceira2025.json";
+
+
+        // GARANTA QUE O DIRETÓRIO EXISTE ANTES DE QUALQUER OPERAÇÃO DE ARQUIVO
+        string? directory = System.IO.Path.GetDirectoryName(descricoesFinanceirasAnuaisPath);
+        if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
+        {
+            try
+            {
+                Directory.CreateDirectory(directory);
+                Console.WriteLine($"Diretório '{directory}' criado com sucesso.");
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Console.Error.WriteLine($"ERRO: Sem permissão para criar o diretório '{directory}'. Detalhes: {ex.Message}");
+                Console.Error.WriteLine("Por favor, verifique as permissões da pasta ou mude o caminho de destino.");
+                // return;
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"ERRO: Não foi possível criar o diretório '{directory}'. Detalhes: {ex.Message}");
+                //return;
+            }
+        }
+        // List<DescritivoFinanceiro> descritivoAnual = new List<DescritivoFinanceiro>();
+        // List<DescritivoFinanceiro> existingDescritivos = new List<DescritivoFinanceiro>();
+        // string descricoesFinanceirasAnuaisPath = @"C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\Secrets\DescrivoesFinanceiras\DescricaoFinanceira2025.json";
+
+        List<DescritivoFinanceiro> existingDescritivos = await LoadDescritivosFromFile(descricoesFinanceirasAnuaisPath);
+        
+        //Converir periodo de descritivo
+        if (!newDescritivo.Periodo.HasValue)
+        {
+            Console.WriteLine("Aviso: O novo descritivo não possui um Período de Referência válido. Não será adicionado ou verificado.");
+            //return; // Sai do método se o período for inválido
+        }
+
+        // Usa LINQ para verificar se já existe um descritivo com o mesmo período
+         bool exists = existingDescritivos.Any(d =>
+            d.Periodo.HasValue &&
+            // Compara APENAS mês e ano para considerar "01/02/2025" e "15/02/2025" como o mesmo período
+            d.Periodo.Value.Month == newDescritivo.Periodo.Value.Month &&
+            d.Periodo.Value.Year == newDescritivo.Periodo.Value.Year
+        );
+        Console.WriteLine($"Verificando descripões já salvas, para {existingDescritivos.Count()}");
+        foreach (var desc in existingDescritivos)
+        {
+            Console.WriteLine($"Descriçao do período: {desc.Periodo}");
+        }
+        
+        if (!exists)
+        {
+            existingDescritivos.Add(newDescritivo);
+            // Opcional: Ordenar a lista por período para manter o JSON sempre em ordem cronológica
+            existingDescritivos = existingDescritivos.OrderBy(d => d.Periodo).ToList();
+
+            // Serializa a lista atualizada para uma string JSON
+            string descritivosJson = await PrintDadosExtraidosComoJson(existingDescritivos);
+            Console.WriteLine("Verificando descripões após validação");
+            foreach (var desc in existingDescritivos)
+            {
+                Console.WriteLine($"Descrilçai do período: {desc.Periodo}");
+            }
+
+            try
+            {
+                // Grava a string JSON no arquivo, sobrescrevendo o conteúdo anterior
+                await File.WriteAllTextAsync(descricoesFinanceirasAnuaisPath, descritivosJson);
+                Console.WriteLine($"\nNovo descritivo para o período {newDescritivo.Periodo.Value.ToString("MM/yyyy")} salvo com sucesso em: {descricoesFinanceirasAnuaisPath}");
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Console.Error.WriteLine($"ERRO: Acesso negado ao tentar escrever no arquivo '{descricoesFinanceirasAnuaisPath}'. Detalhes: {ex.Message}");
+                Console.Error.WriteLine("Por favor, verifique as permissões da pasta e do arquivo.");
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Erro ao salvar o arquivo '{descricoesFinanceirasAnuaisPath}': {ex.Message}");
+            }
+        }
+        else
+        {
+            // Se o descritivo já existe, informa o usuário e não faz nada
+            Console.WriteLine($"\nDescritivo para o período {newDescritivo.Periodo.Value.ToString("MM/yyyy")} já existe no arquivo. Não será sobrescrito.");
+        }
+
+        // descritivoAnual.Add(descritivo);
+        // var descritivoJson = PrintDadosExtraidosComoJson(descritivoAnual);   
+        // File.WriteAllText(descricoesFinanceirasAnuaisPath, descritivoJson);
+        // Console.WriteLine($"\nDados Salvos com sucesso e salvos em: {descricoesFinanceirasAnuaisPath}");
+
+    }
+    private async Task<List<DescritivoFinanceiro>> LoadDescritivosFromFile(string filePath)
+    {
+        Console.WriteLine("Loading...");
+        if (!File.Exists(filePath))
+        {
+            Console.WriteLine($"Arquivo '{filePath}' não encontrado. Iniciando com uma nova lista vazia.");
+            return new List<DescritivoFinanceiro>();
+        }
+
+        try
+        {
+            string jsonContent = await File.ReadAllTextAsync(filePath);
+            if (string.IsNullOrWhiteSpace(jsonContent))
+            {
+                Console.WriteLine($"Aviso: Arquivo '{filePath}' está vazio ou contém apenas espaços em branco. Iniciando com uma nova lista vazia.");
+                return new List<DescritivoFinanceiro>();
+            }
+            
+            using(var stream = new MemoryStream(Encoding.UTF8.GetBytes(jsonContent)))
+            {
+                // Agora, JsonSerializer.DeserializeAsync pode ler do stream
+                // Você pode passar JsonSerializerOptions se precisar, como no PrintDadosExtraidosComoJson
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase // Mantenha a mesma política
+                    // ... outras opções que você usa para serializar, se houver
+                };
+
+                var deserializedList = await JsonSerializer.DeserializeAsync<List<DescritivoFinanceiro>>(stream, options);
+
+            //var deserializedList = await JsonSerializer.DeserializeAsync<List<DescritivoFinanceiro>>(jsonContent);
+
+                if (deserializedList == null)
+                {
+                    Console.WriteLine($"Aviso: Conteúdo do arquivo '{filePath}' resultou em lista nula após deserialização. Iniciando com uma nova lista vazia.");
+                    return new List<DescritivoFinanceiro>();
+                }
+                Console.WriteLine($"Verificando descrições loading.. Itens carregados: {deserializedList.Count}");
+                Console.WriteLine("Verificando descripões loading..");
+                foreach (var desc in deserializedList)
+                {
+                    var test = desc.Periodo.HasValue ? desc.Periodo.Value.ToString("dd/MM/yyyy") : "Período NULO/INVÁLIDO";
+                    Console.WriteLine($"  Descriçao do período carregado: {test}");
+                }
+
+                return deserializedList;
+            }
+        }
+        catch (JsonException ex)
+        {
+            Console.Error.WriteLine($"Erro ao deserializar o arquivo JSON '{filePath}': {ex.Message}. O arquivo pode estar corrompido ou mal formatado. Iniciando com uma nova lista vazia.");
+            return new List<DescritivoFinanceiro>();
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Erro ao ler o arquivo '{filePath}': {ex.Message}. Iniciando com uma nova lista vazia.");
+            return new List<DescritivoFinanceiro>();
+        }
     }
     
 }
