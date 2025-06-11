@@ -5,7 +5,7 @@
 # Extrernal Docs
 * [PDFPig](https://github.com/UglyToad/PdfPig/wiki)
 * [TabulaSharp](https://github.com/BobLd/tabula-sharp?tab=readme-ov-file)
-* [Closedxml](https://www.nuget.org/packages/closedxml/)
+* [Closedxml](https://www.nuget.org/packages/closedxml/) Provavelmente não será usada
 * [NPOI](https://www.nuget.org/packages/npoi/)
 * [htmlagilitypack](https://www.nuget.org/packages/htmlagilitypack/)
 
@@ -164,18 +164,18 @@
         - Corrigir erros no POST, não aceita null em solicitacao de internacao, testar exames.
         - Caminhos possíveis de PUT
 * feature-CollectDemonstrativoDataService ATUAL
-    -instalar  QuestPDF
+    -instalar Bibliotecas
     - Criar serviço que extrai os dados
         - Classe de extração pelo arquivo.
             - Métodos de extração dos dados por html.OK
             - Método de Método para leitura dos arquivos. 
                 - Validação do arquivo. OK
                 - Leitura. Ok
-                - Armazenamento json. 
+                - Armazenamento json.  OK
                     - Categorizar Descrições por Períodos, para isso Coletar info do período dos dados. 
                     - Criar método que Cria o arquivo json para DB.
             - Logica para validação financeira
-        - Classe de extração usadno scrapping Incompleto
+        - Classe de extração usando scrapping Incompleto
             - Método de extração da url. Incompleto
             - Fazer uma requisição GET inicial para a página de login:
             - Fazer uma requisição POST para a URL de processamento de login
