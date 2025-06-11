@@ -77,23 +77,25 @@
             - criação dos props ok
             - Lista de Exames, criação do service de extração, crição do cli ok
             - Criar base de dados procedimentos e CID ok
-        - Agendamento Cirurgico ok
+        - Agendamento Cirurgico 
         - FollowUP
     * Dtos
         - Paciente Ok
         - Endereco ok
         - Prontuario ok
-        - Agendamento ok
+        - Agendamento 
         - FollowUp
 
     * Profile
         - Paciente Ok
         - Prontuario Ok
-        - Agendamento Ok
+        - Agendamento
+        - FollowUp 
     * Definir interfaces
         - Paciente ok
         - Prontuario ok
         - Agendamento
+        - FollowUp
     * DB google sheets
         - Configurar as APis na cloud OK
         - Criar novo serviço, criar teste de primeiro acesso ok
@@ -101,7 +103,9 @@
         - Refatorar com métodos auxiliares, contrução do body das planilhas
     * Criar Controllers
         - Paciente, definir endpoints básicos ok
-        - Prontuario, definir endpoints básicos 
+        - Prontuario, definir endpoints básicos  ok
+        - Agendamentos
+        - FollowUp
         - Requisições from form.
     * DBContext
         - Criar do zero 
@@ -115,16 +119,22 @@
         - Identificar os Logs atuantes. 
         - Criar cenários, logs de erros
         - Desenvolver validações.
+    * feature-CollectDemonstrativoDataService ATUAL
+        - Criar serviço que extrai os dados
+            - Classe de extração usando scrapping Incompleto
+                - Método de extração da url. Incompleto
+                - Fazer uma requisição GET inicial para a página de login:
+                - Fazer uma requisição POST para a URL de processamento de login
+                - Gerenciar Cookies:
+                - Automatizar, periodicidade
+        - Logica para validação financeira
         
 * Refatorando Geral.
     - Debug de null reference
 
-
 * create-Prontuario-endpoints
     - Adaptar GoogleSheetsDB pra todas entidades, ou criar novos métodos se possível.
-    - Criar todos métodos do repositório.
-        
-            
+    - Criar todos métodos do repositório.     
     - Alterações no model, 
         - novas porpriedades em internacao, descricao basica
     - Alterações nos Dtos de Prontuario.
@@ -163,27 +173,25 @@
         - Criar testes especificos para cada endpoint
         - Corrigir erros no POST, não aceita null em solicitacao de internacao, testar exames.
         - Caminhos possíveis de PUT
-* feature-CollectDemonstrativoDataService ATUAL
-    -instalar Bibliotecas
-    - Criar serviço que extrai os dados
-        - Classe de extração pelo arquivo.
-            - Métodos de extração dos dados por html.OK
-            - Método de Método para leitura dos arquivos. 
-                - Validação do arquivo. OK
-                - Leitura. Ok
-                - Armazenamento json.  OK
-                    - Categorizar Descrições por Períodos, para isso Coletar info do período dos dados. 
-                    - Criar método que Cria o arquivo json para DB.
-            - Logica para validação financeira
-        - Classe de extração usando scrapping Incompleto
-            - Método de extração da url. Incompleto
-            - Fazer uma requisição GET inicial para a página de login:
-            - Fazer uma requisição POST para a URL de processamento de login
-            - Gerenciar Cookies:
-            - Automatizar, periodicidade
-* Próximo dev.
-    - Adapar método repoditório e interfaces
-    - Adaptar program.cs OK
+
+* Próximo feature-Agendamento. Atual
+    - Cria model
+    - Criar Dtos
+    - Criar método repositório e interfaces
+    - Adaptar program.cs 
+    - Criar endpoint 
+        - Criar controller OK
+        - Adaptar program.cs
+    - Testes
+        - Identificar os Logs atuantes. 
+        - Criar cenários, logs de erros
+        - Desenvolver validações.
+        
+* Próximo feature-followUp. prox dev
+    - Cria model
+    - Criar Dtos
+    - Criar método repositório e interfaces
+    - Adaptar program.cs 
     - Criar endpoint 
         - Criar controller OK
         - Adaptar program.cs
