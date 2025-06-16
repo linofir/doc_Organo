@@ -9,14 +9,14 @@ public class Prontuario
     public Prontuario() { }
     [Key]
     [Required(ErrorMessage = "Este campo é obrigatório")]
-    public string ID { get; set; }
+    public string? ID { get; set; }
     public Prontuario(Paciente paciente)
     {
         ID = Guid.NewGuid().ToString();
         DescricaoBasica = new DescricaoBasica(paciente); 
     }
     [Required(ErrorMessage = "A data é obrigatória")]
-    public DateTime DataRequisicao {get; set; } 
+    public DateTime? DataRequisicao {get; set; } 
     [Required]
     public DescricaoBasica? DescricaoBasica { get; set; }
 
@@ -31,10 +31,10 @@ public class Prontuario
 
     public List<AcoesCD>? CD { get; set; }   
 
-    public string InformacoesExtras { get; set; } = string.Empty;
+    public string? InformacoesExtras { get; set; } = string.Empty;
 
     public List<Exame> Exames { get; set; }
-    public Internacao SolicitacaoInternacao { get; set;}
+    public Internacao? SolicitacaoInternacao { get; set;}
 }        
 
 public class DescricaoBasica
@@ -63,7 +63,7 @@ public class DescricaoBasica
 
     [Required(ErrorMessage = "O campo queixa/encaminhamento é obrigatório")]
     public string? QD { get; set; }
-    public string AtividadeFisica { get; set; } = string.Empty; ////////////////////
+    public string? AtividadeFisica { get; set; } = string.Empty; ////////////////////
 }
     
     public class AGO

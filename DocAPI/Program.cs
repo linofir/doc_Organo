@@ -46,6 +46,7 @@ builder.Services.AddSingleton<GoogleSheetsDB>();
 builder.Services.AddSingleton<PdfGeneratorService>();
 builder.Services.AddScoped<IPacienteRepository, PacienteSheetsRepository>();
 builder.Services.AddScoped<IProntuarioRepository, ProntuarioSheetsRepository>();
+builder.Services.AddScoped<IAgendamentoRepository, AgendamentoSheetsRepository>();
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
     {

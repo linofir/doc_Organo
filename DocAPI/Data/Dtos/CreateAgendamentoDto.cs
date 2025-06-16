@@ -1,21 +1,26 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using static DocAPI.Core.Models.Agendamento;
 
 namespace DocAPI.Data.Dtos.AgendamentoDtos
 {
     public class CreateAgendamentoDto
     {
-        // Paciente já cadastrado (usado no serviço para popular Nome, se preferir)
         [Required(ErrorMessage = "O paciente é obrigatório")]
         public string PacienteId { get; set; } = string.Empty;
-
+        [Required(ErrorMessage = "O paciente é obrigatório")]
+        public string Nome { get; set; } = string.Empty;
         [Required(ErrorMessage = "Este campo é obrigatório")]
-        public DateTime? Data { get; set; }
-
+        public string? Aviso { get; set; }
         [Required(ErrorMessage = "Este campo é obrigatório")]
-        public string Cirurgia { get; set; } = string.Empty;
-
+        public DateOnly? Data { get; set; }
+        public TimeOnly Horario { get; set; }
         [Required(ErrorMessage = "Este campo é obrigatório")]
-        public string Local { get; set; } = string.Empty;
+        public string? Procedimento { get; set; }
+        [Required(ErrorMessage = "Este campo é obrigatório")]
+        public string? Local { get; set; }
+        public string? Sala { get; set; }
+        public Senha? SenhaAgendamento { get; set; }
+        public StatusAgendamento?  Status { get; set; }
     }
 }

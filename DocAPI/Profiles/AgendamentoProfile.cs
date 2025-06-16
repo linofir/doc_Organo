@@ -9,13 +9,15 @@ namespace DocAPI.Profiles
         public AgendamentoProfile()
         {
             /* ---------- Agendamento ---------- */
+            //Criação do ID e atrubuir os dados de paciente serão feitas no serviço 
             CreateMap<CreateAgendamentoDto, Agendamento>();
-
+            CreateMap<Agendamento, UpdateAgendamentoDto>();
             CreateMap<UpdateAgendamentoDto, Agendamento>()
                 // garante que ID e Nome (derivado do paciente) não sejam sobrescritos no update
-                .ForMember(dest => dest.ID,   opt => opt.Ignore())
-                .ForMember(dest => dest.Nome, opt => opt.Ignore());
-
+                .ForMember(dest => dest.ID,   opt => opt.Ignore());
+                // .ForMember(dest => dest.PacienteID,   opt => opt.Ignore())
+                // .ForMember(dest => dest.Nome, opt => opt.Ignore());
+            //Definir se preciso exibir os ID e PacienteID
             CreateMap<Agendamento, ReadAgendamentoDto>();
         }
     }

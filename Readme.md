@@ -15,7 +15,6 @@
     dotnet run --extract
 
 # Diretrizes 
-   
     * Etapas para alterar modelos (ex: Paciente.cs):
         - Alterar ou criar o modelo (Models/Paciente.cs)
 
@@ -89,10 +88,11 @@
     * Profile
         - Paciente Ok
         - Prontuario Ok
-        - Agendamento
+        - Agendamento Ok
         - FollowUp 
-    * Definir interfaces
+    * Definir interfaces e Repositórios
         - Paciente ok
+            - Transpor funcionalidade de Criar um relatorio geral para o repositório Paciente ao invés de Prontuario.
         - Prontuario ok
         - Agendamento
         - FollowUp
@@ -131,6 +131,10 @@
         
 * Refatorando Geral.
     - Debug de null reference
+    - Refatorar método de Get específicos, iguais ao agendamento.
+    - Alinhar os Enuns aos valores das tabelas do Sheets.
+    - Regras dos sheets defasadas, validaçoes, funções etc.
+    - Documentaçao Geral.
 
 * create-Prontuario-endpoints
     - Adaptar GoogleSheetsDB pra todas entidades, ou criar novos métodos se possível.
@@ -175,20 +179,43 @@
         - Caminhos possíveis de PUT
 
 * Próximo feature-Agendamento. Atual
-    - Cria model
-    - Criar Dtos
+    - Adaptar model Ok
+        - Adaptar procedimentos. aceitar uma lista
+    - daptar Dtos Ok
+    - Serviço para coleta de Senha, prop de agenda
     - Criar método repositório e interfaces
-    - Adaptar program.cs 
+        - endpoints básicos. 
+            - GestAll OK, 
+            - GETby(Id,Nome,PacienteId) Avaliar.
+                - Método GET OK
+                    - Método unificado para filtragem OK, 
+                    - que lide com tipos diferentes. Incompleto.
+            - POST OK
+                - Adicionar na ultima linha da planilha,append Incompleto
+                - Criar o ID Problema da geração do ID fora do contrutor. Incompleto
+            - PUT OK
+                - Método já deve buscar diretamente na coluna id. OK
+                - Os parametros podem ser associados. Incompleto
+            - DELETE OK
+                - Método deve procurar diretamente  a linha. Ok
+        - Coleta de informações diretamente, arquivos do site, email, 
+    - Profile. mapper Ok
+    - Adaptar program.cs  Ok
     - Criar endpoint 
         - Criar controller OK
-        - Adaptar program.cs
+            - GET, GetId, GET-Byname, Get-byPacienteId, POST, PUT, DELETE
+            - Criar controller de filter. Incompleto
+        - Adaptar program.cs OK
     - Testes
-        - Identificar os Logs atuantes. 
-        - Criar cenários, logs de erros
-        - Desenvolver validações.
-        
+        - Construir uma camada de logger. 
+        - Criar cenários de testes, logs de erros, menssagens de excessão 
+        - Revisar validaçoes .
+
+
+
+///////
 * Próximo feature-followUp. prox dev
-    - Cria model
+    - Criar model
     - Criar Dtos
     - Criar método repositório e interfaces
     - Adaptar program.cs 
@@ -216,25 +243,4 @@
 
 
 ### Hint 
-* Dica para sereialização para o front usando enum:
-```builder.Services
-    .AddControllers()
-    .AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-    });
-```
-## ToDO old
-* Criar Um CRUD. ok
-* Estruturar um DB usando o framework Entity. ok
-* Estruturar o Mapper. ok
-* Implemantar novas entidades: Consulta, consultório. ok
-* Definir suas relações, config do mapper. ok
-* configurar laziness. ok
-* Implementar relação Paciente com Consulta. ok
-* Implementar a exibição das listas de consultas por pacientes e por consultório. pendente/estudar melhor forma
-* Implementar relação Paciente - Consultório.
-* Aplicar regras de deleção. para todas entidades.
-* Consultas Específicas, LINQ.
 
-*

@@ -80,6 +80,7 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
         var prontuariosOfPaciente = await GetProntuarioOfPacienteAsync( paciente);
         return _pdfGeneratorService.GeneratePatientReportPdf( paciente, prontuariosOfPaciente);
     }
+    //talvez seja melhor fazer uma busca direta
     public async Task<List<Prontuario>> CollectProntuariosOfPacienteAsync(Paciente pacienteToCheck)
     {
         Console.WriteLine($"teste no collect paciente id: {pacienteToCheck.ID}");
@@ -324,7 +325,7 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
                 new List<object>
                 {
                     descricao.NomePaciente,
-                    prontuario.DataRequisicao.ToString("dd/MM/yyyy"),
+                    prontuario.DataRequisicao,
                     examesFormatados,
                     prontuario.ID
                 }
@@ -339,7 +340,7 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
                 new List<object>
                 {
                     descricao.NomePaciente,
-                    prontuario.DataRequisicao.ToString("dd/MM/yyyy"),
+                    prontuario.DataRequisicao,
                     procedimentosFormatados,
                     prontuario.SolicitacaoInternacao.IndicacaoClinica,
                     prontuario.SolicitacaoInternacao.Observacao,
@@ -475,7 +476,7 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
                     new List<object>
                     {
                         descricao.NomePaciente,
-                        prontuario.DataRequisicao.ToString("dd/MM/yyyy"),
+                        prontuario.DataRequisicao,
                         examesFormatados,
                         prontuario.ID
                     }
@@ -495,7 +496,7 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
                     new List<object>
                     {
                         descricao.NomePaciente,
-                        prontuario.DataRequisicao.ToString("dd/MM/yyyy"),
+                        prontuario.DataRequisicao,
                         examesFormatados,
                         prontuario.ID
                     }
@@ -522,7 +523,7 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
                     new List<object>
                     {
                         descricao.NomePaciente,
-                        prontuario.DataRequisicao.ToString("dd/MM/yyyy"),
+                        prontuario.DataRequisicao,
                         procedimentosFormatados,
                         prontuario.SolicitacaoInternacao.IndicacaoClinica,
                         prontuario.SolicitacaoInternacao.Observacao,
@@ -558,7 +559,7 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
                     new List<object>
                     {
                         descricao.NomePaciente,
-                        prontuario.DataRequisicao.ToString("dd/MM/yyyy"),
+                        prontuario.DataRequisicao,
                         procedimentosFormatados,
                         prontuario.SolicitacaoInternacao.IndicacaoClinica,
                         prontuario.SolicitacaoInternacao.Observacao,
@@ -595,7 +596,7 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
         var examesSheetraw = await _sheetsDB.LerRangeAsync("PedidosExame!A2:D");
         var examesSheet = examesSheetraw.ToList();
         int linhaIndexExame = examesSheet.FindIndex(r => r.Count > 0 && r[3]?.ToString() == id); 
-
+        
         if (linhaIndexExame != -1)
         {
             int linhaNoSheetExame = linhaIndexExame + 2;
@@ -772,7 +773,7 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
             Values = new List<IList<object>> {
                 new List<object> {
                     descricao.NomePaciente,
-                    prontuario.DataRequisicao.ToString("dd/MM/yyyy"),
+                    prontuario.DataRequisicao,
                     examesFormatados,
                     prontuario.ID
                 }
@@ -791,7 +792,7 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
             Values = new List<IList<object>> {
                 new List<object> {
                     descricao.NomePaciente,
-                    prontuario.DataRequisicao.ToString("dd/MM/yyyy"),
+                    prontuario.DataRequisicao,
                     procedimentosFormatados,
                     solicitacao.IndicacaoClinica,
                     solicitacao.Observacao,

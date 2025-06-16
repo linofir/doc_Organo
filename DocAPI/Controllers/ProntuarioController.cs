@@ -24,7 +24,7 @@ public class ProntuarioController : ControllerBase
         _mapper = mapper;
     }
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] CreateProntuarioDto dto)
+    public async Task<IActionResult> PostProntuario([FromBody] CreateProntuarioDto dto)
     {
         var prontuario = _mapper.Map<Prontuario>(dto);
 
