@@ -119,7 +119,7 @@
         - Identificar os Logs atuantes. 
         - Criar cenários, logs de erros
         - Desenvolver validações.
-    * feature-CollectDemonstrativoDataService ATUAL
+    * feature-CollectDemonstrativoDataService 
         - Criar serviço que extrai os dados
             - Classe de extração usando scrapping Incompleto
                 - Método de extração da url. Incompleto
@@ -128,6 +128,7 @@
                 - Gerenciar Cookies:
                 - Automatizar, periodicidade
         - Logica para validação financeira
+    * Serviço para coleta de Senha, prop de agenda
         
 * Refatorando Geral.
     - Debug de null reference
@@ -181,8 +182,7 @@
 * Próximo feature-Agendamento. Atual
     - Adaptar model Ok
         - Adaptar procedimentos. aceitar uma lista
-    - daptar Dtos Ok
-    - Serviço para coleta de Senha, prop de agenda
+    - daptar Dtos Ok  
     - Criar método repositório e interfaces
         - endpoints básicos. 
             - GestAll OK, 
