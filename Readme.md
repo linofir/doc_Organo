@@ -73,16 +73,13 @@
         - Paciente OK
         - Endereco Ok
         - Prontuário
-            - criação dos props ok
-            - Lista de Exames, criação do service de extração, crição do cli ok
-            - Criar base de dados procedimentos e CID ok
-        - Agendamento Cirurgico 
+        - Agendamento Cirurgico OK
         - FollowUP
     * Dtos
         - Paciente Ok
         - Endereco ok
         - Prontuario ok
-        - Agendamento 
+        - Agendamento OK
         - FollowUp
 
     * Profile
@@ -92,9 +89,13 @@
         - FollowUp 
     * Definir interfaces e Repositórios
         - Paciente ok
-            - Transpor funcionalidade de Criar um relatorio geral para o repositório Paciente ao invés de Prontuario.
         - Prontuario ok
         - Agendamento
+            - Método unificado de GET que lide com tipos diferentes. Incompleto.
+            - POST, Adicionar na ultima linha da planilha,append Incompleto
+            - POST, Criar o ID Problema da geração do ID fora do contrutor. Incompleto
+            - PUT, Os parametros podem ser associados. Incompleto
+            - Criar método para chechagem de Senha e Status.
         - FollowUp
     * DB google sheets
         - Configurar as APis na cloud OK
@@ -104,9 +105,10 @@
     * Criar Controllers
         - Paciente, definir endpoints básicos ok
         - Prontuario, definir endpoints básicos  ok
-        - Agendamentos
+            - Requisições from form.
+        - Agendamentos OK
+            - Criar controller de filter  geral. Incompleto
         - FollowUp
-        - Requisições from form.
     * DBContext
         - Criar do zero 
 * Services
@@ -136,6 +138,14 @@
     - Alinhar os Enuns aos valores das tabelas do Sheets.
     - Regras dos sheets defasadas, validaçoes, funções etc.
     - Documentaçao Geral.
+    * endpoints e serviços ja identificados
+            - Criar testes especificos para cada endpoint
+            - Corrigir erros no POST, não aceita null em solicitacao de internacao, testar exames.
+            - Caminhos possíveis de PUT
+            - Testes
+                - Construir uma camada de logger. 
+                - Criar cenários de testes, logs de erros, menssagens de excessão 
+                - Revisar validaçoes .
 
 * create-Prontuario-endpoints
     - Adaptar GoogleSheetsDB pra todas entidades, ou criar novos métodos se possível.
@@ -174,47 +184,26 @@
         * Criar testes de carga com k6 ou JMeter
         * Testes E2E com Blazor usando Playwright
 
-    * endpoints e serviços ja identificados
-        - Criar testes especificos para cada endpoint
-        - Corrigir erros no POST, não aceita null em solicitacao de internacao, testar exames.
-        - Caminhos possíveis de PUT
+    
 
-* Próximo feature-Agendamento. Atual
-    - Adaptar model Ok
-        - Adaptar procedimentos. aceitar uma lista
-    - daptar Dtos Ok  
-    - Criar método repositório e interfaces
-        - endpoints básicos. 
-            - GestAll OK, 
-            - GETby(Id,Nome,PacienteId) Avaliar.
-                - Método GET OK
-                    - Método unificado para filtragem OK, 
-                    - que lide com tipos diferentes. Incompleto.
-            - POST OK
-                - Adicionar na ultima linha da planilha,append Incompleto
-                - Criar o ID Problema da geração do ID fora do contrutor. Incompleto
-            - PUT OK
-                - Método já deve buscar diretamente na coluna id. OK
-                - Os parametros podem ser associados. Incompleto
-            - DELETE OK
-                - Método deve procurar diretamente  a linha. Ok
-        - Coleta de informações diretamente, arquivos do site, email, 
-    - Profile. mapper Ok
-    - Adaptar program.cs  Ok
+
+* Próximo feature-followUp. prox dev
+    - Criar model que irá se relacionar com paciente
+    - Adaptar Dtos de Paciente
+    - Criar e adaptar método repositório e interfaces
+        - Transpor funcionalidade de Criar um relatorio geral para o repositório Paciente ao invés de Prontuario.
+    - Adaptar program.cs 
     - Criar endpoint 
         - Criar controller OK
-            - GET, GetId, GET-Byname, Get-byPacienteId, POST, PUT, DELETE
-            - Criar controller de filter. Incompleto
-        - Adaptar program.cs OK
     - Testes
-        - Construir uma camada de logger. 
-        - Criar cenários de testes, logs de erros, menssagens de excessão 
-        - Revisar validaçoes .
-
+        - Identificar os Logs atuantes. 
+        - Criar cenários, logs de erros
+        - Desenvolver validações.
+    
 
 
 ///////
-* Próximo feature-followUp. prox dev
+* Próximo RefatorandoGeral. prox dev
     - Criar model
     - Criar Dtos
     - Criar método repositório e interfaces
