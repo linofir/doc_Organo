@@ -9,7 +9,7 @@ namespace DocAPI.Data.Dtos.ProntuarioDtos
     public class CreateProntuarioDto
     {
         [Required]
-        public DateTime DataRequisicao { get; set; }
+        public DateOnly? DataConsulta { get; set; }
 
         [Required]
         public DescricaoBasicaDto DescricaoBasica { get; set; }

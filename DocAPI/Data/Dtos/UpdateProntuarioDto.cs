@@ -8,7 +8,7 @@ namespace DocAPI.Data.Dtos.ProntuarioDtos
     public class UpdateProntuarioDto
     {
         [Required]
-        public DateTime DataRequisicao { get; set; }
+        public DateOnly? DataConsulta { get; set; }
 
         [Required]
         public DescricaoBasica DescricaoBasica { get; set; }

@@ -7,21 +7,26 @@ namespace DocAPI.Core.Models;
 
 public class Paciente
 {
+    public Paciente(){}
+    // public Paciente()
+    // {
+    //     ID = Guid.NewGuid().ToString();
+    // }
     [Key]
     [Required(ErrorMessage = "Este campo é obrigatório")]
-    public string ID { get; set; }
+    public string? ID { get; set; } = string.Empty;
     [Required(ErrorMessage = "O nome da paciente é obrigatório")]
     public string? Nome { get; set; }
     [Required(ErrorMessage = "O Nascimento da paciente é obrigatório")]
-    public DateTime Nascimento { get; set; }
+    public DateOnly Nascimento { get; set; }
     [NotMapped] 
     public int Idade
     {
         get
         {
-            var today = DateTime.Today;
+            var today = DateOnly.FromDateTime(DateTime.Today);
             var idade = today.Year - Nascimento.Year;
-            if (Nascimento.Date > today.AddYears(-idade)) idade--;
+            if (Nascimento > today.AddYears(-idade)) idade--;
             return idade;
         }
     }
@@ -38,7 +43,7 @@ public class Paciente
     public string? Plano { get; set; }// possível enum
     [Required(ErrorMessage = "A carteira da paciente é obrigatório")]
     public string? Carteira { get; set; }
-    public virtual Endereco Endereco { get; set; } 
+    public Endereco? Endereco { get; set; } 
     public string? Descricao 
     {
         get
@@ -54,27 +59,10 @@ public class Paciente
         Telefone = {Telefone}
         Plano = {Plano}
         Carteira = {Carteira}
-        Endereço = Rua/Av: {Endereco.Logradouro}, {Endereco.Numero}, {Endereco.Bairro}, {Endereco.Cidade}, {Endereco.UF}, {Endereco.CEP}
+        Endereço = Rua/Av: {Endereco?.Logradouro}, {Endereco?.Numero}, {Endereco?.Bairro}, {Endereco?.Cidade}, {Endereco?.UF}, {Endereco?.CEP}
 
         ";
             return descricao;
         }
-    }
-
-    // public Paciente(string id, string? nome, string nascimento, int idade, string cpf, string rg, string? email, string? telefone, int myProperty)
-    // {
-        // ID = id ?? Guid.NewGuid().ToString();
-        // Nome = nome;
-        // Nascimento = nascimento;
-        // Idade = idade;
-        // CPF = cpf;
-        // RG = rg;
-        // Email = email;
-        // Telefone = telefone;
-
-    // }
-    public Paciente()
-    {
-        ID = Guid.NewGuid().ToString();
     }
 }

@@ -54,32 +54,32 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
         
         return await AddProntuarioFromPdfAsync(pacienteId, pdfPath);
     }
-    public async Task<List<Prontuario>> GetProntuarioOfPacienteAsync( Paciente paciente )
+    public async Task<List<Prontuario>> GetProntuariosOfPacienteAsync( Paciente paciente )
     {
         return await CollectProntuariosOfPacienteAsync(paciente);
         // throw new NotImplementedException();
     }
-    public async Task<Stream> CreateReportByIdAsync( string pacienteId )
-    {
-        var paciente = await  _iPacienteRepository.GetByIdAsync(pacienteId);
-        if(paciente == null)
-        {
-            throw new InvalidOperationException($"Paciente com ID '{pacienteId}' não encontrado.");
-        }
-        var prontuariosOfPaciente = await GetProntuarioOfPacienteAsync( paciente);
-        return _pdfGeneratorService.GeneratePatientReportPdf( paciente, prontuariosOfPaciente);
-    }
+    // public async Task<Stream> CreateReportByIdAsync( string pacienteId )
+    // {
+    //     var paciente = await  _iPacienteRepository.GetByIdAsync(pacienteId);
+    //     if(paciente == null)
+    //     {
+    //         throw new InvalidOperationException($"Paciente com ID '{pacienteId}' não encontrado.");
+    //     }
+    //     var prontuariosOfPaciente = await GetProntuariosOfPacienteAsync( paciente);
+    //     return _pdfGeneratorService.GeneratePatientReportPdf( paciente, prontuariosOfPaciente);
+    // }
 
-    public async Task<Stream> CreateReportByCpfAsync( string pacienteCpf )
-    {
-        var paciente = await _iPacienteRepository.GetByCpfAsync(pacienteCpf);
-        if(paciente == null)
-        {
-            throw new InvalidOperationException($"Paciente com CPF '{pacienteCpf}' não encontrado.");
-        }
-        var prontuariosOfPaciente = await GetProntuarioOfPacienteAsync( paciente);
-        return _pdfGeneratorService.GeneratePatientReportPdf( paciente, prontuariosOfPaciente);
-    }
+    // public async Task<Stream> CreateReportByCpfAsync( string pacienteCpf )
+    // {
+    //     var paciente = await _iPacienteRepository.GetPacienteByCpfAsync(pacienteCpf);
+    //     if(paciente == null) 
+    //     {
+    //         throw new InvalidOperationException($"Paciente com CPF '{pacienteCpf}' não encontrado.");
+    //     }
+    //     var prontuariosOfPaciente = await GetProntuariosOfPacienteAsync( paciente[0]);
+    //     return _pdfGeneratorService.GeneratePatientReportPdf( paciente[0], prontuariosOfPaciente);
+    // }
     //talvez seja melhor fazer uma busca direta
     public async Task<List<Prontuario>> CollectProntuariosOfPacienteAsync(Paciente pacienteToCheck)
     {

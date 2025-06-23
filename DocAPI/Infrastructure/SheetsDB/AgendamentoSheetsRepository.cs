@@ -44,12 +44,12 @@ public class AgendamentoSheetsRepository : IAgendamentoRepository
     }
     public async Task<List<Agendamento>> GetByNameAsync(string name)
     {
-        return await GetAgendamentoByRowAsync( name, AgendamentosFilter.Nome );
+        return await GetAgendamentoByFilterAsync( name, AgendamentosFilter.Nome );
     }
     public async Task<List<Agendamento>> GetByPacienteIdAsync(string pacienteId)
     {
         Console.WriteLine($"Interface de pacienteID...");
-        return await GetAgendamentoByRowAsync( pacienteId, AgendamentosFilter.PacienteId);
+        return await GetAgendamentoByFilterAsync( pacienteId, AgendamentosFilter.PacienteId);
     }
     public async Task CreateAsync(Agendamento novoAgendamento)
     {
@@ -66,7 +66,7 @@ public class AgendamentoSheetsRepository : IAgendamentoRepository
         await DeleteAgendamentoAsync(id);
         // throw new NotImplementedException();
     }
-
+/// metodos
     public async Task<List<Agendamento>> GetAgendamentosAsync()
     {
         var values = await _sheetsDB.LerRangeAsync("Agendamentos!A3:N"); // de A até a coluna ID
@@ -101,7 +101,7 @@ public class AgendamentoSheetsRepository : IAgendamentoRepository
         }
         return allAgendamentos;
     }
-    public async Task<List<Agendamento>> GetAgendamentoByRowAsync(string conditionOfRow, AgendamentosFilter rowIndex)
+    public async Task<List<Agendamento>> GetAgendamentoByFilterAsync(string conditionOfRow, AgendamentosFilter rowIndex)
     {
         Console.WriteLine($"Filtrando agendamento da coluna(i): {rowIndex } para {conditionOfRow}" );
         var values = await _sheetsDB.LerRangeAsync("Agendamentos!A3:N"); // de A até a coluna ID
@@ -316,7 +316,7 @@ public class AgendamentoSheetsRepository : IAgendamentoRepository
         [Display(Name = "Sala")]
         Sala = 6,
         [Display(Name = "Senha")]
-        CanceSenha = 8,
+        Senha = 8,
         [Display(Name = "DataPedido")]
         DataPedido = 9,
         [Display(Name = "DataLiberação")]

@@ -45,7 +45,7 @@ public class PdfGeneratorService
                             patientInfo.Item().LineHorizontal(1).LineColor(Colors.Grey.Lighten4);
                             patientInfo.Item().Text($"CPF: {paciente.CPF}");
                             patientInfo.Item().LineHorizontal(1).LineColor(Colors.Grey.Lighten4);
-                            patientInfo.Item().Text($"Nascimento: {paciente.Nascimento:dd/MM/yyyy} (Idade: {CalculateAge(paciente.Nascimento)})");
+                            patientInfo.Item().Text($"Nascimento: {paciente.Nascimento:dd/MM/yyyy} (Idade: {paciente.Idade}");
                             patientInfo.Item().LineHorizontal(1).LineColor(Colors.Grey.Lighten4);
                             patientInfo.Item().Text($"RG: {paciente.RG}");
                             patientInfo.Item().LineHorizontal(1).LineColor(Colors.Grey.Lighten4);
@@ -295,14 +295,6 @@ public class PdfGeneratorService
         return stream;
     }
 
-    // Helper para calcular idade
-    private int CalculateAge(DateTime birthDate)
-    {
-        var today = DateTime.Today;
-        var age = today.Year - birthDate.Year;
-        if (birthDate.Date > today.AddYears(-age)) age--;
-        return age;
-    }
 
     // Helper para obter o DisplayName do enum
     private string GetEnumDisplayName<T>(T enumValue) where T : Enum

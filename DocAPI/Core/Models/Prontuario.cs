@@ -13,10 +13,11 @@ public class Prontuario
     public Prontuario(Paciente paciente)
     {
         ID = Guid.NewGuid().ToString();
-        DescricaoBasica = new DescricaoBasica(paciente); 
+        DescricaoBasica = new DescricaoBasica(paciente);
+        Exames = new List<Exame>();
     }
     [Required(ErrorMessage = "A data é obrigatória")]
-    public DateTime? DataRequisicao {get; set; } 
+    public DateOnly? DataConsulta {get; set; } 
     [Required]
     public DescricaoBasica? DescricaoBasica { get; set; }
 
@@ -182,23 +183,23 @@ public enum StatusVacinaHPV
 public enum AcoesCD
 {
     [Display(Name = "Pedido de internação")]
-    PedidoInternacao,
+    PedidoInternacao = 0,
 
     [Display(Name = "Pedido de exame")]
-    PedidoExame,
+    PedidoExame = 1,
 
     [Display(Name = "Indicação de encaminhamentos")]
-    IndicacaoEncaminhamentos,
+    IndicacaoEncaminhamentos = 2,
 
     [Display(Name = "Informativos de instrumentadora")]
-    InformativosInstrumentadora,
+    InformativosInstrumentadora = 3,
 
     [Display(Name = "Termo cirúrgico")]
-    TermoCirurgico,
+    TermoCirurgico = 4,
 
     [Display(Name = "Pasta Informativa")]
     PastaInformativa,
     [Display(Name = "Sem Info")]
-    SemInformacao
+    SemInformacao = 5
    
 }

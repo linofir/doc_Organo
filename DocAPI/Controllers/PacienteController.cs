@@ -6,6 +6,7 @@ using DocAPI.Core.Repositories;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace DocAPI.Controllers;
 
@@ -33,19 +34,6 @@ public class PacienteController : ControllerBase
         Console.WriteLine($"foi criado o ID: {paciente.ID}");
         return CreatedAtAction(nameof(GetByID), new { id = paciente.ID }, paciente);
     }
-
-    // [HttpPost]
-    // public IActionResult CadastrarProntuario([FromBody] CreateProntuarioDto pacienteDto)
-    // {
-    //     Paciente paciente = _mapper.Map<Paciente>(pacienteDto);
-    //     _context.Pacientes!.Add(paciente);
-    //     _context.SaveChanges();
-    //     Console.WriteLine($"O cadastro d@ {paciente.Nome} foi efetuado ");
-    //     Console.WriteLine($"foi criado o ID: {paciente.ID}");
-       
-    //     return CreatedAtAction(nameof(GetByID), new{id = paciente.ID}, paciente);
-    // }
-
     [HttpGet]
     public async Task<IActionResult> GetPacientes([FromQuery] int skip = 0, [FromQuery] int take = 10)
     {
@@ -53,19 +41,6 @@ public class PacienteController : ControllerBase
         var pacientes = await _repository.GetAllAsync(skip, take);
         return Ok(_mapper.Map<IEnumerable<ReadPacienteDto>>(pacientes));
     }
-    // [HttpGet]
-    // public IActionResult GetPacientes([FromQuery]int skip = 0, [FromQuery]int take = 2)
-    // {
-    //     if(_context.Pacientes == null) return NotFound();
-    //     return Ok(_mapper.Map<List<ReadPacienteDto>>(_context.Pacientes.Skip(skip).Take(take).ToList()));
-    // }
-
-    // [HttpGet("secret")]
-    // public IActionResult GetPacientesSecrets([FromQuery]int skip = 0, [FromQuery]int take = 2)
-    // {
-    //     if(_context.Pacientes == null) return NotFound();
-    //     return Ok(_context.Pacientes.Skip(skip).Take(take));
-    // }
     [HttpGet("{id}")]
     public async Task<IActionResult> GetByID(string id)
     {
@@ -77,78 +52,106 @@ public class PacienteController : ControllerBase
     public async Task<IActionResult> GetByCpf(string cpf)
     {
         Console.WriteLine("test controller");
-        var paciente = await _repository.GetByCpfAsync(cpf);
-        if (paciente == null) return NotFound();
-        return Ok(_mapper.Map<ReadPacienteDto>(paciente));
-    }
+        if (string.IsNullOrEmpty(cpf))
+            return BadRequest("O cpf da paciente precisa ser fornecido corretamente.");
+        string cpfLimpo = cpf.Trim().Replace("\"", "");
+        var pacientes = await _repository.GetPacienteByCpfAsync(cpfLimpo);
+        if (pacientes == null || !pacientes.Any())
+        {
+            Console.WriteLine($"Paciente com CPF '{cpf}' não encontrado.");
+            return NotFound("Paciente não encontrado."); // HTTP 404 - OK para não encontrado
+        }
 
-    // [HttpGet("{id}")]
-    // public IActionResult GetByID(string id)
+        if (pacientes.Count() != 1)
+        {
+            Console.WriteLine($"Erro: Múltiplos pacientes encontrados para o CPF '{cpf}'.");
+            // Retorna 409 Conflict com uma mensagem clara
+            return Conflict($"Erro: Múltiplos pacientes encontrados para o CPF '{cpf}'. O CPF deve ser único.");
+        }
+        var pacienteEncontrado = pacientes.First();
+        return Ok(_mapper.Map<ReadPacienteDto>(pacienteEncontrado));
+    }
+    // [HttpGet("/report-id/{id}")]
+    // public async Task<IActionResult> GetPatientReportPdf(string id)
     // {
-    //     Paciente pacienteEncontrado = _context.Pacientes!.FirstOrDefault(paciente => paciente.ID == id)!;
-       
-    //     if(pacienteEncontrado == null) return NotFound();
-    //     var filmeDto = _mapper.Map<ReadPacienteDto>(pacienteEncontrado);
-    //     return Ok(filmeDto);
-    // }
-
-[HttpPut("{id}")]
-public async Task<IActionResult> UpdatePaciente(string id, [FromBody] UpdatePacienteDto dto)
-{
-    try
-    {
-        // 1. Verifica se o ID foi fornecido
-        if (string.IsNullOrEmpty(id))
-            return BadRequest("O ID do paciente é obrigatório.");
-
-        // 2. Mapeia o DTO para a entidade Paciente
-        var pacienteAtualizado = _mapper.Map<Paciente>(dto);
-
-        // 3. Atualiza o paciente na planilha
-        await _repository.UpdateAsync(pacienteAtualizado, id);
-
-        // 4. Retorna sucesso
-        return NoContent();
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"Erro ao atualizar paciente: {ex.Message}");
-        return StatusCode(500, "Erro interno ao atualizar paciente.");
-    }
-}
-
-
-    // [HttpPut("{id}")]
-    // public IActionResult AlteraPacienteID(string id, [FromBody] UpdatePacienteDto pacienteDto)
-    // {
-    //     Paciente paciente = _context.Pacientes!.FirstOrDefault(paciente => paciente.ID == id)!;
-    //     if(paciente == null) return NotFound("O paciente não foi encontrado");
-    //     else
+    //     // 1. Validação de entrada (Ex: se o ID não é vazio)
+    //     if (string.IsNullOrWhiteSpace(id))
     //     {
-    //         _mapper.Map(pacienteDto, paciente);
-    //         _context.SaveChanges();
-    //         return NoContent();
+    //         return BadRequest("O ID do paciente não pode ser vazio.");
+    //     }
+
+    //     try
+    //     {
+    //         // 2. Chama o repositório que contém a lógica de negócio e as validações
+    //         var pdfStream = await _repository.CreateReportByIdAsync(id);
+
+    //         // 3. Retorna o resultado (se nenhuma exceção foi lançada)
+    //         string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+    //         return File(pdfStream, "application/pdf", $"RelatorioPaciente_{id}.pdf");
+    //     }
+    //     catch (InvalidOperationException ex) // Captura a exceção de negócio
+    //     {
+    //         return NotFound(ex.Message); // Retorna 404 Not Found
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         // Logar o erro completo para depuração (ex: via ILogger)
+    //         Console.Error.WriteLine($"Erro inesperado ao gerar relatório PDF para paciente ID {id}: {ex.Message} - {ex.StackTrace}");
+    //         return StatusCode(500, "Erro interno do servidor ao gerar o relatório."); // Retorna 500 Internal Server Error
     //     }
     // }
 
-    // [HttpPatch("{id}")]
-    // public IActionResult AlteraPacientePatchID(string id, [FromBody] JsonPatchDocument<UpdatePacienteDto> patch)
+    // // Você pode ter um endpoint similar para CPF
+    // [HttpGet("{cpf}/report-cpf")]
+    // public async Task<IActionResult> GetPatientReportPdfByCpf(string cpf)
     // {
-    //     Paciente paciente = _context.Pacientes!.FirstOrDefault(paciente => paciente.ID == id)!;
-    //     if(paciente == null) return NotFound("O paciente não foi encontrado");
-    //     else
+    //     if (string.IsNullOrWhiteSpace(cpf))
     //     {
-    //         var pacienteAlterando = _mapper.Map<UpdatePacienteDto>(paciente);
-    //         patch.ApplyTo(pacienteAlterando, ModelState);
-    //         if(!TryValidateModel(pacienteAlterando))
-    //         {
-    //             return ValidationProblem(ModelState);
-    //         }
-    //         _mapper.Map(pacienteAlterando, paciente);
-    //         _context.SaveChanges();
-    //         return NoContent();
+    //         return BadRequest("O CPF não pode ser vazio.");
+    //     }
+    //     // Validação de formato de CPF (ex: regex) aqui no controller
+    //     // if (!IsValidCpfFormat(cpf)) { return BadRequest("Formato de CPF inválido."); }
+
+    //     try
+    //     {
+    //         var pdfStream = await _repository.CreateReportByCpfAsync(cpf);
+    //         string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+    //         return File(pdfStream, "application/pdf", $"RelatorioPaciente_{cpf}.pdf");
+    //     }
+    //     catch (InvalidOperationException ex)
+    //     {
+    //         return NotFound(ex.Message);
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         Console.Error.WriteLine($"Erro inesperado ao gerar relatório PDF para CPF {cpf}: {ex.Message} - {ex.StackTrace}");
+    //         return StatusCode(500, "Erro interno do servidor ao gerar o relatório.");
     //     }
     // }
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdatePaciente(string id, [FromBody] UpdatePacienteDto dto)
+    {
+        try
+        {
+            // 1. Verifica se o ID foi fornecido
+            if (string.IsNullOrEmpty(id))
+                return BadRequest("O ID do paciente é obrigatório.");
+
+            // 2. Mapeia o DTO para a entidade Paciente
+            var pacienteAtualizado = _mapper.Map<Paciente>(dto);
+
+            // 3. Atualiza o paciente na planilha
+            await _repository.UpdateAsync(pacienteAtualizado, id);
+
+            // 4. Retorna sucesso
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao atualizar paciente: {ex.Message}");
+            return StatusCode(500, "Erro interno ao atualizar paciente.");
+        }
+    }
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeletePaciente(string id)
     {
@@ -165,18 +168,5 @@ public async Task<IActionResult> UpdatePaciente(string id, [FromBody] UpdatePaci
             return NotFound("Paciente não encontrado.");
         }
     }
-    
 
-
-    // [HttpDelete("{id}")]
-    // public IActionResult DeletaPacienteID(string id)
-    // {
-
-    //     Paciente pacienteEncontrado = _context.Pacientes!.FirstOrDefault(paciente => paciente.ID == id)!;
-       
-    //     if(pacienteEncontrado == null) return NotFound();
-    //     _context.Remove(pacienteEncontrado);
-    //     _context.SaveChanges();
-    //     return NoContent();
-    // }
 }

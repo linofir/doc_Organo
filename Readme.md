@@ -187,11 +187,15 @@
     
 
 
-* Próximo feature-followUp. prox dev
-    - Criar model que irá se relacionar com paciente
-    - Adaptar Dtos de Paciente
-    - Criar e adaptar método repositório e interfaces
-        - Transpor funcionalidade de Criar um relatorio geral para o repositório Paciente ao invés de Prontuario.
+* Próximo  feature-followUp atual
+    - Criar model FollowUp que irá se relacionar com paciente
+        - Adaptar Paciente model 
+            - GET by-cpf
+    - Adaptar Dtos de Paciente e Criar 
+    - Criar FollowUp e adaptar métodos repositório e interfaces
+        - Refatorar Paciente.
+            - Método para busca GET de forma direta. Busca por row, Analisar se é mais eficiente mesmo.
+        - Transpor funcionalidade de Criar um relatorio geral para o novo repositório FollowUp ao invés de Prontuario.
     - Adaptar program.cs 
     - Criar endpoint 
         - Criar controller OK
