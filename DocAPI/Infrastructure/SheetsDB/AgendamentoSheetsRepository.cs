@@ -12,7 +12,7 @@ using NPOI.HSSF.Record;
 using Org.BouncyCastle.Crypto.Digests;
 using static DocAPI.Core.Models.Agendamento;
 
-namespace DocAPI.Infrastructure.Sheets;
+namespace DocAPI.Infrastructure.SheetsDb;
 
 public class AgendamentoSheetsRepository : IAgendamentoRepository
 {
@@ -234,7 +234,7 @@ public class AgendamentoSheetsRepository : IAgendamentoRepository
                     agendamento.Procedimento,
                     agendamento.Local,
                     agendamento.Sala,
-                    agendamento.Status,
+                    displayStatus,
                     agendamento.SenhaAgendamento.Codigo,
                     agendamento.SenhaAgendamento.DataPedido.ToString("yyy-MM-dd") ?? null,
                     agendamento.SenhaAgendamento.DataLibetracao?.ToString("yyy-MM-dd") ?? null,

@@ -9,7 +9,7 @@ using Google.Apis.Sheets.v4.Data;
 using Microsoft.AspNetCore.Server.IIS.Core;
 using Microsoft.Extensions.WebEncoders.Testing;
 
-namespace DocAPI.Infrastructure.Sheets;
+namespace DocAPI.Infrastructure.SheetsDb;
 
 public class ProntuarioSheetsRepository : IProntuarioRepository
 {
@@ -325,7 +325,7 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
                 new List<object>
                 {
                     descricao.NomePaciente,
-                    prontuario.DataRequisicao,
+                    prontuario.DataConsulta,
                     examesFormatados,
                     prontuario.ID
                 }
@@ -340,7 +340,7 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
                 new List<object>
                 {
                     descricao.NomePaciente,
-                    prontuario.DataRequisicao,
+                    prontuario.DataConsulta,
                     procedimentosFormatados,
                     prontuario.SolicitacaoInternacao.IndicacaoClinica,
                     prontuario.SolicitacaoInternacao.Observacao,
@@ -476,7 +476,7 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
                     new List<object>
                     {
                         descricao.NomePaciente,
-                        prontuario.DataRequisicao,
+                        prontuario.DataConsulta,
                         examesFormatados,
                         prontuario.ID
                     }
@@ -496,7 +496,7 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
                     new List<object>
                     {
                         descricao.NomePaciente,
-                        prontuario.DataRequisicao,
+                        prontuario.DataConsulta,
                         examesFormatados,
                         prontuario.ID
                     }
@@ -523,7 +523,7 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
                     new List<object>
                     {
                         descricao.NomePaciente,
-                        prontuario.DataRequisicao,
+                        prontuario.DataConsulta,
                         procedimentosFormatados,
                         prontuario.SolicitacaoInternacao.IndicacaoClinica,
                         prontuario.SolicitacaoInternacao.Observacao,
@@ -559,7 +559,7 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
                     new List<object>
                     {
                         descricao.NomePaciente,
-                        prontuario.DataRequisicao,
+                        prontuario.DataConsulta,
                         procedimentosFormatados,
                         prontuario.SolicitacaoInternacao.IndicacaoClinica,
                         prontuario.SolicitacaoInternacao.Observacao,
@@ -716,7 +716,7 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
                 .First()
                 .GetCustomAttribute<DisplayAttribute>()?.Name ?? cd.ToString()))
             : "";
-        var dataHoje = DateTime.Now.ToString("dd/MM/yyyy");
+        // var dataHoje = DateTime.Now.ToString("dd/MM/yyyy");
 
         return new ValueRange
         {
@@ -754,7 +754,7 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
                     af.Neoplasias,
                     af.Comorbidades,
                     prontuario.InformacoesExtras,
-                    dataHoje,
+                    prontuario.DataConsulta,
                     acoes,
                     descricao.PacienteId,
                     prontuario.ID
@@ -773,7 +773,7 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
             Values = new List<IList<object>> {
                 new List<object> {
                     descricao.NomePaciente,
-                    prontuario.DataRequisicao,
+                    prontuario.DataConsulta,
                     examesFormatados,
                     prontuario.ID
                 }
@@ -792,7 +792,7 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
             Values = new List<IList<object>> {
                 new List<object> {
                     descricao.NomePaciente,
-                    prontuario.DataRequisicao,
+                    prontuario.DataConsulta,
                     procedimentosFormatados,
                     solicitacao.IndicacaoClinica,
                     solicitacao.Observacao,

@@ -1,7 +1,10 @@
+using DocAPI.Core.Models;
 using DocAPI.Core.Repositories;
 using DocAPI.Services;
-using DocAPI.Data.Dtos.Relatorio;   
-public class RelatorioRepository : IAtendimentoRepository
+// using DocAPI.Data.Dtos.Atendimento;   
+
+namespace DocAPI.Infrastructure.SheetsDb;
+public class AtendimentoSheetsRepository : IAtendimentoRepository
 {
 
     private readonly IPacienteRepository _pacienteRepository;
@@ -9,7 +12,7 @@ public class RelatorioRepository : IAtendimentoRepository
     private readonly IAgendamentoRepository _agendamentoRepository; // Se precisar de agendamento
     private readonly PdfGeneratorService _pdfGeneratorService;
 
-    public RelatorioRepository(IPacienteRepository pacienteRepository,
+    public AtendimentoSheetsRepository(IPacienteRepository pacienteRepository,
                          IProntuarioRepository prontuarioRepository,
                          IAgendamentoRepository agendamentoRepository,
                          PdfGeneratorService pdfGeneratorService)
@@ -22,11 +25,10 @@ public class RelatorioRepository : IAtendimentoRepository
 
     public async Task<Stream> CreateReportByIdAsync( string pacienteId )
     {
-        return GeneratePatientPdfFullReport(string pacienteId)
-    
+        return await GeneratePatientPdfFullReport(pacienteId);
     }
 
-    public async Task<Stream> InstantiateRelatorioDto   ( string pacienteId )
+    public async Task<Stream> InstantiateAtendimentoDto   ( string pacienteId )
     {
         var paciente = await _pacienteRepository.GetByIdAsync(pacienteId);
         if(paciente == null)
@@ -37,7 +39,12 @@ public class RelatorioRepository : IAtendimentoRepository
         var agendamentos = await _agendamentoRepository.GetByPacienteIdAsync(pacienteId);
 
         // Criar lógicas para definirem a etapa do atendimento
-
+        var atendimento = new Atendimento(){};
+        if (string.IsNullOrEmpty(atendimento.ID))
+        {
+            atendimento.ID = Guid.NewGuid().ToString();
+        }
+        atendimento.EtapaConsulta.DataConsultaConcluida = prontuariosOfPaciente[0].DataConsulta;
         // Para Etapa COnsulta
         // Cadastro de paciente confirmado
         // Consulta concluida, prontuário existente, fonecer Data
@@ -55,7 +62,7 @@ public class RelatorioRepository : IAtendimentoRepository
         // Geração de novo prontuário e CDs
         // Alarme para Seguimento médico.
 
-        return _pdfGeneratorService.GeneratePatientReportPdf( paciente, prontuariosOfPaciente);
+        return _pdfGeneratorService.GeneratePatientReportPdf( paciente, prontuariosOfPaciente, agendamentos);
     }
     public async Task<Stream> GeneratePatientPdfFullReport(string pacienteId)
     {
@@ -71,6 +78,6 @@ public class RelatorioRepository : IAtendimentoRepository
 
         // Crie e popule seu objeto ReportData aqui
     
-        return _pdfGeneratorService.GeneratePatientReportPdf( paciente, prontuarios);
+        return _pdfGeneratorService.GeneratePatientReportPdf( paciente, prontuarios, agendamentos);
     }
 }

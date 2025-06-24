@@ -117,6 +117,7 @@
         - adaptar método para lidar com filesteam, ao invés de path.
         - Testar com diferentes prontuários e adaptar padrões.
         - Adicionar logs e tratamento de exceções.
+        - Implementar extração de data
     * PdfGeneratorService
         - Identificar os Logs atuantes. 
         - Criar cenários, logs de erros
@@ -188,17 +189,19 @@
 
 
 * Próximo  feature-followUp atual
-    - Criar model FollowUp que irá se relacionar com paciente
+    - Criar model FollowUp que irá se relacionar com paciente 
         - Adaptar Paciente model 
-            - GET by-cpf
-    - Adaptar Dtos de Paciente e Criar 
+        - model Atendimento
+    - Adaptar Dtos Atendimento 
     - Criar FollowUp e adaptar métodos repositório e interfaces
         - Refatorar Paciente.
             - Método para busca GET de forma direta. Busca por row, Analisar se é mais eficiente mesmo.
-        - Transpor funcionalidade de Criar um relatorio geral para o novo repositório FollowUp ao invés de Prontuario.
-    - Adaptar program.cs 
+        - Transpor funcionalidade de Criar um relatorio geral para o novo repositório Atendimento ao invés de Prontuario. OK
+    - Adaptar serviço de geração de pdf, acrescendtar Agendamento.
+    - Adaptar program.cs OK
     - Criar endpoint 
-        - Criar controller OK
+        - Criar controller Atendimento 
+            - GET report by paciente id OK
     - Testes
         - Identificar os Logs atuantes. 
         - Criar cenários, logs de erros

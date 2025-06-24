@@ -5,7 +5,7 @@ using DocAPI.Services;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 
-namespace DocAPI.Infrastructure.Sheets;
+namespace DocAPI.Infrastructure.SheetsDb;
 
 public class PacienteSheetsRepository : IPacienteRepository
 {

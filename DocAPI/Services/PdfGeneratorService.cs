@@ -9,7 +9,7 @@ namespace DocAPI.Services;
 public class PdfGeneratorService 
 {
     // Não precisa injetar repositórios aqui. Ele apenas constrói o PDF.
-    public Stream GeneratePatientReportPdf(Paciente paciente, List<Prontuario> prontuarios)
+    public Stream GeneratePatientReportPdf(Paciente paciente, List<Prontuario> prontuarios, List<Agendamento> agendamentos)
     {
         Console.WriteLine($"Gerando relatorio para:{paciente.ID}  ");
         var document = Document.Create(container =>
@@ -72,13 +72,13 @@ public class PdfGeneratorService
                         if (prontuarios != null && prontuarios.Any())
                         {
                             // Ordena os prontuários por data mais recente
-                            foreach (var prontuario in prontuarios.OrderByDescending(p => p.DataRequisicao))
+                            foreach (var prontuario in prontuarios.OrderByDescending(p => p.DataConsulta))
                             {
                                 column.Item().PaddingLeft(8).Border(1).BorderColor(Colors.Grey.Lighten3).Padding(4).Column(prontuarioDetails =>
                                 {
                                     prontuarioDetails.Spacing(8);
 
-                                    prontuarioDetails.Item().Text($"Prontuário ID: {prontuario.ID} | Data da Requisição: {prontuario.DataRequisicao:dd/MM/yyyy}");
+                                    prontuarioDetails.Item().Text($"Prontuário ID: {prontuario.ID} | Data da Requisição: {prontuario.DataConsulta:dd/MM/yyyy}");
                                     prontuarioDetails.Item().LineHorizontal(0.5f).LineColor(Colors.Grey.Lighten4); // Separador dentro do prontuário
 
                                     // 2.1 Descrição Básica
@@ -275,6 +275,69 @@ public class PdfGeneratorService
                         {
                             column.Item().PaddingLeft(10).Text("Nenhum prontuário encontrado para este paciente.");
                         }
+                        // --- SEÇÃO 3: DADOS DOS AGENDAMENTOS ---
+                        column.Item().Text("Agendamentos").SemiBold().FontSize(14).Underline();
+
+                        if (agendamentos != null && agendamentos.Any())
+                        {
+                            // Ordena os agendamentos por data mais recente (ou futura, dependendo da necessidade)
+                            foreach (var agendamento in agendamentos.OrderBy(a => a.Data).ThenBy(a => a.Horario)) // Ordena por data e depois por horário
+                            {
+                                column.Item().PaddingLeft(8).Border(1).BorderColor(Colors.Blue.Lighten3).Padding(4).Column(agendamentoDetails =>
+                                {
+                                    agendamentoDetails.Spacing(4);
+
+                                    agendamentoDetails.Item().Text($"Agendamento ID: {agendamento.ID}")
+                                        .SemiBold();
+                                    agendamentoDetails.Item().LineHorizontal(0.5f).LineColor(Colors.Grey.Lighten4);
+
+                                    agendamentoDetails.Item().Text($"Paciente: {agendamento.Nome} (ID: {agendamento.PacienteID})");
+                                    agendamentoDetails.Item().LineHorizontal(1).LineColor(Colors.Grey.Lighten4);
+
+                                    agendamentoDetails.Item().Text($"Data: {agendamento.Data:dd/MM/yyyy} | Horário: {agendamento.Horario:HH:mm}");
+                                    agendamentoDetails.Item().LineHorizontal(1).LineColor(Colors.Grey.Lighten4);
+
+                                    agendamentoDetails.Item().Text($"Procedimento: {agendamento.Procedimento}");
+                                    agendamentoDetails.Item().LineHorizontal(1).LineColor(Colors.Grey.Lighten4);
+
+                                    agendamentoDetails.Item().Text($"Local: {agendamento.Local} | Sala: {agendamento.Sala}");
+                                    agendamentoDetails.Item().LineHorizontal(1).LineColor(Colors.Grey.Lighten4);
+
+                                    agendamentoDetails.Item().Text($"Status: {GetEnumDisplayName(agendamento.Status)}");
+                                    agendamentoDetails.Item().LineHorizontal(1).LineColor(Colors.Grey.Lighten4);
+
+                                    // Informações da Senha de Agendamento (se existir)
+                                    if (agendamento.SenhaAgendamento != null)
+                                    {
+                                        agendamentoDetails.Item().Text("Informações da Senha").SemiBold().FontSize(10);
+                                        agendamentoDetails.Item().PaddingLeft(10).Column(senhaDetails =>
+                                        {
+                                            senhaDetails.Spacing(2);
+                                            senhaDetails.Item().Text($"Código: {agendamento.SenhaAgendamento.Codigo}");
+                                            senhaDetails.Item().Text($"Data Pedido: {agendamento.SenhaAgendamento.DataPedido:dd/MM/yyyy}");
+                                            senhaDetails.Item().Text($"Data Liberação: {agendamento.SenhaAgendamento.DataLibetracao?.ToString("dd/MM/yyyy") ?? "N/A"}"); // Lidar com nullable
+                                            senhaDetails.Item().Text($"Validade: {agendamento.SenhaAgendamento.Validade?.ToString("dd/MM/yyyy") ?? "N/A"}"); // Lidar com nullable
+                                        });
+                                        agendamentoDetails.Item().LineHorizontal(1).LineColor(Colors.Grey.Lighten4);
+                                    }
+                                    
+                                    // Adiciona um aviso se o campo Aviso estiver preenchido
+                                    if (!string.IsNullOrWhiteSpace(agendamento.Aviso))
+                                    {
+                                        agendamentoDetails.Item().Text("Aviso:").SemiBold().FontSize(10);
+                                        agendamentoDetails.Item().PaddingLeft(10).Text(agendamento.Aviso);
+                                        agendamentoDetails.Item().LineHorizontal(1).LineColor(Colors.Grey.Lighten4);
+                                    }
+
+                                    agendamentoDetails.Item().PageBreak(); // Quebra de página entre agendamentos, se houver muitos
+                                });
+                            }
+                        }
+                        else
+                        {
+                            column.Item().PaddingLeft(10).Text("Nenhum agendamento encontrado para este paciente.");
+                        }
+
                     });
 
                 page.Footer()

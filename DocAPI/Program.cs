@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using DocAPI.Profiles;
 using DocAPI.Services;
-using DocAPI.Infrastructure.Sheets;
+using DocAPI.Infrastructure.SheetsDb;
 using DocAPI.Core.Repositories;
+using DocAPI.Core.Models;
 using DocAPI.CLI;
 using Newtonsoft.Json.Converters;
-using DocAPI.Core.Models;
 using UglyToad.PdfPig.Graphics.Colors;
 using System.Text.Json;
 using QuestPDF.Infrastructure;
@@ -47,6 +47,7 @@ builder.Services.AddSingleton<PdfGeneratorService>();
 builder.Services.AddScoped<IPacienteRepository, PacienteSheetsRepository>();
 builder.Services.AddScoped<IProntuarioRepository, ProntuarioSheetsRepository>();
 builder.Services.AddScoped<IAgendamentoRepository, AgendamentoSheetsRepository>();
+builder.Services.AddScoped<IAtendimentoRepository, AtendimentoSheetsRepository>();
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
     {

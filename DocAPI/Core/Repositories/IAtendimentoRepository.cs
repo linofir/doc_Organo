@@ -1,4 +1,4 @@
-using DocAPI.Data.Dtos.Relatorio;
+using DocAPI.Data.Dtos.Atendimento;
 
 namespace DocAPI.Core.Repositories;
 public interface IAtendimentoRepository

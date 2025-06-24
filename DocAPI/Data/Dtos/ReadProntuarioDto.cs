@@ -8,7 +8,7 @@ namespace DocAPI.Data.Dtos.ProntuarioDtos
 {
     public string ID { get; set; }
 
-    public public DateOnly DataConsulta { get; set; }
+    public DateOnly DataConsulta { get; set; }
 
     public DescricaoBasica DescricaoBasica { get; set; }
 

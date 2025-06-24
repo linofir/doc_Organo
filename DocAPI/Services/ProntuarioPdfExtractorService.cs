@@ -78,7 +78,7 @@ public class ProntuarioPdfExtractorService
             // InformacoesExtras = "", // pode ser extraído ou preenchido depois
             Exames = ExtrairExames(paginasTexto),
             SolicitacaoInternacao = ExtrairInternacao(paginasTexto),
-            DataRequisicao = DateTime.Now 
+            // DataConsulta = DateOnly.MinValue()
         };
 
     }
