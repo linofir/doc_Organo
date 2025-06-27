@@ -73,6 +73,7 @@
         - Paciente OK
         - Endereco Ok
         - Prontuário
+            - Aç~es Cd Pedidos Cirurgicos, Termo cirurgico, Explicação sobre o procedimento. Paciente acompanhada,
         - Agendamento Cirurgico OK
         - FollowUP
     * Dtos
@@ -95,7 +96,7 @@
             - POST, Adicionar na ultima linha da planilha,append Incompleto
             - POST, Criar o ID Problema da geração do ID fora do contrutor. Incompleto
             - PUT, Os parametros podem ser associados. Incompleto
-            - Criar método para chechagem de Senha e Status.
+            - Criar método para chechagem de Senha e Status. pelo email ou arquivo
         - FollowUp
     * DB google sheets
         - Configurar as APis na cloud OK
@@ -138,6 +139,7 @@
     - Refatorar método de Get específicos, iguais ao agendamento.
     - Alinhar os Enuns aos valores das tabelas do Sheets.
     - Regras dos sheets defasadas, validaçoes, funções etc.
+    - Definir melhor os padrões de tipos para CPF, Mudar formato da planilha para não haver conflito
     - Documentaçao Geral.
     * endpoints e serviços ja identificados
             - Criar testes especificos para cada endpoint

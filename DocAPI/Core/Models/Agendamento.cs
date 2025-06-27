@@ -11,12 +11,12 @@ public class Agendamento
     public string ID { get; set; } = string.Empty;
     public Agendamento() {}
     
-    public Agendamento(Paciente paciente)
-    { 
-        Nome = paciente.Nome; 
-        PacienteID = paciente.ID;
-        ID = Guid.NewGuid().ToString();
-    }
+    // public Agendamento(Paciente paciente)
+    // { 
+    //     Nome = paciente.Nome; 
+    //     PacienteID = paciente.ID;
+    //     ID = Guid.NewGuid().ToString();
+    // }
     [Required(ErrorMessage = "Este campo é obrigatório")]
     public string PacienteID { get; set; } = string.Empty;
     [Required(ErrorMessage = "Este campo é obrigatório")]
@@ -48,7 +48,7 @@ public class Agendamento
     {
         [Display(Name = "Sem senha")]
         SemSenha = 1,
-        [Display(Name = "Senha pendente")]
+        [Display(Name = "Senha pendente")]//nao tem
         SenhaPendente = 2,
 
         [Display(Name = "Senha Aprovada")]

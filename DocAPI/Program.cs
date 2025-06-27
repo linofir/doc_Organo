@@ -33,6 +33,8 @@ var config = new MapperConfiguration(cfg =>
 {
     cfg.AddProfile<PacienteProfile>();
     cfg.AddProfile<ProntuarioProfile>();
+    cfg.AddProfile<AgendamentoProfile>();
+    cfg.AddProfile<AtendimentoProfile>();
     cfg.AddMaps(typeof(Program).Assembly);
 });
 

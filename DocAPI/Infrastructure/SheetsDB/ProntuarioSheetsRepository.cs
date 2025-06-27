@@ -92,7 +92,7 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
             if(pacienteId == pacienteToCheck.ID)
             {
                 prontuariosOfPaciente.Add(prontuario);
-                Console.WriteLine($"paciente encontrado: {prontuario.DescricaoBasica.NomePaciente}");
+                Console.WriteLine($"Prontuário acrescentado da paciente: {prontuario.DescricaoBasica.NomePaciente}");
             }
         }
         return prontuariosOfPaciente;
@@ -169,6 +169,7 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
                     Comorbidades = row[30]?.ToString()
                 },
                 InformacoesExtras = row[31]?.ToString(),
+                DataConsulta = ParseDateOnly(row[32]?.ToString()),
                 CD = ParseCd(row[33]?.ToString().Split(',').ToList())
             };
             prontuario.DescricaoBasica.Profissao = row[3]?.ToString();
@@ -648,6 +649,45 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
             "Sem info" or "Sem informação" => StatusVacinaHPV.SemInfo,
             _ => throw new ArgumentException($"Valor inválido para StatusVacinaHPV: '{valor}'")
         };
+    }
+    public static DateOnly? ParseDateOnly(string? dateString)
+    {
+        if (string.IsNullOrWhiteSpace(dateString))
+        {
+            // Console.WriteLine("DEBUG: Data string vazia ou nula para parsing.");
+            return null;
+        }
+
+        // Tentar fazer o parsing usando vários formatos possíveis
+        // Use DateTime.ParseExact se você souber o formato exato
+        // Use DateTime.TryParse se o formato puder variar ou for incerto
+        DateOnly parsedDate;
+
+        // Formato Brasileiro Comum: "dd/MM/yyyy"
+        if (DateOnly.TryParseExact(dateString, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out parsedDate))
+        {
+            // Console.WriteLine($"DEBUG: Data parseada com sucesso (dd/MM/yyyy): {parsedDate}");
+            return parsedDate;
+        }
+
+        // Outro formato comum: "yyyy-MM-dd" (ISO)
+        if (DateOnly.TryParseExact(dateString, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out parsedDate))
+        {
+            // Console.WriteLine($"DEBUG: Data parseada com sucesso (yyyy-MM-dd): {parsedDate}");
+            return parsedDate;
+        }
+
+        // Se o formato da sua planilha for algo diferente, adicione aqui.
+        // Ex: Se for "dd-MM-yyyy"
+        if (DateOnly.TryParseExact(dateString, "dd-MM-yyyy", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out parsedDate))
+        {
+            // Console.WriteLine($"DEBUG: Data parseada com sucesso (dd-MM-yyyy): {parsedDate}");
+            return parsedDate;
+        }
+
+        // Se tudo falhar, você pode registrar um erro ou retornar null
+        Console.WriteLine($"ERRO: Falha ao parsear a data '{dateString}'. Formato inesperado ou inválido.");
+        return null;
     }
     //public async Task UpdateProntuarioAsync(Prontuario prontuario, string id)
     // {
