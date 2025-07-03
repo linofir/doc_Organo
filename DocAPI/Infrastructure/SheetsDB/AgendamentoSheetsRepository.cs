@@ -227,20 +227,20 @@ public class AgendamentoSheetsRepository : IAgendamentoRepository
         {
             Values = new List<IList<object>> {
                 new List<object> {
-                    agendamento.Nome,
-                    agendamento.Aviso,
-                    agendamento.Data.ToString("yyy-MM-dd") ?? null,
-                    agendamento.Horario.ToString("HH-mm"),
-                    agendamento.Procedimento,
-                    agendamento.Local,
-                    agendamento.Sala,
-                    displayStatus,
-                    agendamento.SenhaAgendamento.Codigo,
-                    agendamento.SenhaAgendamento.DataPedido.ToString("yyy-MM-dd") ?? null,
-                    agendamento.SenhaAgendamento.DataLibetracao?.ToString("yyy-MM-dd") ?? null,
-                    agendamento.SenhaAgendamento.Validade?.ToString("yyy-MM-dd") ?? null,
-                    agendamento.PacienteID,
-                    agendamento.ID,
+                    agendamento.Nome ?? "0",
+                    agendamento.Aviso ?? "0",
+                    agendamento.Data.ToString("yyy-MM-dd") ?? "0",
+                    agendamento.Horario.ToString("HH-mm") ?? "0",
+                    agendamento.Procedimento ?? "0",
+                    agendamento.Local ?? "0",
+                    agendamento.Sala ?? "0",
+                    displayStatus ?? "0",
+                    agendamento.SenhaAgendamento.Codigo ?? "0",
+                    agendamento.SenhaAgendamento.DataPedido.ToString("yyy-MM-dd") ?? "0",
+                    agendamento.SenhaAgendamento.DataLibetracao?.ToString("yyy-MM-dd") ?? "0",
+                    agendamento.SenhaAgendamento.Validade?.ToString("yyy-MM-dd") ?? "0",
+                    agendamento.PacienteID ?? "0",
+                    agendamento.ID ?? "0",
                 }
             }
         };

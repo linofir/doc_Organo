@@ -34,7 +34,6 @@ public class AtendimentoSheetsRepository : IAtendimentoRepository
         return await InstantiateAtendimento(pacienteId);
         // throw new NotImplementedException();
     }
-
     public async Task<Atendimento> InstantiateAtendimento ( string pacienteId )
     {
         // Criar lógicas para definirem a etapa do atendimento, inicializando.
@@ -147,15 +146,18 @@ public class AtendimentoSheetsRepository : IAtendimentoRepository
         
 
         //Para Etapa Pré Procedimento
-        // var agendamentosOfPaciente = await _agendamentoRepository.GetByPacienteIdAsync(pacienteId);
-        // var agendamentosId = new List<string>(){};
-        // if(agendamentosOfPaciente != null && agendamentosOfPaciente.Any())
-        // {
-        //    foreach (var a in agendamentosOfPaciente)
-        //     {
-        //         agendamentosId.Add(a.ID);
-        //     }
-        // }
+        //Checar senhas autorizadas, implementar lógica para verificação das senhas
+        
+        var agendamentosOfPaciente = await _agendamentoRepository.GetByPacienteIdAsync(pacienteId);
+        var agendamentosId = new List<string>(){};
+        if(agendamentosOfPaciente != null && agendamentosOfPaciente.Any())
+        {
+           foreach (var a in agendamentosOfPaciente)
+            {
+                agendamentosId.Add(a.ID);
+            }
+
+        }
         // Progressoes a serem confirmadas, mudança de status para cada CD
 
         // Procedimento

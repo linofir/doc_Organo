@@ -76,5 +76,14 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+string filePath = @"C:\Users\lino\Downloads\transferir (7).xls";
+var service = new FileDataOfSenhaExtractorService(filePath);
+var listaSenhas = await service.ExtractDataFromFileAsync(filePath);
+// Console.WriteLine($"Nome: {listaSenhas.Senhas[0].NomePaciente}, Código: {listaSenhas.Senhas[0].Codigo}");
+// service.SaveDescritivo(listaSenhas);
+Console.WriteLine(await service.PrintSenhasExtraidosComoJson(listaSenhas));
+
+    
+
 app.Run();
 

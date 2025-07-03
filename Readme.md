@@ -194,12 +194,15 @@
     - Criar model FollowUp que irá se relacionar com paciente 
         - Adaptar Paciente model 
         - model Atendimento
-    - Adaptar Dtos Atendimento 
+    - Criar Dtos Atendimento 
+        - Read
     - Criar FollowUp e adaptar métodos repositório e interfaces
         - Refatorar Paciente.
             - Método para busca GET de forma direta. Busca por row, Analisar se é mais eficiente mesmo.
         - Transpor funcionalidade de Criar um relatorio geral para o novo repositório Atendimento ao invés de Prontuario. OK
-    - Adaptar serviço de geração de pdf, acrescendtar Agendamento.
+    - Adaptar/Criar serviço 
+        - de geração de pdf, acrescendtar Agendamento. OK
+        - Coleta de dados das tabelas de senhas
     - Adaptar program.cs OK
     - Criar endpoint 
         - Criar controller Atendimento 

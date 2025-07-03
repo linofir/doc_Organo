@@ -46,9 +46,9 @@ public class PreProcedimentoEtapaStatus
     public string StatusAnestesista { get; set; } = string.Empty;
     public string StatusInstrumentadora { get; set; } = string.Empty;
     public string StatusProcedimento { get; set; } = string.Empty;
-    public DateOnly? DataConsultaConcluida { get; set; }
     public string StatusExames { get; set; } = string.Empty;
     public string StatusGeral { get; set; } = string.Empty;
+    public DateOnly? DataAgendamento { get; set; }
 }
 public class ProcedimentoEtapaStatus
 {
