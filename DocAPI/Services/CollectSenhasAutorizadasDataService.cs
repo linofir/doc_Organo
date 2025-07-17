@@ -29,8 +29,9 @@ public class ListaSenhas
 
 public class FileDataOfSenhaExtractorService
 {
-    private string? PathToFile;
+    public string? PathToFile = @"C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\Secrets\SenhasAutorizadas\SenhasAtualizadas.json";
     private readonly CultureInfo _cultureInfo = new CultureInfo("pt-BR"); // Ou a cultura do seu XLSX/HTML
+    public FileDataOfSenhaExtractorService(){}
     public FileDataOfSenhaExtractorService(string caminhoXls)
     {
         var fileTypeCheck = DetectarFormatoArquivo(caminhoXls);
@@ -170,7 +171,7 @@ public class FileDataOfSenhaExtractorService
                     }
                 }
                 listaSenhas.Senhas = senhas;
-                listaSenhas.UltimaAtualizacao = DateTime.Today;
+                listaSenhas.UltimaAtualizacao = DateTime.Now;
             }
         }
         // Console.WriteLine($"Dados extraídos...Tipo de Guia:{listaDadosFinanceiros.TipoGuia}");
@@ -183,24 +184,15 @@ public class FileDataOfSenhaExtractorService
         var doc = new HtmlDocument();
         doc.LoadHtml(html);
         // Usa InnerText para remover todas as tags e depois remove espaços indesejados e nbsp
-        Console.WriteLine($" clean: {doc.DocumentNode.InnerText}");
+        // Console.WriteLine($" clean: {doc.DocumentNode.InnerText}");
         
         var text = doc.DocumentNode.InnerText;
         
         text = text.Replace("&nbsp;", " ").Trim();
         text = Regex.Replace(text, @"\s+", " ", RegexOptions.Compiled).Trim();
-        Console.WriteLine($"  tratado: {doc.DocumentNode.InnerText}");
+        // Console.WriteLine($"  tratado: {doc.DocumentNode.InnerText}");
         return text;
     }
-    // private DateOnly ParseDateOnly(string value)
-    // {
-    //     if (DateTime.TryParseExact(value, "dd/MM/yyyy", _cultureInfo, DateTimeStyles.None, out DateTime dateTimeResult))
-    //     {
-    //         return DateOnly.FromDateTime(dateTimeResult);
-    //     }
-    //     Console.WriteLine($"Aviso: Não foi possível converter '{value}' para DateOnly (esperado 'dd/MM/yyyy'). Usando DateOnly.MinValue.");
-    //     return DateOnly.MinValue; // Ou você pode retornar null se a propriedade Data for DateOnly?
-    // }
     private DateOnly? ParseDateOnly(string value) 
     {
         if (string.IsNullOrWhiteSpace(value))
@@ -215,15 +207,7 @@ public class FileDataOfSenhaExtractorService
         {
             return parsedDate;
         }
-
-        // Se você tiver outros formatos possíveis, adicione-os aqui.
-        // Por exemplo, se a planilha puder usar "yyyy-MM-dd"
-        // if (DateOnly.TryParseExact(value, "yyyy-MM-dd", _cultureInfo, DateTimeStyles.None, out parsedDate))
-        // {
-        //     return parsedDate;
-        // }
-
-        Console.WriteLine($"Aviso ParseDateOnly: Não foi possível converter '{value}' para DateOnly (esperado 'dd/MM/yyyy'). Retornando null.");
+        // Console.WriteLine($"Aviso ParseDateOnly: Não foi possível converter '{value}' para DateOnly (esperado 'dd/MM/yyyy'). Retornando null.");
         return null; // Retorna null em caso de falha
     }
     private List<string> OrganizeProcedimentos(string textoBruto)
@@ -275,7 +259,7 @@ public class FileDataOfSenhaExtractorService
             }
         }
     }
-    public async Task SaveDescritivo(ListaSenhas senhas)
+    public async Task SaveDescritivo(ListaSenhas listaSenhas)
     {
         Console.WriteLine("Salvando...");
         string baseDirectory = @"C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\Secrets\";
@@ -305,64 +289,60 @@ public class FileDataOfSenhaExtractorService
                 //return;
             }
         }
+        var senhasAtualizadasJson = await PrintSenhasExtraidosComoJson(listaSenhas);   
+        File.WriteAllText(senhasAtualizadasPath, senhasAtualizadasJson);
+        Console.WriteLine($"\nDados Salvos com sucesso e salvos em: {senhasAtualizadasPath}");
     }
-    // private async Task<ListaSenhas> LoadDescritivosFromFile(string filePath)
-    // {
-    //     Console.WriteLine("Loading...");
-    //     if (!File.Exists(filePath))
-    //     {
-    //         Console.WriteLine($"Arquivo '{filePath}' não encontrado. Iniciando com uma nova lista vazia.");
-    //         return new ListaSenhas();
-    //     }
-
-    //     try
-    //     {
-    //         string jsonContent = await File.ReadAllTextAsync(filePath);
-    //         if (string.IsNullOrWhiteSpace(jsonContent))
-    //         {
-    //             Console.WriteLine($"Aviso: Arquivo '{filePath}' está vazio ou contém apenas espaços em branco. Iniciando com uma nova lista vazia.");
-    //             return new ListaSenhas();
-    //         }
+    public async Task<ListaSenhas> LoadDescritivosFromFile(string filePath)
+    {
+        Console.WriteLine("Loading...");
+        if (!File.Exists(filePath))
+        {
+            Console.WriteLine($"Arquivo '{filePath}' não encontrado. Iniciando com uma nova lista vazia.");
+            return new ListaSenhas();
+        }
+        try
+        {
+            string jsonContent = await File.ReadAllTextAsync(filePath);
+            if (string.IsNullOrWhiteSpace(jsonContent))
+            {
+                Console.WriteLine($"Aviso: Arquivo '{filePath}' está vazio ou contém apenas espaços em branco. Iniciando com uma nova lista vazia.");
+                return new ListaSenhas();
+            }
             
-    //         using(var stream = new MemoryStream(Encoding.UTF8.GetBytes(jsonContent)))
-    //         {
-    //             // Agora, JsonSerializer.DeserializeAsync pode ler do stream
-    //             // Você pode passar JsonSerializerOptions se precisar, como no PrintDadosExtraidosComoJson
-    //             var options = new JsonSerializerOptions
-    //             {
-    //                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase // Mantenha a mesma política
-    //                 // ... outras opções que você usa para serializar, se houver
-    //             };
+            using(var stream = new MemoryStream(Encoding.UTF8.GetBytes(jsonContent)))
+            {
+                // Agora, JsonSerializer.DeserializeAsync pode ler do stream
+                // Você pode passar JsonSerializerOptions se precisar, como no PrintDadosExtraidosComoJson
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase // Mantenha a mesma política
+                    // ... outras opções que você usa para serializar, se houver
+                };
 
-    //             var deserializedList = await JsonSerializer.DeserializeAsync<ListaSenhas>(stream, options);
+                var deserializedList = await JsonSerializer.DeserializeAsync<ListaSenhas>(stream, options);
 
-    //         //var deserializedList = await JsonSerializer.DeserializeAsync<List<DescritivoFinanceiro>>(jsonContent);
+            //var deserializedList = await JsonSerializer.DeserializeAsync<List<DescritivoFinanceiro>>(jsonContent);
 
-    //             if (deserializedList == null)
-    //             {
-    //                 Console.WriteLine($"Aviso: Conteúdo do arquivo '{filePath}' resultou em lista nula após deserialização. Iniciando com uma nova lista vazia.");
-    //                 return new ListaSenhas();
-    //             }
-    //             Console.WriteLine($"Verificando descrições loading.. Itens carregados: {deserializedList.Count}");
-    //             Console.WriteLine("Verificando descripões loading..");
-    //             foreach (var desc in deserializedList)
-    //             {
-    //                 var test = desc.Periodo.HasValue ? desc.Periodo.Value.ToString("dd/MM/yyyy") : "Período NULO/INVÁLIDO";
-    //                 Console.WriteLine($"  Descriçao do período carregado: {test}");
-    //             }
-
-    //             return deserializedList;
-    //         }
-    //     }
-    //     catch (JsonException ex)
-    //     {
-    //         Console.Error.WriteLine($"Erro ao deserializar o arquivo JSON '{filePath}': {ex.Message}. O arquivo pode estar corrompido ou mal formatado. Iniciando com uma nova lista vazia.");
-    //         return new List<DescritivoFinanceiro>();
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         Console.Error.WriteLine($"Erro ao ler o arquivo '{filePath}': {ex.Message}. Iniciando com uma nova lista vazia.");
-    //         return new List<DescritivoFinanceiro>();
-    //     }
-    // }
+                if (deserializedList == null)
+                {
+                    Console.WriteLine($"Aviso: Conteúdo do arquivo '{filePath}' resultou em lista nula após deserialização. Iniciando com uma nova lista vazia.");
+                    return new ListaSenhas();
+                }
+                Console.WriteLine($"Verificando descrições loading... Última Atualização: {deserializedList.UltimaAtualizacao} Itens carregados: {deserializedList.Senhas?.Count}");
+                Console.WriteLine("Verificando descripões loading..");
+                return deserializedList;
+            }
+        }
+        catch (JsonException ex)
+        {
+            Console.Error.WriteLine($"Erro ao deserializar o arquivo JSON '{filePath}': {ex.Message}. O arquivo pode estar corrompido ou mal formatado. Iniciando com uma nova lista vazia.");
+            return new ListaSenhas();
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Erro ao ler o arquivo '{filePath}': {ex.Message}. Iniciando com uma nova lista vazia.");
+            return new ListaSenhas();
+        }
+    }
 }

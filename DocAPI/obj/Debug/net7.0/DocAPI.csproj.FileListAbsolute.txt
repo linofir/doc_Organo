@@ -141,3 +141,4 @@ C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\obj\Debug\net7.0\refint\D
 C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\obj\Debug\net7.0\DocAPI.pdb
 C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\obj\Debug\net7.0\DocAPI.genruntimeconfig.cache
 C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\obj\Debug\net7.0\ref\DocAPI.dll
+C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\bin\Debug\net7.0\Secrets\SenhasAutorizadas\SenhasAtualizadas.json

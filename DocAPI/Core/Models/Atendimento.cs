@@ -43,23 +43,29 @@ public class PreProcedimentoEtapaStatus
 {
     // CDs que precisam de progresso/confirmação
     public string StatusTermoCirurgico { get; set; } = string.Empty;
-    public string StatusAnestesista { get; set; } = string.Empty;
+    public string StatusEncaminhamento { get; set; } = string.Empty;
     public string StatusInstrumentadora { get; set; } = string.Empty;
-    public string StatusProcedimento { get; set; } = string.Empty;
     public string StatusExames { get; set; } = string.Empty;
     public string StatusGeral { get; set; } = string.Empty;
+    public string StatusSenha { get; set; } = string.Empty;
+    public string StatusAgendamento { get; set; } = string.Empty;
     public DateOnly? DataAgendamento { get; set; }
+    public DateTime? UltimaAtualizacaoSenhas { get; set; }
 }
 public class ProcedimentoEtapaStatus
 {
+    public string StatusProcedimento { get; set; } = string.Empty;
     public string StatusAtestado { get; set; } = string.Empty;
+    public string StatusInstrucoes { get; set; } = string.Empty;
     public string StatusGeral { get; set; } = string.Empty;
+    public string StatusConsulta { get; set; } = string.Empty;
+    public DateOnly dataConsultaPosOp { get; set; }
 }
 public class PosProcedimentoEtapaStatus
 {
     public string StatusConsultaPosOp { get; set; } = string.Empty;
     public DateOnly AgendamentoPosOp { get; set; } 
-    public string prontuarioPosOpId { get; set; } = string.Empty;
+    public string ProntuarioPosOpId { get; set; } = string.Empty;
     public string StatusRecomendacoesMedicas { get; set; } = string.Empty;
     public string StatusSeguimento { get; set; } = string.Empty;
     public DateOnly PrevisaoSeguimento { get; set; }

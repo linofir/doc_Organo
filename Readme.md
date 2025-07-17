@@ -191,18 +191,32 @@
 
 
 * Próximo  feature-followUp atual
-    - Criar model FollowUp que irá se relacionar com paciente 
-        - Adaptar Paciente model 
-        - model Atendimento
+    - Criar model Atendimento que irá se relacionar com paciente 
+        - Adaptar Paciente model ok
+        - model Atendimento k
     - Criar Dtos Atendimento 
-        - Read
-    - Criar FollowUp e adaptar métodos repositório e interfaces
+        - Read ok
+        * Criar Create, Update.
+    - Criar Atendimento e adaptar métodos repositório e interfaces
         - Refatorar Paciente.
             - Método para busca GET de forma direta. Busca por row, Analisar se é mais eficiente mesmo.
-        - Transpor funcionalidade de Criar um relatorio geral para o novo repositório Atendimento ao invés de Prontuario. OK
+        - Refatorar Agendamento.
+            - campos novos para gestão do atendimento
+        - Refatorar Prontuarios.
+            - Possibilitar outros formatos para prontuarios.
+            - Refatorar metodos do repositórios levando em consideração as buscas específicas
+        - Criar repo de atendimento
+            - Transpor funcionalidade de Criar um relatorio geral para o novo repositório Atendimento ao invés de Prontuario. OK
+            - Atendimento primeira etapa.
+                - métodos para validação de primeira etapa OK
+                - refatorar pendsando em prontuarios de outros tipo
+            - Atendimento segunda etapa. Criar teste
+            - Atendimento terceira etapa
+            - Aprimorar validação de cada etapa, forma independente?
     - Adaptar/Criar serviço 
         - de geração de pdf, acrescendtar Agendamento. OK
         - Coleta de dados das tabelas de senhas
+            - Save, load. Testar
     - Adaptar program.cs OK
     - Criar endpoint 
         - Criar controller Atendimento 

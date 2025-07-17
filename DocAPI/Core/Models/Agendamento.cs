@@ -46,7 +46,7 @@ public class Agendamento
     }
     public enum StatusAgendamento
     {
-        [Display(Name = "Sem senha")]
+        [Display(Name = "Sem senha")]//nao tem
         SemSenha = 1,
         [Display(Name = "Senha pendente")]//nao tem
         SenhaPendente = 2,
