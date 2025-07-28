@@ -13,6 +13,9 @@ public class ReadAgendamentoDto
         public string? Sala { get; set; }
         public Senha? SenhaAgendamento { get; set; }
         public StatusAgendamento?  Status { get; set; }
+        public string StatusInstrucoes { get; set; } = string.Empty;
+        public string StatusAtestado { get; set; } = string.Empty;
+        public DateOnly DataConsulta { get; set; } = DateOnly.MinValue;
 
     }
 

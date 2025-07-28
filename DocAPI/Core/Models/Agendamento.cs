@@ -34,7 +34,9 @@ public class Agendamento
     public Senha? SenhaAgendamento { get; set; }
     [Required(ErrorMessage = "Este campo é obrigatório")]
     public StatusAgendamento  Status { get; set; }
-
+    public string StatusInstrucoes { get; set; }
+    public string StatusAtestado { get; set; }
+    public DateOnly DataConsulta { get; set; } = DateOnly.MinValue;
 
     public class Senha
     {
