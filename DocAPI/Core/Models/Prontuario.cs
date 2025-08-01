@@ -10,14 +10,16 @@ public class Prontuario
     [Key]
     [Required(ErrorMessage = "Este campo é obrigatório")]
     public string? ID { get; set; }
-    public Prontuario(Paciente paciente)
-    {
-        ID = Guid.NewGuid().ToString();
-        DescricaoBasica = new DescricaoBasica(paciente);
-        Exames = new List<Exame>();
-    }
+    // public Prontuario(Paciente paciente)
+    // {
+    //     ID = Guid.NewGuid().ToString();
+    //     DescricaoBasica = new DescricaoBasica(paciente);
+    //     Exames = new List<Exame>();
+    // }
     [Required(ErrorMessage = "A data é obrigatória")]
     public DateOnly? DataConsulta {get; set; } 
+    // [Required(ErrorMessage = "O tipo é obrigatória")]
+    public string? Tipo {get; set; }
     [Required]
     public DescricaoBasica? DescricaoBasica { get; set; }
 
@@ -34,8 +36,9 @@ public class Prontuario
 
     public string? InformacoesExtras { get; set; } = string.Empty;
 
-    public List<Exame> Exames { get; set; }
+    public List<Exame>? Exames { get; set; }
     public Internacao? SolicitacaoInternacao { get; set;}
+    public PosOp? PosOperatorio  { get; set;}
 }        
 
 public class DescricaoBasica
@@ -139,7 +142,7 @@ public class DescricaoBasica
     public class Internacao
     {
         public List<string> Procedimentos { get; set; } = new();
-        public DateTime Data { get; set; }
+        public DateOnly Data { get; set; }
         public string IndicacaoClinica { get; set; } = string.Empty;
         public string Observacao { get; set; } = string.Empty;
         public string CID { get; set; } = string.Empty; 
@@ -148,11 +151,18 @@ public class DescricaoBasica
         public string Tipo { get; set; } = string.Empty;
         public string Regime { get; set; } = string.Empty;
         public string Carater { get; set; } = string.Empty;
-        public bool UsaOPME { get; set; }
+        public bool UsaOPME { get; set; } = false;
         public string Local  { get; set; } = string.Empty; 
-        public long Guia  { get; set; } 
+        public string? Guia  { get; set; } 
 
-    }    
+    }   
+
+public class PosOp
+{
+    public string? PeriodoSeguimento { get; set; }
+    public string? Conclusao { get; set; }
+    public string? ExameMacro { get; set; }
+}
 
 
 
@@ -167,9 +177,9 @@ public enum StatusVacinaHPV
     [Display(Name = "Sim, 3 doses")]
     TresDoses = 3,
 
-    [Display(Name = "Sem vacina")]
+    [Display(Name = "Sem Vacina")]
     SemVacina = 4,
-    [Display(Name = "Sem informação")]
+    [Display(Name = "Sem Informação")] 
     SemInfo = 5
 
     //Como usar no Display.Name, front

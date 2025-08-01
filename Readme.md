@@ -91,6 +91,7 @@
     * Definir interfaces e Repositórios
         - Paciente ok
         - Prontuario ok
+            - Em Create e PUT repensar a construção, Considerar os dados fixos do cadastro de Pacientes,
         - Agendamento
             - Método unificado de GET que lide com tipos diferentes. Incompleto.
             - POST, Adicionar na ultima linha da planilha,append Incompleto
@@ -193,25 +194,27 @@
 * Próximo  feature-followUp atual
     - Criar model Atendimento que irá se relacionar com paciente 
         - Adaptar Paciente model ok
-        - model Atendimento k
+        - model Atendimento Ok
     - Criar Dtos Atendimento 
         - Read ok
-        * Criar Create, Update.
+        * Criar Create, Update. OK
     - Criar Atendimento e adaptar métodos repositório e interfaces
         - Refatorar Paciente.
             - Método para busca GET de forma direta. Busca por row, Analisar se é mais eficiente mesmo.
         - Refatorar Agendamento.
-            - campos novos para gestão do atendimento
+            - campos novos para gestão do atendimento. OK
         - Refatorar Prontuarios.
-            - Possibilitar outros formatos para prontuarios.
-            - Refatorar metodos do repositórios levando em consideração as buscas específicas
+            - Possibilitar outros formatos para prontuarios. Ok
+            - Refatorar metodos do repositórios levando em consideração as buscas específicas Ok
+            - Avaliar e refatorar o impacto nos serviços.
         - Criar repo de atendimento
             - Transpor funcionalidade de Criar um relatorio geral para o novo repositório Atendimento ao invés de Prontuario. OK
             - Atendimento primeira etapa.
                 - métodos para validação de primeira etapa OK
-                - refatorar pendsando em prontuarios de outros tipo
+                - refatorar pensando em prontuarios de outros tipo
             - Atendimento segunda etapa. Criar teste
-            - Atendimento terceira etapa
+            - Atendimento terceira etapa. Criar teste
+            - Atendimento quarta etapa. 
             - Aprimorar validação de cada etapa, forma independente?
     - Adaptar/Criar serviço 
         - de geração de pdf, acrescendtar Agendamento. OK
