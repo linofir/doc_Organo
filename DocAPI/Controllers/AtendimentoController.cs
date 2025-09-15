@@ -81,4 +81,9 @@ public class AtendimentoController : ControllerBase
             return StatusCode(500, "Erro interno do servidor ao gerar o followUp."); // Retorna 500 Internal Server Error
         }
     }
+    public async Task<IActionResult> GetAtendomentos([FromQuery] int skip = 0, [FromQuery] int take = 10)
+    {
+        var atendomentos = await _repository.GetAllAsync(skip, take);
+        return Ok(_mapper.Map<IEnumerable<ReadAtendimentoDto>>(atendomentos));
+    }
 }

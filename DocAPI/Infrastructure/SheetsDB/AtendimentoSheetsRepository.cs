@@ -5,13 +5,14 @@ using DocAPI.Services;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Office2016.Drawing.Command;
 using Google.Apis.Drive.v3.Data;
+using Google.Apis.Sheets.v4.Data;
 using NPOI.SS.Formula.Functions;
 // using DocAPI.Data.Dtos.Atendimento;   
 
 namespace DocAPI.Infrastructure.SheetsDb;
 public class AtendimentoSheetsRepository : IAtendimentoRepository
 {
-
+    private readonly GoogleSheetsDB _sheetsDB;
     private readonly IPacienteRepository _pacienteRepository;
     private readonly IProntuarioRepository _prontuarioRepository;
     private readonly IAgendamentoRepository _agendamentoRepository; // Se precisar de agendamento
@@ -23,57 +24,172 @@ public class AtendimentoSheetsRepository : IAtendimentoRepository
                          IProntuarioRepository prontuarioRepository,
                          IAgendamentoRepository agendamentoRepository,
                          PdfGeneratorService pdfGeneratorService,
-                         FileDataOfSenhaExtractorService fileDataOfSenhaExtractorService)
+                         FileDataOfSenhaExtractorService fileDataOfSenhaExtractorService,
+                         GoogleSheetsDB sheetsDB)
     {
         _pacienteRepository = pacienteRepository;
         _prontuarioRepository = prontuarioRepository;
         _agendamentoRepository = agendamentoRepository;
         _pdfGeneratorService = pdfGeneratorService;
         _fileDataOfSenhaExtractorService = fileDataOfSenhaExtractorService;
+        _sheetsDB = sheetsDB;
     }
-
+    public async Task<IEnumerable<Atendimento>> GetAllAsync(int skip = 0, int take = 10)
+    {
+       throw new NotImplementedException();
+    }
+    public Task<Atendimento?> GetByIdAsync(string id)
+    {
+       throw new NotImplementedException();
+    }
+    public Task CreateAsync(Atendimento novoAtendimento)
+    {
+       throw new NotImplementedException();
+    }
+    public Task UpdateAsync(Atendimento atendimento, string id)
+    {
+       throw new NotImplementedException();
+    }
+    public Task DeleteAsync(string id)
+    {
+       throw new NotImplementedException();
+    }
     public async Task<Stream> CreateReportByIdAsync( string pacienteId )
     {
         return await GeneratePatientPdfFullReport(pacienteId);
     }
     public async Task<Atendimento> CreateReportFollwUpByIdAsync( string pacienteId )
     {
-        return await InstantiateAtendimento(pacienteId);
-        // throw new NotImplementedException();
+        // return await Atendimento(pacienteId);
+        throw new NotImplementedException();
     }
-    public async Task<Atendimento> InstantiateAtendimento ( string pacienteId )
+
+    // métodos auxiliares//////////////
+    
+    public async Task AddAtendimentooAsync(Atendimento atendimento)
     {
-        // Criar lógicas para definirem a etapa do atendimento, inicializando.
+        // Definir quais são os dados a serem persisitidos no DB, desconsiderando os já existentes em outras planilhas.
+        Console.WriteLine($"Comunicando com DB..." );
+        var agendamentoSheets = await _sheetsDB.LerRangeAsync("Atendimento!A3:Q");//definr tabela
+        int novaLinhaIndex = agendamentoSheets.Count(r => r.Any(cell => !string.IsNullOrWhiteSpace(cell?.ToString()))) + 3;
+        //Como é melhor armazenar o status, é preciso validar e preparar os dados antes de armazena-los
+        if (string.IsNullOrEmpty(atendimento.ID))
+        {
+            atendimento.ID = Guid.NewGuid().ToString();
+        };
+
+
+        // ValueRange body = CreateAgendamentoToSheets(agendamento); Definir método
+        
+        // 3. Escrever os dados na próxima linha disponível
+        string rangeDestino = $"Agendamentos!A{novaLinhaIndex}:Q{novaLinhaIndex}";
+        Console.WriteLine($"O novo Agendamento será acrescentado na { rangeDestino}");
+        // await _sheetsDB.WriteRangeAsync(rangeDestino, body.Values);
+    }
+
+    public async Task<List<Atendimento>> GetAtendimentosAsync()
+    {
+        var values = await _sheetsDB.LerRangeAsync("Atendimento!A3:H"); // de A até a coluna ID
+        var allAtendimentos = new List<Atendimento>();
+        var limit = values.Count;
+        //Console.WriteLine($"Total de linhas com algum dado: {limit}");       
+        for (int i = 0; i < limit; i++)
+        {
+            var row = values[i];
+            if (row.All(cell => string.IsNullOrWhiteSpace(cell?.ToString()))) continue;
+            //Confere se tem alguma coluna vazia
+            if (row.Count < 7)
+            {
+                Console.WriteLine($"Linha {i + 3} ignorada: colunas insuficientes ({row.Count}).");
+                continue;
+            }
+            try
+            {
+                var atendimento = await CollectAtendimento(row);
+                allAtendimentos.Add(atendimento);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao processar linha {i + 3}: {ex.Message}");
+            }
+        }
+        return allAtendimentos;
+    }
+    public async Task<Atendimento> CollectAtendimento(IList<object> row)
+    {
+        //Coletar dados do DB
         var atendimento = new Atendimento()
         {
+            ID = row[0].ToString() ?? "",
+            PacienteId = row[1].ToString() ?? "",
+            NomePaciente = row[2].ToString() ?? "",
+            ProntuariosId = row[3]!.ToString()!.Split(',').ToList(),
+            AgendamentosId = row[4]!.ToString()!.Split(',').ToList(),
+            EtapaAtualAtendimento = row[5].ToString() ?? "",
+            MensagemParaMedico = row[6].ToString() ?? "",
             EtapaConsulta = new ConsultaEtapaStatus(),
             EtapaPreProcedimento = new PreProcedimentoEtapaStatus(),
             EtapaProcedimento = new ProcedimentoEtapaStatus(),
             EtapaPosProcedimento = new PosProcedimentoEtapaStatus()
         };
-        if (string.IsNullOrEmpty(atendimento.ID))
+        var pacienteId = row[1].ToString();
+
+        // dados a serem validados para cada paciente
+        if(!string.IsNullOrWhiteSpace(pacienteId))
         {
-            atendimento.ID = Guid.NewGuid().ToString();
+            atendimento = await AtualizarAtendimento(pacienteId, atendimento);
         }
-        // Para Etapa COnsulta, validando cadastro
+        return atendimento;
+    }
+    public async Task<Atendimento> AtualizarAtendimento ( string pacienteId, Atendimento atendimento)
+    {
+        // Criar lógicas para definirem a etapa do atendimento, inicializando.
+        
+        // if (string.IsNullOrEmpty(atendimento.ID))
+        // {
+        //     atendimento.ID = Guid.NewGuid().ToString();
+        // }
+        // Para Etapa COnsulta, Coletar Paciente
         var paciente = await _pacienteRepository.GetByIdAsync(pacienteId);
+        // var prontuariosOfPaciente = new List<Prontuario>();
+        // Coletando prontuarios de paciente
+        if(paciente != null)
+        {
+            // prontuariosOfPaciente = await _prontuarioRepository.GetProntuariosOfPacienteAsync(paciente);
+            atendimento = await ValidacaoEtapaConsulta(paciente , atendimento);
+        }
+        //Para Etapa Pré Procedimento
+        // Coletar agendamentos
+        var agendamentosOfPaciente = await _agendamentoRepository.GetByPacienteIdAsync(pacienteId);
+        atendimento = await ValidacaoPreProcedimento(atendimento, agendamentosOfPaciente, paciente);
+        
+        // Procedimento
+        atendimento.EtapaProcedimento.StatusGeral = "Procedimento Pendente";
+        // Dados oriundos do DB, procedimento, instruções, atestado, dataConsulta
+        atendimento = ValidacaoEtapaProcedimento(atendimento, agendamentosOfPaciente, paciente);
+        
+
+        // Pós Procedimento
+        // Data Consulta pós OP
+        // Identificar prontuario de pos op
+        // Alarme para Seguimento médico.
+
+        return atendimento;
+    }
+    public async Task<Atendimento> ValidacaoEtapaConsulta(/*string pacienteId,*/ Paciente paciente, Atendimento atendimento /*,List<Prontuario> prontuariosOfPaciente*/)
+    {
         if(paciente == null)
         {
             // throw new InvalidOperationException($"Paciente com ID '{pacienteId}' não encontrado.");
-            atendimento.EtapaConsulta.CadastroConfirmado = false;
-            // atendimento.EtapaAtualAtendimento = "Inicialização";
-            atendimento.MensagemParaMedico = $"Problema ao identificar o cadastro da paciente com ID: {pacienteId}";
+            atendimento.EtapaConsulta!.CadastroConfirmado = false;
+            atendimento.MensagemParaMedico = $"Problema ao identificar o cadastro da paciente com ID: {atendimento.PacienteId}";
             return atendimento;
         }
         // Cadastro de paciente confirmado
-        atendimento.PacienteId = pacienteId;
-        atendimento.EtapaConsulta.CadastroConfirmado = true;
+        // atendimento.PacienteId = pacienteId;
+        atendimento.EtapaConsulta!.CadastroConfirmado = true;
         atendimento.EtapaConsulta.StatusGeral = "Consulta Pendente";
         atendimento.EtapaAtualAtendimento = "Inicialização";
-
-        // Validando Consulta ainda lidando somente com um prontuario padrão(que inicia um atendimento)
-        var prontuariosOfPaciente = await _prontuarioRepository.GetProntuariosOfPacienteAsync(paciente);
-        // Console.WriteLine($"quantidade de prontuários encontrados no atendimento: {prontuariosOfPaciente.Count()}");
 
         var allAcoesCD = Enum.GetValues(typeof(AcoesCD))
                              .Cast<AcoesCD>()
@@ -83,24 +199,27 @@ public class AtendimentoSheetsRepository : IAtendimentoRepository
                                  DisplayName = GetEnumDisplayName(action)
                              })
                              .ToList();
-       
+        //Estou aqui/////////////////////////////////////////////////
         var prontuariosId = new List<string>(){};
-        var procedimentos = new List<string>();
-        // var prontuariosProcedimentos = new List<List<string>>();
-
-
+        var prontuariosOfPaciente = await _prontuarioRepository.GetProntuariosOfPacienteAsync(paciente);
+        // var procedimentos = new List<string>();
         
-        // Validar se consulta foi realizada Data, Cds,  para prontuário existente(validar tipos de prontuarios).
+        // Console.WriteLine($"quantidade de prontuários encontrados no atendimento: {prontuariosOfPaciente.Count()}");
         if(prontuariosOfPaciente != null && prontuariosOfPaciente.Any())
         {
-           foreach (var p in prontuariosOfPaciente)
+            // Delimitando por prontuarios do Tipo Solicitacao(que inicia um atendimento), coleta o ultimo prontuário
+            var prontuarioSolicitacao = new Prontuario(){DataConsulta = DateOnly.MinValue};
+            foreach (var p in prontuariosOfPaciente)
             {
-                prontuariosId.Add(p.ID);
+                if(p.Tipo == "Solicitacao")
+                {
+                    prontuariosId.Add(p.ID);
+                    prontuarioSolicitacao = p.DataConsulta > prontuarioSolicitacao.DataConsulta ? p : prontuarioSolicitacao;
+                }
             }
-            atendimento.ProntuarioId = prontuariosId;
-            var prontuarioInicialTeste = prontuariosOfPaciente[0];
-            atendimento.EtapaConsulta.DataConsultaConcluida = prontuarioInicialTeste.DataConsulta;
-            procedimentos = prontuarioInicialTeste.SolicitacaoInternacao.Procedimentos;
+            atendimento.ProntuariosId = prontuariosId;
+            atendimento.EtapaConsulta.DataConsultaConcluida = prontuarioSolicitacao.DataConsulta;
+            atendimento.EtapaPreProcedimento.Procedimentos = prontuarioSolicitacao.SolicitacaoInternacao.Procedimentos;
             // Console.WriteLine($"Valor da data : {atendimento.EtapaConsulta.DataConsultaConcluida}");
             atendimento.EtapaAtualAtendimento = "Consulta";
             
@@ -116,25 +235,17 @@ public class AtendimentoSheetsRepository : IAtendimentoRepository
             // Iterar sobre todas as ações CD possíveis
             foreach (var action in allAcoesCD)
             {
-                // Ignorar "Sem Info" pois não é uma ação a ser "preenchida", mas sim um status de não-preenchimento
-                // Você pode ajustar essa lógica se "Sem Info" tiver outro significado.
-                // if (action.Value == AcoesCD.SemInformacao)
-                // {
-                //     atendimento.MensagemParaMedico = $"Atendimento aberto da paciente {paciente.Nome}, mas sem as informações de CD.";
-                //     continue;
-                //     // continue; 
-                // }
-                if (prontuarioInicialTeste.CD != null && prontuarioInicialTeste.CD.Contains(AcoesCD.SemInformacao) && prontuarioInicialTeste.CD.Count == 1)
+                if (prontuarioSolicitacao.CD != null && prontuarioSolicitacao.CD.Contains(AcoesCD.SemInformacao) && prontuarioSolicitacao.CD.Count == 1)
                 {
                     // Se "Sem Info" é a única CD, então todas as outras são pendentes.
                     // Populate cdStatusList marcando tudo como Pendente, exceto SemInformacao.
                     // ... (implementar essa lógica)
                     atendimento.MensagemParaMedico = $"Atendimento aberto da paciente {paciente.Nome}, com registro de 'Sem Info' nas CDs.";
                     // Pode ser um bom ponto para retornar ou definir um status geral específico.
+                    return atendimento;
                 }
-
                 // Verificar se a ação está presente na lista CD do prontuário
-                var isPresent = prontuarioInicialTeste.CD?.Contains(action.Value) ?? false;
+                var isPresent = prontuarioSolicitacao.CD?.Contains(action.Value) ?? false;
 
                 cdStatusList.Add(new CDStatus
                 {
@@ -158,27 +269,27 @@ public class AtendimentoSheetsRepository : IAtendimentoRepository
         }
         atendimento.EtapaConsulta.StatusGeral = "Consulta Concluída";
         atendimento.EtapaAtualAtendimento = "Pré Procedimento";
-
-        //Para Etapa Pré Procedimento
-        // Coletar de DB, Exames executados, Contado com instrumentadora, encaminhamentos, assinatura termo, 
+        return atendimento;
+    }
+    public async Task<Atendimento> ValidacaoPreProcedimento(Atendimento atendimento, List<Agendamento> agendamentosOfPaciente, Paciente paciente)
+    {
         atendimento.EtapaPreProcedimento.StatusGeral = "PreOp pendente";
-
+    //informações do DB, da tabela Atendimento
         atendimento.EtapaPreProcedimento.StatusEncaminhamento = "true";
         atendimento.EtapaPreProcedimento.StatusExames = "true";
         atendimento.EtapaPreProcedimento.StatusInstrumentadora = "true";
         atendimento.EtapaPreProcedimento.StatusTermoCirurgico = "true";
-        // Coletar agendamentos
-        var agendamentosOfPaciente = await _agendamentoRepository.GetByPacienteIdAsync(pacienteId);
         var agendamentosId = new List<string>(){};
-        var agendamentoTeste = new Agendamento();
+        var agendamentoTeste = new Agendamento(){Data = DateOnly.MinValue};
         if(agendamentosOfPaciente != null && agendamentosOfPaciente.Any())
         {
            foreach (var a in agendamentosOfPaciente)
             {
                 agendamentosId.Add(a.ID);
+                agendamentoTeste = a.Data > agendamentoTeste.Data ? a : agendamentoTeste;// será o ultimo agendamento realizado, definir melhor
             }
-            atendimento.AgendamentoId = agendamentosId;
-            agendamentoTeste = agendamentosOfPaciente[0];
+            atendimento.AgendamentosId = agendamentosId;
+            // agendamentoTeste = agendamentosOfPaciente[0];
             atendimento.EtapaPreProcedimento.DataAgendamento = agendamentoTeste.Data;
             atendimento.EtapaPreProcedimento.StatusAgendamento = "true";
             // atendimento.MensagemParaMedico = $"Nenhum Prontuário encontrado para a paciente {paciente.Nome}.";
@@ -210,7 +321,7 @@ public class AtendimentoSheetsRepository : IAtendimentoRepository
                             Console.WriteLine("Paciente presente na lista de senhas autorizadas");
                             foreach( var p in s.Procedimento)
                             {
-                                if(procedimentos.Contains(p))
+                                if(atendimento.EtapaPreProcedimento.Procedimentos.Contains(p))
                                 {
                                     atendimento.EtapaPreProcedimento.StatusSenha = "True";
                                     Console.WriteLine("Encontradas senhas de procedimentos aprovadas");
@@ -258,24 +369,23 @@ public class AtendimentoSheetsRepository : IAtendimentoRepository
         atendimento.EtapaPreProcedimento.StatusGeral = "PreOP concluido";
         atendimento.EtapaAtualAtendimento = "Procedimento";
         atendimento.MensagemParaMedico = $"O pré procedimento da paciente {paciente.Nome} está completo";
-        // Procedimento
-        atendimento.EtapaProcedimento.StatusGeral = "Procedimento Pendente";
-        // Dados oriundos do DB, procedimento, instruções, atestado, dataConsulta
-        atendimento = ValidacaoEtapaProcedimento(atendimento, agendamentoTeste, paciente);
-        
-
-        // Pós Procedimento
-        // Data Consulta pós OP
-        // Identificar prontuario de pos op
-        // Alarme para Seguimento médico.
-
         return atendimento;
     }
-    public Atendimento ValidacaoEtapaProcedimento(Atendimento atendimento, Agendamento agendamento, Paciente paciente)
+    public Atendimento ValidacaoEtapaProcedimento(Atendimento atendimento, List<Agendamento> agendamentosOfPaciente, Paciente paciente)
     {
         var statusEtapa = new ProcedimentoEtapaStatus();
-
-        // 1. Verificar o status do agendamento/procedimento
+        var agendamento = new Agendamento(){Data = DateOnly.MinValue};
+        if(agendamentosOfPaciente != null && agendamentosOfPaciente.Any())
+        {
+           foreach (var a in agendamentosOfPaciente)
+            {
+                // 1. Verificar o status do agendamento/Se o procedimento foi realizado
+                if (a.Status == Agendamento.StatusAgendamento.ProcedimentoConcluido)
+                {
+                    agendamento = a.Data > agendamento.Data ? a : agendamento;// será o ultimo agendamento realizado
+                }
+            }
+        }
         if (agendamento.Status == Agendamento.StatusAgendamento.ProcedimentoConcluido)
         {
             statusEtapa.StatusProcedimento = "Concluído";
@@ -285,13 +395,11 @@ public class AtendimentoSheetsRepository : IAtendimentoRepository
             if (agendamento.Local.Equals("0", StringComparison.OrdinalIgnoreCase)) // Assumindo um campo no Agendamento ou no Procedimento
             {
                 statusEtapa.StatusInstrucoes = "false";
-
             }
             else
             {
                 statusEtapa.StatusInstrucoes = "true";
             }
-
             // Verifica o status do Atestado
             if (agendamento.Local.Equals("0", StringComparison.OrdinalIgnoreCase)) // Assumindo um campo no Agendamento ou no Procedimento
             {
@@ -389,4 +497,5 @@ public class AtendimentoSheetsRepository : IAtendimentoRepository
     
         return _pdfGeneratorService.GeneratePatientReportPdf( paciente, prontuarios, agendamentos);
     }
+    
 }

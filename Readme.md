@@ -1,264 +1,108 @@
 # DocAPI
+Esta aplicação é uma API de back-end que tem como objetivo centralizar e otimizar a gestão de dados de um atendimento médico, automatizando processos e unificando informações de pacientes, prontuários e agendamentos. 
+Poderá ser associada ao DocFront, front-end da API.
+## 🚀 Como Executar
+### Executando a Aplicação
+Para iniciar a API, execute o seguinte comando na raiz do projeto:
+```bash
+dotnet run --project DocAPI/DocAPI.csproj
+```
+### Executando Scripts Específicos
+Para executar scripts customizados, como o de extração de dados de um PDF:
+```bash
+dotnet run --project DocAPI/DocAPI.csproj --extract
+```
+## Pré-requisitos
+- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) ou superior.
+## 🛠️ Tecnologias e Bibliotecas
+*   **.NET 8:** Framework principal da aplicação.
+*   **ASP.NET Core:** Para a construção da API REST. @@ -24,12 +31,23 @@.
+*   **Entity Framework Core:** ORM para a futura persistência em banco de dados relacional.
+*   **AutoMapper:** Mapeamento de objetos (Models para DTOs).
+*   **Google Sheets API:** Utilizada para persistência de dados na fase inicial de desenvolvimento.
+*   **PdfPig:** Extração de texto e dados de arquivos PDF.
+*   **HtmlAgilityPack:** Parsing de documentos HTML para extração de dados (web scraping).
+*   **NPOI:** Manipulação de arquivos Excel (XLS).
 
-* Está aplicação é um desenvolvimento que busca estruturar a gestão de dados de um consultório médico
-
-# Extrernal Docs
+## Documentação Externa
 * [PDFPig](https://github.com/UglyToad/PdfPig/wiki)
 * [TabulaSharp](https://github.com/BobLd/tabula-sharp?tab=readme-ov-file)
 * [Closedxml](https://www.nuget.org/packages/closedxml/) Provavelmente não será usada
 * [NPOI](https://www.nuget.org/packages/npoi/)
 * [htmlagilitypack](https://www.nuget.org/packages/htmlagilitypack/)
+## 💻 Fluxo de Desenvolvimento (Como Contribuir)
+Este projeto utiliza um fluxo de trabalho baseado em *feature branches*, similar ao GitHub Flow.
+1.  **Sincronize sua branch `main`:**
+    ```bash
+    git checkout main
+    git pull origin main
+    ```
+2.  **Crie uma nova branch para sua tarefa:**
+    Use um nome descritivo, como `feature/nome-da-funcionalidade` ou `fix/descricao-do-bug`.
+    ```bash
+    git checkout -b feature/nome-da-sua-branch
+    ```
+3.  **Faça seus commits:**
+    Realize commits pequenos e atômicos com mensagens claras.
+    ```bash
+    git add .
+    git commit -m "feat: Adiciona endpoint para criar paciente"
+    git push origin feature/nome-da-sua-branch
+    ```
+4.  **Abra um Pull Request (PR):**
+    No GitHub, crie um Pull Request da sua branch para a `main`. Descreva o que foi feito. Isso serve como um registro da mudança e um ponto de revisão.
+5.  **Mescle e limpe:**
+    Após aprovar e mesclar o PR, delete a branch para manter o repositório limpo.
+    ```bash
+    git branch -d feature/nome-da-sua-branch
+    git push origin --delete feature/nome-da-sua-branch
+    ```
 
-# Comands 
-* dotnet run --project DocAPI/DocAPI.csproj 
-* Run script that extract data from PDF.
-    dotnet run --extract
+## 🏗️ Arquitetura e Diretrizes de Desenvolvimento
 
-# Diretrizes 
-    * Etapas para alterar modelos (ex: Paciente.cs):
-        - Alterar ou criar o modelo (Models/Paciente.cs)
+Esta seção serve como um guia rápido para o desenvolvedor, descrevendo os fluxos de trabalho comuns para adicionar ou modificar funcionalidades na API.
 
-        - Ajustar os DTOs e Profiles se necessário
+A arquitetura segue um padrão semelhante ao **Model-View-Controller (MVC)**, onde:
+- **Model:** As entidades de negócio em `DocAPI/Core/Models`.
+- **Controller:** Os endpoints da API em `DocAPI/Controllers`, que orquestram as requisições.
+- **View:** O frontend (separado), `DocFront`, que consumirá esta API.
 
-        - Atualizar o DbContext se novas tabelas ou relações forem criadas
+### Workflow 1: Adicionando/Modificando uma Entidade (com Google Sheets - *Atual*)
 
-        - Criar nova migration:
-        ```bash
-            dotnet ef migrations add AlteracoesPaciente
-        ``` 
-        - db context Aplicar ao banco, Aplicar no sheetsDB(etapaDEV)
-        ```bash
-            dotnet ef database update
-        ```
-        -Testar rotas API, postman
+Este é o fluxo de trabalho para a fase de desenvolvimento atual, utilizando o Google Sheets como banco de dados.
 
-    * Etapas para Criar modelos
-        ✔ Criar classe no Models/
-        ✔ Criar os DTOs em Data/Dtos/
-        ✔ Criar Profile do AutoMapper
-        ✔ Criar interfaces
-        ✔ Incluir no DbContext, ou adaptações google sheets DB( etapa dev)
-        ✔ Criar migration e aplicar
-        ✔ Criar controller REST básico
+1.  **Model:** Crie ou altere a classe da entidade em `DocAPI/Core/Models`.
+2.  **DTOs:** Crie ou ajuste os Data Transfer Objects (DTOs) em `DocAPI/Data/Dtos/` para expor os dados de forma segura.
+3.  **AutoMapper:** Atualize ou crie um `Profile` para mapear a entidade para seus DTOs.
+4.  **Interface do Repositório:** Defina os contratos necessários na interface correspondente em `DocAPI/Core/Repositories`.
+5.  **Repositório (Sheets):** Implemente a lógica de acesso aos dados na classe de repositório em `DocAPI/Infrastructure/SheetsDb/`. Isso envolve a comunicação com o serviço `GoogleSheetsDB`.
+6.  **Controller:** Crie ou atualize o Controller em `DocAPI/Controllers` para expor os novos endpoints.
+7.  **Testes:** Valide as novas rotas e a lógica utilizando o Postman.
 
-    * Criar Controllers
-        ✔ Criar diretriz    
-   
-    
-    * GitHub, Doc_Organo
-        ✔ Atualize sua main com o remoto:git checkout main ; git pull origin main
-        ✔ Crie e mude para uma nova branch: git checkout -b nome-da-sua-branch
-        ✔ Faça suas alterações e commits normalmente: git add . ; git commit -m "nome-feature" ; git push origin nome-da-sua-branch
-        ✔ (Opcional) Crie um Pull Request no GitHub: Se estiver colaborando com outras pessoas ou quiser deixar documentado, abra um Pull Request no site do GitHub. Isso te dá chance de revisar e aprovar antes de mesclar.
-        ✔ Mescle para main: Quando tiver certeza que está tudo funcionando e testado, você pode fazer o merge: git checkout main ; git pull origin main; git merge nome-da-sua-branch; git push origin main; 
-        ✔ Deletar branch antiga: git branch -d nome-da-sua-branch ; git push origin --delete nome-da-sua-branch
- feature-createRelatorioPdf
-## Services
-* DB no google sheets(Etapa de desenvolvimento)
-    ✔ Criar Task necessária na Interface 
-    ✔ Criar a comunicação com a interface e a função no PacienteSheetsRepository
-    ✔ Criar funções necessárias na GoogleSheetsDB, repositorio
-    ✔ Criar Controller
+### Workflow 2: Adicionando/Modificando uma Entidade (com EF Core - *Futuro*)
 
-* PdfExtract ok
+Este é o fluxo de trabalho alvo, para quando a migração para um banco de dados relacional estiver completa.
 
-# ToDo  Product Log
-* Atividades auxiliares
-    * Update de estruturas
-        - Criação de Core OK
-        - Criação de infrastructure ok
-
-* Adaptar e criar novo DB
-    * Novos modelos.
-        - Paciente OK
-        - Endereco Ok
-        - Prontuário
-            - Aç~es Cd Pedidos Cirurgicos, Termo cirurgico, Explicação sobre o procedimento. Paciente acompanhada,
-        - Agendamento Cirurgico OK
-        - FollowUP
-    * Dtos
-        - Paciente Ok
-        - Endereco ok
-        - Prontuario ok
-        - Agendamento OK
-        - FollowUp
-
-    * Profile
-        - Paciente Ok
-        - Prontuario Ok
-        - Agendamento Ok
-        - FollowUp 
-    * Definir interfaces e Repositórios
-        - Paciente ok
-        - Prontuario ok
-            - Em Create e PUT repensar a construção, Considerar os dados fixos do cadastro de Pacientes,
-        - Agendamento
-            - Método unificado de GET que lide com tipos diferentes. Incompleto.
-            - POST, Adicionar na ultima linha da planilha,append Incompleto
-            - POST, Criar o ID Problema da geração do ID fora do contrutor. Incompleto
-            - PUT, Os parametros podem ser associados. Incompleto
-            - Criar método para chechagem de Senha e Status. pelo email ou arquivo
-        - FollowUp
-    * DB google sheets
-        - Configurar as APis na cloud OK
-        - Criar novo serviço, criar teste de primeiro acesso ok
-        - Criar Requisições Paciente ok
-        - Refatorar com métodos auxiliares, contrução do body das planilhas
-    * Criar Controllers
-        - Paciente, definir endpoints básicos ok
-        - Prontuario, definir endpoints básicos  ok
-            - Requisições from form.
-        - Agendamentos OK
-            - Criar controller de filter  geral. Incompleto
-        - FollowUp
-    * DBContext
-        - Criar do zero 
-* Services
-    * ProntuarioPdfExtractosService
-        - identificar páginas automaticamente.
-        - adaptar método para lidar com filesteam, ao invés de path.
-        - Testar com diferentes prontuários e adaptar padrões.
-        - Adicionar logs e tratamento de exceções.
-        - Implementar extração de data
-    * PdfGeneratorService
-        - Identificar os Logs atuantes. 
-        - Criar cenários, logs de erros
-        - Desenvolver validações.
-    * feature-CollectDemonstrativoDataService 
-        - Criar serviço que extrai os dados
-            - Classe de extração usando scrapping Incompleto
-                - Método de extração da url. Incompleto
-                - Fazer uma requisição GET inicial para a página de login:
-                - Fazer uma requisição POST para a URL de processamento de login
-                - Gerenciar Cookies:
-                - Automatizar, periodicidade
-        - Logica para validação financeira
-    * Serviço para coleta de Senha, prop de agenda
-        
-* Refatorando Geral.
-    - Debug de null reference
-    - Refatorar método de Get específicos, iguais ao agendamento.
-    - Alinhar os Enuns aos valores das tabelas do Sheets.
-    - Regras dos sheets defasadas, validaçoes, funções etc.
-    - Definir melhor os padrões de tipos para CPF, Mudar formato da planilha para não haver conflito
-    - Documentaçao Geral.
-    * endpoints e serviços ja identificados
-            - Criar testes especificos para cada endpoint
-            - Corrigir erros no POST, não aceita null em solicitacao de internacao, testar exames.
-            - Caminhos possíveis de PUT
-            - Testes
-                - Construir uma camada de logger. 
-                - Criar cenários de testes, logs de erros, menssagens de excessão 
-                - Revisar validaçoes .
-
-* create-Prontuario-endpoints
-    - Adaptar GoogleSheetsDB pra todas entidades, ou criar novos métodos se possível.
-    - Criar todos métodos do repositório.     
-    - Alterações no model, 
-        - novas porpriedades em internacao, descricao basica
-    - Alterações nos Dtos de Prontuario.
-    - Alterações no Profile do mapper, prontuario
-    - Criar endpoints 
-        - GET all e ID ok, POST ok, PUT ok, DELETE  ok
-* Testes 
-    * Organização
-        - Estrutura,  Pastas (Testes unitários (Unit), Testes de integração(integration), Testes end-to-end (E2E))
-        -Fluxo 
-        ```mermaid
-            graph TD
-            A[Escreve Endpoint / Serviço] --> B[Testes Automatizados]
-            B --> C[Logs Detalhados]
-            C --> D[Monitoramento de Uso]
-            D --> E[Feedback do Usuário]
-            E --> F[Priorização de Melhorias]
-            F --> A
-        ```
-    *  Implementar ferramentas  
-        * Testes Automatizados	
-            -xUnit + mocks, Validar serviços locais e integração com o Sheets
-        * log
-            - ILogger, Console.WriteLine, arquivos .log, Logue tempo de execução, falhas e IDs manipulados
-        * Monitoramento
-            - Middleware personalizado ou AppInsights, Log de requisições (tempo, erros, etc.)
-        * Feedback 
-            - Notas internas, formulário no frontend, Receba ideias de usuários sobre uso real
-        * Analise de erros
-            -Logs e relatórios, Reproduza o erro com dados de logs e crie testes para isso
-        * Adicionar sistema de métricas (Prometheus + Grafana ou AppInsights)
-        * Criar testes de carga com k6 ou JMeter
-        * Testes E2E com Blazor usando Playwright
-
-    
+1.  **Model:** Crie ou altere a classe da entidade em `DocAPI/Core/Models`.
+2.  **DTOs & AutoMapper:** Ajuste os DTOs e os `Profiles` do AutoMapper.
+3.  **DbContext:** Atualize o `DbContext` com o novo `DbSet` ou as novas relações.
+4.  **Criar Migration:** Gere uma nova migração para refletir as mudanças no banco de dados.
+    ```bash
+    dotnet ef migrations add NomeDaAlteracaoNaEntidade
+    ```
+5.  **Aplicar Migration:** Aplique a migração ao banco de dados.
+    ```bash
+    dotnet ef database update
+    ```
+6.  **Repositório (EF Core):** Implemente a lógica de acesso aos dados no repositório correspondente que utiliza o `DbContext`.
+7.  **Controller:** Crie ou atualize o Controller.
+8.  **Testes:** Valide as rotas via Postman.
 
 
-* Próximo  feature-followUp atual
-    - Criar model Atendimento que irá se relacionar com paciente 
-        - Adaptar Paciente model ok
-        - model Atendimento Ok
-    - Criar Dtos Atendimento 
-        - Read ok
-        * Criar Create, Update. OK
-    - Criar Atendimento e adaptar métodos repositório e interfaces
-        - Refatorar Paciente.
-            - Método para busca GET de forma direta. Busca por row, Analisar se é mais eficiente mesmo.
-        - Refatorar Agendamento.
-            - campos novos para gestão do atendimento. OK
-        - Refatorar Prontuarios.
-            - Possibilitar outros formatos para prontuarios. Ok
-            - Refatorar metodos do repositórios levando em consideração as buscas específicas Ok
-            - Avaliar e refatorar o impacto nos serviços.
-        - Criar repo de atendimento
-            - Transpor funcionalidade de Criar um relatorio geral para o novo repositório Atendimento ao invés de Prontuario. OK
-            - Atendimento primeira etapa.
-                - métodos para validação de primeira etapa OK
-                - refatorar pensando em prontuarios de outros tipo
-            - Atendimento segunda etapa. Criar teste
-            - Atendimento terceira etapa. Criar teste
-            - Atendimento quarta etapa. 
-            - Aprimorar validação de cada etapa, forma independente?
-    - Adaptar/Criar serviço 
-        - de geração de pdf, acrescendtar Agendamento. OK
-        - Coleta de dados das tabelas de senhas
-            - Save, load. Testar
-    - Adaptar program.cs OK
-    - Criar endpoint 
-        - Criar controller Atendimento 
-            - GET report by paciente id OK
-    - Testes
-        - Identificar os Logs atuantes. 
-        - Criar cenários, logs de erros
-        - Desenvolver validações.
-    
-
-
-///////
-* Próximo RefatorandoGeral. prox dev
-    - Criar model
-    - Criar Dtos
-    - Criar método repositório e interfaces
-    - Adaptar program.cs 
-    - Criar endpoint 
-        - Criar controller OK
-        - Adaptar program.cs
-    - Testes
-        - Identificar os Logs atuantes. 
-        - Criar cenários, logs de erros
-        - Desenvolver validações.
-   
-    
-
-* Criar projeto do frontll
-    * Básico
-        ```bash
-            dotnet new blazorserver -n DocFront
-        ```
-    * Acrescentar no snl
-        ```bash
-            dotnet sln doc_Organo.sln add DocFront/DocFront.csproj
-        ```
-* Autenticação
-    * Identity
-
-
-### Hint 
-
+## ✨ Funcionalidades e Endpoints Principais 
+A API oferece um conjunto de operações CRUD (Create, Read, Update, Delete) para as principais entidades do sistema: 
+- /paciente: Gestão completa dos dados cadastrais dos pacientes. 
+- /prontuario: Gerenciamento de prontuários, incluindo a criação a partir de arquivos PDF. 
+- /agendamento: Controle de agendamentos de procedimentos. 
+- /atendimento: Orquestração do fluxo de atendimento do paciente, desde a consulta até o pós-operatório. 
+- /atendimento/paciente/{id}/report: Geração de um relatório consolidado em PDF para um paciente específico. 
