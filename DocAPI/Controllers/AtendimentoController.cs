@@ -81,9 +81,70 @@ public class AtendimentoController : ControllerBase
             return StatusCode(500, "Erro interno do servidor ao gerar o followUp."); // Retorna 500 Internal Server Error
         }
     }
+    [HttpPost]
+    public async Task<IActionResult> Post([FromBody] CreatePacienteDto dto)
+    {
+        var atendimento = _mapper.Map<Atendimento>(dto);
+
+        await _repository.CreateAsync(atendimento);
+        Console.WriteLine($"O cadastro d@ {atendimento.NomePaciente} foi efetuado ");
+        Console.WriteLine($"foi criado o ID: {atendimento.ID}");
+        return CreatedAtAction(nameof(GetByID), new { id = atendimento.ID }, atendimento);
+    }
+    [HttpGet]
     public async Task<IActionResult> GetAtendomentos([FromQuery] int skip = 0, [FromQuery] int take = 10)
     {
+        if(_repository == null) return NotFound();
         var atendomentos = await _repository.GetAllAsync(skip, take);
         return Ok(_mapper.Map<IEnumerable<ReadAtendimentoDto>>(atendomentos));
     }
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetByID(string id)
+    {
+        var prontuario = await _repository.GetByIdAsync(id);
+        if (prontuario == null) return NotFound();
+        return Ok(_mapper.Map<ReadAtendimentoDto>(prontuario));
+    }
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateAtendimento(string id, [FromBody] UpdateAtendimentoDto dto)
+    {
+        try
+        {
+            // 1. Verifica se o ID foi fornecido
+            if (string.IsNullOrEmpty(id))
+                return BadRequest("O ID do Atendimento é obrigatório.");
+            if (dto == null)
+                return BadRequest("O corpo da requisição está vazio ou inválido.");
+            // 2. Mapeia o DTO para a entidade Paciente
+            var atendimento = _mapper.Map<Atendimento>(dto);
+
+            // 3. Atualiza o paciente na planilha
+            await _repository.UpdateAsync(atendimento, id);
+
+            // 4. Retorna sucesso
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao atualizar atendimento: {ex.Message}");
+            return StatusCode(500, "Erro interno ao atualizar atendimento.");
+        }
+    }
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteAtendimento(string id)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(id))
+            return BadRequest("O ID do atendimento é obrigatório.");
+            await _repository.DeleteAsync(id);
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao excluir atendimento: {ex.Message}");
+            return NotFound("Atendimento não encontrado.");
+        }
+    }
+   
 }

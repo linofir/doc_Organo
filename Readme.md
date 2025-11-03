@@ -98,11 +98,5 @@ Este é o fluxo de trabalho alvo, para quando a migração para um banco de dado
 7.  **Controller:** Crie ou atualize o Controller.
 8.  **Testes:** Valide as rotas via Postman.
 
-
-## ✨ Funcionalidades e Endpoints Principais 
-A API oferece um conjunto de operações CRUD (Create, Read, Update, Delete) para as principais entidades do sistema: 
-- /paciente: Gestão completa dos dados cadastrais dos pacientes. 
-- /prontuario: Gerenciamento de prontuários, incluindo a criação a partir de arquivos PDF. 
-- /agendamento: Controle de agendamentos de procedimentos. 
-- /atendimento: Orquestração do fluxo de atendimento do paciente, desde a consulta até o pós-operatório. 
-- /atendimento/paciente/{id}/report: Geração de um relatório consolidado em PDF para um paciente específico. 
+## Funcionalidades
++## ✨ Funcionalidades e Endpoints Principais + +A API oferece um conjunto de operações CRUD (Create, Read, Update, Delete) para as principais entidades do sistema: + +- /paciente: Gestão completa dos dados cadastrais dos pacientes. +- /prontuario: Gerenciamento de prontuários, incluindo a criação a partir de arquivos PDF. +- /agendamento: Controle de agendamentos de procedimentos. +- /atendimento: Orquestração do fluxo de atendimento do paciente, desde a consulta até o pós-operatório. +- /atendimento/paciente/{id}/report: Geração de um relatório consolidado em PDF para um paciente específico. +

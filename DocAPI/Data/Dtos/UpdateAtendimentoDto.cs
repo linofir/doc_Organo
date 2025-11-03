@@ -1,7 +1,7 @@
 using DocAPI.Core.Models;
 
 namespace DocAPI.Data.Dtos;
-public class ReadAtendimentoDto
+public class UpdateAtendimentoDto
 {
     // Propriedades gerais
     public string ID { get; set; } = string.Empty;
@@ -19,4 +19,6 @@ public class ReadAtendimentoDto
     public ProcedimentoEtapaStatus? EtapaProcedimento { get; set; }
     public PosProcedimentoEtapaStatus? EtapaPosProcedimento { get; set; }
 
+    
 }
+

@@ -86,6 +86,95 @@ public class AtendimentoSheetsRepository : IAtendimentoRepository
         Console.WriteLine($"O novo Agendamento será acrescentado na { rangeDestino}");
         // await _sheetsDB.WriteRangeAsync(rangeDestino, body.Values);
     }
+    private ValueRange CreateAtendimentoSheets(Atendimento atendimento)
+    {
+        var eC = atendimento.EtapaConsulta;
+        var ePreP = atendimento.EtapaPreProcedimento;
+        var eProc = atendimento.EtapaProcedimento;
+        var ePosP = atendimento.EtapaPosProcedimento;
+
+        var prontuariosFormatados = "";
+        var agendamentosFormatados = "";
+        var cdFormatados = "";
+        var procedimentosFormatados = "";
+        
+        if (atendimento != null)
+        {
+            prontuariosFormatados = string.Join("; ", atendimento.ProntuariosId!.Select(proc => $"{proc}"));
+            agendamentosFormatados = string.Join("; ", atendimento.AgendamentosId!.Select(proc => $"{proc}"));
+            cdFormatados = string.Join("; ", eC.CdPendente!.Select(proc => $"{proc}"));
+            procedimentosFormatados = string.Join("; ", ePreP.Procedimentos!.Select(proc => $"{proc}"));
+
+        }
+
+        // var displayVacina = ago?.VacinaHPV
+        //     .GetType()
+        //     .GetMember(ago.VacinaHPV.ToString())
+        //     .First()
+        //     .GetCustomAttribute<DisplayAttribute>()
+        //     ?.Name ?? ago?.VacinaHPV.ToString();
+
+        // var acoes = prontuario.CD != null
+        //     ? string.Join(", ", prontuario.CD.Select(cd =>
+        //         cd.GetType()
+        //         .GetMember(cd.ToString())
+        //         .First()
+        //         .GetCustomAttribute<DisplayAttribute>()?.Name ?? cd.ToString()))
+        //     : "";
+
+        // var dataHoje =  DateOnly.FromDateTime(DateTime.Now).ToString("dd/MM/yyyy");
+        
+        ValueRange bodyAtendimento = new()
+        {
+            Values = new List<IList<object>> {
+                new List<object> {
+                    string.IsNullOrWhiteSpace(atendimento?.ID) ? "0" : atendimento.ID,
+                    string.IsNullOrWhiteSpace(atendimento?.PacienteId) ? "0" : atendimento.PacienteId,
+                    string.IsNullOrWhiteSpace(atendimento?.NomePaciente) ? "0" : atendimento.NomePaciente,
+                    string.IsNullOrWhiteSpace(prontuariosFormatados) ? "0" : prontuariosFormatados,
+                    string.IsNullOrWhiteSpace(agendamentosFormatados) ? "0" : agendamentosFormatados,
+                    string.IsNullOrWhiteSpace(atendimento?.EtapaAtualAtendimento) ? "0" : atendimento.EtapaAtualAtendimento,
+                    string.IsNullOrWhiteSpace(atendimento?.MensagemParaMedico) ? "0" : atendimento.MensagemParaMedico,
+                    //EtapaConsulta
+                    string.IsNullOrWhiteSpace(eC?.ProntuarioConsulta?.ID) ? "0" : eC?.ProntuarioConsulta?.ID!,
+                    string.IsNullOrWhiteSpace(eC?.StatusGeral) ? "0" : eC?.StatusGeral!,
+                    string.IsNullOrWhiteSpace(eC?.CadastroConfirmado) ? "0" : eC?.CadastroConfirmado!,
+                    string.IsNullOrWhiteSpace(eC?.ConsultaConcluida) ? "0" : eC?.ConsultaConcluida!,
+                    string.IsNullOrWhiteSpace(eC?.DataConsultaConcluida?.ToString("dd/MM/yyyy")) ? "0" : eC?.DataConsultaConcluida?.ToString("dd/MM/yyyy")!, 
+                    string.IsNullOrWhiteSpace(cdFormatados) ? "0" : cdFormatados,
+                    //EtapaPreProcedimento
+                    string.IsNullOrWhiteSpace(ePreP?.AgendamentoProcedimento?.ID) ? "0" : ePreP?.AgendamentoProcedimento?.ID!,
+                    string.IsNullOrWhiteSpace(ePreP?.StatusAgendamento) ? "0" : ePreP?.StatusAgendamento!,
+                    string.IsNullOrWhiteSpace(ePreP?.DataAgendamento?.ToString("dd/MM/yyyy")) ? "0" : ePreP?.DataAgendamento?.ToString("dd/MM/yyyy")!,
+                    string.IsNullOrWhiteSpace(procedimentosFormatados) ? "0" : procedimentosFormatados,
+                    string.IsNullOrWhiteSpace(ePreP?.StatusGeral) ? "0" : ePreP?.StatusGeral!,
+                    string.IsNullOrWhiteSpace(ePreP?.UltimaAtualizacaoSenhas?.ToString("dd/MM/yyyy HH:mm")) ? "0" : ePreP?.UltimaAtualizacaoSenhas?.ToString("dd/MM/yyyy HH:mm")!,
+                    string.IsNullOrWhiteSpace(ePreP?.StatusSenha) ? "0" : ePreP?.StatusSenha!,
+                    string.IsNullOrWhiteSpace(ePreP?.StatusTermoCirurgico) ? "0" : ePreP?.StatusTermoCirurgico!,
+                    string.IsNullOrWhiteSpace(ePreP?.StatusEncaminhamento) ? "0" : ePreP?.StatusEncaminhamento!,
+                    string.IsNullOrWhiteSpace(ePreP?.StatusInstrumentadora) ? "0" : ePreP?.StatusInstrumentadora!,
+                    string.IsNullOrWhiteSpace(ePreP?.StatusExames) ? "0" : ePreP?.StatusExames!,
+                    //EtapaProcedimento
+                    string.IsNullOrWhiteSpace(eProc?.StatusProcedimento) ? "0" : eProc?.StatusProcedimento!,
+                    string.IsNullOrWhiteSpace(eProc?.StatusGeral) ? "0" : eProc?.StatusGeral!,
+                    string.IsNullOrWhiteSpace(eProc?.StatusAtestado) ? "0" : eProc?.StatusAtestado!,
+                    string.IsNullOrWhiteSpace(eProc?.StatusInstrucoes) ? "0" : eProc?.StatusInstrucoes!,
+                    string.IsNullOrWhiteSpace(eProc?.StatusConsulta) ? "0" : eProc?.StatusConsulta!,
+                    string.IsNullOrWhiteSpace(eProc?.dataConsultaPosOp.ToString("dd/MM/yyyy")) ? "0" : eProc?.dataConsultaPosOp.ToString("dd/MM/yyyy")!,
+                    //EtapaPosProcedimento
+                    string.IsNullOrWhiteSpace(ePosP?.StatusConsultaPosOp) ? "0" : ePosP?.StatusConsultaPosOp!,
+                    string.IsNullOrWhiteSpace(ePosP?.AgendamentoPosOp.ToString("dd/MM/yyyy")) ? "0" : ePosP?.AgendamentoPosOp.ToString("dd/MM/yyyy")!,
+                    string.IsNullOrWhiteSpace(ePosP?.ProntuarioPosOpId) ? "0" : ePosP?.ProntuarioPosOpId!,
+                    string.IsNullOrWhiteSpace(ePosP?.StatusRecomendacoesMedicas) ? "0" : ePosP?.StatusRecomendacoesMedicas!,
+                    string.IsNullOrWhiteSpace(ePosP?.StatusSeguimento) ? "0" : ePosP?.StatusSeguimento!,
+                    string.IsNullOrWhiteSpace(ePosP?.PrevisaoSeguimento.ToString("dd/MM/yyyy")) ? "0" : ePosP?.PrevisaoSeguimento.ToString("dd/MM/yyyy")!,
+                    string.IsNullOrWhiteSpace(ePosP?.AlarmeSeguimento.ToString("dd/MM/yyyy")) ? "0" : ePosP?.AlarmeSeguimento.ToString("dd/MM/yyyy")!,
+                    string.IsNullOrWhiteSpace(ePosP?.StatusGeral) ? "0" : ePosP?.StatusGeral!,
+                }
+            }
+        };
+        return bodyAtendimento;
+    }
 
     public async Task<List<Atendimento>> GetAtendimentosAsync()
     {
@@ -127,15 +216,54 @@ public class AtendimentoSheetsRepository : IAtendimentoRepository
             AgendamentosId = row[4]!.ToString()!.Split(',').ToList(),
             EtapaAtualAtendimento = row[5].ToString() ?? "",
             MensagemParaMedico = row[6].ToString() ?? "",
-            EtapaConsulta = new ConsultaEtapaStatus(),
-            EtapaPreProcedimento = new PreProcedimentoEtapaStatus(),
-            EtapaProcedimento = new ProcedimentoEtapaStatus(),
+            EtapaConsulta = new ConsultaEtapaStatus()
+            {
+                ProntuarioConsulta = new Prontuario(),//row[7]!.ToString() ?? "",definir como se já coleto o prontuário ou deino somento o ID
+                StatusGeral = row[8]!.ToString() ?? "",
+                CadastroConfirmado = row[9]!.ToString() ?? "",
+                ConsultaConcluida = row[10]!.ToString() ?? "",
+                DataConsultaConcluida = ParseDateOnly(row[11]!.ToString()),
+                CdPendente = new List<CDStatus>() // Verificar como será o armazrnamento row[12]
+            },
+            EtapaPreProcedimento = new PreProcedimentoEtapaStatus()
+            {
+                AgendamentoProcedimento = await _agendamentoRepository.GetByIdAsync(row[13]!.ToString()),
+                StatusAgendamento = row[14]!.ToString() ?? "",
+                DataAgendamento = ParseDateOnly(row[15]!.ToString()!),
+                Procedimentos = row[16]!.ToString()!.Split(',').ToList(),
+                StatusGeral = row[17]!.ToString() ?? "",
+                UltimaAtualizacaoSenhas = ParseDateTime(row[17]!.ToString()!),
+                StatusSenha = row[19]!.ToString() ?? "",
+                StatusTermoCirurgico = row[20]!.ToString() ?? "",
+                StatusEncaminhamento = row[21]!.ToString() ?? "",
+                StatusInstrumentadora = row[22]!.ToString() ?? "",
+                StatusExames = row[23]!.ToString() ?? ""
+            },
+            EtapaProcedimento = new ProcedimentoEtapaStatus()
+            {
+                StatusProcedimento = row[24]!.ToString() ?? "",
+                StatusGeral = row[25]!.ToString() ?? "",
+                StatusAtestado = row[26]!.ToString() ?? "",
+                StatusInstrucoes = row[27]!.ToString() ?? "",
+                StatusConsulta = row[28]!.ToString() ?? "",
+                dataConsultaPosOp = ParseDateOnly(row[29]!.ToString()!),
+            },
             EtapaPosProcedimento = new PosProcedimentoEtapaStatus()
+            {
+                StatusConsultaPosOp = row[30]!.ToString() ?? "",
+                AgendamentoPosOp = ParseDateOnly(row[31]!.ToString()!),
+                ProntuarioPosOpId = row[32]!.ToString() ?? "",
+                StatusRecomendacoesMedicas = row[33]!.ToString() ?? "",
+                StatusSeguimento = row[34]!.ToString() ?? "",
+                PrevisaoSeguimento = ParseDateOnly(row[35]!.ToString()!),
+                AlarmeSeguimento = ParseDateOnly(row[36]!.ToString()!),
+                StatusGeral = row[37]!.ToString() ?? "",
+            }
         };
         var pacienteId = row[1].ToString();
 
         // dados a serem validados para cada paciente
-        if(!string.IsNullOrWhiteSpace(pacienteId))
+        if(!string.IsNullOrWhiteSpace(atendimento.PacienteId))
         {
             atendimento = await AtualizarAtendimento(pacienteId, atendimento);
         }
@@ -181,13 +309,13 @@ public class AtendimentoSheetsRepository : IAtendimentoRepository
         if(paciente == null)
         {
             // throw new InvalidOperationException($"Paciente com ID '{pacienteId}' não encontrado.");
-            atendimento.EtapaConsulta!.CadastroConfirmado = false;
+            atendimento.EtapaConsulta!.CadastroConfirmado = "false";
             atendimento.MensagemParaMedico = $"Problema ao identificar o cadastro da paciente com ID: {atendimento.PacienteId}";
             return atendimento;
         }
         // Cadastro de paciente confirmado
         // atendimento.PacienteId = pacienteId;
-        atendimento.EtapaConsulta!.CadastroConfirmado = true;
+        atendimento.EtapaConsulta!.CadastroConfirmado = "true";
         atendimento.EtapaConsulta.StatusGeral = "Consulta Pendente";
         atendimento.EtapaAtualAtendimento = "Inicialização";
 
@@ -207,25 +335,29 @@ public class AtendimentoSheetsRepository : IAtendimentoRepository
         // Console.WriteLine($"quantidade de prontuários encontrados no atendimento: {prontuariosOfPaciente.Count()}");
         if(prontuariosOfPaciente != null && prontuariosOfPaciente.Any())
         {
-            // Delimitando por prontuarios do Tipo Solicitacao(que inicia um atendimento), coleta o ultimo prontuário
+            // Delimitando por prontuarios do Tipo Consulta(que inicia um atendimento), coleta o ultimo prontuário, ou algum já selecionado
             var prontuarioSolicitacao = new Prontuario(){DataConsulta = DateOnly.MinValue};
             foreach (var p in prontuariosOfPaciente)
             {
-                if(p.Tipo == "Solicitacao")
+                if(p.Tipo == "Consulta")
                 {
                     prontuariosId.Add(p.ID);
                     prontuarioSolicitacao = p.DataConsulta > prontuarioSolicitacao.DataConsulta ? p : prontuarioSolicitacao;
+                    if(atendimento.EtapaConsulta.ProntuarioConsulta == null)
+                    {
+                        atendimento.EtapaConsulta.ProntuarioConsulta = prontuarioSolicitacao;
+                    }
                 }
             }
             atendimento.ProntuariosId = prontuariosId;
-            atendimento.EtapaConsulta.DataConsultaConcluida = prontuarioSolicitacao.DataConsulta;
-            atendimento.EtapaPreProcedimento.Procedimentos = prontuarioSolicitacao.SolicitacaoInternacao.Procedimentos;
+            atendimento.EtapaConsulta.DataConsultaConcluida = atendimento.EtapaConsulta.ProntuarioConsulta.DataConsulta;
+            atendimento.EtapaPreProcedimento.Procedimentos = atendimento.EtapaConsulta.ProntuarioConsulta.SolicitacaoInternacao.Procedimentos;
             // Console.WriteLine($"Valor da data : {atendimento.EtapaConsulta.DataConsultaConcluida}");
             atendimento.EtapaAtualAtendimento = "Consulta";
             
             if(atendimento.EtapaConsulta.DataConsultaConcluida <= DateOnly.FromDateTime(DateTime.Today)) 
             {
-                atendimento.EtapaConsulta.ConsultaConcluida = true;
+                atendimento.EtapaConsulta.ConsultaConcluida = "true";
                 // atendimento.EtapaConsulta.StatusGeral = "Consulta Realizada";
                 atendimento.MensagemParaMedico = $"Atendimento aberto da paciente {paciente.Nome}";
             }
@@ -275,10 +407,10 @@ public class AtendimentoSheetsRepository : IAtendimentoRepository
     {
         atendimento.EtapaPreProcedimento.StatusGeral = "PreOp pendente";
     //informações do DB, da tabela Atendimento
-        atendimento.EtapaPreProcedimento.StatusEncaminhamento = "true";
-        atendimento.EtapaPreProcedimento.StatusExames = "true";
-        atendimento.EtapaPreProcedimento.StatusInstrumentadora = "true";
-        atendimento.EtapaPreProcedimento.StatusTermoCirurgico = "true";
+        // atendimento.EtapaPreProcedimento.StatusEncaminhamento = "true";
+        // atendimento.EtapaPreProcedimento.StatusExames = "true";
+        // atendimento.EtapaPreProcedimento.StatusInstrumentadora = "true";
+        // atendimento.EtapaPreProcedimento.StatusTermoCirurgico = "true";
         var agendamentosId = new List<string>(){};
         var agendamentoTeste = new Agendamento(){Data = DateOnly.MinValue};
         if(agendamentosOfPaciente != null && agendamentosOfPaciente.Any())
@@ -286,11 +418,15 @@ public class AtendimentoSheetsRepository : IAtendimentoRepository
            foreach (var a in agendamentosOfPaciente)
             {
                 agendamentosId.Add(a.ID);
-                agendamentoTeste = a.Data > agendamentoTeste.Data ? a : agendamentoTeste;// será o ultimo agendamento realizado, definir melhor
+                agendamentoTeste = a.Data > agendamentoTeste.Data ? a : agendamentoTeste;// será o ultimo agendamento realizado caso já não exista um agendamento selecionado , definir melhor
+                if(atendimento.EtapaPreProcedimento.AgendamentoProcedimento == null)
+                {
+                    atendimento.EtapaPreProcedimento.AgendamentoProcedimento = agendamentoTeste;
+                }
             }
             atendimento.AgendamentosId = agendamentosId;
             // agendamentoTeste = agendamentosOfPaciente[0];
-            atendimento.EtapaPreProcedimento.DataAgendamento = agendamentoTeste.Data;
+            atendimento.EtapaPreProcedimento.DataAgendamento = atendimento.EtapaPreProcedimento.AgendamentoProcedimento?.Data;
             atendimento.EtapaPreProcedimento.StatusAgendamento = "true";
             // atendimento.MensagemParaMedico = $"Nenhum Prontuário encontrado para a paciente {paciente.Nome}.";
             // if(atendimento.EtapaPreProcedimento.DataAgendamento <= DateOnly.FromDateTime(DateTime.Today)) 
@@ -364,7 +500,7 @@ public class AtendimentoSheetsRepository : IAtendimentoRepository
             {
                 atendimento.MensagemParaMedico = $"O pré procedimento da paciente {paciente.Nome} está pendente, Necessário algumas confirmações";
                 return atendimento;
-            }
+            }       
         }
         atendimento.EtapaPreProcedimento.StatusGeral = "PreOP concluido";
         atendimento.EtapaAtualAtendimento = "Procedimento";
@@ -496,6 +632,26 @@ public class AtendimentoSheetsRepository : IAtendimentoRepository
         // Crie e popule seu objeto ReportData aqui
     
         return _pdfGeneratorService.GeneratePatientReportPdf( paciente, prontuarios, agendamentos);
+    }
+    public DateOnly ParseDateOnly(string datecolumn)
+    {
+        var datacoluna = datecolumn;
+        DateOnly data = DateOnly.MinValue;
+        if (!string.IsNullOrWhiteSpace(datacoluna))
+        {
+            DateOnly.TryParse(datacoluna, out data);
+        }
+        return data;
+    }
+    public DateTime ParseDateTime(string datecolumn)
+    {
+        var datacoluna = datecolumn;
+        DateTime data = new DateTime();
+        if (!string.IsNullOrWhiteSpace(datacoluna))
+        {
+            DateTime.TryParse(datacoluna, out data);
+        }
+        return data;
     }
     
 }

@@ -31,34 +31,35 @@ public class Atendimento
 // Sub-DTO para a etapa de Consulta
 public class ConsultaEtapaStatus
 {
-    public bool CadastroConfirmado { get; set; }
-    public bool ConsultaConcluida { get; set; }
+    public Prontuario? ProntuarioConsulta { get; set; }
+    public string CadastroConfirmado { get; set; }
+    public string ConsultaConcluida { get; set; }
     public DateOnly? DataConsultaConcluida { get; set; }
     public List<CDStatus>? CdPendente { get; set; } // CDs geradas na consulta
     public string StatusGeral { get; set; } = string.Empty;
 }
-
 // Sub-DTO para a etapa de Pré Procedimento
 public class PreProcedimentoEtapaStatus
 {
     // CDs que precisam de progresso/confirmação
+    public Agendamento? AgendamentoProcedimento { get; set; }
+    public string StatusAgendamento { get; set; } = string.Empty;
+    public DateOnly? DataAgendamento { get; set; }
+    public List<string>? Procedimentos { get; set; }
+    public string StatusGeral { get; set; } = string.Empty;
+    public DateTime? UltimaAtualizacaoSenhas { get; set; }
+    public string StatusSenha { get; set; } = string.Empty;
     public string StatusTermoCirurgico { get; set; } = string.Empty;
     public string StatusEncaminhamento { get; set; } = string.Empty;
     public string StatusInstrumentadora { get; set; } = string.Empty;
     public string StatusExames { get; set; } = string.Empty;
-    public string StatusGeral { get; set; } = string.Empty;
-    public string StatusSenha { get; set; } = string.Empty;
-    public string StatusAgendamento { get; set; } = string.Empty;
-    public DateOnly? DataAgendamento { get; set; }
-    public DateTime? UltimaAtualizacaoSenhas { get; set; }
-    public List<string>? Procedimentos { get; set; }
 }
 public class ProcedimentoEtapaStatus
 {
     public string StatusProcedimento { get; set; } = string.Empty;
+    public string StatusGeral { get; set; } = string.Empty;
     public string StatusAtestado { get; set; } = string.Empty;
     public string StatusInstrucoes { get; set; } = string.Empty;
-    public string StatusGeral { get; set; } = string.Empty;
     public string StatusConsulta { get; set; } = string.Empty;
     public DateOnly dataConsultaPosOp { get; set; }
 }
@@ -70,7 +71,7 @@ public class PosProcedimentoEtapaStatus
     public string StatusRecomendacoesMedicas { get; set; } = string.Empty;
     public string StatusSeguimento { get; set; } = string.Empty;
     public DateOnly PrevisaoSeguimento { get; set; }
-    public DateOnly AlarmeSegimento { get; set; }
+    public DateOnly AlarmeSeguimento { get; set; }
     public string StatusGeral { get; set; } = string.Empty;
 }
 
