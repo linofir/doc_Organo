@@ -6,7 +6,7 @@ using DocAPI.Core.Repositories;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using DocAPI.Data.Dtos;
+using DocAPI.Data.Dtos.Atendimento;
 
 namespace DocAPI.Controllers;
 
@@ -82,7 +82,7 @@ public class AtendimentoController : ControllerBase
         }
     }
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] CreatePacienteDto dto)
+    public async Task<IActionResult> Post([FromBody] CreateAtendimentoDto dto)
     {
         var atendimento = _mapper.Map<Atendimento>(dto);
 
@@ -94,6 +94,7 @@ public class AtendimentoController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAtendomentos([FromQuery] int skip = 0, [FromQuery] int take = 10)
     {
+        // Console.WriteLine("teste no controller");
         if(_repository == null) return NotFound();
         var atendomentos = await _repository.GetAllAsync(skip, take);
         return Ok(_mapper.Map<IEnumerable<ReadAtendimentoDto>>(atendomentos));

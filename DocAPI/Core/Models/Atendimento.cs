@@ -31,9 +31,10 @@ public class Atendimento
 // Sub-DTO para a etapa de Consulta
 public class ConsultaEtapaStatus
 {
+    public string ProntuarioIdVigente { get; set; } = string.Empty;
     public Prontuario? ProntuarioConsulta { get; set; }
-    public string CadastroConfirmado { get; set; }
-    public string ConsultaConcluida { get; set; }
+    public string? CadastroConfirmado { get; set; }
+    public string? ConsultaConcluida { get; set; }
     public DateOnly? DataConsultaConcluida { get; set; }
     public List<CDStatus>? CdPendente { get; set; } // CDs geradas na consulta
     public string StatusGeral { get; set; } = string.Empty;
@@ -42,6 +43,7 @@ public class ConsultaEtapaStatus
 public class PreProcedimentoEtapaStatus
 {
     // CDs que precisam de progresso/confirmação
+    public string AgendamentoIdVigente { get; set; } = string.Empty;
     public Agendamento? AgendamentoProcedimento { get; set; }
     public string StatusAgendamento { get; set; } = string.Empty;
     public DateOnly? DataAgendamento { get; set; }

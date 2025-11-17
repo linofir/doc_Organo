@@ -36,23 +36,25 @@ public class AtendimentoSheetsRepository : IAtendimentoRepository
     }
     public async Task<IEnumerable<Atendimento>> GetAllAsync(int skip = 0, int take = 10)
     {
-       throw new NotImplementedException();
+        var atendimentos = await GetAtendimentosAsync();
+        return atendimentos.Skip(skip).Take(take);
     }
-    public Task<Atendimento?> GetByIdAsync(string id)
+    public async Task<Atendimento?> GetByIdAsync(string id)
     {
-       throw new NotImplementedException();
+        var atendimentos = await GetAtendimentosAsync();
+        return atendimentos.FirstOrDefault( a => a.ID == id);
     }
-    public Task CreateAsync(Atendimento novoAtendimento)
+    public async Task CreateAsync(Atendimento novoAtendimento)
     {
-       throw new NotImplementedException();
+       await AddAtendimentoAsync(novoAtendimento);
     }
-    public Task UpdateAsync(Atendimento atendimento, string id)
+    public async Task UpdateAsync(Atendimento atendimento, string id)
     {
-       throw new NotImplementedException();
+       await UpdateAtendimentoAsync(atendimento, id);
     }
-    public Task DeleteAsync(string id)
+    public async Task DeleteAsync(string id)
     {
-       throw new NotImplementedException();
+       await DeleteAtendimentooAsync(id);
     }
     public async Task<Stream> CreateReportByIdAsync( string pacienteId )
     {
@@ -66,12 +68,12 @@ public class AtendimentoSheetsRepository : IAtendimentoRepository
 
     // métodos auxiliares//////////////
     
-    public async Task AddAtendimentooAsync(Atendimento atendimento)
+    public async Task AddAtendimentoAsync(Atendimento atendimento)
     {
         // Definir quais são os dados a serem persisitidos no DB, desconsiderando os já existentes em outras planilhas.
         Console.WriteLine($"Comunicando com DB..." );
-        var agendamentoSheets = await _sheetsDB.LerRangeAsync("Atendimento!A3:Q");//definr tabela
-        int novaLinhaIndex = agendamentoSheets.Count(r => r.Any(cell => !string.IsNullOrWhiteSpace(cell?.ToString()))) + 3;
+        var atendimentoSheets = await _sheetsDB.LerRangeAsync("Atendimento!A3:AL");//definr tabela
+        int novaLinhaIndex = atendimentoSheets.Count(r => r.Any(cell => !string.IsNullOrWhiteSpace(cell?.ToString()))) + 3;
         //Como é melhor armazenar o status, é preciso validar e preparar os dados antes de armazena-los
         if (string.IsNullOrEmpty(atendimento.ID))
         {
@@ -79,12 +81,12 @@ public class AtendimentoSheetsRepository : IAtendimentoRepository
         };
 
 
-        // ValueRange body = CreateAgendamentoToSheets(agendamento); Definir método
+        ValueRange body = CreateAtendimentoSheets(atendimento);
         
         // 3. Escrever os dados na próxima linha disponível
-        string rangeDestino = $"Agendamentos!A{novaLinhaIndex}:Q{novaLinhaIndex}";
-        Console.WriteLine($"O novo Agendamento será acrescentado na { rangeDestino}");
-        // await _sheetsDB.WriteRangeAsync(rangeDestino, body.Values);
+        string rangeDestino = $"Atendimento!A{novaLinhaIndex}:AL{novaLinhaIndex}";
+        Console.WriteLine($"O novo Atendimento será acrescentado na { rangeDestino}");
+        await _sheetsDB.WriteRangeAsync(rangeDestino, body.Values);
     }
     private ValueRange CreateAtendimentoSheets(Atendimento atendimento)
     {
@@ -92,19 +94,39 @@ public class AtendimentoSheetsRepository : IAtendimentoRepository
         var ePreP = atendimento.EtapaPreProcedimento;
         var eProc = atendimento.EtapaProcedimento;
         var ePosP = atendimento.EtapaPosProcedimento;
-
+//fazer cruzamento de dados já existentes com os novos dados
         var prontuariosFormatados = "";
         var agendamentosFormatados = "";
         var cdFormatados = "";
         var procedimentosFormatados = "";
-        
         if (atendimento != null)
         {
-            prontuariosFormatados = string.Join("; ", atendimento.ProntuariosId!.Select(proc => $"{proc}"));
-            agendamentosFormatados = string.Join("; ", atendimento.AgendamentosId!.Select(proc => $"{proc}"));
-            cdFormatados = string.Join("; ", eC.CdPendente!.Select(proc => $"{proc}"));
-            procedimentosFormatados = string.Join("; ", ePreP.Procedimentos!.Select(proc => $"{proc}"));
+            // prontuariosFormatados = string.Join("; ", atendimento.ProntuariosId!.Select(proc => $"{proc}"));
+            // agendamentosFormatados = string.Join("; ", atendimento.AgendamentosId!.Select(proc => $"{proc}"));
+            // cdFormatados = string.Join("; ", eC.CdPendente!.Select(proc => $"{proc}"));
+            // procedimentosFormatados = string.Join("; ", ePreP.Procedimentos!.Select(proc => $"{proc}"));
+            
+            prontuariosFormatados = atendimento?.ProntuariosId?.Any() == true
+                ? string.Join(", ", atendimento.ProntuariosId): "0";
 
+            agendamentosFormatados = atendimento?.AgendamentosId != null 
+                ? string.Join(", ", atendimento.AgendamentosId) 
+                : "0";
+
+            cdFormatados = eC?.CdPendente != null 
+                ? string.Join(", ", eC.CdPendente.Select(cd => $"{cd.Descricao} - {cd.Pendente.ToString()}"))
+                : "0";
+
+            procedimentosFormatados = ePreP?.Procedimentos != null 
+                ? string.Join(", ", ePreP.Procedimentos)
+                : "0";
+
+        }else
+        {
+            prontuariosFormatados = "teste else";
+            agendamentosFormatados = "teste else";
+            cdFormatados = "teste else";
+            procedimentosFormatados = "teste else";
         }
 
         // var displayVacina = ago?.VacinaHPV
@@ -136,14 +158,14 @@ public class AtendimentoSheetsRepository : IAtendimentoRepository
                     string.IsNullOrWhiteSpace(atendimento?.EtapaAtualAtendimento) ? "0" : atendimento.EtapaAtualAtendimento,
                     string.IsNullOrWhiteSpace(atendimento?.MensagemParaMedico) ? "0" : atendimento.MensagemParaMedico,
                     //EtapaConsulta
-                    string.IsNullOrWhiteSpace(eC?.ProntuarioConsulta?.ID) ? "0" : eC?.ProntuarioConsulta?.ID!,
+                    string.IsNullOrWhiteSpace(eC?.ProntuarioIdVigente) ? "0" : eC?.ProntuarioIdVigente,
                     string.IsNullOrWhiteSpace(eC?.StatusGeral) ? "0" : eC?.StatusGeral!,
                     string.IsNullOrWhiteSpace(eC?.CadastroConfirmado) ? "0" : eC?.CadastroConfirmado!,
                     string.IsNullOrWhiteSpace(eC?.ConsultaConcluida) ? "0" : eC?.ConsultaConcluida!,
                     string.IsNullOrWhiteSpace(eC?.DataConsultaConcluida?.ToString("dd/MM/yyyy")) ? "0" : eC?.DataConsultaConcluida?.ToString("dd/MM/yyyy")!, 
                     string.IsNullOrWhiteSpace(cdFormatados) ? "0" : cdFormatados,
                     //EtapaPreProcedimento
-                    string.IsNullOrWhiteSpace(ePreP?.AgendamentoProcedimento?.ID) ? "0" : ePreP?.AgendamentoProcedimento?.ID!,
+                    string.IsNullOrWhiteSpace(ePreP?.AgendamentoIdVigente) ? "0" : ePreP?.AgendamentoIdVigente,
                     string.IsNullOrWhiteSpace(ePreP?.StatusAgendamento) ? "0" : ePreP?.StatusAgendamento!,
                     string.IsNullOrWhiteSpace(ePreP?.DataAgendamento?.ToString("dd/MM/yyyy")) ? "0" : ePreP?.DataAgendamento?.ToString("dd/MM/yyyy")!,
                     string.IsNullOrWhiteSpace(procedimentosFormatados) ? "0" : procedimentosFormatados,
@@ -178,16 +200,16 @@ public class AtendimentoSheetsRepository : IAtendimentoRepository
 
     public async Task<List<Atendimento>> GetAtendimentosAsync()
     {
-        var values = await _sheetsDB.LerRangeAsync("Atendimento!A3:H"); // de A até a coluna ID
+        var values = await _sheetsDB.LerRangeAsync("Atendimento!A3:AL"); // de A até a coluna ID
         var allAtendimentos = new List<Atendimento>();
         var limit = values.Count;
-        //Console.WriteLine($"Total de linhas com algum dado: {limit}");       
+        // Console.WriteLine($"Total de linhas com algum dado: {limit}");       
         for (int i = 0; i < limit; i++)
         {
             var row = values[i];
             if (row.All(cell => string.IsNullOrWhiteSpace(cell?.ToString()))) continue;
             //Confere se tem alguma coluna vazia
-            if (row.Count < 7)
+            if (row.Count < 38)
             {
                 Console.WriteLine($"Linha {i + 3} ignorada: colunas insuficientes ({row.Count}).");
                 continue;
@@ -206,6 +228,7 @@ public class AtendimentoSheetsRepository : IAtendimentoRepository
     }
     public async Task<Atendimento> CollectAtendimento(IList<object> row)
     {
+        // Console.WriteLine("teste collect");
         //Coletar dados do DB
         var atendimento = new Atendimento()
         {
@@ -218,16 +241,16 @@ public class AtendimentoSheetsRepository : IAtendimentoRepository
             MensagemParaMedico = row[6].ToString() ?? "",
             EtapaConsulta = new ConsultaEtapaStatus()
             {
-                ProntuarioConsulta = new Prontuario(),//row[7]!.ToString() ?? "",definir como se já coleto o prontuário ou deino somento o ID
+                ProntuarioIdVigente = row[7]!.ToString() ?? "",//definir como se já coleto o prontuário ou deino somento o ID
                 StatusGeral = row[8]!.ToString() ?? "",
                 CadastroConfirmado = row[9]!.ToString() ?? "",
                 ConsultaConcluida = row[10]!.ToString() ?? "",
                 DataConsultaConcluida = ParseDateOnly(row[11]!.ToString()),
-                CdPendente = new List<CDStatus>() // Verificar como será o armazrnamento row[12]
+                CdPendente = ParseCdPendente(row[12].ToString())// Verificar como será o armazrnamento row[12]
             },
             EtapaPreProcedimento = new PreProcedimentoEtapaStatus()
             {
-                AgendamentoProcedimento = await _agendamentoRepository.GetByIdAsync(row[13]!.ToString()),
+                AgendamentoIdVigente = row[7]!.ToString() ?? "",
                 StatusAgendamento = row[14]!.ToString() ?? "",
                 DataAgendamento = ParseDateOnly(row[15]!.ToString()!),
                 Procedimentos = row[16]!.ToString()!.Split(',').ToList(),
@@ -260,15 +283,47 @@ public class AtendimentoSheetsRepository : IAtendimentoRepository
                 StatusGeral = row[37]!.ToString() ?? "",
             }
         };
-        var pacienteId = row[1].ToString();
+        // var pacienteId = row[1].ToString();
 
         // dados a serem validados para cada paciente
-        if(!string.IsNullOrWhiteSpace(atendimento.PacienteId))
-        {
-            atendimento = await AtualizarAtendimento(pacienteId, atendimento);
-        }
+        // if(!string.IsNullOrWhiteSpace(atendimento.PacienteId))
+        // {
+        //     atendimento = await AtualizarAtendimento(pacienteId, atendimento);
+        // }
         return atendimento;
     }
+    public async Task UpdateAtendimentoAsync(Atendimento atendimento, string id)
+    {
+        Console.WriteLine("update method active");
+        var atendimentoSheetraw = await _sheetsDB.LerRangeAsync("Atendimento!A3:AL"); // ou outro range total
+        var atendimentoSheet = atendimentoSheetraw.ToList();
+        int linhaIndexAtend = atendimentoSheet.FindIndex(r => r.Count > 0 && r[0]?.ToString() == id); 
+        if (linhaIndexAtend == -1)throw new Exception("Atendimento não encontrado na aba Atendimento.");
+
+        int linhaNoSheetAtend = linhaIndexAtend + 3; 
+        Console.WriteLine($"line to be updated:{linhaNoSheetAtend}");
+        atendimento.ID = id;
+        Console.WriteLine($"Testando instancia de atendimento: {atendimento.ID}");
+        ValueRange bodyAtendimento = CreateAtendimentoSheets(atendimento);
+        string rangePront = $"Atendimento!A{linhaNoSheetAtend}:AL{linhaNoSheetAtend}";
+        await _sheetsDB.WriteRangeAsync(rangePront, bodyAtendimento.Values);
+
+    }
+
+    public async Task DeleteAtendimentooAsync(string id)
+    {
+        var atendimentoSheetraw = await _sheetsDB.LerRangeAsync("Atendimento!A3:AL"); // ou outro range total
+        var atendimentoSheet = atendimentoSheetraw.ToList();
+        int linhaIndexPront = atendimentoSheet.FindIndex(r => r.Count > 0 && r[0]?.ToString() == id); // Supondo que a coluna AL (índice 0) seja o ID
+
+        if (linhaIndexPront == -1)throw new Exception("Atendiento não encontrado na aba Atendimento.");
+        // Passo 2: A linha no Google Sheets começa em 2 (1 para header)
+        int linhaProntuarioNoSheet = linhaIndexPront + 3;
+        await _sheetsDB.DeleteLineAsync(linhaProntuarioNoSheet, "Atendimento");
+        Console.WriteLine($"A linha deletada será {linhaProntuarioNoSheet}");
+        
+    }
+    //Atualizar atendimento
     public async Task<Atendimento> AtualizarAtendimento ( string pacienteId, Atendimento atendimento)
     {
         // Criar lógicas para definirem a etapa do atendimento, inicializando.
@@ -610,6 +665,7 @@ public class AtendimentoSheetsRepository : IAtendimentoRepository
         
         return atendimento;
     }
+// Métodos privados
     private static string GetEnumDisplayName<T>(T enumValue) where T : Enum
     {
         var field = enumValue.GetType().GetField(enumValue.ToString());
@@ -653,5 +709,37 @@ public class AtendimentoSheetsRepository : IAtendimentoRepository
         }
         return data;
     }
-    
+    private List<CDStatus> ParseCdPendente(string value)
+    {
+        var list = new List<CDStatus>();
+
+        if (string.IsNullOrWhiteSpace(value))
+            return list;
+
+        // Split por "-"
+        var items = value.Split('-', StringSplitOptions.RemoveEmptyEntries);
+
+        foreach (var item in items)
+        {
+            // Cada item deve ter: Descricao,Boolean
+            var partes = item.Split(',', StringSplitOptions.RemoveEmptyEntries);
+
+            if (partes.Length != 2)
+                continue;
+
+            var descricao = partes[0].Trim();
+            var pendenteStr = partes[1].Trim();
+
+            bool pendente = false;
+            bool.TryParse(pendenteStr, out pendente);
+
+            list.Add(new CDStatus
+            {
+                Descricao = descricao,
+                Pendente = pendente
+            });
+        }
+
+        return list;
+    }
 }

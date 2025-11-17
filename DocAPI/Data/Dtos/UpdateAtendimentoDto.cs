@@ -1,14 +1,14 @@
 using DocAPI.Core.Models;
 
-namespace DocAPI.Data.Dtos;
+namespace DocAPI.Data.Dtos.Atendimento;
 public class UpdateAtendimentoDto
 {
     // Propriedades gerais
-    public string ID { get; set; } = string.Empty;
+    // public string ID { get; set; } = string.Empty;
     public string PacienteId { get; set; } = string.Empty;
     public string NomePaciente { get; set; } = string.Empty;
-    public List<string>? ProntuarioId { get; set; } 
-    public List<string>? AgendamentoId { get; set; }
+    public List<string>? ProntuariosId { get; set; } 
+    public List<string>? AgendamentosId { get; set; }
     public string EtapaAtualAtendimento { get; set; } = string.Empty; // Ex: "Consulta", "Pré Procedimento"
     // public DateTime UltimaAtualizacao { get; set; }
     public string MensagemParaMedico { get; set; } = string.Empty;// Ex: "Aguardando confirmação de exames"
