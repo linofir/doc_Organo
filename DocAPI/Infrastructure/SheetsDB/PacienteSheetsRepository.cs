@@ -1,17 +1,22 @@
+using System.ComponentModel.DataAnnotations;
 using DocAPI.Core.Models;
 using DocAPI.Core.Repositories;
 using DocAPI.Services;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 
-namespace DocAPI.Infrastructure.Sheets;
+namespace DocAPI.Infrastructure.SheetsDb;
 
 public class PacienteSheetsRepository : IPacienteRepository
 {
     private readonly GoogleSheetsDB _sheetsDB;
-    public PacienteSheetsRepository(GoogleSheetsDB sheets)
+    // private readonly IProntuarioRepository _IProntuarioRepository;
+    // private readonly PdfGeneratorService _pdfGeneratorService;
+    public PacienteSheetsRepository(GoogleSheetsDB sheets)//*, IProntuarioRepository prontuarioRepo, PdfGeneratorService pdfGen*//* )
     {
         _sheetsDB = sheets;
+        // _IProntuarioRepository = prontuarioRepo;
+        // _pdfGeneratorService =  pdfGen;
     }
     public async Task<IEnumerable<Paciente>> GetAllAsync(int skip = 0, int take = 10)
     {
@@ -57,16 +62,17 @@ public class PacienteSheetsRepository : IPacienteRepository
 
         return paciente;
     }
-    public async Task<Paciente?> GetByCpfAsync(string cpf)
+    public async Task<List<Paciente>> GetPacienteByCpfAsync(string cpf)
     {
-        Console.WriteLine($"test inicio metodo, procurando: {cpf}");
-        List<Paciente> pacientes;
-        pacientes = await GetPacientesAsync();
-        Console.WriteLine(pacientes.Count());
-        var paciente = pacientes.FirstOrDefault(p =>
-            !string.IsNullOrWhiteSpace(p.CPF) &&
-            !string.IsNullOrWhiteSpace(cpf) &&
-            p.CPF.Trim().Equals(cpf.Trim(), StringComparison.OrdinalIgnoreCase));
+        var paciente = await GetAgendamentoByFilterAsync( cpf, PacientesFilter.Cpf);
+        // Console.WriteLine($"test inicio metodo, procurando: {cpf}");
+        // List<Paciente> pacientes;
+        // pacientes = await GetPacientesAsync();
+        // Console.WriteLine(pacientes.Count());
+        // var paciente = pacientes.FirstOrDefault(p =>
+        //     !string.IsNullOrWhiteSpace(p.CPF) &&
+        //     !string.IsNullOrWhiteSpace(cpf) &&
+        //     p.CPF.Trim().Equals(cpf.Trim(), StringComparison.OrdinalIgnoreCase));
         // throw new NotImplementedException();
         return paciente;
     }
@@ -84,6 +90,27 @@ public class PacienteSheetsRepository : IPacienteRepository
     {
         await DeletePacienteAsync(id);
     }
+    //   public async Task<Stream> CreateReportByIdAsync( string pacienteId )
+    // {
+    //     var paciente = await GetByIdAsync(pacienteId);
+    //     if(paciente == null)
+    //     {
+    //         throw new InvalidOperationException($"Paciente com ID '{pacienteId}' não encontrado.");
+    //     }
+    //     var prontuariosOfPaciente = await _IProntuarioRepository.GetProntuariosOfPacienteAsync(paciente);
+    //     return _pdfGeneratorService.GeneratePatientReportPdf( paciente, prontuariosOfPaciente);
+    // }
+    // public async Task<Stream> CreateReportByCpfAsync( string pacienteCpf )
+    // {
+    //     var paciente = await GetPacienteByCpfAsync(pacienteCpf);
+    //     if(paciente == null) 
+    //     {
+    //         throw new InvalidOperationException($"Paciente com CPF '{pacienteCpf}' não encontrado.");
+    //     }
+    //     var prontuariosOfPaciente = await _IProntuarioRepository.GetProntuariosOfPacienteAsync( paciente[0]);
+    //     //Adicionar Coleta de agendamentos da paciente
+    //     return _pdfGeneratorService.GeneratePatientReportPdf( paciente[0], prontuariosOfPaciente);
+    // }
     public async Task<List<Paciente>> GetPacientesAsync()
     {
         var values = await _sheetsDB.LerRangeAsync("Pacientes!A3:O"); // de A até a coluna ID
@@ -103,32 +130,12 @@ public class PacienteSheetsRepository : IPacienteRepository
             try
             {
                 var nascimentoString = row[2]?.ToString();
-                DateTime nascimento = DateTime.MinValue;
+                DateOnly nascimento = DateOnly.MinValue;
                 if (!string.IsNullOrWhiteSpace(nascimentoString))
                 {
-                    DateTime.TryParse(nascimentoString, out nascimento);
+                    DateOnly.TryParse(nascimentoString, out nascimento);
                 }
-                var paciente = new Paciente
-                {
-                    CPF = row[0]?.ToString(),
-                    Nome = row[1]?.ToString(),
-                    Nascimento = nascimento,
-                    Plano = row[3]?.ToString(),
-                    ID = row[4]?.ToString(),
-                    Carteira = row[5]?.ToString(),
-                    Email = row[6]?.ToString(),
-                    Telefone = row[7]?.ToString(),
-                    Endereco = new Endereco
-                    {
-                        Logradouro = row[8]?.ToString(),
-                        Numero = row[9]?.ToString(),
-                        Bairro = row[10]?.ToString(),
-                        Cidade = row[11]?.ToString(),
-                        UF = row[12]?.ToString(),
-                        CEP = row[13]?.ToString()
-                    },
-                    RG = row.Count > 14 ? row[14]?.ToString() : null
-                };
+                var paciente = InstantiatePaciente(row);
                 pacientes.Add(paciente);
             }
             catch (Exception ex)
@@ -138,35 +145,59 @@ public class PacienteSheetsRepository : IPacienteRepository
         }
         return pacientes;
     }
+    public async Task<List<Paciente>> GetAgendamentoByFilterAsync(string conditionOfRow, PacientesFilter rowIndex)
+    {
+        Console.WriteLine($"Filtrando pacientes da coluna(i): {rowIndex } para {conditionOfRow}" );
+        var values = await _sheetsDB.LerRangeAsync("Pacientes!A3:O"); // de A até a coluna ID
+        var pacientesOfcondition = new List<Paciente>{};
+        var limit = values.Count;
+        //Console.WriteLine($"Total de linhas com algum dado: {limit}");       
+        for (int i = 0; i < limit; i++)
+        {
+            var row = values[i];
+            if (row.All(cell => string.IsNullOrWhiteSpace(cell?.ToString()))) continue;
+            //Confere se tem alguma coluna vazia
+            if (row.Count < 14)
+            {
+                Console.WriteLine($"Linha {i + 3} ignorada: colunas insuficientes ({row.Count}).");
+                continue;
+            }
+
+            try
+            {
+                string? cellValue = null;
+                if ((int)rowIndex < row.Count) // Garante que o índice existe na linha, talvez seja redundante já que uso um Enum para garantir isso.
+                {
+                    cellValue = row[(int)rowIndex]?.ToString();
+                }
+                if(!string.IsNullOrWhiteSpace(cellValue) && 
+                    conditionOfRow.Trim().Equals(cellValue.Trim(), StringComparison.OrdinalIgnoreCase))
+                {
+                    Console.WriteLine($"Filtrando agendamento...encontrado");        
+                    Paciente paciente = InstantiatePaciente(row);
+                    pacientesOfcondition.Add(paciente);
+                    Console.WriteLine($"Paciente {paciente.Nome}, foi encontrado");
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine($"Erro ao processar linha {i + 3}: {ex.Message}");
+            }
+
+        }
+        return pacientesOfcondition;
+        
+    }
     public async Task AddPacienteAsync(Paciente paciente)
     {
         // 1. Ler as linhas existentes
         var pacientesheet = await _sheetsDB.LerRangeAsync("Pacientes!A3:O");
         int novaLinhaIndex = pacientesheet.Count(r => r.Any(cell => !string.IsNullOrWhiteSpace(cell?.ToString()))) + 3;
-        // int novaLinhaIndex = valores.Count + 3; // +3 porque a planilha começa na linha 3
-        // 2. Preparar os valores a serem inseridos
-        ValueRange body = new ValueRange
+        if (string.IsNullOrEmpty(paciente.ID))
         {
-            Values = new List<IList<object>> {
-                new List<object> {
-                    paciente.CPF,
-                    paciente.Nome,
-                    paciente.Nascimento.ToString("dd/MM/yyyy"),
-                    paciente.Plano,
-                    paciente.ID,
-                    paciente.Carteira,
-                    paciente.Email,
-                    paciente.Telefone,
-                    paciente.Endereco?.Logradouro,
-                    paciente.Endereco?.Numero,
-                    paciente.Endereco?.Bairro,
-                    paciente.Endereco?.Cidade,
-                    paciente.Endereco?.UF,
-                    paciente.Endereco?.CEP,
-                    paciente.RG
-                }
-            }
-        };
+            paciente.ID = Guid.NewGuid().ToString();
+        }
+        ValueRange body = CreatePacienteToSheet(paciente);
         // 3. Escrever os dados na próxima linha disponível
         string rangeDestino = $"Pacientes!A{novaLinhaIndex}:O{novaLinhaIndex}";
         Console.WriteLine($"A nova Paciente será acrescentada na { rangeDestino}");
@@ -239,6 +270,96 @@ public class PacienteSheetsRepository : IPacienteRepository
 
         await _sheetsDB.DeleteLineAsync(linhaPacienteNoSheet, "Pacientes");
     }
+    public Paciente InstantiatePaciente(IList<object> row)
+    {
+        var nascimentoString = row[2]?.ToString();
+        DateOnly nascimento = DateOnly.MinValue;
+        if (!string.IsNullOrWhiteSpace(nascimentoString))
+        {
+            DateOnly.TryParse(nascimentoString, out nascimento);
+        }
+        return new Paciente
+                {
+                    CPF = row[0].ToString() ?? null,
+                    Nome = row[1].ToString() ?? null,
+                    Nascimento = nascimento,
+                    Plano = row[3].ToString() ?? null,
+                    ID = row[4].ToString(),
+                    Carteira = row[5]?.ToString() ?? null,
+                    Email = row[6]?.ToString() ?? null,
+                    Telefone = row[7]?.ToString() ?? null,
+                    Endereco = new Endereco
+                    {
+                        Logradouro = row[8].ToString(),
+                        Numero = row[9]?.ToString(),
+                        Bairro = row[10]?.ToString(),
+                        Cidade = row[11]?.ToString(),
+                        UF = row[12]?.ToString(),
+                        CEP = row[13]?.ToString()
+                    },
+                    RG = row.Count > 14 ? row[14]?.ToString() : null
+                };
+    }
+    public ValueRange  CreatePacienteToSheet( Paciente paciente)
+    {
+        return new ValueRange
+        {
+            Values = new List<IList<object>> {
+                new List<object> {
+                    paciente.CPF ?? "0",
+                    paciente.Nome ?? "0",
+                    paciente.Nascimento.ToString("dd/MM/yyyy"),
+                    paciente.Plano ?? "0",
+                    paciente.ID ?? "0",
+                    paciente.Carteira ?? "0",
+                    paciente.Email ?? "0",
+                    paciente.Telefone ?? "0",
+                    paciente.Endereco?.Logradouro ?? "0",
+                    paciente.Endereco?.Numero ?? "0",
+                    paciente.Endereco?.Bairro ?? "0",
+                    paciente.Endereco?.Cidade ?? "0",
+                    paciente.Endereco?.UF ?? "0",
+                    paciente.Endereco?.CEP ?? "0",
+                    paciente.RG ?? "0"
+                }
+            }
+        };
+    }
+    public enum PacientesFilter
+    {
+        [Display(Name = "CPF")]
+        Cpf = 0,
+        [Display(Name = "Nome")]
+        Nome = 1,
+        [Display(Name = "Data de nascimeto")]
+        DataNasimento = 2,
+        [Display(Name = "Plano de saúde")]
+        PlanoSaude = 3,
+        [Display(Name = "ID")]
+        Id = 4,
+        [Display(Name = "Carteira")]
+        Carteira = 5,
+        [Display(Name = "email")]
+        Email = 6,
+        [Display(Name = "celular")]
+        Celular = 8,
+        [Display(Name = "Logradouro")]
+        Logradouro = 9,
+        [Display(Name = "Número")]
+        Numero = 10,
+        [Display(Name = "Bairro")]
+        Bairro = 11,
+        [Display(Name = "Cidade")]
+        Cidade = 12,
+        [Display(Name = "Estado")]
+        Estado = 13,
+        [Display(Name = "CEP")]
+        Cep = 14,
+        [Display(Name = "RG")]
+        Rg = 15,
+    }
+    
+
 }
 
 

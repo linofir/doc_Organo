@@ -3,11 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using DocAPI.Profiles;
 using DocAPI.Services;
-using DocAPI.Infrastructure.Sheets;
+// using DocAPI.Services.FileDataOfSenhaExtractorService;
+using DocAPI.Infrastructure.SheetsDb;
 using DocAPI.Core.Repositories;
+using DocAPI.Core.Models;
 using DocAPI.CLI;
 using Newtonsoft.Json.Converters;
-using DocAPI.Core.Models;
 using UglyToad.PdfPig.Graphics.Colors;
 using System.Text.Json;
 using QuestPDF.Infrastructure;
@@ -33,6 +34,8 @@ var config = new MapperConfiguration(cfg =>
 {
     cfg.AddProfile<PacienteProfile>();
     cfg.AddProfile<ProntuarioProfile>();
+    cfg.AddProfile<AgendamentoProfile>();
+    cfg.AddProfile<AtendimentoProfile>();
     cfg.AddMaps(typeof(Program).Assembly);
 });
 
@@ -44,13 +47,20 @@ builder.Services.AddSingleton<IMapper>(mapper);
 
 builder.Services.AddSingleton<GoogleSheetsDB>();
 builder.Services.AddSingleton<PdfGeneratorService>();
+builder.Services.AddSingleton<FileDataOfSenhaExtractorService>();
 builder.Services.AddScoped<IPacienteRepository, PacienteSheetsRepository>();
 builder.Services.AddScoped<IProntuarioRepository, ProntuarioSheetsRepository>();
 builder.Services.AddScoped<IAgendamentoRepository, AgendamentoSheetsRepository>();
+builder.Services.AddScoped<IAtendimentoRepository, AtendimentoSheetsRepository>();
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
     {
         options.SerializerSettings.Converters.Add(new StringEnumConverter());
+    });
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
     });
 builder.Services.AddEndpointsApiExplorer();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -72,6 +82,21 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// string filePath = @"C:\Users\lino\Downloads\transferir (7).xls";
+// var service = new FileDataOfSenhaExtractorService();
+//load test
+// var pathJson = service.PathToFile;
+// Console.WriteLine(pathJson);
+// var jsonCarregado = await service.LoadDescritivosFromFile(pathJson);
+// Console.WriteLine(await service.PrintSenhasExtraidosComoJson(jsonCarregado));
+//Coletar dados
+// var listaSenhas = await service.ExtractDataFromFileAsync(filePath);
+// // Console.WriteLine($"Nome: {listaSenhas.Senhas[0].NomePaciente}, Código: {listaSenhas.Senhas[0].Codigo}");
+// await service.SaveDescritivo(listaSenhas);
+// // Console.WriteLine(await service.PrintSenhasExtraidosComoJson(listaSenhas));
+
+    
 
 app.Run();
 

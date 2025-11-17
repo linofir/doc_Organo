@@ -78,7 +78,7 @@ public class ProntuarioPdfExtractorService
             // InformacoesExtras = "", // pode ser extraído ou preenchido depois
             Exames = ExtrairExames(paginasTexto),
             SolicitacaoInternacao = ExtrairInternacao(paginasTexto),
-            DataRequisicao = DateTime.Now 
+            // DataConsulta = DateOnly.MinValue()
         };
 
     }
@@ -348,7 +348,9 @@ public class ProntuarioPdfExtractorService
                 return new Internacao
                 {
                     Procedimentos = lista,
-                    Data =DateTime.TryParse(ExtrairCampoCondicional(blocoAutorizacao, listaCondicoesFimAutorizacao[2], listaCondicoesFimAutorizacao), out var date) ? date : DateTime.Now,
+                    Data = DateTime.TryParse(ExtrairCampoCondicional(blocoAutorizacao, listaCondicoesFimAutorizacao[2], listaCondicoesFimAutorizacao), out var dateTimeResult) 
+                    ? DateOnly.FromDateTime(dateTimeResult) // Converte o DateTime para DateOnly
+                    : DateOnly.FromDateTime(DateTime.Now), // Converte DateTime.Now para DateOnly
                     IndicacaoClinica = indicacaoClinicaBruta!,
                     CID = ExtrairCampoCondicional(blocoDados, listaCondicoesFimDados[7], listaCondicoesFimDados),
                     TempoDoenca = "Não implementado",
@@ -358,7 +360,7 @@ public class ProntuarioPdfExtractorService
                     Carater = ExtrairCampoCondicional(blocoDados, listaCondicoesFimDados[1], listaCondicoesFimDados),
                     UsaOPME = ExtrairCampoCondicional(blocoDados, listaCondicoesFimDados[9], listaCondicoesFimDados).Contains("S"),
                     Local = ExtrairCampoCondicional(blocoDados, listaCondicoesFimDados[0], listaCondicoesFimDados),
-                    Guia =  long.TryParse(ExtrairCampoCondicional(blocoGuia, listaCondicoesFimGuia[0], listaCondicoesFimGuia).ToString(), out var guia) ? guia : 0,
+                    Guia =  ExtrairCampoCondicional(blocoGuia, listaCondicoesFimGuia[0], listaCondicoesFimGuia),
                     Observacao = ExtrairCampoCondicional(blocoAutorizacao, listaCondicoesFimAutorizacao[0], listaCondicoesFimAutorizacao)
                 };
 

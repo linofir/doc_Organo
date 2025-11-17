@@ -362,7 +362,7 @@ public class FileDataExtractorService
         return DateOnly.MinValue; // Ou você pode retornar null se a propriedade Data for DateOnly?
     }
 
-/// ----------------------------------
+/// ---------------------------------- Para arquivo xls
     public string PrepararArquivoParaExtracao(string caminhoOriginal, string caminhoXlsxDestino)
     {
         try

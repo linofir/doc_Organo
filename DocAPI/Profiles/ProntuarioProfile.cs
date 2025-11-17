@@ -10,14 +10,14 @@ namespace DocAPI.Profiles
         {
             /* ---------- Prontuário ---------- */
             CreateMap<CreateProntuarioDto, Prontuario>();
-            CreateMap<DescricaoBasicaDto, Core.Models.DescricaoBasica>();
-            CreateMap<AGODto, Core.Models.AGO>();
-            CreateMap<AntecedentesDto, Core.Models.Antecedentes>();
-            CreateMap<AntecedentesFamiliaresDto, Core.Models.AntecedentesFamiliares>();
-            CreateMap<ExameDto, Core.Models.Exame>();
-            CreateMap<SolicitacaoInternacaoDto, Core.Models.Internacao>();
+            // CreateMap<DescricaoBasicaDto, Core.Models.DescricaoBasica>();
+            // CreateMap<AGODto, Core.Models.AGO>();
+            // CreateMap<AntecedentesDto, Core.Models.Antecedentes>();
+            // CreateMap<AntecedentesFamiliaresDto, Core.Models.AntecedentesFamiliares>();
+            // CreateMap<ExameDto, Core.Models.Exame>();
+            // CreateMap<SolicitacaoInternacaoDto, Core.Models.Internacao>();
             CreateMap<UpdateProntuarioDto, Prontuario>()
-                .ForMember(dest => dest.ID, opt => opt.Ignore())
+                // .ForMember(dest => dest.ID, opt => opt.Ignore())
                 .ForMember(dest => dest.DescricaoBasica, opt => opt.MapFrom(src => src.DescricaoBasica))
                 .ForMember(dest => dest.AGO, opt => opt.MapFrom(src => src.AGO))
                 .ForMember(dest => dest.Antecedentes, opt => opt.MapFrom(src => src.Antecedentes))

@@ -12,7 +12,7 @@ using NPOI.HSSF.Record;
 using Org.BouncyCastle.Crypto.Digests;
 using static DocAPI.Core.Models.Agendamento;
 
-namespace DocAPI.Infrastructure.Sheets;
+namespace DocAPI.Infrastructure.SheetsDb;
 
 public class AgendamentoSheetsRepository : IAgendamentoRepository
 {
@@ -44,12 +44,12 @@ public class AgendamentoSheetsRepository : IAgendamentoRepository
     }
     public async Task<List<Agendamento>> GetByNameAsync(string name)
     {
-        return await GetAgendamentoByRowAsync( name, AgendamentosFilter.Nome );
+        return await GetAgendamentoByFilterAsync( name, AgendamentosFilter.Nome );
     }
     public async Task<List<Agendamento>> GetByPacienteIdAsync(string pacienteId)
     {
         Console.WriteLine($"Interface de pacienteID...");
-        return await GetAgendamentoByRowAsync( pacienteId, AgendamentosFilter.PacienteId);
+        return await GetAgendamentoByFilterAsync( pacienteId, AgendamentosFilter.PacienteId);
     }
     public async Task CreateAsync(Agendamento novoAgendamento)
     {
@@ -66,10 +66,10 @@ public class AgendamentoSheetsRepository : IAgendamentoRepository
         await DeleteAgendamentoAsync(id);
         // throw new NotImplementedException();
     }
-
+/// metodos
     public async Task<List<Agendamento>> GetAgendamentosAsync()
     {
-        var values = await _sheetsDB.LerRangeAsync("Agendamentos!A3:N"); // de A até a coluna ID
+        var values = await _sheetsDB.LerRangeAsync("Agendamentos!A3:Q"); // de A até a coluna ID
         var allAgendamentos = new List<Agendamento>();
         var limit = values.Count;
         //Console.WriteLine($"Total de linhas com algum dado: {limit}");       
@@ -78,7 +78,7 @@ public class AgendamentoSheetsRepository : IAgendamentoRepository
             var row = values[i];
             if (row.All(cell => string.IsNullOrWhiteSpace(cell?.ToString()))) continue;
             //Confere se tem alguma coluna vazia
-            if (row.Count < 14)
+            if (row.Count < 17)
             {
                 Console.WriteLine($"Linha {i + 3} ignorada: colunas insuficientes ({row.Count}).");
                 continue;
@@ -101,10 +101,10 @@ public class AgendamentoSheetsRepository : IAgendamentoRepository
         }
         return allAgendamentos;
     }
-    public async Task<List<Agendamento>> GetAgendamentoByRowAsync(string conditionOfRow, AgendamentosFilter rowIndex)
+    public async Task<List<Agendamento>> GetAgendamentoByFilterAsync(string conditionOfRow, AgendamentosFilter rowIndex)
     {
         Console.WriteLine($"Filtrando agendamento da coluna(i): {rowIndex } para {conditionOfRow}" );
-        var values = await _sheetsDB.LerRangeAsync("Agendamentos!A3:N"); // de A até a coluna ID
+        var values = await _sheetsDB.LerRangeAsync("Agendamentos!A3:Q"); // de A até a coluna ID
         var agendamentosOfcondition = new List<Agendamento>{};
         var limit = values.Count;
         //Console.WriteLine($"Total de linhas com algum dado: {limit}");       
@@ -113,7 +113,7 @@ public class AgendamentoSheetsRepository : IAgendamentoRepository
             var row = values[i];
             if (row.All(cell => string.IsNullOrWhiteSpace(cell?.ToString()))) continue;
             //Confere se tem alguma coluna vazia
-            if (row.Count < 14)
+            if (row.Count < 17)
             {
                 Console.WriteLine($"Linha {i + 3} ignorada: colunas insuficientes ({row.Count}).");
                 continue;
@@ -148,7 +148,7 @@ public class AgendamentoSheetsRepository : IAgendamentoRepository
     public async Task AddAgendamentoAsync(Agendamento agendamento)
     {
         Console.WriteLine($"Comunicando com DB..." );
-        var agendamentoSheets = await _sheetsDB.LerRangeAsync("Agendamentos!A3:N");
+        var agendamentoSheets = await _sheetsDB.LerRangeAsync("Agendamentos!A3:Q");
         int novaLinhaIndex = agendamentoSheets.Count(r => r.Any(cell => !string.IsNullOrWhiteSpace(cell?.ToString()))) + 3;
         //Como é melhor armazenar o status, é preciso validar e preparar os dados antes de armazena-los
         if (string.IsNullOrEmpty(agendamento.ID))
@@ -160,14 +160,14 @@ public class AgendamentoSheetsRepository : IAgendamentoRepository
         ValueRange body = CreateAgendamentoToSheets(agendamento);
         
         // 3. Escrever os dados na próxima linha disponível
-        string rangeDestino = $"Agendamentos!A{novaLinhaIndex}:N{novaLinhaIndex}";
+        string rangeDestino = $"Agendamentos!A{novaLinhaIndex}:Q{novaLinhaIndex}";
         Console.WriteLine($"O novo Agendamento será acrescentado na { rangeDestino}");
         await _sheetsDB.WriteRangeAsync(rangeDestino, body.Values);
     }
     public async Task UpdateAgendamentoAsync(Agendamento agendamento, string id)
     {
         // Passo 1: Buscar a linha do agendamento (por ID), repensar como identifiar a linha na planilha
-        var allAgendamentos = await _sheetsDB.LerRangeAsync("Agendamentos!A3:AJ");
+        var allAgendamentos = await _sheetsDB.LerRangeAsync("Agendamentos!A3:Q");
         var sheetFilter = (int)AgendamentosFilter.Id;
         int linhaIndex = allAgendamentos.ToList().FindIndex(r => {
         // Garante que a linha tem colunas suficientes e o valor da célula não é nulo/vazio
@@ -188,7 +188,7 @@ public class AgendamentoSheetsRepository : IAgendamentoRepository
         var valoresAtualizados = CreateAgendamentoToSheets(agendamento);
 
         // 5. Montar o range da linha específica (A até N)
-        string range = $"Agendamentos!A{linhaNoSheet}:N{linhaNoSheet}";
+        string range = $"Agendamentos!A{linhaNoSheet}:Q{linhaNoSheet}";
 
         Console.WriteLine($"Atualizando agendamento com ID '{agendamento.ID}' na linha {linhaNoSheet}");
 
@@ -197,7 +197,7 @@ public class AgendamentoSheetsRepository : IAgendamentoRepository
     }
     public async Task DeleteAgendamentoAsync(string id)
     {
-        var allAgendamentos = await _sheetsDB.LerRangeAsync("Agendamentos!A3:AJ");
+        var allAgendamentos = await _sheetsDB.LerRangeAsync("Agendamentos!A3:Q");
         int linhaIndex = allAgendamentos.ToList().FindIndex(r => {
         // Garante que a linha tem colunas suficientes e o valor da célula não é nulo/vazio
         if (r.Count > (int)AgendamentosFilter.Id && !string.IsNullOrWhiteSpace(r[(int)AgendamentosFilter.Id]?.ToString()))
@@ -227,20 +227,23 @@ public class AgendamentoSheetsRepository : IAgendamentoRepository
         {
             Values = new List<IList<object>> {
                 new List<object> {
-                    agendamento.Nome,
-                    agendamento.Aviso,
-                    agendamento.Data.ToString("yyy-MM-dd") ?? null,
-                    agendamento.Horario.ToString("HH-mm"),
-                    agendamento.Procedimento,
-                    agendamento.Local,
-                    agendamento.Sala,
-                    agendamento.Status,
-                    agendamento.SenhaAgendamento.Codigo,
-                    agendamento.SenhaAgendamento.DataPedido.ToString("yyy-MM-dd") ?? null,
-                    agendamento.SenhaAgendamento.DataLibetracao?.ToString("yyy-MM-dd") ?? null,
-                    agendamento.SenhaAgendamento.Validade?.ToString("yyy-MM-dd") ?? null,
-                    agendamento.PacienteID,
-                    agendamento.ID,
+                    agendamento.Nome ?? "0",
+                    agendamento.Aviso ?? "0",
+                    agendamento.Data.ToString("yyy/MM/dd") ?? "0",
+                    agendamento.Horario.ToString("HH:mm") ?? "0",
+                    agendamento.Procedimento ?? "0",
+                    agendamento.Local ?? "0",
+                    agendamento.Sala ?? "0",
+                    displayStatus ?? "0",
+                    agendamento.SenhaAgendamento.Codigo ?? "0",
+                    agendamento.SenhaAgendamento.DataPedido.ToString("yyy/MM/dd") ?? "0",
+                    agendamento.SenhaAgendamento.DataLibetracao?.ToString("yyy/MM/dd") ?? "0",
+                    agendamento.SenhaAgendamento.Validade?.ToString("yyy/MM/dd") ?? "0",
+                    agendamento.PacienteID ?? "0",
+                    agendamento.ID ?? "0",
+                    agendamento.StatusAtestado ?? "0",
+                    agendamento.StatusInstrucoes ?? "0",
+                    agendamento.DataConsulta.ToString("yyy/MM/dd") ?? "0"
                 }
             }
         };
@@ -270,7 +273,11 @@ public class AgendamentoSheetsRepository : IAgendamentoRepository
                 DataPedido = ParseDateOnly(row[9]?.ToString() ?? ""),
                 DataLibetracao = ParseDateOnly(row[10]?.ToString() ?? ""),
                 Validade = ParseDateOnly(row[11]?.ToString() ?? ""),
-                }
+                },
+            StatusAtestado = row[14].ToString() ?? "",
+            StatusInstrucoes = row[15].ToString() ?? "",
+            DataConsulta = ParseDateOnly(row[16]?.ToString() ?? "")
+            
         };
         return agendamento;
     }
@@ -316,7 +323,7 @@ public class AgendamentoSheetsRepository : IAgendamentoRepository
         [Display(Name = "Sala")]
         Sala = 6,
         [Display(Name = "Senha")]
-        CanceSenha = 8,
+        Senha = 8,
         [Display(Name = "DataPedido")]
         DataPedido = 9,
         [Display(Name = "DataLiberação")]

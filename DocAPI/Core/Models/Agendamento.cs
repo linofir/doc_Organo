@@ -11,12 +11,12 @@ public class Agendamento
     public string ID { get; set; } = string.Empty;
     public Agendamento() {}
     
-    public Agendamento(Paciente paciente)
-    { 
-        Nome = paciente.Nome; 
-        PacienteID = paciente.ID;
-        ID = Guid.NewGuid().ToString();
-    }
+    // public Agendamento(Paciente paciente)
+    // { 
+    //     Nome = paciente.Nome; 
+    //     PacienteID = paciente.ID;
+    //     ID = Guid.NewGuid().ToString();
+    // }
     [Required(ErrorMessage = "Este campo é obrigatório")]
     public string PacienteID { get; set; } = string.Empty;
     [Required(ErrorMessage = "Este campo é obrigatório")]
@@ -34,7 +34,9 @@ public class Agendamento
     public Senha? SenhaAgendamento { get; set; }
     [Required(ErrorMessage = "Este campo é obrigatório")]
     public StatusAgendamento  Status { get; set; }
-
+    public string StatusInstrucoes { get; set; }
+    public string StatusAtestado { get; set; }
+    public DateOnly DataConsulta { get; set; } = DateOnly.MinValue;
 
     public class Senha
     {
@@ -46,9 +48,9 @@ public class Agendamento
     }
     public enum StatusAgendamento
     {
-        [Display(Name = "Sem senha")]
+        [Display(Name = "Sem senha")]//nao tem
         SemSenha = 1,
-        [Display(Name = "Senha pendente")]
+        [Display(Name = "Senha pendente")]//nao tem
         SenhaPendente = 2,
 
         [Display(Name = "Senha Aprovada")]
