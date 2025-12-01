@@ -1,3 +1,9 @@
+# DocFron.Web
+## Executar
+```bash
+dotnet run --project DocFront/DocFront.Web.csproj
+```
+dotnet run --project DocFront/DocFront.Web.csproj
 # DocAPI
 Esta aplicação é uma API de back-end que tem como objetivo centralizar e otimizar a gestão de dados de um atendimento médico, automatizando processos e unificando informações de pacientes, prontuários e agendamentos. 
 Poderá ser associada ao DocFront, front-end da API.
@@ -30,6 +36,7 @@ dotnet run --project DocAPI/DocAPI.csproj --extract
 * [Closedxml](https://www.nuget.org/packages/closedxml/) Provavelmente não será usada
 * [NPOI](https://www.nuget.org/packages/npoi/)
 * [htmlagilitypack](https://www.nuget.org/packages/htmlagilitypack/)
+* [CSharp](https://learn.microsoft.com/en-us/aspnet/core/blazor/tutorials/movie-database-app/part-1?view=aspnetcore-10.0&pivots=vsc)
 ## 💻 Fluxo de Desenvolvimento (Como Contribuir)
 Este projeto utiliza um fluxo de trabalho baseado em *feature branches*, similar ao GitHub Flow.
 1.  **Sincronize sua branch `main`:**
