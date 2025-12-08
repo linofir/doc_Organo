@@ -1,9 +1,15 @@
-# DocFron.Web
-## Executar
+# DocFront.Web
+## 🚀 Como Executar
 ```bash
 dotnet run --project DocFront/DocFront.Web.csproj
 ```
-dotnet run --project DocFront/DocFront.Web.csproj
+## 💻 Fluxo de Desenvolvimento (Como Contribuir)
+1.  **Model:** Crie ou altere a classe da entidade em `DocAPI/Core/Models`.
+2.  **Services:** Crie ou ajuste os Data Transfer Objects (DTOs) em `DocAPI/Data/Dtos/` para expor os dados de forma segura.
+3.  **UI:** 
+4.  **Wrapper:** 
+-------
+
 # DocAPI
 Esta aplicação é uma API de back-end que tem como objetivo centralizar e otimizar a gestão de dados de um atendimento médico, automatizando processos e unificando informações de pacientes, prontuários e agendamentos. 
 Poderá ser associada ao DocFront, front-end da API.

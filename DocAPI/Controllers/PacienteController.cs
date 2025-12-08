@@ -17,7 +17,6 @@ public class PacienteController : ControllerBase
     //private PacienteContext _context;
     private readonly IPacienteRepository _repository;
     private IMapper _mapper;
-
     public PacienteController(IPacienteRepository repository, IMapper mapper)
     {
         //_context = context;
