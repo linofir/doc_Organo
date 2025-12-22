@@ -34,7 +34,7 @@ public class PacienteController : ControllerBase
         return CreatedAtAction(nameof(GetByID), new { id = paciente.ID }, paciente);
     }
     [HttpGet]
-    public async Task<IActionResult> GetPacientes([FromQuery] int skip = 0, [FromQuery] int take = 10)
+    public async Task<IActionResult> GetPacientes([FromQuery] int skip = 0, [FromQuery] int take = 100)
     {
         if(_repository == null) return NotFound();
         var pacientes = await _repository.GetAllAsync(skip, take);

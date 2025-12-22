@@ -1,0 +1,167 @@
+@using DocFront.Models
+
+<EditForm Model="@Paciente" OnValidSubmit="Salvar">
+    <DataAnnotationsValidator />
+
+    <div class="card-detalhe">
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label>Nome</label>
+                <InputText class="form-control"
+                           @bind-Value="Paciente!.Nome"
+                           disabled="@(!IsEditing)" />
+            </div>
+
+            <div class="form-group">
+                <label>Nascimento</label>
+                <InputDate class="form-control"
+                           @bind-Value="NascimentoDate"
+                           disabled="@(!IsEditing)" />
+            </div>
+
+            <div class="form-group">
+                <label>CPF</label>
+                <InputText class="form-control"
+                           @bind-Value="Paciente.CPF"
+                           disabled="@(!IsEditing)" />
+            </div>
+
+            <div class="form-group">
+                <label>RG</label>
+                <InputText class="form-control"
+                           @bind-Value="Paciente.RG"
+                           disabled="@(!IsEditing)" />
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <InputText class="form-control"
+                           @bind-Value="Paciente.Email"
+                           disabled="@(!IsEditing)" />
+            </div>
+
+            <div class="form-group">
+                <label>Telefone</label>
+                <InputText class="form-control"
+                           @bind-Value="Paciente.Telefone"
+                           disabled="@(!IsEditing)" />
+            </div>
+
+            <div class="form-group">
+                <label>Plano de Saúde</label>
+                <InputText class="form-control"
+                           @bind-Value="Paciente.Plano"
+                           disabled="@(!IsEditing)" />
+            </div>
+
+            <div class="form-group">
+                <label>Carteira</label>
+                <InputText class="form-control"
+                           @bind-Value="Paciente.Carteira"
+                           disabled="@(!IsEditing)" />
+            </div>
+            <div class="form-group">
+                <label>Logradouro</label>
+                <InputText class="form-control"
+                           @bind-Value="Paciente.Logradouro"
+                           disabled="@(!IsEditing)" />
+            </div>
+            <div class="form-group">
+                <label>Número</label>
+                <InputText class="form-control"
+                           @bind-Value="Paciente.Numero"
+                           disabled="@(!IsEditing)" />
+            </div>
+            <div class="form-group">
+                <label>Bairro</label>
+                <InputText class="form-control"
+                           @bind-Value="Paciente.Bairro"
+                           disabled="@(!IsEditing)" />
+            </div>
+            <div class="form-group">
+                <label>Cidade</label>
+                <InputText class="form-control"
+                           @bind-Value="Paciente.Cidade"
+                           disabled="@(!IsEditing)" />
+            </div>
+            <div class="form-group">
+                <label>UF</label>
+                <InputText class="form-control"
+                           @bind-Value="Paciente.UF"
+                           disabled="@(!IsEditing)" />
+            </div>
+            <div class="form-group">
+                <label>CEP</label>
+                <InputText class="form-control"
+                           @bind-Value="Paciente.CEP"
+                           disabled="@(!IsEditing)" />
+            </div>
+
+        </div>
+
+        <div class="form-actions">
+            @if (!IsEditing)
+            {
+                <button type="button" class="btn-edit" @onclick="Editar">
+                    Editar
+                </button>
+
+                <button type="button" class="btn-delete">
+                    Deletar
+                </button>
+            }
+            else
+            {
+                <button type="submit" class="btn-save">
+                    Salvar
+                </button>
+
+                <button type="button" class="btn-delete" @onclick="Cancelar">
+                    Cancelar
+                </button>
+            }
+        </div>
+
+    </div>
+</EditForm>
+
+@code {
+    [Parameter, EditorRequired]
+    public PacienteModel Paciente { get; set; } = default!;
+
+    bool IsEditing = false;
+    public string MensagemErro = "Erro ao carregar dados.";
+
+    // 🔹 Ponte entre DateOnly e InputDate
+    DateTime NascimentoDate
+    {
+        get => Paciente!.Nascimento.ToDateTime(TimeOnly.MinValue);
+        set => Paciente!.Nascimento = DateOnly.FromDateTime(value);
+    }
+
+    @* protected override async Task OnInitializedAsync()
+    {
+        var resultado = await PacienteService.GetById(PacienteId);
+
+        if (resultado.Success)
+            Paciente = resultado.Data!;
+        else
+            MensagemErro = resultado.Error;
+    } *@
+    
+    void Editar() => IsEditing = true;
+
+    void Cancelar()
+    {
+        IsEditing = false;
+        // TODO: recarregar dados do backend
+    }
+
+    async Task Salvar()
+    {
+        // TODO: salvar no backend
+        IsEditing = false;
+    }
+}

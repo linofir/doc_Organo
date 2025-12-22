@@ -1,0 +1,20 @@
+
+<div class="card-result">
+    <div class="item"><strong>Nome:</strong> @Paciente.Nome</div>
+    <div class="item"><strong>CPF:</strong> @Paciente.CPF</div>
+    <div class="item"><strong>Email:</strong> @Paciente.Email</div>
+    <div class="item"><strong>Prontuários:</strong> @Paciente.Prontuarios</div>
+    <div class="item"><strong>Agendamentos:</strong> @Paciente.Agendamentos</div>
+    <div class="item"><strong>Atendimentos:</strong> @Paciente.Atendimento</div>
+
+    <div class="actions mt-3">
+        <BtnAction Texto="Abrir" OnClick="@Abrir" />
+    </div>
+</div>
+
+@code {
+    [Parameter] public PacienteListDto Paciente { get; set; } = default!;
+    [Parameter] public EventCallback<string> OnAbrir { get; set; }
+
+    Task Abrir() => OnAbrir.InvokeAsync(Paciente.Id);
+}

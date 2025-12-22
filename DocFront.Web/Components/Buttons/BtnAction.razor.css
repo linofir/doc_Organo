@@ -1,0 +1,12 @@
+.btn-edit {
+    background-color: #3498db;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    font-weight: 500;
+}
+.btn-edit:hover {
+    background-color: #2980b9;
+}

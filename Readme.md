@@ -1,7 +1,7 @@
 # DocFront.Web
 ## 🚀 Como Executar
 ```bash
-dotnet run --project DocFront/DocFront.Web.csproj
+dotnet run --project DocFront.Web/DocFront.Web.csproj
 ```
 ## 💻 Fluxo de Desenvolvimento (Como Contribuir)
 1.  **Model:** Crie ou altere a classe da entidade em `DocAPI/Core/Models`.

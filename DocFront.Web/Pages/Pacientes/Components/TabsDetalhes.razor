@@ -1,0 +1,31 @@
+<div class="tabs-container">
+    <button class="tab @(CurrentTab == "dados" ? "active" : "")"
+            @onclick="@(() =>  ChangeTab("dados"))">
+        Dados
+    </button>
+
+    <button class="tab @(CurrentTab == "prontuarios" ? "active" : "")"
+            @onclick="@(() => ChangeTab("prontuarios"))">
+        Prontuários
+    </button>
+
+    <button class="tab @(CurrentTab == "agendamentos" ? "active" : "")"
+            @onclick="@(() => ChangeTab("agendamentos"))">
+        Agendamentos
+    </button>
+
+    <button class="tab @(CurrentTab == "atendimentos" ? "active" : "")"
+            @onclick="@(() => ChangeTab("atendimentos"))">
+        Atendimentos
+    </button>
+</div>
+
+@code {
+    [Parameter] public string CurrentTab { get; set; } = "dados";
+    [Parameter] public EventCallback<string> OnTabChange { get; set; }
+
+    private async Task ChangeTab(string tab)
+    {
+        await OnTabChange.InvokeAsync(tab);
+    }
+}

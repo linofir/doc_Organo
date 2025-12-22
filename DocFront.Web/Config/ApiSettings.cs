@@ -2,7 +2,7 @@ namespace DocFront.Config
 {
     public class ApiSettings
     {
-        public string BaseUrl { get; set; } = string.Empty;
+        public string BaseUrl { get; set; } = "https://localhost:7004";
 
     }
 }

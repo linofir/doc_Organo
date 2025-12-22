@@ -1,0 +1,120 @@
+@page "/Pacientes/Gerenciar"
+
+@inject PacienteService PacienteService
+@inject NavigationManager Nav
+
+
+
+<h3 class="mb-4">Gerenciar Pacientes</h3>
+
+<div class="mb-3">
+    <label for="busca">Buscar por Nome ou CPF</label>
+    <input id="busca" class="form-control" placeholder="Digite algo...ou clique em buscar " />
+ 
+</div>
+
+@* <button class="btn btn-primary mb-4">Buscar</button> *@
+<BtnAction Texto="Buscar" OnClick="@(() => BuscarTodosPacientes())" />
+
+<hr />
+
+<h5>Resultados da busca (exemplo estático)</h5>
+
+<div class="exhibition-box mt-3">
+    @if (Carregando)
+    {
+        <p>Carregando...</p>
+    }
+    else if (!Resultados.Any())
+    {
+        <p>Nenhum paciente encontrado.</p>
+    }
+    else
+    {
+        <div class="exhibition-box mt-3">
+            @foreach (var paciente in Resultados)
+            {
+                <PacienteCard Paciente="paciente"
+                            OnAbrir="AbrirPaciente" />
+            }
+        </div>
+    }
+    @* 
+    <div class = "card-result">
+        <div class="item"><strong>Nome:</strong> João Silva</div>
+        <div class="item"><strong>CPF:</strong> 123.456.789-00</div>
+        <div class="item"><strong>Email:</strong> abcd@hhhh.mail.com</div>
+        <div class="item"><strong>Prontuários:</strong> 2</div>
+        <div class="item"><strong>Agendamentos:</strong> Status</div>
+        <div class="item"><strong>Atendimentos:</strong> Ativo</div>
+        <div class="actions mt-3">
+            <BtnAction Texto="Abrir" OnClick="@(() => AbrirPaciente(pacienteId))" />
+        </div>
+    </div>
+    <div class = "card-result">
+        <div class="item"><strong>Nome:</strong> João Silva</div>
+        <div class="item"><strong>CPF:</strong> 123.456.789-00</div>
+        <div class="item"><strong>Email:</strong> abcd@hhhh.mail.com</div>
+        <div class="item"><strong>Prontuários:</strong> 2</div>
+        <div class="item"><strong>Agendamentos:</strong> Status</div>
+        <div class="item"><strong>Atendimentos:</strong> Ativo</div>
+        <div class="actions mt-3">
+            <BtnAction Texto="Abrir" OnClick="@(() => AbrirPaciente(pacienteId))" />
+        </div>
+    </div>
+    *@
+</div> 
+
+@code{
+    @inject NavigationManager Nav
+    @* string pacienteId = "123IDTEst"; *@
+    @* private PacienteModel Paciente = new PacienteModel(); *@
+    @* private string? MensagemSucesso; *@
+    @* private string? MensagemErro; *@
+    bool Carregando;
+    List<PacienteListDto> Resultados = new();
+
+    async Task BuscarTodosPacientes()
+    {
+        Carregando = true;
+
+        var result = await PacienteService.GetAll();
+
+        if (result.Success)
+            Resultados = result.Data!;
+        else
+            Resultados.Clear();
+
+        Carregando = false;
+    }
+
+    @* private async Task BuscarTodosFiltro()
+    {
+        MensagemSucesso = MensagemErro = null;
+
+        var resultado = await PacienteService.GetAll();
+
+        if (resultado.Success)
+        {
+            MensagemSucesso = "Pacientes cadastrados com sucesso!";
+            await Task.Delay(1500);
+            Paciente = new PacienteModel(); // 🔑 reset do form
+
+            StateHasChanged();
+
+            //criar cards
+        }
+        else
+        {
+            MensagemErro = $"Erro ao salvar: {resultado.Error}";
+        }
+    } *@
+
+    void AbrirPaciente(string id)
+    {
+        Nav.NavigateTo($"/Pacientes/{id}"); 
+
+    }
+
+}
+

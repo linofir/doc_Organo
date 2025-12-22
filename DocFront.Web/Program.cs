@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Options;
 using DocFront.Web.Data;
 using DocFront.Config;
+using DocFront.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,0 +1,8 @@
+<button class="btn-edit" @onclick="OnClick">
+    @Texto
+</button>
+
+@code {
+    [Parameter] public string Texto { get; set; } = "Abrir";
+    [Parameter] public EventCallback OnClick { get; set; }
+}
