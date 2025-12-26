@@ -1,0 +1,96 @@
+.card-detalhe {
+    background: #75bcd8ff;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid #12a5dfff;
+    width: 100%;
+    box-sizing: border-box;
+
+    /* display: flex;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+    align-items: center; */
+}
+.card-result {
+    background: #12a5dfff;
+    padding: 8px;
+    border-radius: 12px;
+    border: 1px solid #12a5dfff;
+    width: 100%;
+    max-width: 100%; 
+    min-height: 120px;
+    margin: 16px auto;
+    box-sizing: border-box;
+
+    display: flex;               /* 👈 organiza horizontalmente */
+    flex-wrap: wrap;             /* 👈 permite quebrar linha se faltar espaço */
+    gap: 12px 24px;              /* 👈 espaçamento entre os itens */
+    align-items: center;
+
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+.card-detalhe .item {
+    min-width: 220px;
+    font-size: 14px;
+}
+
+.card-detalhe .actions {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 12px;
+}   
+
+.form-grid {
+    /* display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 24px; */
+
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 24px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: .3rem;
+}
+
+.form-control:disabled {
+    background-color: #f2f6f8;
+    cursor: not-allowed;
+}
+
+/* ações */
+.form-actions {
+    margin-top: 24px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    border-top: 1px solid rgba(0,0,0,.1);
+    padding-top: 16px;
+}
+
+/* mobile */
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-actions {
+        justify-content: center;
+    }
+}

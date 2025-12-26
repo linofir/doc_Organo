@@ -1,0 +1,80 @@
+.exhibition-box {
+    background: #75bcd8ff;
+    padding: 8px;
+    border-radius: 12px;
+    border: 1px solid #333;
+    width: 100%;
+    max-width: 100%;
+    margin: 16px auto;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;  
+    align-items: flex-start;
+    align-items: stretch;
+    gap: 16px;
+}
+.card-result {
+    background: #12a5dfff;
+    padding: 8px;
+    border-radius: 12px;
+    border: 1px solid #12a5dfff;
+    width: 100%;
+    max-width: 100%; 
+    min-height: 120px;
+    margin: 16px auto;
+    box-sizing: border-box;
+
+    display: flex;               /* 👈 organiza horizontalmente */
+    flex-wrap: wrap;             /* 👈 permite quebrar linha se faltar espaço */
+    gap: 12px 24px;              /* 👈 espaçamento entre os itens */
+    align-items: center;
+
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* Botão Editar */
+.btn-edit {
+    background-color: #3498db;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    font-weight: 500;
+}
+.btn-edit:hover {
+    background-color: #2980b9;
+}
+
+/* Botão Deletar */
+.btn-delete {
+    background-color: #e74c3c;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    font-weight: 500;
+}
+.btn-delete:hover {
+    background-color: #c0392b;
+}
+
+/* Botão Salvar */
+.btn-save {
+    background-color: #2ecc71;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    font-weight: 500;
+}
+.btn-save:hover {
+    background-color: #27ae60;
+}

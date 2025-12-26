@@ -1,0 +1,113 @@
+@page "/Pacientes/{id}"
+
+@inject PacienteService PacienteService
+@inject NavigationManager Nav
+
+<div class="details-container">
+    <h3>Detalhes do Paciente</h3>
+    @if (Carregando)
+        {
+            <p>Carregando...</p>
+        }
+        else if (Paciente is null)
+        {
+            <p>Paciente não encontrado</p>
+        }
+        else
+        {
+            <TabsDetalhes CurrentTab="@CurrentTab" OnTabChange="TrocarAba" />
+
+            <div class="tab-content">
+                @if (CurrentTab == "dados")
+                {
+                    <AbaDados Paciente="@Paciente"  OnSalvar="SalvarPaciente" OnDeletar="DeletarPaciente" />
+                }
+                else if (CurrentTab == "prontuarios")
+                {
+                    <AbaProntuarios PacienteId="@id" />
+                }
+                else if (CurrentTab == "agendamentos")
+                {
+                    <AbaAgendamentos PacienteId="@id" />
+                }
+                else if (CurrentTab == "atendimentos")
+                {
+                    <AbaAtendimentos PacienteId= "@id" />
+                }
+            </div>
+        }
+</div>
+@if (!string.IsNullOrEmpty(MensagemSucesso))
+{
+    <div class="alert alert-success">
+        @MensagemSucesso
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(MensagemErro))
+{
+    <div class="alert alert-danger">
+        @MensagemErro
+    </div>
+}
+
+@code {
+    [Parameter] public string? id { get; set; }
+    PacienteModel? Paciente;
+    bool Carregando = true;
+    string CurrentTab = "dados";
+    string? MensagemErro;
+    string? MensagemSucesso;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var resultado = await PacienteService.GetById(id!);
+
+        if (resultado.Success)
+            Paciente = resultado.Data;
+        else
+            Paciente = null;
+
+        Carregando = false;
+    }
+    void TrocarAba(string tab) => CurrentTab = tab;
+    async Task SalvarPaciente(PacienteModel pacienteEditado)
+    {
+        MensagemErro = null;
+        MensagemSucesso = null;
+
+        var resultado = await PacienteService.Update(pacienteEditado.ID, pacienteEditado);
+
+        if (resultado.Success)
+        {
+            // 🔑 Atualiza a fonte da verdade
+            Paciente = pacienteEditado;
+
+            MensagemSucesso = "Paciente atualizado com sucesso";
+        }
+        else
+        {
+            MensagemErro = resultado.Error!;
+        }
+    }
+    async Task DeletarPaciente(PacienteModel pacienteEditado)
+    {
+        MensagemErro = null;
+        MensagemSucesso = null;
+
+        var resultado = await PacienteService.Delete(pacienteEditado.ID);
+
+        if (resultado.Success)
+        {
+          
+            MensagemSucesso = "Paciente deletado com sucesso";
+            await Task.Delay(1000);
+            Nav.NavigateTo("/Pacientes/Gerenciar");
+        }
+        else
+        {
+            MensagemErro = resultado.Error!;
+        }
+    }
+
+}

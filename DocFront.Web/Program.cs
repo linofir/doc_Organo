@@ -1,6 +1,10 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.Options;
 using DocFront.Web.Data;
+using DocFront.Config;
+using DocFront.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,16 +13,19 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
 // Carrega a URL base da API do appsettings.json
-var apiBaseUrl = builder.Configuration["ApiSettings:BaseUrl"];
+builder.Services.Configure<ApiSettings>(
+    builder.Configuration.GetSection("ApiSettings"));
 
-// Registra HttpClient com base address
-// builder.Services.AddHttpClient("DocApi", client =>
-// {
-//     client.BaseAddress = new Uri(apiBaseUrl!);
-// });
+//Registra HttpClient com base address
+builder.Services.AddHttpClient("DocApi", (sp, client) =>
+{
+    var settings = sp.GetRequiredService<IOptions<ApiSettings>>().Value;
+    client.BaseAddress = new Uri(settings.BaseUrl);
+});
 
-// // Registra seu ApiService
-// builder.Services.AddScoped<ApiService>();
+// Registra seu ApiService
+builder.Services.AddScoped<ApiService>();
+builder.Services.AddScoped<PacienteService>();
 
 var app = builder.Build();
 

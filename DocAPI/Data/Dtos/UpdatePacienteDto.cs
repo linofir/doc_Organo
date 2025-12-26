@@ -5,10 +5,12 @@ namespace DocAPI.Data.Dtos;
 
 public class UpdatePacienteDto
 {
+    // [Required(ErrorMessage = "O ID é obrigatório")]
+    // public string? ID { get; set; }
     [Required(ErrorMessage = "O nome do paciente é obrigatório")]
     public string Nome { get; set; }
     [Required(ErrorMessage = "O Nascimento do paciente é obrigatório")] 
-    public DateTime Nascimento { get; set; }
+    public DateOnly Nascimento { get; set; }
     [Required(ErrorMessage = "O CPF do paciente é obrigatório")]
     [StringLength(11, ErrorMessage = "O máximo de caracteres é 11")]
     public string CPF { get; set; }
