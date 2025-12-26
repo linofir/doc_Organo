@@ -92,7 +92,7 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
         - `[Task Done]`  **viweModels** Criar modelos para exibição (ViewModels quando necessário).
         - `[Task Done]`  **Components** Componentes básicos para pacientes, tabs, cards, aba, button. 
         - `[Task Done]`  **Páginas** páginas base para Pacientes.
-- **Feature:** Integração com API (prontuarios, Agendamento)
+- **Feature:** Integração com API (prontuarios, Agendamento)(feature/integracao_models)
     - **Itens:** 
         - `[Task]`  **Models** Criar view modelos e Dtos necessários.
         - `[Task]`  **Serviços** Criar ApiService base com HttpClient injetado (DI), implementar wrappers endpoints.
