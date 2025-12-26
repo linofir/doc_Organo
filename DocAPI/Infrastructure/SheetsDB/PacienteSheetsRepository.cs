@@ -225,7 +225,7 @@ public class PacienteSheetsRepository : IPacienteRepository
                 paciente.Nome,
                 paciente.Nascimento.ToString("dd/MM/yyyy"),
                 paciente.Plano,
-                paciente.ID,
+                id,
                 paciente.Carteira,
                 paciente.Email,
                 paciente.Telefone,
@@ -242,7 +242,7 @@ public class PacienteSheetsRepository : IPacienteRepository
         // 5. Montar o range da linha específica (A até O)
         string range = $"Pacientes!A{linhaNoSheet}:O{linhaNoSheet}";
 
-        Console.WriteLine($"Atualizando paciente com ID '{paciente.ID}' na linha {linhaNoSheet}");
+        Console.WriteLine($"Atualizando paciente com ID '{id}' na linha {linhaNoSheet}");
 
         // 6. Escrever na planilha
         await _sheetsDB.WriteRangeAsync(range, valoresAtualizados);

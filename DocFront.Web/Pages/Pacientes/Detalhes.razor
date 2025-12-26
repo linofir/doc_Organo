@@ -1,6 +1,7 @@
 @page "/Pacientes/{id}"
 
 @inject PacienteService PacienteService
+@inject NavigationManager Nav
 
 <div class="details-container">
     <h3>Detalhes do Paciente</h3>
@@ -19,7 +20,7 @@
             <div class="tab-content">
                 @if (CurrentTab == "dados")
                 {
-                    <AbaDados Paciente="@Paciente" />
+                    <AbaDados Paciente="@Paciente"  OnSalvar="SalvarPaciente" OnDeletar="DeletarPaciente" />
                 }
                 else if (CurrentTab == "prontuarios")
                 {
@@ -36,12 +37,27 @@
             </div>
         }
 </div>
+@if (!string.IsNullOrEmpty(MensagemSucesso))
+{
+    <div class="alert alert-success">
+        @MensagemSucesso
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(MensagemErro))
+{
+    <div class="alert alert-danger">
+        @MensagemErro
+    </div>
+}
 
 @code {
     [Parameter] public string? id { get; set; }
     PacienteModel? Paciente;
     bool Carregando = true;
     string CurrentTab = "dados";
+    string? MensagemErro;
+    string? MensagemSucesso;
 
     protected override async Task OnInitializedAsync()
     {
@@ -55,4 +71,43 @@
         Carregando = false;
     }
     void TrocarAba(string tab) => CurrentTab = tab;
+    async Task SalvarPaciente(PacienteModel pacienteEditado)
+    {
+        MensagemErro = null;
+        MensagemSucesso = null;
+
+        var resultado = await PacienteService.Update(pacienteEditado.ID, pacienteEditado);
+
+        if (resultado.Success)
+        {
+            // 🔑 Atualiza a fonte da verdade
+            Paciente = pacienteEditado;
+
+            MensagemSucesso = "Paciente atualizado com sucesso";
+        }
+        else
+        {
+            MensagemErro = resultado.Error!;
+        }
+    }
+    async Task DeletarPaciente(PacienteModel pacienteEditado)
+    {
+        MensagemErro = null;
+        MensagemSucesso = null;
+
+        var resultado = await PacienteService.Delete(pacienteEditado.ID);
+
+        if (resultado.Success)
+        {
+          
+            MensagemSucesso = "Paciente deletado com sucesso";
+            await Task.Delay(1000);
+            Nav.NavigateTo("/Pacientes/Gerenciar");
+        }
+        else
+        {
+            MensagemErro = resultado.Error!;
+        }
+    }
+
 }

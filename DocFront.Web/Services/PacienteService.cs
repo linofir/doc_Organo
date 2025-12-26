@@ -88,7 +88,30 @@ public class PacienteService : ApiService
         => GetAsync<PacienteModel>($"paciente/{cpf}");
 
     public Task<ApiResponse<bool>> Update(string id, PacienteModel model)
-        => PutAsync($"paciente/{id}", model);
+    {
+        var dto =new PacienteApiDto
+        {
+            Nome = model.Nome,
+            CPF = model.CPF,
+            Nascimento = model.Nascimento,
+            Email = model.Email,
+            Telefone = model.Telefone,
+            Plano = model.Plano,
+            Carteira = model.Carteira,
+            RG = model.RG,
+
+            Endereco = new EnderecoDto
+            {
+                Logradouro = model.Logradouro,
+                Numero = model.Numero,
+                Bairro = model.Bairro,
+                Cidade = model.Cidade,
+                UF = model.UF,
+                CEP = model.CEP
+            }
+        };
+        return PutAsync($"paciente/{id}", dto);
+    }
 
     public Task<ApiResponse<bool>> Delete(string id)
         => DeleteAsync($"paciente/{id}");

@@ -1,0 +1,35 @@
+@if (Visivel)
+{
+    <div class="modal-overlay">
+        <div class="modal-box">
+
+            <h4>@Titulo</h4>
+            <p>@Mensagem</p>
+
+            <div class="modal-actions">
+                <button class="btn-cancel"
+                        @onclick="() => Fechar(false)">
+                    Não
+                </button>
+
+                <button class="btn-danger"
+                        @onclick="() => Fechar(true)">
+                    Sim, deletar
+                </button>
+            </div>
+
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public bool Visivel { get; set; }
+    [Parameter] public string Titulo { get; set; } = "";
+    [Parameter] public string Mensagem { get; set; } = "";
+    [Parameter] public EventCallback<bool> OnClose { get; set; }
+
+    async Task Fechar(bool confirmado)
+    {
+        await OnClose.InvokeAsync(confirmado);
+    }
+}
