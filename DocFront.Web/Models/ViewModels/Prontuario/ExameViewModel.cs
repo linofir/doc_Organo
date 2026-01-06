@@ -1,4 +1,4 @@
-namespace DocFront.Models.ViewModels
+namespace DocFront.Models.ViewModels;
 
 public class ExameViewModel
 {

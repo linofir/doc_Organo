@@ -55,9 +55,9 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
         
         return await AddProntuarioFromPdfAsync(pacienteId, pdfPath);
     }
-    public async Task<List<Prontuario>> GetProntuariosOfPacienteAsync( Paciente paciente )
+    public async Task<List<Prontuario>> GetProntuariosOfPacienteAsync( string pacienteId )
     {
-        return await CollectProntuariosOfPacienteAsync(paciente);
+        return await CollectProntuariosOfPacienteAsync(pacienteId);
         // throw new NotImplementedException();
     }
     // public async Task<Stream> CreateReportByIdAsync( string pacienteId )
@@ -82,21 +82,25 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
     //     return _pdfGeneratorService.GeneratePatientReportPdf( paciente[0], prontuariosOfPaciente);
     // }
     //talvez seja melhor fazer uma busca direta
-    public async Task<List<Prontuario>> CollectProntuariosOfPacienteAsync(Paciente pacienteToCheck)
+    public async Task<List<Prontuario>> CollectProntuariosOfPacienteAsync(string pacienteId)
     {
-        Console.WriteLine($"teste no collect paciente id: {pacienteToCheck.ID}");
+        Console.WriteLine($"teste no collect paciente id: {pacienteId}");
         var prontuariosOfPaciente = new List<Prontuario>{};
         var prontuariosList = await GetProntuariosAsync();
-        foreach (var prontuario in prontuariosList)
-        {
-            var pacienteId = prontuario.DescricaoBasica!.PacienteId;
-            if(pacienteId == pacienteToCheck.ID)
-            {
-                prontuariosOfPaciente.Add(prontuario);
-                Console.WriteLine($"Prontuário acrescentado da paciente: {prontuario.DescricaoBasica.NomePaciente}");
-            }
-        }
-        return prontuariosOfPaciente;
+        // var pacienteToCheck = await _iPacienteRepository.GetByIdAsync(pacienteId);
+        // foreach (var prontuario in prontuariosList)
+        // {
+        //     var pacienteIdProntuario = prontuario.DescricaoBasica!.PacienteId;
+        //     if(pacienteIdProntuario == pacienteId)
+        //     {
+        //         prontuariosOfPaciente.Add(prontuario);
+        //         Console.WriteLine($"Prontuário encontrado da paciente: {prontuario.DescricaoBasica.NomePaciente}");
+        //     }
+        // }
+        return  prontuariosList
+            .Where(p => p.DescricaoBasica?.PacienteId == pacienteId)
+            .ToList();
+        // return prontuariosOfPaciente;
     }
     public async Task<List<Prontuario>> GetProntuariosAsync()
     {
@@ -173,11 +177,12 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
                 InformacoesExtras = row[31]?.ToString(),
                 DataConsulta = ParseDateOnly(row[32]?.ToString()),
                 CD = ParseCd(row[33]?.ToString().Split(',').ToList()),
+                Tipo = row[36]?.ToString() ?? "",
                 PosOperatorio = new PosOp
                 {
-                    PeriodoSeguimento = row[36]?.ToString(),
-                    Conclusao = row[37]?.ToString(),
-                    ExameMacro = row[38]?.ToString()
+                    PeriodoSeguimento = row[37]?.ToString(),
+                    Conclusao = row[38]?.ToString(),
+                    ExameMacro = row[39]?.ToString()
                 }
             };
             foreach (var rowExame in pedidosExameSheet.Skip(1)) // Ignora o cabeçalho

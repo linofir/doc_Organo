@@ -7,7 +7,7 @@ public interface IProntuarioRepository
 {
     Task<IEnumerable<Prontuario>> GetAllAsync(int skip = 0, int take = 10);
     Task<Prontuario?> GetByIdAsync(string id);
-    Task<List<Prontuario>> GetProntuariosOfPacienteAsync( Paciente paciente );
+    Task<List<Prontuario>> GetProntuariosOfPacienteAsync( string pacienteId );
     Task CreateAsync(Prontuario novoProntuario);
     Task UpdateAsync(Prontuario prontuario, string id);
     Task DeleteAsync(string id);

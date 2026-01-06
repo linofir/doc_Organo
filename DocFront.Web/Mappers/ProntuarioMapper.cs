@@ -127,7 +127,7 @@ public static class ProntuarioMapper
     }
 
     //Dto to ViewModel
-    public static ProntuarioViewModel ToViewModel(ProntuarioApiDto dto)
+    public static ProntuarioViewModel? ToViewModel(ProntuarioApiDto dto)
     {
         if (dto == null) return null;
 
@@ -135,19 +135,19 @@ public static class ProntuarioMapper
         {
             DataConsulta = dto.DataConsulta,
             Tipo = dto.Tipo,
-            DescricaoBasica = DescricaoToViewModel(dto.DescricaoBasica!),
-            AGO = AgoToViewModel(dto.AGO!),
-            Antecedentes = AntecedentesToViewModel(dto.Antecedentes!),
-            AntecedentesFamiliares = FamiliatesToViewModel(dto.AntecedentesFamiliares!),
+            DescricaoBasica = DescricaoToViewModel(dto.DescricaoBasica!)!,
+            AGO = AgoToViewModel(dto.AGO!)!,
+            Antecedentes = AntecedentesToViewModel(dto.Antecedentes!)!,
+            AntecedentesFamiliares = FamiliatesToViewModel(dto.AntecedentesFamiliares!)!,
             AcoesCD = dto.CD?.ToList()!,
             InformacoesExtras = dto.InformacoesExtras,
             Exames = ExameToViewModel(dto.Exames)!,
-            SolicitacaoInternacao = InternacaoToViewModel(dto.SolicitacaoInternacao),
-            PosOperatorio = PosOpToViewModel(dto.PosOperatorio)
+            SolicitacaoInternacao = InternacaoToViewModel(dto.SolicitacaoInternacao)!,
+            PosOperatorio = PosOpToViewModel(dto.PosOperatorio)!
         };
     }
   
-    private static DescricaoBasicaViewModel DescricaoToViewModel(DescricaoBasicaDto dto)
+    private static DescricaoBasicaViewModel? DescricaoToViewModel(DescricaoBasicaDto dto)
     {
         if (dto == null) return null;
 
@@ -165,7 +165,7 @@ public static class ProntuarioMapper
     }
 
 
-    private static AGOViewModel AgoToViewModel(AGODto dto)
+    private static AGOViewModel? AgoToViewModel(AGODto dto)
     {
         if (dto == null) return null;
 
@@ -187,7 +187,7 @@ public static class ProntuarioMapper
             IST = dto.IST
         };
     }
-    private static AntecedentesViewModel AntecedentesToViewModel(AntecedentesDto dto)
+    private static AntecedentesViewModel? AntecedentesToViewModel(AntecedentesDto dto)
     {
         if (dto == null) return null;
 
@@ -203,7 +203,7 @@ public static class ProntuarioMapper
             Vacinas = dto.Vacinas
         };
     }
-    private static AntecedentesFamiliaresViewModel FamiliatesToViewModel(
+    private static AntecedentesFamiliaresViewModel? FamiliatesToViewModel(
     AntecedentesFamiliaresDto dto)
     {
         if (dto == null) return null;
@@ -260,7 +260,40 @@ public static class ProntuarioMapper
 
 
 
+    // ProntuarioCardDto
 
-
-
+    public static List<ProntuarioCardDto>? ToProntuarioCard(List<ReadProntuarioDto> dtoList)
+    {
+        Console.WriteLine("teste mapper inicio");
+        if (dtoList is null) return new List<ProntuarioCardDto>();;
+        Console.WriteLine("teste mapper depois de null");
+        var list = dtoList.Select(p => new ProntuarioCardDto
+        {
+            Id = p.Id,
+            Nome = p.DescricaoBasica?.NomePaciente ?? "Sem nome",
+            Data = p.DataConsulta,
+            Tipo = p.Tipo ?? "Sem tipo"
+        }).ToList();
+        // var testingList = new List<ProntuarioCardDto>(){};
+        // {
+        //     new ProntuarioCardDto
+        //     {
+        //         Id = "1234",
+        //         Nome = "nome",
+        //         Data = DateOnly.MaxValue,
+        //         Tipo = "teste"
+        //     };
+        //     new ProntuarioCardDto
+        //     {
+        //         Id = "1234",
+        //         Nome = "nome",
+        //         Data = DateOnly.MaxValue,
+        //         Tipo = "teste"
+        //     };
+            
+        // }
+    
+        Console.WriteLine("teste mapper fim");
+        return list;
+    }
 }

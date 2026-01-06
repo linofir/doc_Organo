@@ -1,0 +1,17 @@
+
+<div class="card-result">
+    <div class="item"><strong>Nome:</strong> @Prontuario.Nome</div>
+    <div class="item"><strong>Data da Consulta:</strong> @Prontuario.Data</div>
+    <div class="item"><strong>Tipo:</strong> @Prontuario.Tipo</div>
+    
+    <div class="actions mt-3">
+        <BtnAction Texto="Abrir" OnClick="@Abrir" />
+    </div>
+</div>
+
+@code {
+    [Parameter] public ProntuarioCardDto Prontuario { get; set; } = default!;
+    [Parameter] public EventCallback<string> OnAbrir { get; set; }
+
+    Task Abrir() => OnAbrir.InvokeAsync(Prontuario.Id);
+}

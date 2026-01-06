@@ -1,4 +1,4 @@
-@page "/Pacientes/{id}"
+@page "/Detalhes/{id}"
 
 @inject PacienteService PacienteService
 @inject NavigationManager Nav
@@ -24,7 +24,7 @@
                 }
                 else if (CurrentTab == "prontuarios")
                 {
-                    <AbaProntuarios PacienteId="@id" />
+                    <ProntuariosList PacienteId="@id" />
                 }
                 else if (CurrentTab == "agendamentos")
                 {
@@ -61,16 +61,26 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var resultado = await PacienteService.GetById(id!);
+        var uri = Nav.ToAbsoluteUri(Nav.Uri);
+        var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
+        var tab = query["tab"];
 
-        if (resultado.Success)
-            Paciente = resultado.Data;
-        else
-            Paciente = null;
+        if (!string.IsNullOrEmpty(tab))
+            CurrentTab = tab;
+            var resultado = await PacienteService.GetById(id!);
 
-        Carregando = false;
+            if (resultado.Success)
+                Paciente = resultado.Data;
+            else
+                Paciente = null;
+
+            Carregando = false;
     }
-    void TrocarAba(string tab) => CurrentTab = tab;
+    void TrocarAba(string tab)
+    {
+        CurrentTab = tab;
+        Nav.NavigateTo($"/Detalhes/{id}?tab={tab}", replace: true);
+    }
     async Task SalvarPaciente(PacienteModel pacienteEditado)
     {
         MensagemErro = null;

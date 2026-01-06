@@ -16,4 +16,3 @@ public class InternacaoViewModel
     public string? Local  { get; set; }  
     public string? Guia  { get; set; }
 }
-}

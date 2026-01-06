@@ -4,6 +4,9 @@ using Microsoft.Extensions.Options;
 using DocFront.Web.Data;
 using DocFront.Config;
 using DocFront.Services;
+using Microsoft.AspNetCore.Http.Json;
+using System.Text.Json.Serialization;
+using DocFront.Utils.Serialization;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,9 +26,17 @@ builder.Services.AddHttpClient("DocApi", (sp, client) =>
     client.BaseAddress = new Uri(settings.BaseUrl);
 });
 
+builder.Services.Configure<JsonOptions>(options =>
+{
+    options.SerializerOptions.PropertyNameCaseInsensitive = true;
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    options.SerializerOptions.Converters.Add(new DateOnlyJsonConverter());
+});
+
 // Registra seu ApiService
 builder.Services.AddScoped<ApiService>();
 builder.Services.AddScoped<PacienteService>();
+builder.Services.AddScoped<ProntuarioService>();
 
 var app = builder.Build();
 

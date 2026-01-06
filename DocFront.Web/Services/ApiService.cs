@@ -1,6 +1,9 @@
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using DocFront.Utils;
+using DocFront.Utils.Serialization;
 
 namespace DocFront.Services;
 public class ApiService
@@ -21,7 +24,17 @@ public class ApiService
             if (!response.IsSuccessStatusCode)
                 return ApiResponse<T>.Fail(response.StatusCode.ToString());
 
-            var content = await response.Content.ReadFromJsonAsync<T>();
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            options.Converters.Add(new DateOnlyJsonConverter());
+            options.Converters.Add(new JsonStringEnumConverter());
+            var json = await response.Content.ReadAsStringAsync();
+
+            var content = JsonSerializer.Deserialize<T>(json, options);
+
 
             if (content is null)
                 return ApiResponse<T>.Fail("Empty response");
@@ -33,6 +46,29 @@ public class ApiService
             return ApiResponse<T>.Fail(ex.Message);
         }
     }
+    protected async Task<ApiResponse<T>> GetWrappedAsync<T>(string endpoint)
+    {
+        try
+        {
+            var response = await _http.GetAsync(endpoint);
+
+            if (!response.IsSuccessStatusCode)
+                return ApiResponse<T>.Fail(response.StatusCode.ToString());
+
+            var apiResponse =
+                await response.Content.ReadFromJsonAsync<ApiResponse<T>>();
+
+            if (apiResponse == null)
+                return ApiResponse<T>.Fail("Resposta inválida da API");
+
+            return apiResponse;
+        }
+        catch (Exception ex)
+        {
+            return ApiResponse<T>.Fail(ex.Message);
+        }
+    }
+
     protected async Task<ApiResponse<bool>> PostAsync<T>(string endpoint, T data)
     {
         try
@@ -47,6 +83,27 @@ public class ApiService
         catch (Exception ex)
         {
             return ApiResponse<bool>.Fail(ex.Message);
+        }
+    }
+    protected async Task<ApiResponse<TResponse>> PostAsync<TRequest, TResponse>(
+    string endpoint,
+    TRequest data)
+    {
+        try
+        {
+            var response = await _http.PostAsJsonAsync(endpoint, data);
+
+            if (!response.IsSuccessStatusCode)
+                return ApiResponse<TResponse>.Fail(response.StatusCode.ToString());
+
+            var result = await response.Content
+                .ReadFromJsonAsync<TResponse>();
+
+            return ApiResponse<TResponse>.Ok(result!);
+        }
+        catch (Exception ex)
+        {
+            return ApiResponse<TResponse>.Fail(ex.Message);
         }
     }
 

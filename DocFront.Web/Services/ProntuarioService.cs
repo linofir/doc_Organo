@@ -51,8 +51,34 @@ public class ProntuarioService : ApiService
 
         var prontuario = ProntuarioMapper.ToViewModel(api);
 
-        return ApiResponse<ProntuarioViewModel>.Ok(prontuario);
+        return ApiResponse<ProntuarioViewModel>.Ok(prontuario!);
     }
+    public async Task<ApiResponse<List<ProntuarioCardDto>>> GetByPaciente(string id)
+    {
+        Console.WriteLine("teste GetProntuariosByPaciente");
+        var response = await GetAsync<List<ReadProntuarioDto>>($"prontuario/paciente/{id}");
+        Console.WriteLine("teste depois da request");
+        Console.WriteLine($"Success: {response.Success}");
+        Console.WriteLine($"Data is null? {response.Data is null}");
+        if (!response.Success)
+        return ApiResponse<List<ProntuarioCardDto>>.Fail(response.Error!);
+
+        if (response.Data == null)
+        {
+            Console.WriteLine("response.Data é NULL");
+            return ApiResponse<List<ProntuarioCardDto>>.Ok(new());
+        }
+
+        Console.WriteLine($"Qtd recebida: {response.Data.Count}");
+
+        var listProntuarios = ProntuarioMapper.ToProntuarioCard(response.Data);
+
+        Console.WriteLine(listProntuarios.Count.ToString());
+        return ApiResponse<List<ProntuarioCardDto>>.Ok(listProntuarios!);
+    }
+   
+    
+
     
     public Task<ApiResponse<ProntuarioViewModel>> GetByCpf(string cpf)
         => GetAsync<ProntuarioViewModel>($"prontuario/{cpf}");

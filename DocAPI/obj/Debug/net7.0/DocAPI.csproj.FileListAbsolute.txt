@@ -135,10 +135,11 @@ C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\obj\Debug\net7.0\staticwe
 C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\obj\Debug\net7.0\staticwebassets.build.json
 C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\obj\Debug\net7.0\staticwebassets.development.json
 C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\obj\Debug\net7.0\scopedcss\bundle\DocAPI.styles.css
-C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\obj\Debug\net7.0\DocAPI.csproj.CopyComplete
 C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\obj\Debug\net7.0\DocAPI.dll
 C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\obj\Debug\net7.0\refint\DocAPI.dll
 C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\obj\Debug\net7.0\DocAPI.pdb
 C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\obj\Debug\net7.0\DocAPI.genruntimeconfig.cache
 C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\obj\Debug\net7.0\ref\DocAPI.dll
 C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\bin\Debug\net7.0\Secrets\SenhasAutorizadas\SenhasAtualizadas.json
+C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\obj\Debug\net7.0\DocAPI.sourcelink.json
+C:\Users\lino\Projetos_Programação\doc_Organo\DocAPI\obj\Debug\net7.0\DocAPI.csproj.Up2Date

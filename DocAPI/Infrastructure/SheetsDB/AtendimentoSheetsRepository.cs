@@ -384,7 +384,7 @@ public class AtendimentoSheetsRepository : IAtendimentoRepository
                              .ToList();
         //Estou aqui/////////////////////////////////////////////////
         var prontuariosId = new List<string>(){};
-        var prontuariosOfPaciente = await _prontuarioRepository.GetProntuariosOfPacienteAsync(paciente);
+        var prontuariosOfPaciente = await _prontuarioRepository.GetProntuariosOfPacienteAsync(atendimento.PacienteId);//Conferir se esse é o paciente id a ser utilizado
         // var procedimentos = new List<string>();
         
         // Console.WriteLine($"quantidade de prontuários encontrados no atendimento: {prontuariosOfPaciente.Count()}");
@@ -682,7 +682,7 @@ public class AtendimentoSheetsRepository : IAtendimentoRepository
             throw new InvalidOperationException($"Paciente com ID '{pacienteId}' não encontrado.");
         }
 
-        var prontuarios = await _prontuarioRepository.GetProntuariosOfPacienteAsync(paciente);
+        var prontuarios = await _prontuarioRepository.GetProntuariosOfPacienteAsync(pacienteId);
         var agendamentos = await _agendamentoRepository.GetByPacienteIdAsync(pacienteId);
 
         // Crie e popule seu objeto ReportData aqui

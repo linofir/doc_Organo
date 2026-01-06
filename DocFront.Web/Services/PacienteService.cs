@@ -8,7 +8,7 @@ public class PacienteService : ApiService
 {
     public PacienteService(IHttpClientFactory factory) 
         : base(factory) {}
-    public Task<ApiResponse<bool>> Create(PacienteModel model)
+    public async Task<ApiResponse<string>> Create(PacienteModel model)
     { 
         var dto =new PacienteApiDto
         {
@@ -31,7 +31,16 @@ public class PacienteService : ApiService
                 CEP = model.CEP
             }
         };
-        return PostAsync("paciente", dto);
+        var response = await PostAsync<PacienteApiDto, PacienteModel>(
+                "paciente",
+                dto
+            );
+
+        if (!response.Success)
+            return ApiResponse<string>.Fail(response.Error!);
+
+        return ApiResponse<string>.Ok(response.Data!.ID);
+        // return PostAsync("paciente", dto);
     }
 
     public async Task<ApiResponse<List<PacienteListDto>>> GetAll()

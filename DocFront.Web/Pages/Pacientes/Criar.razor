@@ -1,4 +1,5 @@
 @page "/Pacientes/Criar"
+@using DocFront.Components.Utils
 @using DocFront.Models
 @inject PacienteService PacienteService
 @inject NavigationManager Nav
@@ -90,6 +91,11 @@
 
             @if (!string.IsNullOrEmpty(MensagemSucesso))
             {
+                <ActionDiolog
+                    Visivel="MostrarDialogAcoes"
+                    OnCriarProntuario="IrParaDetalhes"
+                    OnCriarOutro="CriarNovoPaciente" />
+
                 <div class="alert alert-success mt-3">@MensagemSucesso</div>
             }
 
@@ -110,6 +116,8 @@
 
 @code {
     private PacienteModel Paciente = new PacienteModel();
+    private bool MostrarDialogAcoes = false;
+    string? PacienteIdCriado;
     private string? MensagemSucesso;
     private string? MensagemErro;
 
@@ -127,6 +135,8 @@
 
             StateHasChanged();
 
+            PacienteIdCriado = resultado.Data; // string id
+            MostrarDialogAcoes = true;
             Nav.NavigateTo("/Pacientes/Criar");
         }
         else
@@ -134,4 +144,16 @@
             MensagemErro = $"Erro ao salvar: {resultado.Error}";
         }
     }
+
+    void CriarNovoPaciente()
+    {
+        MostrarDialogAcoes = false;
+        Paciente = new PacienteModel();
+    }
+
+    void IrParaDetalhes()
+    {
+        Nav.NavigateTo($"/Detalhes/{PacienteIdCriado}?tab=prontuarios");
+    }
+
 }
