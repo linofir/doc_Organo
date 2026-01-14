@@ -8,7 +8,7 @@ public class AGOViewModel
     public string? Paridade { get; set; }
     public string? DesejoGestacao { get; set; }
 
-    public StatusVacinaHPV? VacinaHPV { get; set; }
+    public StatusVacinaHPV? VacinaHPV { get; set; }  = StatusVacinaHPV.SemInfo;
 
     public string? CCO { get; set; }
     public string? MAC_TRH { get; set; }

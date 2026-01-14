@@ -19,7 +19,7 @@ public class ProntuarioViewModel
 
     public AntecedentesFamiliaresViewModel AntecedentesFamiliares { get; set; } = new();
 
-    public List<AcoesCD> AcoesCD { get; set; } = new();
+    public List<AcoesCd> AcoesCD { get; set; } = new();
 
     public string? InformacoesExtras { get; set; }
 

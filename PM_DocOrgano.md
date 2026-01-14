@@ -99,6 +99,15 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
         - `[Task]`  **Components** Componentes básicos para novas entidades, tabs, cards, aba, button. 
         - `[Task]`  **Páginas** Ajustar páginas base para entidades, Criar, Detalhes.
         - `[Task ]`  **Erros** Validar tratamento de erro local básico
+- **Feature:** Integração com API (Agendamento)(feature/integracao_models_Agendamento)
+    - **Itens:** 
+        - `[Task]`  **Models** Criar view models e Dtos necessários.
+        - `[Task]`  **Serviços** Criar ApiService base com HttpClient injetado (DI), implementar wrappers endpoints.
+        - `[Task]`  **Components** Componentes básicos para novas entidades, tabs, cards, aba, button. 
+        - `[Task]`  **Páginas** Ajustar páginas base para entidades, Criar, Detalhes.
+        - `[Task ]`  **Erros** Validar tratamento de erro local básico
+        
+
         
 - **Feature:** Tools / Observabilidade
     - **Itens:** 
@@ -133,6 +142,14 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
     - **Itens:** 
         - `[Task]`  **Testes** Testes unitários de Services
         - `[Task]`  **Testes** Testes de componentes (bUnit)
+        - `[Task]`  **Nav** Ajustes de navegação caso atualize a página.
+        - Limpar messagens de erro e sucesso
+        - depois da execusao de enpoints destinar para páginas corretas. 
+        - Carregar as opções/enums para edicao e criacao  
+        - busca por nome e cpf para pacientes, caminho para criar prontuario, epecificar o nome da paciente depois d um novo paciente: não precisa procurar os prontuarios(criar essa excessão). Fazer mapper de pacientes
+        - ajustes da de UI para Prontuarios, uso de enuns( adequar api para fornecer lista de exames, alterar section exames)
+
+
        
 - **Feature:** UI/UX. 
     - **Itens:** 

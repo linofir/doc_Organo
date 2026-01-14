@@ -2,9 +2,12 @@
 @inject NavigationManager Nav
 
 
+
+
+
 <div class="exhibition-box mt-3">
-    <button class="btn btn-primary">
-            @* @onclick="CriarNovoProntuario"> *@
+    <button class="btn btn-primary"
+            @onclick="CriarNovoProntuario">
         + Novo Prontuário
     </button>
     @if (Carregando)
@@ -28,20 +31,32 @@
 </div>
 
 @code {
-    [Parameter] public string? PacienteId { get; set; }
-    bool Carregando;
-     List<ProntuarioCardDto> Resultados = new List<ProntuarioCardDto>();
+    [Parameter, EditorRequired]
+    public List<ProntuarioCardDto> Resultados { get; set; } = new();
+    [Parameter]
+    public bool Carregando { get; set; } 
+    [Parameter]
+    public EventCallback OnNovo { get; set; }
+    [Parameter] 
+    public EventCallback<string> OnAbrir { get; set; }
+    Task AbrirProntuario(string id)
+        => OnAbrir.InvokeAsync(id);
+    async Task CriarNovoProntuario()
+    {
+        Console.WriteLine("BOTÃO CLICADO");
+        if (OnNovo.HasDelegate)
+            await OnNovo.InvokeAsync();
+    }
 
-    protected override async Task OnParametersSetAsync()
+    @* protected override async Task OnParametersSetAsync()
     {
         if (!string.IsNullOrEmpty(PacienteId))
             await BuscarProntuarios();
-    }
+    } *@
 
-    async Task BuscarProntuarios()
+    @* async Task BuscarProntuarios()
     {
         Carregando = true;
-        Console.WriteLine($" testando o componente PacienteId: {PacienteId}");
 
         var result = await ProntuarioService.GetByPaciente(PacienteId!);
 
@@ -52,11 +67,11 @@
 
         Carregando = false;
         StateHasChanged();
-    }
-    void AbrirProntuario(string id)
+    } *@
+    @* void AbrirProntuario(string id)
     {
         //Abrir AbaProntuario
         Nav.NavigateTo($"/Detalhes/{PacienteId}?tab=prontuarios");
 
-    }
+    } *@
 }

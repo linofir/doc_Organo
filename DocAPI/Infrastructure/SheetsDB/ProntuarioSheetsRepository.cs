@@ -140,10 +140,13 @@ public class ProntuarioSheetsRepository : IProntuarioRepository
                 {
                     Profissao = row[3]?.ToString() ?? "",
                     Religiao = row[4]?.ToString() ?? "",
-                    QD = row[5]?.ToString() ?? ""
+                    QD = row[5]?.ToString() ?? "",
+                    AtividadeFisica = row[6]?.ToString() ?? "",
+                    
                 },
                 AGO = new AGO
                 {
+                    Menarca = row[7].ToString() ?? "",
                     DUM = row[8].ToString() ?? "",
                     Paridade = row[9].ToString() ?? "",
                     DesejoGestacao = row[10].ToString() ?? "",

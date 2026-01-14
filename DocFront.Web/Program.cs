@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Options;
-using DocFront.Web.Data;
 using DocFront.Config;
 using DocFront.Services;
 using Microsoft.AspNetCore.Http.Json;

@@ -109,7 +109,7 @@
                 </button>
                 <button type="button"
                         class="btn-delete"
-                        @onclick="() => MostrarConfirmacao = true">
+                        @onclick=" () => MostrarConfirmacao = true">
                     Deletar
                 </button>
 
@@ -146,8 +146,8 @@
     public EventCallback<PacienteModel> OnSalvar { get; set; }
     [Parameter]
     public EventCallback<PacienteModel> OnDeletar { get; set; }
-    [Parameter] 
-    public EventCallback<bool> OnClose { get; set; }
+    @* [Parameter] 
+    public EventCallback<bool> OnClose { get; set; } *@
     bool IsEditing = false;
     bool MostrarConfirmacao = false;
 

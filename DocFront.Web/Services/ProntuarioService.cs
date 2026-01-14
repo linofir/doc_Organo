@@ -15,7 +15,7 @@ public class ProntuarioService : ApiService
     public Task<ApiResponse<bool>> Create(ProntuarioViewModel model)
     { 
         var dto = ProntuarioMapper.ToApi(model);
-        return PostAsync("paciente", dto);
+        return PostAsync("prontuario", dto);
     }
 
     // public async Task<ApiResponse<List<PacienteListDto>>> GetAll()
@@ -73,7 +73,7 @@ public class ProntuarioService : ApiService
 
         var listProntuarios = ProntuarioMapper.ToProntuarioCard(response.Data);
 
-        Console.WriteLine(listProntuarios.Count.ToString());
+        Console.WriteLine(listProntuarios?.Count.ToString());
         return ApiResponse<List<ProntuarioCardDto>>.Ok(listProntuarios!);
     }
    

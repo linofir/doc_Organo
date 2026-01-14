@@ -1,4 +1,6 @@
 namespace DocFront.Models.Dtos;
+using DocFront.Models.Enums;
+
 public class ReadProntuarioDto
 {
     public string Id { get; set; } = string.Empty;
@@ -10,7 +12,7 @@ public class ReadProntuarioDto
     public AntecedentesDto? Antecedentes { get; set; }
     public AntecedentesFamiliaresDto? AntecedentesFamiliares { get; set; }
 
-    public List<AcoesCD>? Cd { get; set; }
+    public List<AcoesCd>? Cd { get; set; }
     public string? InformacoesExtras { get; set; }
 
     public List<ExameDto>? Exames { get; set; }

@@ -1,0 +1,84 @@
+@namespace DocFront.Components.Prontuario.Sections
+
+@using DocFront.Models.ViewModels
+@using DocFront.Models.Enums
+
+
+<div class="section">
+    <h3>AGO</h3>
+
+    <div class="form-grid">
+        <div class="form-group">
+            <label>Menarca</label>
+            <InputText class="form-control" @bind-Value="Ago.Menarca" disabled="@(!IsEditing)" />
+        </div>
+        <div class="form-group">
+            <label>DUM</label>
+            <InputText class="form-control" @bind-Value="Ago.DUM" disabled="@(!IsEditing)" />
+        </div>
+        <div class="form-group">
+            <label>Paridade</label>
+            <InputText class="form-control" @bind-Value="Ago.Paridade" disabled="@(!IsEditing)" />
+        </div>
+        <div class="form-group">
+            <label>Desejo Gestacional</label>
+            <InputText class="form-control" @bind-Value="Ago.DesejoGestacao" disabled="@(!IsEditing)" />
+        </div>
+        <div class="form-group">
+            <label>Vacinas HPV</label>
+            <InputSelect class="form-control"
+                        @bind-Value="Ago.VacinaHPV"
+                        disabled="@(!IsEditing)">
+
+                @foreach (var v in Enum.GetValues<StatusVacinaHPV>())
+                {
+                    <option value="@v">@v.GetDisplayName()</option>
+                }
+            </InputSelect>
+        </div>
+        <div class="form-group">
+            <label>CCO</label>
+            <InputTextArea class="form-control" @bind-Value="Ago.CCO" disabled="@(!IsEditing)" />
+        </div>
+        <div class="form-group">
+            <label>DUM</label>
+            <InputText class="form-control" @bind-Value="Ago.MAC_TRH" disabled="@(!IsEditing)" />
+        </div>
+        <div class="form-group">
+            <label>Intercorrências</label>
+            <InputTextArea class="form-control" @bind-Value="Ago.Intercorrencias" disabled="@(!IsEditing)" />
+        </div>
+        <div class="form-group">
+            <label>Amamentação</label>
+            <InputText class="form-control" @bind-Value="Ago.Amamentacao" disabled="@(!IsEditing)" />
+        </div>
+        <div class="form-group">
+            <label>Vida Sexual</label>
+            <InputText class="form-control" @bind-Value="Ago.VidaSexual" disabled="@(!IsEditing)" />
+        </div>
+        <div class="form-group">
+            <label>Relacionamento</label>
+            <InputText class="form-control" @bind-Value="Ago.Relacionamento" disabled="@(!IsEditing)" />
+        </div>
+        <div class="form-group">
+            <label>Parcerias</label>
+            <InputText class="form-control" @bind-Value="Ago.Parceiros" disabled="@(!IsEditing)" />
+        </div>
+        <div class="form-group">
+            <label>Coitarca</label>
+            <InputText class="form-control" @bind-Value="Ago.Coitarca" disabled="@(!IsEditing)" />
+        </div>
+        <div class="form-group">
+            <label>IST</label>
+            <InputText class="form-control" @bind-Value="Ago.IST" disabled="@(!IsEditing)" />
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public AGOViewModel Ago { get; set; } = default!;
+
+    [Parameter]
+    public bool IsEditing { get; set; }
+}

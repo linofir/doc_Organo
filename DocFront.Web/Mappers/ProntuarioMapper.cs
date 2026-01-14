@@ -9,6 +9,7 @@ public static class ProntuarioMapper
     {
         return new ProntuarioApiDto
         {
+            ID = model.Id,
             DataConsulta = model.DataConsulta,
             Tipo = model.Tipo,
 
@@ -133,6 +134,7 @@ public static class ProntuarioMapper
 
         return new ProntuarioViewModel
         {
+            Id = dto.ID,
             DataConsulta = dto.DataConsulta,
             Tipo = dto.Tipo,
             DescricaoBasica = DescricaoToViewModel(dto.DescricaoBasica!)!,

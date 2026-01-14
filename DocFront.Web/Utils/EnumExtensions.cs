@@ -15,4 +15,9 @@ public static class EnumExtensions
             .Name
             ?? value.ToString();
     }
+//     public static string GetDisplayName(this Enum value)
+//     {
+//         var field = value.GetType().GetField(value.ToString());
+//         var attr = field?.GetCustomAttribute<DisplayAttribute>();
+//         return attr?.Name ?? value.ToString();
 }

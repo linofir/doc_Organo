@@ -7,22 +7,22 @@ namespace DocAPI.Data.Dtos.ProntuarioDtos
 {
     public class UpdateProntuarioDto
     {
-        [Required(ErrorMessage = "Este campo é obrigatório")]
+        // [Required(ErrorMessage = "Este campo é obrigatório")]
         public string? ID { get; set; }
-        [Required]
+        // [Required]
         public DateOnly? DataConsulta { get; set; }
         public string? Tipo {get; set; }
 
-        [Required]
+        // [Required]
         public DescricaoBasica? DescricaoBasica { get; set; }
 
-        [Required]
+        // [Required]
         public AGO? AGO { get; set; }
 
-        [Required]
+        // [Required]
         public Antecedentes? Antecedentes { get; set; }
 
-        [Required]
+        // [Required]
         public AntecedentesFamiliares? AntecedentesFamiliares { get; set; }
 
         public List<AcoesCD>? CD { get; set; }
