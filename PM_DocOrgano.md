@@ -99,7 +99,7 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
         - `[Task]`  **Components** Componentes básicos para novas entidades, tabs, cards, aba, button. 
         - `[Task]`  **Páginas** Ajustar páginas base para entidades, Criar, Detalhes.
         - `[Task ]`  **Erros** Validar tratamento de erro local básico
-- **Feature:** Integração com API (Agendamento)(feature/integracao_models_Agendamento)
+- **Feature:** Integração com API (Agendamento)(feature/integracao_models_Agendamento) Ativa
     - **Itens:** 
         - `[Task]`  **Models** Criar view models e Dtos necessários.
         - `[Task]`  **Serviços** Criar ApiService base com HttpClient injetado (DI), implementar wrappers endpoints.
