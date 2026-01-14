@@ -1,0 +1,27 @@
+@if (Visivel)
+{
+    <div class="dialog-backdrop">
+        <div class="dialog-box">
+            <h4>Paciente criado com sucesso</h4>
+            <p>O que deseja fazer agora?</p>
+
+            <div class="dialog-actions">
+                <button class="btn-primary" @onclick="CriarProntuario">
+                    Criar prontuário
+                </button>
+
+                <button class="btn-secondary" @onclick="CriarOutroPaciente">
+                    Criar outro paciente
+                </button>
+            </div>
+        </div>
+    </div>
+}
+@code {
+    [Parameter] public bool Visivel { get; set; }
+    [Parameter] public EventCallback OnCriarProntuario { get; set; }
+    [Parameter] public EventCallback OnCriarOutro { get; set; }
+
+    Task CriarProntuario() => OnCriarProntuario.InvokeAsync();
+    Task CriarOutroPaciente() => OnCriarOutro.InvokeAsync();
+}

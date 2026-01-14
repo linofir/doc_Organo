@@ -1,0 +1,39 @@
+@namespace DocFront.Components.Prontuario.Sections
+
+@using DocFront.Models.Enums
+
+
+
+<div class="section">
+    <h4>Ações Clínicas</h4>
+
+    @foreach (var acao in Enum.GetValues<AcoesCd>())
+    {
+        <div class="form-check">
+            <input type="checkbox"
+                   class="form-check-input"
+                   checked="@AcoesCd.Contains(acao)"
+                   disabled="@(!IsEditing)"
+                   @onchange="(e) => ToggleAcao(acao, (bool)e.Value!)" />
+
+            <label class="form-check-label">
+                @acao.GetDisplayName()
+            </label>
+        </div>
+    }
+</div>
+
+
+@code {
+    [Parameter] public List<AcoesCd> AcoesCd { get; set; } = new List<AcoesCd>();
+    [Parameter] public bool IsEditing { get; set; }
+
+    void ToggleAcao(AcoesCd acao, bool marcado)
+    {
+        if (marcado && !AcoesCd.Contains(acao))
+            AcoesCd.Add(acao);
+
+        if (!marcado && AcoesCd.Contains(acao))
+            AcoesCd.Remove(acao);
+    }
+}

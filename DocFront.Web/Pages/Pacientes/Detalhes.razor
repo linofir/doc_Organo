@@ -1,6 +1,8 @@
-@page "/Pacientes/{id}"
+@page "/Detalhes/{id}"
+
 
 @inject PacienteService PacienteService
+@inject ProntuarioService ProntuarioService
 @inject NavigationManager Nav
 
 <div class="details-container">
@@ -24,7 +26,21 @@
                 }
                 else if (CurrentTab == "prontuarios")
                 {
-                    <AbaProntuarios PacienteId="@id" />
+                    if(ExibindoProntuarioList)
+                    {
+                        <ProntuariosList 
+                            Resultados="Prontuarios"
+                            Carregando="CarregandoProntuarios"
+                            OnAbrir="AbrirProntuario"
+                            OnNovo="CriarNovoProntuario" />
+                    }else
+                    {
+                        <AbaProntuarios
+                            Prontuario="ProntuarioSelecionado"
+                            Carregando="CarregandoProntuario"
+                            OnSalvar="SalvarProntuario"
+                            OnDeletar="DeletarProntuario" />
+                    }
                 }
                 else if (CurrentTab == "agendamentos")
                 {
@@ -54,23 +70,51 @@
 @code {
     [Parameter] public string? id { get; set; }
     PacienteModel? Paciente;
+    ProntuarioViewModel? ProntuarioSelecionado;
+    string? ProntuarioSelecionadoId;
+    List<ProntuarioCardDto> Prontuarios = new();
     bool Carregando = true;
+    bool CarregandoProntuarios;
+    bool CarregandoProntuario;
+    
+    bool ExibindoProntuarioList = false;
+    bool CriandoNovoProntuario;
     string CurrentTab = "dados";
     string? MensagemErro;
     string? MensagemSucesso;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
+        Carregando = true;
         var resultado = await PacienteService.GetById(id!);
-
-        if (resultado.Success)
-            Paciente = resultado.Data;
-        else
-            Paciente = null;
+        Paciente = resultado.Success ? resultado.Data : null;
 
         Carregando = false;
+
+        // testar Pelo caminho da página  Criar
+        @* var uri = Nav.ToAbsoluteUri(Nav.Uri);
+        var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
+        var tab = query["tab"];
+        CurrentTab = string.IsNullOrEmpty(tab) ? "dados" : tab; *@
+        @* Carregando = false;
+        if (CurrentTab == "prontuarios")
+            await BuscarProntuarios(); *@
     }
-    void TrocarAba(string tab) => CurrentTab = tab;
+    void TrocarAba(string tab)
+    {
+        if (CurrentTab == tab)
+        return;
+
+        CurrentTab = tab;
+
+        if (tab == "prontuarios")
+        {
+            ExibindoProntuarioList = true;
+            _ = BuscarProntuarios();
+        }
+
+        Nav.NavigateTo($"/Detalhes/{id}?tab={tab}", replace: true);
+    }
     async Task SalvarPaciente(PacienteModel pacienteEditado)
     {
         MensagemErro = null;
@@ -104,6 +148,114 @@
             await Task.Delay(1000);
             Nav.NavigateTo("/Pacientes/Gerenciar");
         }
+        else
+        {
+            MensagemErro = resultado.Error!;
+        }
+    }
+    async Task BuscarProntuarios()
+    {
+        if(CarregandoProntuarios)
+            return;
+        CarregandoProntuarios = true;
+
+        var  result = await ProntuarioService.GetByPaciente(id!);
+        Prontuarios = result.Success && result.Data != null
+            ? result.Data.ToList()
+            : new List<ProntuarioCardDto>();
+
+
+        CarregandoProntuarios = false;
+        await InvokeAsync(StateHasChanged);
+    }
+    async Task AbrirProntuario(string prontuarioId)
+    {
+        ExibindoProntuarioList = false;
+        CriandoNovoProntuario = false;
+        if(CarregandoProntuario)
+            return;
+        CarregandoProntuario = true;
+        ProntuarioSelecionadoId = prontuarioId;
+
+        var result = await ProntuarioService.GetById(prontuarioId);
+
+        if (result.Success)
+            ProntuarioSelecionado = result.Data;
+        
+        CarregandoProntuario = false;
+        await InvokeAsync(StateHasChanged);
+    }
+    async Task CriarNovoProntuario()
+    {
+        ExibindoProntuarioList = false;
+        CriandoNovoProntuario = true;
+        ProntuarioSelecionado = null;
+        await InvokeAsync(StateHasChanged);
+        ProntuarioSelecionado = new ProntuarioViewModel
+        {
+            DescricaoBasica = new DescricaoBasicaViewModel()
+            {
+                PacienteId = Paciente?.ID,
+                NomePaciente = Paciente?.Nome,
+                Cpf = Paciente?.CPF,
+                Idade = Paciente!.Idade
+            },
+            AGO = new AGOViewModel(),
+            Antecedentes = new AntecedentesViewModel(),
+            AntecedentesFamiliares = new AntecedentesFamiliaresViewModel(),
+            SolicitacaoInternacao = new InternacaoViewModel(),
+            Exames = new List<ExameViewModel>(),
+            PosOperatorio = new PosOpViewModel()
+            
+        };
+        
+    }
+    async Task SalvarProntuario(ProntuarioViewModel prontuarioEditado)
+    {
+        MensagemErro = null;
+        MensagemSucesso = null;
+        ApiResponse<bool> resultado;
+        if (CriandoNovoProntuario)
+        {
+            // 👉 NOVO
+            resultado = await ProntuarioService.Create(prontuarioEditado);
+        }
+        else
+        {
+            // 👉 EDITAR
+            resultado = await ProntuarioService.Update(prontuarioEditado.Id, prontuarioEditado);
+        }
+
+        if (resultado.Success)
+        {
+            // 🔑 Atualiza a fonte da verdade
+            ProntuarioSelecionado = prontuarioEditado;
+            MensagemSucesso = "Prontuario atualizado com sucesso";
+        }
+        else
+        {
+            MensagemErro = resultado.Error!;
+        }
+    }
+    async Task DeletarProntuario(ProntuarioViewModel prontuarioEditado)
+    {
+        MensagemErro = null;
+        MensagemSucesso = null;
+        if (string.IsNullOrEmpty(prontuarioEditado.Id))
+        {
+            MensagemErro = "Prontuário inválido para exclusão.";
+            return;
+        }
+
+        var resultado = await ProntuarioService.Delete(prontuarioEditado.Id);
+
+        if (resultado.Success)
+        {
+          
+            MensagemSucesso = "Prontuario deletado com sucesso";
+            await Task.Delay(1000);
+            Nav.NavigateTo($"/Detalhes/{id}"); 
+        } 
         else
         {
             MensagemErro = resultado.Error!;

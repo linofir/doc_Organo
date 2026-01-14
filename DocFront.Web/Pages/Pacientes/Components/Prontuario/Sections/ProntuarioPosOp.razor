@@ -1,0 +1,30 @@
+@namespace DocFront.Components.Prontuario.Sections
+
+@using DocFront.Models.ViewModels
+
+<div class="section">
+    <h3>Pós-Operatório</h3>
+
+    <div class="form-grid">
+        <div class="form-group">
+            <label>Período Seguimento</label>
+            <InputText class="form-control" @bind-Value="PosOp.PeriodoSeguimento" disabled="@(!IsEditing)" />
+        </div>
+        <div class="form-group">
+            <label>Conclusão</label>
+            <InputTextArea class="form-control" @bind-Value="PosOp.Conclusao" disabled="@(!IsEditing)" />
+        </div>
+        <div class="form-group">
+            <label>Exame Macro</label>
+            <InputTextArea class="form-control" @bind-Value="PosOp.ExameMacro" disabled="@(!IsEditing)" />
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public PosOpViewModel PosOp { get; set; } = default!;
+
+    [Parameter]
+    public bool IsEditing { get; set; }
+}

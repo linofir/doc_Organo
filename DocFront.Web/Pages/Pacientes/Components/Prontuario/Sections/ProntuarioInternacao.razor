@@ -1,0 +1,76 @@
+@namespace DocFront.Components.Prontuario.Sections
+
+@using DocFront.Models.ViewModels
+
+
+
+<div class="section">
+    <h3>Internação</h3>
+
+    <div class="form-grid">
+        <div class="form-group">
+            <label>Data</label>
+            <InputDate class="form-control"
+                   @bind-Value="Internacao.Data"
+                   disabled="@(!IsEditing)" />
+        </div>
+        <div class="form-group">
+            <label>Indicação Clínica</label>
+            <InputTextArea class="form-control" @bind-Value="Internacao.IndicacaoClinica" disabled="@(!IsEditing)" />
+        </div>
+        <div class="form-group">
+            <label>Obs</label>
+            <InputTextArea class="form-control" @bind-Value="Internacao.Observacao" disabled="@(!IsEditing)" />
+        </div>
+        <div class="form-group">
+            <label>CID</label>
+            <InputText class="form-control" @bind-Value="Internacao.CID" disabled="@(!IsEditing)" />
+        </div>
+        <div class="form-group">
+            <label>Tempo de doença</label>
+            <InputText class="form-control" @bind-Value="Internacao.TempoDoenca" disabled="@(!IsEditing)" />
+        </div>
+        <div class="form-group">
+            <label>Diarias</label>
+            <InputText class="form-control" @bind-Value="Internacao.Diarias" disabled="@(!IsEditing)" />
+        </div>
+        <div class="form-group">
+            <label>Tipo</label>
+            <InputText class="form-control" @bind-Value="Internacao.Tipo" disabled="@(!IsEditing)" />
+        </div>
+        <div class="form-group">
+            <label>Regime</label>
+            <InputText class="form-control" @bind-Value="Internacao.Regime" disabled="@(!IsEditing)" />
+        </div>
+        <div class="form-group">
+            <label>Carater</label>
+            <InputText class="form-control" @bind-Value="Internacao.Carater" disabled="@(!IsEditing)" />
+        </div>
+        <div class="form-group">
+            <label>Usa OPME</label>
+        <InputCheckbox @bind-Value="Internacao.UsaOPME" disabled="@(!IsEditing)" />
+        </div>
+        <div class="form-group">
+            <label>Local</label>
+            <InputText class="form-control" @bind-Value="Internacao.Local" disabled="@(!IsEditing)" />
+        </div>
+        <div class="form-group">
+            <label>Guia</label>
+            <InputText class="form-control" @bind-Value="Internacao.Guia" disabled="@(!IsEditing)" />
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public InternacaoViewModel Internacao { get; set; } = default!;
+
+    [Parameter]
+    public bool IsEditing { get; set; }
+
+    DateTime DataDate
+    {
+        get => Internacao.Data.ToDateTime(TimeOnly.MinValue);
+        set => Internacao.Data = DateOnly.FromDateTime(value);
+    }
+}

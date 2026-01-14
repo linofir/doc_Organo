@@ -1,18 +1,167 @@
+@using DocFront.Models
+@using DocFront.Models.ViewModels
 
-<div class = "card-detalhe">
-    <div class="item"><strong>Nome:</strong> teste Prontuário</div>
-    <div class="item"><strong>CPF:</strong> 123.456.789-00</div>
-    <div class="item"><strong>Email:</strong> abcd@hhhh.mail.com</div>
-    <div class="item"><strong>ID:</strong> ID teste: @PacienteId</div>
-    <div class="item"><strong>Agendamentos:</strong> Status</div>
-    <div class="item"><strong>Atendimentos:</strong> Ativo</div>
-    <div class="actions">
-        <button class="btn-edit">Editar</button>
-        <button class="btn-delete">Deletar</button>
-        <button class="btn-save">Salvar</button> 
-    </div>
-</div> 
+@if (Carregando)
+    {
+        <p>Carregando...</p>
+    }
+    else if (Prontuario == null)
+    {
+        <p>Nenhum Prontuario encontrado.</p>
+    }
+    else
+    {
+        <EditForm Model="@EditProntuario">
+            <DataAnnotationsValidator />
+
+            <div class="card-detalhe">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label>Data da Consulta</label>
+                        <InputDate class="form-control"
+                                @bind-Value="EditProntuario!.DataConsulta"
+                                disabled="@(!IsEditing)" />
+                    </div>
+                    <div class="form-group">
+                        <label>Tipo</label>
+                        <InputText class="form-control"
+                                @bind-Value="EditProntuario!.Tipo"
+                                disabled="@(!IsEditing)" />
+                    </div>
+                    <div class="form-group">
+                        <label>Informações extras</label>
+                        <InputText class="form-control"
+                                @bind-Value="EditProntuario!.InformacoesExtras"
+                                disabled="@(!IsEditing)" />
+                    </div>
+
+                </div>
+
+                <ProntuarioDescricao Descricao="EditProntuario.DescricaoBasica" IsEditing="IsEditing" />
+                <ProntuarioAgo Ago="EditProntuario.AGO" IsEditing="IsEditing" />
+                <ProntuarioAntecedentes Antecedentes="EditProntuario.Antecedentes" IsEditing="IsEditing" />
+                <ProntuarioAntecedentesFamiliares AntecedentesFamiliares="EditProntuario.AntecedentesFamiliares" IsEditing="IsEditing" />
+                <ProntuarioAcoesCd AcoesCd="EditProntuario.AcoesCD" IsEditing="IsEditing" />
+                <ProntuarioInternacao Internacao="EditProntuario.SolicitacaoInternacao" IsEditing="IsEditing" />
+                <ProntuarioExames Exames="EditProntuario.Exames" IsEditing="IsEditing" />
+                <ProntuarioPosOp PosOp="EditProntuario.PosOperatorio" IsEditing="IsEditing" />
+
+                <div class="form-actions">
+                    @if (!IsEditing)
+                    {
+                        <button type="button" class="btn-edit" @onclick="Editar">
+                            Editar
+                        </button>
+                        <button type="button"
+                                class="btn-delete"
+                                @onclick=" () => MostrarConfirmacao = true">
+                            Deletar
+                        </button>
+
+                        <ConfirmDialog
+                            Visivel="MostrarConfirmacao"
+                            Titulo="Cuidado!"
+                            Mensagem="Ao deletar, todos os dados do paciente serão apagados. Deseja continuar?"
+                            OnClose="OnConfirmDelete" />
+
+                    }
+                    else
+                    {
+                        <button type="button"
+                                class="btn-save"
+                                @onclick="SalvarClick">
+                            Salvar
+                        </button>
+
+                        <button type="button" class="btn-delete" @onclick="Cancelar">
+                            Cancelar
+                        </button>
+                    }
+                </div>
+
+            </div>
+        </EditForm>
+    }
    
 @code {
-    [Parameter] public string? PacienteId { get; set; }
+    @* [Parameter] 
+    public string? PacienteId { get; set; } *@
+
+    [Parameter, EditorRequired]
+    public ProntuarioViewModel Prontuario { get; set; } = default!;
+    [Parameter]
+    public bool Carregando { get; set; } = false;
+    public ProntuarioViewModel EditProntuario { get; set; } = default!;
+    bool MostrarConfirmacao = false;
+    
+
+    [Parameter]
+    public EventCallback<ProntuarioViewModel> OnSalvar { get; set; }
+    [Parameter]
+    public EventCallback<ProntuarioViewModel> OnDeletar { get; set; }
+    @* [Parameter] 
+    public EventCallback<bool> OnClose { get; set; } *@
+
+    bool IsEditing;
+
+    protected override void OnParametersSet()
+    {
+        if (Prontuario is null)
+        return;
+        EditProntuario = Clone(Prontuario);
+        IsEditing = string.IsNullOrEmpty(Prontuario.Id);
+    }
+
+    @* DateTime DataConsultaDate
+    {
+        get => EditProntuario.DataConsulta.ToDateTime(TimeOnly.MinValue);
+        set => EditProntuario.DataConsulta = DateOnly.FromDateTime(value);
+    } *@
+
+    async Task SalvarClick()
+    {
+        await OnSalvar.InvokeAsync(EditProntuario);
+        IsEditing = false;
+    }
+
+    void Editar() => IsEditing = true;
+
+    void Cancelar()
+    {
+        EditProntuario = Clone(Prontuario);
+        IsEditing = false;
+    }
+    async Task OnConfirmDelete(bool confirmado)
+    {
+        MostrarConfirmacao = false;
+
+        if (!confirmado)
+            return;
+
+        await OnDeletar.InvokeAsync(EditProntuario);
+    }
+
+    static ProntuarioViewModel Clone(ProntuarioViewModel p)
+    {
+        if (p is null)
+        return new ProntuarioViewModel();
+
+        return new ProntuarioViewModel ()
+            {
+                Id = p.Id,
+                DataConsulta = p.DataConsulta,
+                Tipo = p.Tipo,
+                AcoesCD = p.AcoesCD,
+                InformacoesExtras = p.InformacoesExtras,
+                DescricaoBasica = p.DescricaoBasica,
+                AGO = p.AGO,
+                Antecedentes = p.Antecedentes,
+                AntecedentesFamiliares = p.AntecedentesFamiliares,
+                SolicitacaoInternacao = p.SolicitacaoInternacao,
+                Exames = p.Exames,
+                PosOperatorio = p.PosOperatorio,
+            };
+    }
 }

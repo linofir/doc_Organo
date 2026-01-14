@@ -39,30 +39,6 @@
             }
         </div>
     }
-    @* 
-    <div class = "card-result">
-        <div class="item"><strong>Nome:</strong> João Silva</div>
-        <div class="item"><strong>CPF:</strong> 123.456.789-00</div>
-        <div class="item"><strong>Email:</strong> abcd@hhhh.mail.com</div>
-        <div class="item"><strong>Prontuários:</strong> 2</div>
-        <div class="item"><strong>Agendamentos:</strong> Status</div>
-        <div class="item"><strong>Atendimentos:</strong> Ativo</div>
-        <div class="actions mt-3">
-            <BtnAction Texto="Abrir" OnClick="@(() => AbrirPaciente(pacienteId))" />
-        </div>
-    </div>
-    <div class = "card-result">
-        <div class="item"><strong>Nome:</strong> João Silva</div>
-        <div class="item"><strong>CPF:</strong> 123.456.789-00</div>
-        <div class="item"><strong>Email:</strong> abcd@hhhh.mail.com</div>
-        <div class="item"><strong>Prontuários:</strong> 2</div>
-        <div class="item"><strong>Agendamentos:</strong> Status</div>
-        <div class="item"><strong>Atendimentos:</strong> Ativo</div>
-        <div class="actions mt-3">
-            <BtnAction Texto="Abrir" OnClick="@(() => AbrirPaciente(pacienteId))" />
-        </div>
-    </div>
-    *@
 </div> 
 
 @code{
@@ -112,7 +88,7 @@
 
     void AbrirPaciente(string id)
     {
-        Nav.NavigateTo($"/Pacientes/{id}"); 
+        Nav.NavigateTo($"/Detalhes/{id}"); 
 
     }
 

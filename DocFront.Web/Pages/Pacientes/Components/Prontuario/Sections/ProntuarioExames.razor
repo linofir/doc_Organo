@@ -1,0 +1,27 @@
+@namespace DocFront.Components.Prontuario.Sections
+@using DocFront.Models.ViewModels
+
+
+
+<div class="section">
+    <h3>Exames</h3>
+
+    @foreach (var exame in Exames)
+    {
+        
+        <div class="form-grid">
+            <label>Código</label>
+            <InputText class="form-control" @bind-Value="exame.Codigo" disabled="@(!IsEditing)" />
+            <label>Nome</label>
+            <InputTextArea class="form-control" @bind-Value="exame.Nome" disabled="@(!IsEditing)" />
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public List<ExameViewModel> Exames { get; set; } = new();
+
+    [Parameter]
+    public bool IsEditing { get; set; }
+}

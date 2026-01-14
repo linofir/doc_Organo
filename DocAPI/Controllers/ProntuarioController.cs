@@ -115,6 +115,13 @@ public class ProntuarioController : ControllerBase
         if (prontuario == null) return NotFound();
         return Ok(_mapper.Map<ReadProntuarioDto>(prontuario));
     }
+    [HttpGet("paciente/{pacienteId}")]
+    public async Task<IActionResult> GetByPacienteId(string pacienteId)
+    {
+        if(_repository == null) return NotFound();
+        var prontuarios = await _repository.GetProntuariosOfPacienteAsync(pacienteId);
+        return Ok(_mapper.Map<IEnumerable<ReadProntuarioDto>>(prontuarios));
+    }
     // [HttpGet("{id}/report-id")]
     // public async Task<IActionResult> GetPatientReportPdf(string id)
     // {

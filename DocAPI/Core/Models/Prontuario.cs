@@ -208,8 +208,8 @@ public enum AcoesCD
     TermoCirurgico = 4,
 
     [Display(Name = "Pasta Informativa")]
-    PastaInformativa,
+    PastaInformativa = 5,
     [Display(Name = "Sem Info")]
-    SemInformacao = 5
+    SemInformacao = 6
    
 }

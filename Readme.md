@@ -77,8 +77,7 @@ Este projeto demonstra:
 - ✔ Separação clara entre UI, estado e regras
 - ✔ Código organizado, legível e extensível
 - ✔ Pensamento orientado a produto e manutenção
-
-Não é um CRUD simples. É uma base arquitetural profissional.
+- ✔ O projeto adota separação clara entre Domain Models, DTOs e ViewModels, evitando o acoplamento entre frontend e backend. A integração é feita por serviços wrapper e DTOs orientados a contexto, com enums compartilhados e resolução de display via metadata
 
 -------
 
