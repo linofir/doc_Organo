@@ -72,6 +72,7 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
 - **Feature:** Configurar autenticação e autorização com .NET Identity.
 - **Feature:** Criar UnitOfWork que agrupa repositórios e DbContext.
 - **Feature:** implementar cache
+- **Feature:** Padronizar respostas de endpoints e dtos
 ----------- 
 ### **Épico: 🖥️ Frontend (DocFront WEB)** 
 - **Feature:** Criar a base técnica web (Blazor + MAUI). (feature/Integracao_API)
@@ -102,9 +103,21 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
 - **Feature:** Integração com API (Agendamento)(feature/integracao_models_Agendamento) Ativa
     - **Itens:** 
         - `[Task]`  **Models** Criar view models e Dtos necessários.
+            - Models para distinguindo as classes de Agendamento e Enums necessários
+            - Dtos do paraa Agendamento
+            - Ajustes para a implementação
         - `[Task]`  **Serviços** Criar ApiService base com HttpClient injetado (DI), implementar wrappers endpoints.
-        - `[Task]`  **Components** Componentes básicos para novas entidades, tabs, cards, aba, button. 
+            - Adequação de ApiService
+            - Criação de AgendamentoService
+            - Criação de AgendamentoMapper, PacienteMapper
+            - Adequação da Api, novo endpoint de Agendamento
         - `[Task]`  **Páginas** Ajustar páginas base para entidades, Criar, Detalhes.
+            - Adequção da página Detalhes
+        - `[Task]`  **Components** Componentes básicos para novas entidades, tabs, cards, aba, button. 
+            - cards Agendamento
+            - AbaAgendamento
+            - Componente AgendamentoList 
+            - Componentes de section da AbaAgendamento
         - `[Task ]`  **Erros** Validar tratamento de erro local básico
         
 
@@ -147,6 +160,8 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
         - depois da execusao de enpoints destinar para páginas corretas. 
         - Carregar as opções/enums para edicao e criacao  
         - busca por nome e cpf para pacientes, caminho para criar prontuario, epecificar o nome da paciente depois d um novo paciente: não precisa procurar os prontuarios(criar essa excessão). Fazer mapper de pacientes
+        - padronizar nomenclaturas dtos, models, components
+        - padronizar endpoints, associando com api
         - ajustes da de UI para Prontuarios, uso de enuns( adequar api para fornecer lista de exames, alterar section exames)
 
 

@@ -1,4 +1,3 @@
-using DocFront.Models;
 using DocFront.Models.ViewModels;
 using DocFront.Models.Dtos;
 
@@ -166,7 +165,6 @@ public static class ProntuarioMapper
         };
     }
 
-
     private static AGOViewModel? AgoToViewModel(AGODto dto)
     {
         if (dto == null) return null;
@@ -216,7 +214,7 @@ public static class ProntuarioMapper
             Comorbidades = dto.Comorbidades
         };
     }
-    public static List<ExameViewModel>? ExameToViewModel(List<ExameDto>? dtos)
+    private static List<ExameViewModel>? ExameToViewModel(List<ExameDto>? dtos)
     {
         if (dtos is null || dtos.Count == 0)
             return null;
@@ -259,8 +257,6 @@ public static class ProntuarioMapper
             ExameMacro = dto.ExameMacro
         };
     }
-
-
 
     // ProntuarioCardDto
 

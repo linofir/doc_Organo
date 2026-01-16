@@ -5,7 +5,6 @@ namespace DocFront.Models.ViewModels;
 
 public class AgendamentoViewModel
 {
- 
     public string ID { get; set; } = string.Empty;
     public string PacienteID { get; set; } = string.Empty;
     public string Nome { get; set; } = string.Empty;
@@ -19,11 +18,5 @@ public class AgendamentoViewModel
     public StatusAgendamento  Status { get; set; }
     public string? StatusInstrucoes { get; set; }
     public string? StatusAtestado { get; set; }
-    public DateOnly DataConsulta { get; set; } = DateOnly.MinValue;
-
-    
-
-    
-
-    
+    public DateOnly DataConsulta { get; set; } = DateOnly.MinValue;    
 }
