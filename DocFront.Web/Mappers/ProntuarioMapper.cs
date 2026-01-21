@@ -262,9 +262,7 @@ public static class ProntuarioMapper
 
     public static List<ProntuarioCardDto>? ToProntuarioCard(List<ReadProntuarioDto> dtoList)
     {
-        Console.WriteLine("teste mapper inicio");
         if (dtoList is null) return new List<ProntuarioCardDto>();;
-        Console.WriteLine("teste mapper depois de null");
         var list = dtoList.Select(p => new ProntuarioCardDto
         {
             Id = p.Id,
@@ -272,26 +270,7 @@ public static class ProntuarioMapper
             Data = p.DataConsulta,
             Tipo = p.Tipo ?? "Sem tipo"
         }).ToList();
-        // var testingList = new List<ProntuarioCardDto>(){};
-        // {
-        //     new ProntuarioCardDto
-        //     {
-        //         Id = "1234",
-        //         Nome = "nome",
-        //         Data = DateOnly.MaxValue,
-        //         Tipo = "teste"
-        //     };
-        //     new ProntuarioCardDto
-        //     {
-        //         Id = "1234",
-        //         Nome = "nome",
-        //         Data = DateOnly.MaxValue,
-        //         Tipo = "teste"
-        //     };
-            
-        // }
     
-        Console.WriteLine("teste mapper fim");
         return list;
     }
 }

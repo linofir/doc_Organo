@@ -73,6 +73,8 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
 - **Feature:** Criar UnitOfWork que agrupa repositórios e DbContext.
 - **Feature:** implementar cache
 - **Feature:** Padronizar respostas de endpoints e dtos
+- **Feature:** Padronizar controllers
+
 ----------- 
 ### **Épico: 🖥️ Frontend (DocFront WEB)** 
 - **Feature:** Criar a base técnica web (Blazor + MAUI). (feature/Integracao_API)

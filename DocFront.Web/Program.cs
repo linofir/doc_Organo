@@ -36,6 +36,7 @@ builder.Services.Configure<JsonOptions>(options =>
 builder.Services.AddScoped<ApiService>();
 builder.Services.AddScoped<PacienteService>();
 builder.Services.AddScoped<ProntuarioService>();
+builder.Services.AddScoped<AgendamentoService>();
 
 var app = builder.Build();
 

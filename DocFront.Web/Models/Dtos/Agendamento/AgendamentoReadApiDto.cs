@@ -4,7 +4,7 @@ using DocFront.Models.Enums;
 
 public class AgendamentoReadApiDto
 {
-    public string? Id { get; set; }  
+    public string? ID { get; set; }  
     public string? PacienteID { get; set; }
     public string? Nome { get; set; }
     public string? Aviso { get; set; }

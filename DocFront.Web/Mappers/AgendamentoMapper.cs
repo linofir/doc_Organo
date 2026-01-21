@@ -9,7 +9,7 @@ public static class AgendamentoMapper
     {
         return new AgendamentoCreateApiDto
         {
-            PacienteID = model.PacienteID,
+            PacienteId = model.PacienteID,
             Nome = model.Nome,
             Aviso = model.Aviso,
             Data = model.Data,
@@ -23,6 +23,24 @@ public static class AgendamentoMapper
             StatusAtestado = model.StatusAtestado,
             DataConsulta = model.DataConsulta,
             
+        };
+    }
+    public static AgendamentoUpdateApiDto ToUpdateApi(this AgendamentoViewModel model)
+    {
+        return new AgendamentoUpdateApiDto
+        {
+            PacienteId = model.PacienteID!,
+            Nome = model.Nome!,
+            Aviso = model.Aviso!,
+            Data = model.Data,
+            Horario = model.Horario,
+            Procedimento = model.Procedimento!,
+            Local = model.Local!,
+            Sala = model.Sala,
+            SenhaAgendamento = MapSenhaAgendamento(model.SenhaAgendamento!),
+            Status = model.Status,
+            StatusInstrucoes = model.StatusInstrucoes,
+            StatusAtestado = model.StatusAtestado
         };
     }
     private static SenhaDto MapSenhaAgendamento(SenhaViewModel vm)
@@ -41,6 +59,7 @@ public static class AgendamentoMapper
         if (dto == null) return null;
         return new AgendamentoViewModel
         {
+            ID = dto.ID,
             PacienteID = dto.PacienteID,
             Nome = dto.Nome,
             Aviso = dto.Aviso,
@@ -70,15 +89,14 @@ public static class AgendamentoMapper
     // para o AgendamentoCard
     public static List<AgendamentoCardDto>? ToAgendamentoCard(List<AgendamentoReadApiDto> dtoList)
     {
-        Console.WriteLine("teste mapper inicio");
         if (dtoList is null) return new List<AgendamentoCardDto>();
-        Console.WriteLine("teste mapper depois de null");
+
         var list = dtoList.Select(p => new AgendamentoCardDto
         {
+            ID = p.ID,
             Data = p.Data,
             Status = p.Status,
         }).ToList();
-        Console.WriteLine("teste mapper fim");
         return list;
     }
 }

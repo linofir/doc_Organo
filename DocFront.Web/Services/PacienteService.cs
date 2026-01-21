@@ -1,6 +1,7 @@
 using DocFront.Utils;
 using DocFront.Models;
 using DocFront.Models.Dtos;
+using DocFront.Mappers;
 
 namespace DocFront.Services;
 //o ApiService já cria o HttpClient configurado para a API base.
@@ -10,27 +11,28 @@ public class PacienteService : ApiService
         : base(factory) {}
     public async Task<ApiResponse<string>> Create(PacienteModel model)
     { 
-        var dto =new PacienteApiDto
-        {
-            Nome = model.Nome,
-            CPF = model.CPF,
-            Nascimento = model.Nascimento,
-            Email = model.Email,
-            Telefone = model.Telefone,
-            Plano = model.Plano,
-            Carteira = model.Carteira,
-            RG = model.RG,
+        var dto = PacienteMapper.ToApi(model);
+        // var dto =new PacienteApiDto
+        // {
+        //     Nome = model.Nome,
+        //     CPF = model.CPF,
+        //     Nascimento = model.Nascimento,
+        //     Email = model.Email,
+        //     Telefone = model.Telefone,
+        //     Plano = model.Plano,
+        //     Carteira = model.Carteira,
+        //     RG = model.RG,
 
-            Endereco = new EnderecoDto
-            {
-                Logradouro = model.Logradouro,
-                Numero = model.Numero,
-                Bairro = model.Bairro,
-                Cidade = model.Cidade,
-                UF = model.UF,
-                CEP = model.CEP
-            }
-        };
+        //     Endereco = new EnderecoDto
+        //     {
+        //         Logradouro = model.Logradouro,
+        //         Numero = model.Numero,
+        //         Bairro = model.Bairro,
+        //         Cidade = model.Cidade,
+        //         UF = model.UF,
+        //         CEP = model.CEP
+        //     }
+        // };
         var response = await PostAsync<PacienteApiDto, PacienteModel>(
                 "paciente",
                 dto
@@ -49,14 +51,15 @@ public class PacienteService : ApiService
 
         if (!response.Success || response.Data == null)
             return ApiResponse<List<PacienteListDto>>.Fail(response.Error ?? "Erro ao buscar pacientes");
+        var listDtos = PacienteMapper.ToCard(response.Data);
 
-        var listDtos = response.Data.Select(p => new PacienteListDto
-        {
-            Id = p.ID,
-            Nome = p.Nome,
-            CPF = p.CPF,
-            Email = p.Email
-        }).ToList();
+        // var listDtos = response.Data.Select(p => new PacienteListDto
+        // {
+        //     Id = p.ID,
+        //     Nome = p.Nome,
+        //     CPF = p.CPF,
+        //     Email = p.Email
+        // }).ToList();
 
         return ApiResponse<List<PacienteListDto>>.Ok(listDtos);
     }
@@ -68,27 +71,28 @@ public class PacienteService : ApiService
             return ApiResponse<PacienteModel>.Fail(response.Error!);
 
         var api = response.Data;
+        var paciente = PacienteMapper.ToModel(id, api);
 
-        var paciente = new PacienteModel
-        {
-            ID = id,
-            Nome = api.Nome,
-            CPF = api.CPF,
-            RG = api.RG,
-            Email = api.Email,
-            Telefone = api.Telefone,
-            Plano = api.Plano,
-            Carteira = api.Carteira,
-            Nascimento = api.Nascimento,
+        // var paciente = new PacienteModel
+        // {
+        //     ID = id,
+        //     Nome = api.Nome,
+        //     CPF = api.CPF,
+        //     RG = api.RG,
+        //     Email = api.Email,
+        //     Telefone = api.Telefone,
+        //     Plano = api.Plano,
+        //     Carteira = api.Carteira,
+        //     Nascimento = api.Nascimento,
 
-            // 🔽 flatten do endereço
-            Logradouro = api.Endereco.Logradouro,
-            Numero = api.Endereco.Numero,
-            Bairro = api.Endereco.Bairro,
-            Cidade = api.Endereco.Cidade,
-            UF = api.Endereco.UF,
-            CEP = api.Endereco.CEP
-        };
+        //     // 🔽 flatten do endereço
+        //     Logradouro = api.Endereco.Logradouro,
+        //     Numero = api.Endereco.Numero,
+        //     Bairro = api.Endereco.Bairro,
+        //     Cidade = api.Endereco.Cidade,
+        //     UF = api.Endereco.UF,
+        //     CEP = api.Endereco.CEP
+        // };
 
         return ApiResponse<PacienteModel>.Ok(paciente);
     }
@@ -98,27 +102,29 @@ public class PacienteService : ApiService
 
     public Task<ApiResponse<bool>> Update(string id, PacienteModel model)
     {
-        var dto =new PacienteApiDto
-        {
-            Nome = model.Nome,
-            CPF = model.CPF,
-            Nascimento = model.Nascimento,
-            Email = model.Email,
-            Telefone = model.Telefone,
-            Plano = model.Plano,
-            Carteira = model.Carteira,
-            RG = model.RG,
+        var dto = PacienteMapper.ToApi(model);
 
-            Endereco = new EnderecoDto
-            {
-                Logradouro = model.Logradouro,
-                Numero = model.Numero,
-                Bairro = model.Bairro,
-                Cidade = model.Cidade,
-                UF = model.UF,
-                CEP = model.CEP
-            }
-        };
+        // var dto =new PacienteApiDto
+        // {
+        //     Nome = model.Nome,
+        //     CPF = model.CPF,
+        //     Nascimento = model.Nascimento,
+        //     Email = model.Email,
+        //     Telefone = model.Telefone,
+        //     Plano = model.Plano,
+        //     Carteira = model.Carteira,
+        //     RG = model.RG,
+
+        //     Endereco = new EnderecoDto
+        //     {
+        //         Logradouro = model.Logradouro,
+        //         Numero = model.Numero,
+        //         Bairro = model.Bairro,
+        //         Cidade = model.Cidade,
+        //         UF = model.UF,
+        //         CEP = model.CEP
+        //     }
+        // };
         return PutAsync($"paciente/{id}", dto);
     }
 
