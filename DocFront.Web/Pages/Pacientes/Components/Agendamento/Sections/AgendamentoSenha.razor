@@ -1,0 +1,42 @@
+@namespace  DocFront.Components.Agendamento.Sections
+
+@using DocFront.Models.ViewModels
+@using DocFront.Models.Enums
+
+<div class="section">
+    <h3>Senha</h3>
+
+    <div class="form-grid">
+        <div class="form-group">
+            <label>Código</label>
+            <InputText class="form-control" @bind-Value="Senha.Codigo" disabled="@(!IsEditing)" />
+        </div>
+        <div class="form-group">
+            <label>Data do pedido</label>
+                <InputDate class="form-control"
+                        @bind-Value="Senha.DataPedido"
+                        disabled="@(!IsEditing)" />
+        </div>    
+        <div class="form-group">
+            <label>Data do Liberação</label>
+                <InputDate class="form-control"
+                        @bind-Value="Senha.DataLibetracao"
+                        disabled="@(!IsEditing)" />
+        </div>    
+        <div class="form-group">
+            <label>Data do validade</label>
+                <InputDate class="form-control"
+                        @bind-Value="Senha.Validade"
+                        disabled="@(!IsEditing)" />
+        </div>       
+     
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public SenhaViewModel Senha { get; set; } = default!;
+
+    [Parameter]
+    public bool IsEditing { get; set; }
+}

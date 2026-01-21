@@ -8,14 +8,14 @@ public class UpdateAgendamentoDto
         [Required(ErrorMessage = "O paciente é obrigatório")]
         public string Nome { get; set; } = string.Empty;
         [Required(ErrorMessage = "Este campo é obrigatório")]
-        public string? Aviso { get; set; }
+        public string Aviso { get; set; }
         [Required(ErrorMessage = "Este campo é obrigatório")]
-        public DateOnly? Data { get; set; }
+        public DateOnly Data { get; set; }
         public TimeOnly Horario { get; set; }
         [Required(ErrorMessage = "Este campo é obrigatório")]
-        public string? Procedimento { get; set; }
+        public string Procedimento { get; set; }
         [Required(ErrorMessage = "Este campo é obrigatório")]
-        public string? Local { get; set; }
+        public string Local { get; set; }
         public string? Sala { get; set; }
         public Senha? SenhaAgendamento { get; set; }
         public StatusAgendamento?  Status { get; set; }

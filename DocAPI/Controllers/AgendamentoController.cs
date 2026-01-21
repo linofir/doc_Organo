@@ -38,6 +38,7 @@ public class AgendamentoController : ControllerBase
         
         var agendamento = await _repository.GetByIdAsync(id);
         if (agendamento == null) return NotFound();
+        Console.WriteLine($"teste controller:{agendamento.ID}");
         return Ok(_mapper.Map<ReadAgendamentoDto>(agendamento));
     }
     [HttpGet("by-name")]
@@ -74,8 +75,18 @@ public class AgendamentoController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateAgendamento(string id, [FromBody] UpdateAgendamentoDto dto)
     {
+        Console.WriteLine("teste no Update controller, ativo");
         try
         {
+            if (!ModelState.IsValid)
+                {
+                    foreach (var error in ModelState)
+                    {
+                        Console.WriteLine($"{error.Key}: {string.Join(", ", error.Value.Errors.Select(e => e.ErrorMessage))}");
+                    }
+
+                    return BadRequest(ModelState);
+                }
             // 1. Verifica se o ID foi fornecido
             if (string.IsNullOrEmpty(id))
                 return BadRequest("O ID do prontuario é obrigatório.");

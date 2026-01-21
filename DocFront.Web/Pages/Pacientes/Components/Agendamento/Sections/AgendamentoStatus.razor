@@ -1,0 +1,35 @@
+@namespace DocFront.Components.Agendamento.Sections
+@using DocFront.Models.Enums
+
+<div class="section">
+    <h4>Status do Agendamento</h4>
+
+    @foreach (var status in Enum.GetValues<StatusAgendamento>())
+    {
+        <div class="form-check">
+            <input type="radio"
+                   class="form-check-input"
+                   name="statusAgendamento"
+                   value="@status"
+                   checked="@(StatusSelecionado == status)"
+                   disabled="@(!IsEditing)"
+                   @onchange="() => Selecionar(status)" />
+
+            <label class="form-check-label">
+                @status.GetDisplayName()
+            </label>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public StatusAgendamento StatusSelecionado { get; set; }
+    [Parameter] public EventCallback<StatusAgendamento> StatusSelecionadoChanged { get; set; }
+    [Parameter] public bool IsEditing { get; set; }
+
+    async Task Selecionar(StatusAgendamento status)
+    {
+        StatusSelecionado = status;
+        await StatusSelecionadoChanged.InvokeAsync(status);
+    }
+}

@@ -1,0 +1,212 @@
+@namespace DocFront.Pages.Pacientes.Components.Agendamento
+
+@using DocFront.Models
+@using DocFront.Models.ViewModels
+
+@if (Carregando)
+    {
+        <p>Carregando...</p>
+    }
+    else if (Agendamento == null)
+    {
+        <p>Nenhum Agendamento encontrado.</p>
+    }
+    else
+    {
+        <EditForm Model="@EditAgendamento">
+            <DataAnnotationsValidator />
+
+            <div class="card-detalhe">
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Nome</label>
+                        <InputText class="form-control"
+                                @bind-Value="EditAgendamento!.Nome"
+                                disabled="@(!IsEditing)" />
+                    </div>
+                    <div class="form-group">
+                        <label>Aviso</label>
+                        <InputText class="form-control"
+                                @bind-Value="EditAgendamento!.Aviso"
+                                disabled="@(!IsEditing)" />
+                    </div>
+                   <div class="form-group">
+                        <label>Data do Agendamento</label>
+                        <InputDate class="form-control"
+                                @bind-Value="EditAgendamento!.Data"
+                                disabled="@(!IsEditing)" />
+                    </div>
+                    <div class="form-group">
+                        <label>Horário</label>
+                        <InputText class="form-control"
+                                type="time"
+                                @bind-Value="EditAgendamento!.HorarioTexto"
+                                disabled="@(!IsEditing)" />
+                    </div>
+                    <div class="form-group">
+                        <label>Procedimento</label>
+                        <InputText class="form-control"
+                                @bind-Value="EditAgendamento!.Procedimento"
+                                disabled="@(!IsEditing)" />
+                    </div>
+                    <div class="form-group">
+                        <label>Local</label>
+                        <InputText class="form-control"
+                                @bind-Value="EditAgendamento!.Local"
+                                disabled="@(!IsEditing)" />
+                    </div>
+                    <div class="form-group">
+                        <label>Sala</label>
+                        <InputText class="form-control"
+                                @bind-Value="EditAgendamento!.Sala"
+                                disabled="@(!IsEditing)" />
+                    </div>
+                    <div class="form-group">
+                        <label>Status Instruções</label>
+                        <InputText class="form-control"
+                                @bind-Value="EditAgendamento!.StatusInstrucoes"
+                                disabled="@(!IsEditing)" />
+                    </div>
+                    <div class="form-group">
+                        <label>Atestado</label>
+                        <InputText class="form-control"
+                                @bind-Value="EditAgendamento!.StatusAtestado"
+                                disabled="@(!IsEditing)" />
+                    </div>
+                    <div class="form-group">
+                        <label>Procedimento</label>
+                        <InputText class="form-control"
+                                @bind-Value="EditAgendamento!.Procedimento"
+                                disabled="@(!IsEditing)" />
+                    </div>
+                    <div class="form-group">
+                        <label>Data da Consulta</label>
+                        <InputDate class="form-control"
+                                @bind-Value="EditAgendamento!.DataConsulta"
+                                disabled="@(!IsEditing)" />
+                    </div>
+
+                </div>
+                <AgendamentoSenha Senha="EditAgendamento.SenhaAgendamento" IsEditing="IsEditing" />
+                <AgendamentoStatus
+                    StatusSelecionado="@EditAgendamento.Status"
+                    StatusSelecionadoChanged="@(v => EditAgendamento.Status = v)"
+                    IsEditing="IsEditing" />
+
+                <div class="form-actions">
+                    @if (!IsEditing)
+                    {
+                        <button type="button" class="btn-edit" @onclick="Editar">
+                            Editar
+                        </button>
+                        <button type="button"
+                                class="btn-delete"
+                                @onclick=" () => MostrarConfirmacao = true">
+                            Deletar
+                        </button>
+
+                        <ConfirmDialog
+                            Visivel="MostrarConfirmacao"
+                            Titulo="Cuidado!"
+                            Mensagem="Ao deletar, todos os dados do paciente serão apagados. Deseja continuar?"
+                            OnClose="OnConfirmDelete" />
+
+                    }
+                    else
+                    {
+                        <button type="button"
+                                class="btn-save"
+                                @onclick="SalvarClick">
+                            Salvar
+                        </button>
+
+                        <button type="button" class="btn-delete" @onclick="Cancelar">
+                            Cancelar
+                        </button>
+                    }
+                </div>
+
+            </div>
+        </EditForm>
+    }
+   
+@code {
+    @* [Parameter] 
+    public string? PacienteId { get; set; } *@
+
+    [Parameter, EditorRequired]
+    public AgendamentoViewModel Agendamento { get; set; } = default!;
+    [Parameter]
+    public bool Carregando { get; set; } = false;
+    public AgendamentoViewModel EditAgendamento { get; set; } = default!;
+    bool MostrarConfirmacao = false;
+
+    [Parameter]
+    public EventCallback<AgendamentoViewModel> OnSalvar { get; set; }
+    [Parameter]
+    public EventCallback<AgendamentoViewModel> OnDeletar { get; set; }
+    @* [Parameter] 
+    public EventCallback<bool> OnClose { get; set; } *@
+
+    bool IsEditing;
+
+    protected override void OnParametersSet()
+    {
+        if (Agendamento is null)
+        return;
+        EditAgendamento = Clone(Agendamento);
+        IsEditing = string.IsNullOrEmpty(Agendamento.ID);
+    }
+
+
+    async Task SalvarClick()
+    {
+        await OnSalvar.InvokeAsync(EditAgendamento);
+        IsEditing = false;
+    }
+
+    void Editar() => IsEditing = true;
+
+    void Cancelar()
+    {
+        EditAgendamento = Clone(Agendamento);
+        IsEditing = false;
+    }
+    async Task OnConfirmDelete(bool confirmado)
+    {
+        MostrarConfirmacao = false;
+
+        if (!confirmado)
+            return;
+
+        await OnDeletar.InvokeAsync(EditAgendamento);
+    }
+
+    static AgendamentoViewModel Clone(AgendamentoViewModel p)
+    {
+        if (p is null)
+        return new AgendamentoViewModel();
+
+        return new AgendamentoViewModel ()
+            {
+                ID = p.ID,
+                PacienteID = p.PacienteID,
+                Nome = p.Nome,
+                Aviso = p.Aviso,
+                Data = p.Data,
+                Horario = p.Horario,
+                Procedimento = p.Procedimento,
+                Local = p.Local,
+                Sala = p.Sala,
+                SenhaAgendamento = p.SenhaAgendamento,
+                Status = p.Status,
+                StatusInstrucoes = p.StatusInstrucoes,
+                StatusAtestado = p.StatusAtestado,
+                DataConsulta = p.DataConsulta,
+            };
+    }
+}
+
+
+ 

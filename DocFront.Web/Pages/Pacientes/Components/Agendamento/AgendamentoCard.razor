@@ -1,0 +1,17 @@
+@namespace DocFront.Components.Agendamento
+
+
+<div class="card-result">
+    <div class="item"><strong>Data da Consulta:</strong> @Agendamento.Data</div>
+    <div class="item"><strong>Status:</strong> @Agendamento.Status</div>
+    <div class="actions mt-3">
+        <BtnAction Texto="Abrir" OnClick="@Abrir" />
+    </div>
+</div>
+
+@code {
+    [Parameter] public AgendamentoCardDto Agendamento { get; set; } = default!;
+    [Parameter] public EventCallback<string> OnAbrir { get; set; }
+
+    Task Abrir() => OnAbrir.InvokeAsync(Agendamento.ID);
+}

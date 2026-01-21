@@ -1,4 +1,3 @@
-using DocFront.Models;
 using DocFront.Models.ViewModels;
 using DocFront.Models.Dtos;
 
@@ -166,7 +165,6 @@ public static class ProntuarioMapper
         };
     }
 
-
     private static AGOViewModel? AgoToViewModel(AGODto dto)
     {
         if (dto == null) return null;
@@ -216,7 +214,7 @@ public static class ProntuarioMapper
             Comorbidades = dto.Comorbidades
         };
     }
-    public static List<ExameViewModel>? ExameToViewModel(List<ExameDto>? dtos)
+    private static List<ExameViewModel>? ExameToViewModel(List<ExameDto>? dtos)
     {
         if (dtos is null || dtos.Count == 0)
             return null;
@@ -260,15 +258,11 @@ public static class ProntuarioMapper
         };
     }
 
-
-
     // ProntuarioCardDto
 
     public static List<ProntuarioCardDto>? ToProntuarioCard(List<ReadProntuarioDto> dtoList)
     {
-        Console.WriteLine("teste mapper inicio");
         if (dtoList is null) return new List<ProntuarioCardDto>();;
-        Console.WriteLine("teste mapper depois de null");
         var list = dtoList.Select(p => new ProntuarioCardDto
         {
             Id = p.Id,
@@ -276,26 +270,7 @@ public static class ProntuarioMapper
             Data = p.DataConsulta,
             Tipo = p.Tipo ?? "Sem tipo"
         }).ToList();
-        // var testingList = new List<ProntuarioCardDto>(){};
-        // {
-        //     new ProntuarioCardDto
-        //     {
-        //         Id = "1234",
-        //         Nome = "nome",
-        //         Data = DateOnly.MaxValue,
-        //         Tipo = "teste"
-        //     };
-        //     new ProntuarioCardDto
-        //     {
-        //         Id = "1234",
-        //         Nome = "nome",
-        //         Data = DateOnly.MaxValue,
-        //         Tipo = "teste"
-        //     };
-            
-        // }
     
-        Console.WriteLine("teste mapper fim");
         return list;
     }
 }

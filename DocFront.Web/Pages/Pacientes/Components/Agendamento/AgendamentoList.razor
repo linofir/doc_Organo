@@ -1,10 +1,12 @@
-@inject ProntuarioService ProntuarioService
+@namespace DocFront.Components.Agendamento
+
+@inject AgendamentoService AgendamentoService
 @inject NavigationManager Nav
 
 <div class="exhibition-box mt-3">
     <button class="btn btn-primary"
-            @onclick="CriarNovoProntuario">
-        + Novo Prontuário
+            @onclick="CriarNovoAgendamnto">
+        + Novo Agendamento
     </button>
     @if (Carregando)
     {
@@ -12,15 +14,15 @@
     }
     else if (!Resultados.Any())
     {
-        <p>Nenhum Prontuario encontrado.</p>
+        <p>Nenhum Agendamento encontrado.</p>
     }
     else
     {
         <div class="exhibition-box mt-3">
-            @foreach (var prontuario in Resultados)
+            @foreach (AgendamentoCardDto agendamento in Resultados)
             {
-                <ProntuariosCard Prontuario="prontuario"
-                            OnAbrir="AbrirProntuario" />
+                <AgendamentoCard Agendamento="agendamento"
+                            OnAbrir="AbrirAgendamento" />
             }
         </div>
     }
@@ -28,16 +30,16 @@
 
 @code {
     [Parameter, EditorRequired]
-    public List<ProntuarioCardDto> Resultados { get; set; } = new();
+    public List<AgendamentoCardDto> Resultados { get; set; } = new();
     [Parameter]
     public bool Carregando { get; set; } 
     [Parameter]
     public EventCallback OnNovo { get; set; }
     [Parameter] 
     public EventCallback<string> OnAbrir { get; set; }
-    Task AbrirProntuario(string id)
+    Task AbrirAgendamento (string id)
         => OnAbrir.InvokeAsync(id);
-    async Task CriarNovoProntuario()
+    async Task CriarNovoAgendamnto()
     {
         @* Console.WriteLine("BOTÃO CLICADO"); *@
         if (OnNovo.HasDelegate)

@@ -4,6 +4,8 @@ using static DocAPI.Core.Models.Agendamento;
 
 public class ReadAgendamentoDto
     {
+        public string ID { get; set; } = string.Empty;
+        public string PacienteID { get; set; } = string.Empty;
         public string Nome { get; set; } = string.Empty;
         public string? Aviso { get; set; }  
         public DateOnly? Data { get; set; }

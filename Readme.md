@@ -138,8 +138,9 @@ Este projeto utiliza um fluxo de trabalho baseado em *feature branches*, similar
 5.  **Mescle e limpe:**
     Após aprovar e mesclar o PR, delete a branch para manter o repositório limpo.
     ```bash
-    git branch -d feature/nome-da-sua-branch
     git push origin --delete feature/nome-da-sua-branch
+    git branch -d feature/nome-da-sua-branch
+    git branch -D feature/nome-da-sua-branch
     ```
 
 ## 🏗️ Conceitos, Arquitetura e Diretrizes de Desenvolvimento

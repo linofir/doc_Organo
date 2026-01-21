@@ -1,8 +1,10 @@
 @page "/Detalhes/{id}"
+@using DocFront.Components.Agendamento
 
 
 @inject PacienteService PacienteService
 @inject ProntuarioService ProntuarioService
+@inject AgendamentoService AgendamentoService
 @inject NavigationManager Nav
 
 <div class="details-container">
@@ -37,14 +39,30 @@
                     {
                         <AbaProntuarios
                             Prontuario="ProntuarioSelecionado"
-                            Carregando="CarregandoProntuario"
+                            Carregando="CarregandoProntuarioSelecionado"
                             OnSalvar="SalvarProntuario"
                             OnDeletar="DeletarProntuario" />
                     }
                 }
                 else if (CurrentTab == "agendamentos")
                 {
-                    <AbaAgendamentos PacienteId="@id" />
+                    if(ExibindoAgendamentoList)
+                    {
+                        <AgendamentoList 
+                            Resultados="Agendamentos"
+                            Carregando="CarregandoAgendamentos"
+                            OnAbrir="AbrirAgendamento"
+                            OnNovo="CriarNovoAgendamento" />
+
+                    }else
+                    {
+                        <AbaAgendamentos 
+                            Agendamento="AgendamentoSelecionado"
+                            Carregando="CarregandoAgendamentoSelecionado"
+                            OnSalvar="SalvarAgendamento"
+                            OnDeletar="DeletarAgendamento" />
+                    }
+
                 }
                 else if (CurrentTab == "atendimentos")
                 {
@@ -75,10 +93,22 @@
     List<ProntuarioCardDto> Prontuarios = new();
     bool Carregando = true;
     bool CarregandoProntuarios;
-    bool CarregandoProntuario;
+    bool CarregandoProntuarioSelecionado;
     
+    List<AgendamentoCardDto> Agendamentos = new();
+    AgendamentoViewModel? AgendamentoSelecionado;
+    string? AgendamentoSelecionadoId;
+    bool CarregandoAgendamentos;
+    bool CarregandoAgendamentoSelecionado;
+
     bool ExibindoProntuarioList = false;
     bool CriandoNovoProntuario;
+
+    bool ExibindoAgendamentoList = false;
+    bool CriandoNovoAgendamento;
+
+    bool ExibindoAtendimentoList = false;
+    bool CriandoNovoAtendimento;
     string CurrentTab = "dados";
     string? MensagemErro;
     string? MensagemSucesso;
@@ -112,6 +142,12 @@
             ExibindoProntuarioList = true;
             _ = BuscarProntuarios();
         }
+        if (tab == "agendamentos")
+        {
+            ExibindoAgendamentoList = true;
+            Console.WriteLine("Buscar Agendamwntos teste");
+            _ = BuscarAgendamentos();
+        }
 
         Nav.NavigateTo($"/Detalhes/{id}?tab={tab}", replace: true);
     }
@@ -143,7 +179,7 @@
 
         if (resultado.Success)
         {
-          
+
             MensagemSucesso = "Paciente deletado com sucesso";
             await Task.Delay(1000);
             Nav.NavigateTo("/Pacientes/Gerenciar");
@@ -153,6 +189,8 @@
             MensagemErro = resultado.Error!;
         }
     }
+
+    ////////////////////////////////////////Prontuários////////////////////////
     async Task BuscarProntuarios()
     {
         if(CarregandoProntuarios)
@@ -172,17 +210,17 @@
     {
         ExibindoProntuarioList = false;
         CriandoNovoProntuario = false;
-        if(CarregandoProntuario)
+        if(CarregandoProntuarioSelecionado)
             return;
-        CarregandoProntuario = true;
+        CarregandoProntuarioSelecionado = true;
         ProntuarioSelecionadoId = prontuarioId;
 
         var result = await ProntuarioService.GetById(prontuarioId);
 
         if (result.Success)
             ProntuarioSelecionado = result.Data;
-        
-        CarregandoProntuario = false;
+
+        CarregandoProntuarioSelecionado = false;
         await InvokeAsync(StateHasChanged);
     }
     async Task CriarNovoProntuario()
@@ -206,9 +244,9 @@
             SolicitacaoInternacao = new InternacaoViewModel(),
             Exames = new List<ExameViewModel>(),
             PosOperatorio = new PosOpViewModel()
-            
+
         };
-        
+
     }
     async Task SalvarProntuario(ProntuarioViewModel prontuarioEditado)
     {
@@ -251,8 +289,118 @@
 
         if (resultado.Success)
         {
-          
+
             MensagemSucesso = "Prontuario deletado com sucesso";
+            await Task.Delay(1000);
+            Nav.NavigateTo($"/Detalhes/{id}"); 
+        } 
+        else
+        {
+            MensagemErro = resultado.Error!;
+        }
+    }
+
+    ////////////////////////////////////////Agendamentos////////////////////////
+    async Task BuscarAgendamentos()
+    {
+        if(CarregandoAgendamentos)
+            return;
+        CarregandoAgendamentos = true;
+
+        var  result = await AgendamentoService.GetByPaciente(id!);
+        Agendamentos = result.Success && result.Data != null
+            ? result.Data.ToList()
+            : new List<AgendamentoCardDto>();
+
+
+        CarregandoAgendamentos = false;
+        await InvokeAsync(StateHasChanged);
+    }
+    async Task AbrirAgendamento(string agendamentoId)
+    {
+        ExibindoAgendamentoList = false;
+        CriandoNovoAgendamento = false;
+        if(CarregandoProntuarioSelecionado)
+            return;
+        CarregandoProntuarioSelecionado = true;
+        AgendamentoSelecionadoId = agendamentoId;
+
+        var result = await AgendamentoService.GetById(agendamentoId);
+
+        if (result.Success)
+            AgendamentoSelecionado = result.Data;
+        
+        CarregandoProntuarioSelecionado = false;
+        await InvokeAsync(StateHasChanged);
+    }
+    async Task CriarNovoAgendamento()
+    {
+        ExibindoAgendamentoList = false;
+        CriandoNovoAgendamento = true;
+        AgendamentoSelecionado = null;
+        await InvokeAsync(StateHasChanged);
+
+        AgendamentoSelecionado = new AgendamentoViewModel
+        {
+           PacienteID = Paciente.ID,
+            Nome = Paciente.Nome,
+            Aviso = "",
+            Data = DateOnly.MinValue,  
+            Horario = TimeOnly.MinValue,
+            Procedimento = "",
+            Local = "",
+            Sala = "",
+            SenhaAgendamento = new SenhaViewModel(),
+            @* Status = new StatusViewModel(),     *@
+            StatusInstrucoes = "",
+            StatusAtestado = "",
+            DataConsulta = DateOnly.MinValue,
+        };
+        
+    }
+    async Task SalvarAgendamento(AgendamentoViewModel agendamentoEditado)
+    {
+        MensagemErro = null;
+        MensagemSucesso = null;
+        ApiResponse<bool> resultado;
+        if (CriandoNovoAgendamento)
+        {
+            // 👉 NOVO
+            resultado = await AgendamentoService.Create(agendamentoEditado);
+        }
+        else
+        {
+            // 👉 EDITAR
+            resultado = await AgendamentoService.Update(agendamentoEditado.ID, agendamentoEditado);
+        }
+
+        if (resultado.Success)
+        {
+            // 🔑 Atualiza a fonte da verdade
+            AgendamentoSelecionado = agendamentoEditado;
+            MensagemSucesso = "Agendamento atualizado com sucesso";
+        }
+        else
+        {
+            MensagemErro = resultado.Error!;
+        }
+    }
+    async Task DeletarAgendamento(AgendamentoViewModel agendamentoEditado)
+    {
+        MensagemErro = null;
+        MensagemSucesso = null;
+        if (string.IsNullOrEmpty(agendamentoEditado.ID))
+        {
+            MensagemErro = "Agendamento inválido para exclusão.";
+            return;
+        }
+
+        var resultado = await AgendamentoService.Delete(agendamentoEditado.ID);
+
+        if (resultado.Success)
+        {
+          
+            MensagemSucesso = "Agendamento deletado com sucesso";
             await Task.Delay(1000);
             Nav.NavigateTo($"/Detalhes/{id}"); 
         } 
