@@ -1,6 +1,8 @@
 @page "/Pacientes/Criar"
 @using DocFront.Components.Utils
 @using DocFront.Models
+
+@inject PacienteState PacienteState
 @inject PacienteService PacienteService
 @inject NavigationManager Nav
 
@@ -129,6 +131,7 @@
 
         if (resultado.Success)
         {
+            PacienteState.Invalidate();
             MensagemSucesso = "Paciente cadastrado com sucesso!";
             await Task.Delay(1500);
             Paciente = new PacienteModel(); // 🔑 reset do form

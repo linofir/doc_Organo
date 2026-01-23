@@ -38,6 +38,12 @@ builder.Services.AddScoped<PacienteService>();
 builder.Services.AddScoped<ProntuarioService>();
 builder.Services.AddScoped<AgendamentoService>();
 
+// Registra seu State
+builder.Services.AddScoped<PacienteState>();
+builder.Services.AddScoped<ProntuarioState>();
+builder.Services.AddScoped<AgendamentoState>();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

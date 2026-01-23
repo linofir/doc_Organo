@@ -76,6 +76,20 @@ public class PacienteSheetsRepository : IPacienteRepository
         // throw new NotImplementedException();
         return paciente;
     }
+    public async Task<List<Paciente>> GetPacienteByNomeAsync(string nome)
+    {
+        var paciente = await GetAgendamentoByFilterAsync( nome, PacientesFilter.Nome);
+        // Console.WriteLine($"test inicio metodo, procurando: {cpf}");
+        // List<Paciente> pacientes;
+        // pacientes = await GetPacientesAsync();
+        // Console.WriteLine(pacientes.Count());
+        // var paciente = pacientes.FirstOrDefault(p =>
+        //     !string.IsNullOrWhiteSpace(p.CPF) &&
+        //     !string.IsNullOrWhiteSpace(cpf) &&
+        //     p.CPF.Trim().Equals(cpf.Trim(), StringComparison.OrdinalIgnoreCase));
+        // throw new NotImplementedException();
+        return paciente;
+    }
     public async Task CreateAsync(Paciente paciente)
     {
         await AddPacienteAsync( paciente);

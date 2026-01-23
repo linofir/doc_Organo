@@ -2,6 +2,7 @@ namespace DocFront.Models.Dtos;
 
 public class PacienteApiDto
 {
+    public string ID { get; set; } = "";
     public string CPF { get; set; } = "";
     public string Nome { get; set; } = "";
     public DateOnly Nascimento { get; set; }

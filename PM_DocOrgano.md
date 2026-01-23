@@ -76,6 +76,7 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
 - **Feature:** implementar cache
 - **Feature:** Padronizar respostas de endpoints e dtos
 - **Feature:** Padronizar controllers
+- lidar como paciente homonimas, métodos de buscas avançados autocopleate, busca inteligente e indexada.
 
 ----------- 
 ### **Épico: 🖥️ Frontend (DocFront WEB)** 
@@ -162,6 +163,8 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
         - depois da execusao de enpoints destinar para páginas corretas. 
         - Carregar as opções/enums para edicao e criacao  
         - busca por nome e cpf para pacientes, caminho para criar prontuario, epecificar o nome da paciente depois d um novo paciente: não precisa procurar os prontuarios(criar essa excessão). Fazer mapper de pacientes
+        - Autocompleate básico para busca de paciente usadno GetAll, ajusta repo da api.
+        - Criar os dtos, específicos de paciente.
         - padronizar nomenclaturas dtos, models, components
         - padronizar endpoints, associando com api
         - ajustes da de UI para Prontuarios, uso de enuns( adequar api para fornecer lista de exames, alterar section exames)
