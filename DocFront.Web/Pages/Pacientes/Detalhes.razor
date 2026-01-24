@@ -3,17 +3,18 @@
 
 
 @inject PacienteService PacienteService
+@inject PacienteState PacienteState;
 @inject ProntuarioService ProntuarioService
 @inject AgendamentoService AgendamentoService
 @inject NavigationManager Nav
 
 <div class="details-container">
     <h3>Detalhes do Paciente</h3>
-    @if (Carregando)
+    @if (PacienteState.IsLoading)
         {
-            <p>Carregando...</p>
+            <LoadingSpinner/>
         }
-        else if (Paciente is null)
+        else if (PacienteState.Selecionado is null)
         {
             <p>Paciente não encontrado</p>
         }
@@ -24,7 +25,8 @@
             <div class="tab-content">
                 @if (CurrentTab == "dados")
                 {
-                    <AbaDados Paciente="@Paciente"  OnSalvar="SalvarPaciente" OnDeletar="DeletarPaciente" />
+                    <AbaDados Paciente="PacienteState.Selecionado"  
+                        OnSalvar="SalvarPaciente" OnDeletar="DeletarPaciente" />
                 }
                 else if (CurrentTab == "prontuarios")
                 {
@@ -115,11 +117,12 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        Carregando = true;
+        await PacienteState.SelecionePorIdAsync(id!);
+        @* Carregando = true;
         var resultado = await PacienteService.GetById(id!);
         Paciente = resultado.Success ? resultado.Data : null;
 
-        Carregando = false;
+        Carregando = false; *@
 
         // testar Pelo caminho da página  Criar
         @* var uri = Nav.ToAbsoluteUri(Nav.Uri);
@@ -153,7 +156,13 @@
     }
     async Task SalvarPaciente(PacienteModel pacienteEditado)
     {
-        MensagemErro = null;
+        var result = await PacienteState.EditarAsync(pacienteEditado);
+
+        if (result.Success)
+            MensagemSucesso = "Paciente atualizado com sucesso";
+        else
+            MensagemErro = $"Erro ao atualizar paciente: {result.Error}";
+        @* MensagemErro = null;
         MensagemSucesso = null;
 
         var resultado = await PacienteService.Update(pacienteEditado.ID, pacienteEditado);
@@ -168,11 +177,21 @@
         else
         {
             MensagemErro = resultado.Error!;
-        }
+        } *@
     }
     async Task DeletarPaciente(PacienteModel pacienteEditado)
     {
-        MensagemErro = null;
+        var result = await PacienteState.DeletarAsync(PacienteState.Selecionado!.ID);
+
+        if (result.Success)
+        {
+            MensagemSucesso = "Paciente deletado com sucesso";
+            await Task.Delay(1000);
+            Nav.NavigateTo("/Pacientes/Gerenciar");
+        }
+        else
+            MensagemErro = $"Erro ao deletar paciente: {result.Error}";
+        @* MensagemErro = null;
         MensagemSucesso = null;
 
         var resultado = await PacienteService.Delete(pacienteEditado.ID);
@@ -187,7 +206,7 @@
         else
         {
             MensagemErro = resultado.Error!;
-        }
+        } *@
     }
 
     ////////////////////////////////////////Prontuários////////////////////////

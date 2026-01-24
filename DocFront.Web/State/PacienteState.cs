@@ -2,6 +2,7 @@ using DocFront.Models;
 using DocFront.Models.Dtos;
 using DocFront.Mappers;
 using DocFront.Services;
+using DocFront.Utils;
 
 public class PacienteState
 {
@@ -25,7 +26,7 @@ public class PacienteState
     public event Action? OnChange;
     private void Notify() => OnChange?.Invoke();
 
-    public async Task LoadAllAsync(bool force = false)
+    public async Task BuscarTodosAsync(bool force = false)
     {
         if (SearchType == PacienteSearchType.Todos && Lista != null && !force && !IsDirty)
         {
@@ -103,22 +104,84 @@ public class PacienteState
         Notify();
     }
 
+    public async Task SelecionePorIdAsync(string id, bool force = false)
+    {
+        if (Selecionado != null && Selecionado.ID == id && !force)
+        {
+            Console.WriteLine("⚡ USANDO CACHE PACIENTE");
+            return;
+        }
 
-    // public async Task<ApiResponse<string>> CriarAsync(PacienteModel paciente)
-    // {
-    //     IsLoading = true;
-    //     Notify();
+        IsLoading = true;
+        Notify();
 
-    //     var response = await _service.Create(paciente);
+        var response = await _service.GetById(id);
+        Console.WriteLine("🔥 CHAMANDO API PACIENTE");
+        if (response.Success)
+            Selecionado = response.Data;
+        else
+            Selecionado = null;
 
-    //     IsLoading = false;
+        IsLoading = false;
+        Notify();
+    }
+    public async Task<ApiResponse<bool>> EditarAsync(PacienteModel paciente)
+    {
+        IsLoading = true;
+        Notify();
 
-    //     if (response.Success && response.Data != null)
-    //         Invalidate();
+        var result = await _service.Update(paciente.ID, paciente);
 
-    //     Notify();
-    //     return response;
-    // }
+        if (result.Success)
+        {
+            Selecionado = paciente;
+            Invalidate(); // invalida listas
+        }
+
+        IsLoading = false;
+        Notify();
+
+        return result;
+    }
+
+    public async Task<ApiResponse<bool>> DeletarAsync(string id)
+    {
+        IsLoading = true;
+        Notify();
+
+        var result = await _service.Delete(id);
+
+        if (result.Success)
+        {
+            Selecionado = null;
+            Invalidate();
+        }
+
+        IsLoading = false;
+        Notify();
+
+        return result;
+    }
+
+    public async Task<ApiResponse<string>> CriarAsync(PacienteModel paciente)
+    {
+        IsLoading = true;
+        Notify();
+
+        var response = await _service.Create(paciente);
+
+        IsLoading = false;
+
+        if (response.Success && response.Data != null)
+            Invalidate();
+
+        // if (!response.Success)
+        // return ApiResponse<string>.Fail(response.Error!);
+
+        Notify();
+        
+        return response;
+    }
 
     public void Clear()
     {

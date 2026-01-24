@@ -17,8 +17,6 @@ public class PacienteService : ApiService
                 dto
             );
 
-        if (!response.Success)
-            return ApiResponse<string>.Fail(response.Error!);
 
         return ApiResponse<string>.Ok(response.Data!.ID);
         // return PostAsync("paciente", dto);
@@ -85,7 +83,6 @@ public class PacienteService : ApiService
     public Task<ApiResponse<bool>> Update(string id, PacienteModel model)
     {
         var dto = PacienteMapper.ToApi(model);
-
         return PutAsync($"paciente/{id}", dto);
     }
 

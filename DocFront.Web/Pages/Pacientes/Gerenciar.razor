@@ -60,7 +60,7 @@
     async Task Buscar()
     {
         if (string.IsNullOrWhiteSpace(Busca))
-            await PacienteState.LoadAllAsync();
+            await PacienteState.BuscarTodosAsync();
         else if (Busca.All(char.IsDigit))
             await PacienteState.BuscarPorCpfAsync(Busca);
         else
