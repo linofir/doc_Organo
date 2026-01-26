@@ -5,7 +5,7 @@ namespace DocFront.Models.ViewModels;
 
 public class ProntuarioViewModel
 {
-    public string? Id { get; set; }
+    public string? ID { get; set; }
 
     public DateOnly? DataConsulta { get; set; } // 🔑 DateTime para InputDate
 

@@ -8,7 +8,7 @@ public static class ProntuarioMapper
     {
         return new ProntuarioApiDto
         {
-            ID = model.Id,
+            ID = model.ID,
             DataConsulta = model.DataConsulta,
             Tipo = model.Tipo,
 
@@ -127,13 +127,13 @@ public static class ProntuarioMapper
     }
 
     //Dto to ViewModel
-    public static ProntuarioViewModel? ToViewModel(ProntuarioApiDto dto)
+    public static ProntuarioViewModel? ToViewModel(ReadProntuarioDto dto)
     {
         if (dto == null) return null;
 
         return new ProntuarioViewModel
         {
-            Id = dto.ID,
+            ID = dto.ID,
             DataConsulta = dto.DataConsulta,
             Tipo = dto.Tipo,
             DescricaoBasica = DescricaoToViewModel(dto.DescricaoBasica!)!,
@@ -265,7 +265,7 @@ public static class ProntuarioMapper
         if (dtoList is null) return new List<ProntuarioCardDto>();;
         var list = dtoList.Select(p => new ProntuarioCardDto
         {
-            Id = p.Id,
+            Id = p.ID,
             Nome = p.DescricaoBasica?.NomePaciente ?? "Sem nome",
             Data = p.DataConsulta,
             Tipo = p.Tipo ?? "Sem tipo"

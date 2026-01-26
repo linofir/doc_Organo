@@ -12,23 +12,11 @@ public class ProntuarioService : ApiService
 {
     public ProntuarioService(IHttpClientFactory factory) 
         : base(factory) {}
-    public Task<ApiResponse<bool>> Create(ProntuarioViewModel model)
+    public Task<ApiResponse<bool>> Create(ProntuarioApiDto dto)
     { 
-        var dto = ProntuarioMapper.ToApi(model);
+        // var dto = ProntuarioMapper.ToApi(model);
         return PostAsync("prontuario", dto);
     }
-
-    // public async Task<ApiResponse<List<PacienteListDto>>> GetAll()
-    // {
-    //     var response = await GetAsync<List<ProntuarioViewModel>>("prontuario");
-
-    //     if (!response.Success || response.Data == null)
-    //         return ApiResponse<List<PacienteListDto>>.Fail(response.Error ?? "Erro ao buscar prontuarios");
-
-    //     var listDtos = response.Data.Select(p => ProntuarioMapper.ToViewModel(p)).ToList();
-
-    //     return ApiResponse<List<PacienteListDto>>.Ok(listDtos);
-    // }
     public async Task<ApiResponse<string>> GetTotal()
     {
         var response = await GetAsync<List<ProntuarioApiDto>>("prontuario");
@@ -40,41 +28,46 @@ public class ProntuarioService : ApiService
 
         return ApiResponse<string>.Ok(totalProntuarios);
     }
-    public async Task<ApiResponse<ProntuarioViewModel>> GetById(string id)
+    public async Task<ApiResponse<ReadProntuarioDto>> GetById(string id)
     {
-        var response = await GetAsync<ProntuarioApiDto>($"prontuario/{id}");
+        var response = await GetAsync<ReadProntuarioDto>($"prontuario/{id}");
 
-        if (!response.Success || response.Data is null)
-            return ApiResponse<ProntuarioViewModel>.Fail(response.Error!);
+        // if (!response.Success || response.Data is null)
+        //     return ApiResponse<ProntuarioViewModel>.Fail(response.Error!);
 
-        var api = response.Data;
+        // var api = response.Data;
 
-        var prontuario = ProntuarioMapper.ToViewModel(api);
+        // var prontuario = ProntuarioMapper.ToViewModel(api);
 
-        return ApiResponse<ProntuarioViewModel>.Ok(prontuario!);
+        return response;
     }
-    public async Task<ApiResponse<List<ProntuarioCardDto>>> GetByPaciente(string id)
+    // public async Task<ApiResponse<List<ProntuarioCardDto>>> GetByPaciente(string id)
+    // {
+    //     var response = await GetAsync<List<ReadProntuarioDto>>($"prontuario/paciente/{id}");
+    //     if (!response.Success)
+    //     return ApiResponse<List<ProntuarioCardDto>>.Fail(response.Error!);
+
+    //     if (response.Data == null)
+    //     {
+    //         Console.WriteLine("response.Data é NULL");
+    //         return ApiResponse<List<ProntuarioCardDto>>.Ok(new());
+    //     }
+
+    //     var listProntuarios = ProntuarioMapper.ToProntuarioCard(response.Data);
+
+    //     return ApiResponse<List<ProntuarioCardDto>>.Ok(listProntuarios!);
+    // }
+    public async Task<ApiResponse<List<ReadProntuarioDto>>> GetByPaciente(string id)
     {
         var response = await GetAsync<List<ReadProntuarioDto>>($"prontuario/paciente/{id}");
-        if (!response.Success)
-        return ApiResponse<List<ProntuarioCardDto>>.Fail(response.Error!);
-
-        if (response.Data == null)
-        {
-            Console.WriteLine("response.Data é NULL");
-            return ApiResponse<List<ProntuarioCardDto>>.Ok(new());
-        }
-
-        var listProntuarios = ProntuarioMapper.ToProntuarioCard(response.Data);
-
-        return ApiResponse<List<ProntuarioCardDto>>.Ok(listProntuarios!);
+        return response;
     }
     public Task<ApiResponse<ProntuarioViewModel>> GetByCpf(string cpf)
         => GetAsync<ProntuarioViewModel>($"prontuario/{cpf}");
 
-    public Task<ApiResponse<bool>> Update(string id, ProntuarioViewModel model)
+    public Task<ApiResponse<bool>> Update(string id, ProntuarioApiDto dto)
     {
-        var dto = ProntuarioMapper.ToApi(model);
+        // var dto = ProntuarioMapper.ToApi(model);
         return PutAsync($"prontuario/{id}", dto);
     }
 

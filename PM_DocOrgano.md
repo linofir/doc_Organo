@@ -168,6 +168,8 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
         - padronizar nomenclaturas dtos, models, components
         - padronizar endpoints, associando com api
         - ajustes da de UI para Prontuarios, uso de enuns( adequar api para fornecer lista de exames, alterar section exames)
+        - Otimizar o uso de cache de prontuario e Agendamneto, {e possível utilizar cache de prontuariolist para não aconar o GetByID?}
+        - Acrescentar opção de novo prontuario na abaProntuarios e AbaAgenmentos.
 
 
        
