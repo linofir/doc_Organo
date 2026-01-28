@@ -5,11 +5,15 @@
 
 @if (Carregando)
     {
-        <p>Carregando...</p>
+        <LoadingSpinner/>
     }
-    else if (Agendamento == null)
+    else if (!string.IsNullOrEmpty(MenssagemErro))
     {
-        <p>Nenhum Agendamento encontrado.</p>
+        <p class="text-danger">@MenssagemErro</p>
+    }
+    else if (Agendamento is null)
+    {
+        <p>Nenhum prontuário encontrado.</p>
     }
     else
     {
@@ -139,9 +143,10 @@
     public AgendamentoViewModel Agendamento { get; set; } = default!;
     [Parameter]
     public bool Carregando { get; set; } = false;
+    [Parameter]
+    public string? MenssagemErro { get; set; } 
     public AgendamentoViewModel EditAgendamento { get; set; } = default!;
     bool MostrarConfirmacao = false;
-
     [Parameter]
     public EventCallback<AgendamentoViewModel> OnSalvar { get; set; }
     [Parameter]
