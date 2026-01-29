@@ -3,11 +3,15 @@
 
 @if (Carregando)
     {
-        <p>Carregando...</p>
+        <LoadingSpinner/>
+    }
+    else if (!string.IsNullOrEmpty(MenssagemErro))
+    {
+        <p class="text-danger">@MenssagemErro</p>
     }
     else if (Prontuario == null)
     {
-        <p>Nenhum Prontuario encontrado.</p>
+        <p>Nenhum prontuário encontrado.</p>
     }
     else
     {
@@ -93,6 +97,8 @@
     public ProntuarioViewModel Prontuario { get; set; } = default!;
     [Parameter]
     public bool Carregando { get; set; } = false;
+    [Parameter]
+    public string? MenssagemErro { get; set; }
     public ProntuarioViewModel EditProntuario { get; set; } = default!;
     bool MostrarConfirmacao = false;
     
@@ -108,10 +114,12 @@
 
     protected override void OnParametersSet()
     {
+        Console.WriteLine($"teste da menssagem de erro:{MenssagemErro}");
+
         if (Prontuario is null)
         return;
         EditProntuario = Clone(Prontuario);
-        IsEditing = string.IsNullOrEmpty(Prontuario.Id);
+        IsEditing = string.IsNullOrEmpty(Prontuario.ID);
     }
 
     @* DateTime DataConsultaDate
@@ -150,7 +158,7 @@
 
         return new ProntuarioViewModel ()
             {
-                Id = p.Id,
+                ID = p.ID,
                 DataConsulta = p.DataConsulta,
                 Tipo = p.Tipo,
                 AcoesCD = p.AcoesCD,

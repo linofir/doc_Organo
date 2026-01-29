@@ -2,18 +2,21 @@
 @using DocFront.Components.Agendamento
 
 
-@inject PacienteService PacienteService
-@inject ProntuarioService ProntuarioService
+@* @inject PacienteService PacienteService *@
+@inject PacienteState PacienteState;
+@inject ProntuarioState ProntuarioState;
+@* @inject ProntuarioService ProntuarioService *@
+@inject AgendamentoState AgendamentoState;
 @inject AgendamentoService AgendamentoService
 @inject NavigationManager Nav
 
 <div class="details-container">
     <h3>Detalhes do Paciente</h3>
-    @if (Carregando)
+    @if (PacienteState.IsLoading)
         {
-            <p>Carregando...</p>
+            <LoadingSpinner/>
         }
-        else if (Paciente is null)
+        else if (PacienteState.Selecionado is null)
         {
             <p>Paciente não encontrado</p>
         }
@@ -24,22 +27,25 @@
             <div class="tab-content">
                 @if (CurrentTab == "dados")
                 {
-                    <AbaDados Paciente="@Paciente"  OnSalvar="SalvarPaciente" OnDeletar="DeletarPaciente" />
+                    <AbaDados Paciente="PacienteState.Selecionado"  
+                        OnSalvar="SalvarPaciente" OnDeletar="DeletarPaciente" />
                 }
                 else if (CurrentTab == "prontuarios")
                 {
                     if(ExibindoProntuarioList)
                     {
                         <ProntuariosList 
-                            Resultados="Prontuarios"
-                            Carregando="CarregandoProntuarios"
+                            Resultados="ProntuarioState.Cards"
+                            Carregando="ProntuarioState.IsLoadingProntuarios"
+                            MenssagemErro="@ProntuarioState.ErrorMessage"
                             OnAbrir="AbrirProntuario"
                             OnNovo="CriarNovoProntuario" />
                     }else
                     {
                         <AbaProntuarios
-                            Prontuario="ProntuarioSelecionado"
-                            Carregando="CarregandoProntuarioSelecionado"
+                            Prontuario="ProntuarioState.Selecionado"
+                            Carregando="ProntuarioState.IsLoadingSelecionado"
+                            MenssagemErro="@ProntuarioState.ErrorMessage"
                             OnSalvar="SalvarProntuario"
                             OnDeletar="DeletarProntuario" />
                     }
@@ -49,20 +55,20 @@
                     if(ExibindoAgendamentoList)
                     {
                         <AgendamentoList 
-                            Resultados="Agendamentos"
-                            Carregando="CarregandoAgendamentos"
+                            Resultados="AgendamentoState.Cards"
+                            Carregando="AgendamentoState.IsLoadingAgendamentos"
+                            MenssagemErro="@AgendamentoState.ErrorMessage"
                             OnAbrir="AbrirAgendamento"
                             OnNovo="CriarNovoAgendamento" />
-
                     }else
                     {
                         <AbaAgendamentos 
-                            Agendamento="AgendamentoSelecionado"
-                            Carregando="CarregandoAgendamentoSelecionado"
+                            Agendamento="AgendamentoState.Selecionado"
+                            Carregando="AgendamentoState.IsLoadingSelecionado"
+                            MenssagemErro="@AgendamentoState.ErrorMessage"
                             OnSalvar="SalvarAgendamento"
                             OnDeletar="DeletarAgendamento" />
                     }
-
                 }
                 else if (CurrentTab == "atendimentos")
                 {
@@ -88,18 +94,17 @@
 @code {
     [Parameter] public string? id { get; set; }
     PacienteModel? Paciente;
-    ProntuarioViewModel? ProntuarioSelecionado;
-    string? ProntuarioSelecionadoId;
-    List<ProntuarioCardDto> Prontuarios = new();
-    bool Carregando = true;
-    bool CarregandoProntuarios;
-    bool CarregandoProntuarioSelecionado;
-    
-    List<AgendamentoCardDto> Agendamentos = new();
-    AgendamentoViewModel? AgendamentoSelecionado;
-    string? AgendamentoSelecionadoId;
-    bool CarregandoAgendamentos;
-    bool CarregandoAgendamentoSelecionado;
+    ProntuarioViewModel? ProntuarioEmCriacao;
+    @* string? ProntuarioSelecionadoId; *@
+    @* List<ProntuarioCardDto> Prontuarios = new(); *@
+    @* bool Carregando = true; *@
+    @* bool CarregandoProntuarios; *@
+    @* bool CarregandoProntuarioSelecionado; *@
+    @* List<AgendamentoCardDto> Agendamentos = new(); *@
+    @* AgendamentoViewModel? AgendamentoSelecionado; *@
+    @* string? AgendamentoSelecionadoId; *@
+    @* bool CarregandoAgendamentos; *@
+    @* bool CarregandoAgendamentoSelecionado; *@
 
     bool ExibindoProntuarioList = false;
     bool CriandoNovoProntuario;
@@ -109,26 +114,24 @@
 
     bool ExibindoAtendimentoList = false;
     bool CriandoNovoAtendimento;
+
     string CurrentTab = "dados";
     string? MensagemErro;
     string? MensagemSucesso;
 
     protected override async Task OnParametersSetAsync()
     {
-        Carregando = true;
-        var resultado = await PacienteService.GetById(id!);
-        Paciente = resultado.Success ? resultado.Data : null;
-
-        Carregando = false;
-
-        // testar Pelo caminho da página  Criar
-        @* var uri = Nav.ToAbsoluteUri(Nav.Uri);
-        var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
-        var tab = query["tab"];
-        CurrentTab = string.IsNullOrEmpty(tab) ? "dados" : tab; *@
-        @* Carregando = false;
-        if (CurrentTab == "prontuarios")
-            await BuscarProntuarios(); *@
+        await PacienteState.SelecionePorIdAsync(id!);
+    }
+    protected override void OnInitialized()
+    {
+        ProntuarioState.OnChange += StateHasChanged;
+        AgendamentoState.OnChange += StateHasChanged;
+    }
+    public void Dispose()
+    {
+        ProntuarioState.OnChange -= StateHasChanged;
+        AgendamentoState.OnChange += StateHasChanged;
     }
     void TrocarAba(string tab)
     {
@@ -153,47 +156,33 @@
     }
     async Task SalvarPaciente(PacienteModel pacienteEditado)
     {
-        MensagemErro = null;
-        MensagemSucesso = null;
+        var result = await PacienteState.EditarAsync(pacienteEditado);
 
-        var resultado = await PacienteService.Update(pacienteEditado.ID, pacienteEditado);
-
-        if (resultado.Success)
-        {
-            // 🔑 Atualiza a fonte da verdade
-            Paciente = pacienteEditado;
-
+        if (result.Success)
             MensagemSucesso = "Paciente atualizado com sucesso";
-        }
         else
-        {
-            MensagemErro = resultado.Error!;
-        }
+            MensagemErro = $"Erro ao atualizar paciente: {result.Error}";
     }
     async Task DeletarPaciente(PacienteModel pacienteEditado)
     {
-        MensagemErro = null;
-        MensagemSucesso = null;
+        var result = await PacienteState.DeletarAsync(PacienteState.Selecionado!.ID);
 
-        var resultado = await PacienteService.Delete(pacienteEditado.ID);
-
-        if (resultado.Success)
+        if (result.Success)
         {
-
             MensagemSucesso = "Paciente deletado com sucesso";
             await Task.Delay(1000);
             Nav.NavigateTo("/Pacientes/Gerenciar");
         }
         else
-        {
-            MensagemErro = resultado.Error!;
-        }
+            MensagemErro = $"Erro ao deletar paciente: {result.Error}";
     }
 
     ////////////////////////////////////////Prontuários////////////////////////
     async Task BuscarProntuarios()
     {
-        if(CarregandoProntuarios)
+        await ProntuarioState.BuscarTodosPorPacienteAsync(PacienteState.Selecionado!.ID);
+
+        @* if(CarregandoProntuarios)
             return;
         CarregandoProntuarios = true;
 
@@ -204,13 +193,19 @@
 
 
         CarregandoProntuarios = false;
-        await InvokeAsync(StateHasChanged);
+        await InvokeAsync(StateHasChanged); *@
     }
+    
     async Task AbrirProntuario(string prontuarioId)
     {
         ExibindoProntuarioList = false;
         CriandoNovoProntuario = false;
-        if(CarregandoProntuarioSelecionado)
+
+        await ProntuarioState.BuscarPorIdAsync(prontuarioId);
+        @* ProntuarioSelecionadoId = prontuarioId; *@
+        
+
+        @* if(CarregandoProntuarioSelecionado)
             return;
         CarregandoProntuarioSelecionado = true;
         ProntuarioSelecionadoId = prontuarioId;
@@ -221,32 +216,15 @@
             ProntuarioSelecionado = result.Data;
 
         CarregandoProntuarioSelecionado = false;
-        await InvokeAsync(StateHasChanged);
+        await InvokeAsync(StateHasChanged); *@
     }
     async Task CriarNovoProntuario()
     {
         ExibindoProntuarioList = false;
         CriandoNovoProntuario = true;
-        ProntuarioSelecionado = null;
+        @* ProntuarioSelecionado = null; *@
         await InvokeAsync(StateHasChanged);
-        ProntuarioSelecionado = new ProntuarioViewModel
-        {
-            DescricaoBasica = new DescricaoBasicaViewModel()
-            {
-                PacienteId = Paciente?.ID,
-                NomePaciente = Paciente?.Nome,
-                Cpf = Paciente?.CPF,
-                Idade = Paciente!.Idade
-            },
-            AGO = new AGOViewModel(),
-            Antecedentes = new AntecedentesViewModel(),
-            AntecedentesFamiliares = new AntecedentesFamiliaresViewModel(),
-            SolicitacaoInternacao = new InternacaoViewModel(),
-            Exames = new List<ExameViewModel>(),
-            PosOperatorio = new PosOpViewModel()
-
-        };
-
+        ProntuarioState.PrepararNovo(PacienteState.Selecionado!);
     }
     async Task SalvarProntuario(ProntuarioViewModel prontuarioEditado)
     {
@@ -256,36 +234,36 @@
         if (CriandoNovoProntuario)
         {
             // 👉 NOVO
-            resultado = await ProntuarioService.Create(prontuarioEditado);
+            resultado = await ProntuarioState.CriarAsync( prontuarioEditado);
         }
         else
         {
             // 👉 EDITAR
-            resultado = await ProntuarioService.Update(prontuarioEditado.Id, prontuarioEditado);
+            resultado = await ProntuarioState.SalvarAsync(prontuarioEditado.ID!, prontuarioEditado);
         }
 
         if (resultado.Success)
         {
             // 🔑 Atualiza a fonte da verdade
-            ProntuarioSelecionado = prontuarioEditado;
+            @* ProntuarioSelecionado = prontuarioEditado; *@
             MensagemSucesso = "Prontuario atualizado com sucesso";
         }
         else
         {
-            MensagemErro = resultado.Error!;
+            MensagemErro = ProntuarioState.ErrorMessage!;
         }
     }
     async Task DeletarProntuario(ProntuarioViewModel prontuarioEditado)
     {
         MensagemErro = null;
         MensagemSucesso = null;
-        if (string.IsNullOrEmpty(prontuarioEditado.Id))
+        if (string.IsNullOrEmpty(prontuarioEditado.ID))
         {
             MensagemErro = "Prontuário inválido para exclusão.";
             return;
         }
 
-        var resultado = await ProntuarioService.Delete(prontuarioEditado.Id);
+        var resultado = await ProntuarioState.DeletarAsync(prontuarioEditado.ID);
 
         if (resultado.Success)
         {
@@ -296,14 +274,16 @@
         } 
         else
         {
-            MensagemErro = resultado.Error!;
+            MensagemErro = ProntuarioState.ErrorMessage!;
         }
     }
 
     ////////////////////////////////////////Agendamentos////////////////////////
     async Task BuscarAgendamentos()
     {
-        if(CarregandoAgendamentos)
+        await AgendamentoState.BuscarTodosPorPacienteAsync(PacienteState.Selecionado!.ID);
+
+        @* if(CarregandoAgendamentos)
             return;
         CarregandoAgendamentos = true;
 
@@ -314,15 +294,17 @@
 
 
         CarregandoAgendamentos = false;
-        await InvokeAsync(StateHasChanged);
+        await InvokeAsync(StateHasChanged); *@
     }
     async Task AbrirAgendamento(string agendamentoId)
     {
         ExibindoAgendamentoList = false;
         CriandoNovoAgendamento = false;
-        if(CarregandoProntuarioSelecionado)
+        await AgendamentoState.BuscarPorIdAsync(agendamentoId);
+        
+        @* if(CarregandoAgendamentoSelecionado)
             return;
-        CarregandoProntuarioSelecionado = true;
+        CarregandoAgendamentoSelecionado = true;
         AgendamentoSelecionadoId = agendamentoId;
 
         var result = await AgendamentoService.GetById(agendamentoId);
@@ -330,20 +312,22 @@
         if (result.Success)
             AgendamentoSelecionado = result.Data;
         
-        CarregandoProntuarioSelecionado = false;
-        await InvokeAsync(StateHasChanged);
+        CarregandoAgendamentoSelecionado = false;
+        await InvokeAsync(StateHasChanged); *@
     }
     async Task CriarNovoAgendamento()
     {
         ExibindoAgendamentoList = false;
         CriandoNovoAgendamento = true;
-        AgendamentoSelecionado = null;
+        @* AgendamentoSelecionado = null; *@
         await InvokeAsync(StateHasChanged);
+        AgendamentoState.PrepararNovo(PacienteState.Selecionado!);
+    
 
-        AgendamentoSelecionado = new AgendamentoViewModel
+        @* AgendamentoSelecionado = new AgendamentoViewModel
         {
-           PacienteID = Paciente.ID,
-            Nome = Paciente.Nome,
+           PacienteID = PacienteState.Selecionado!.ID,
+            Nome = PacienteState.Selecionado!.Nome,
             Aviso = "",
             Data = DateOnly.MinValue,  
             Horario = TimeOnly.MinValue,
@@ -351,11 +335,11 @@
             Local = "",
             Sala = "",
             SenhaAgendamento = new SenhaViewModel(),
-            @* Status = new StatusViewModel(),     *@
+            @* Status = new StatusViewModel(),     
             StatusInstrucoes = "",
             StatusAtestado = "",
             DataConsulta = DateOnly.MinValue,
-        };
+        }; *@
         
     }
     async Task SalvarAgendamento(AgendamentoViewModel agendamentoEditado)
@@ -366,18 +350,18 @@
         if (CriandoNovoAgendamento)
         {
             // 👉 NOVO
-            resultado = await AgendamentoService.Create(agendamentoEditado);
+            resultado = await AgendamentoState.CriarAsync( agendamentoEditado);
         }
         else
         {
             // 👉 EDITAR
-            resultado = await AgendamentoService.Update(agendamentoEditado.ID, agendamentoEditado);
+            resultado = await AgendamentoState.SalvarAsync(agendamentoEditado.ID!, agendamentoEditado);
         }
 
         if (resultado.Success)
         {
             // 🔑 Atualiza a fonte da verdade
-            AgendamentoSelecionado = agendamentoEditado;
+            @* AgendamentoSelecionado = agendamentoEditado; *@
             MensagemSucesso = "Agendamento atualizado com sucesso";
         }
         else
@@ -395,7 +379,7 @@
             return;
         }
 
-        var resultado = await AgendamentoService.Delete(agendamentoEditado.ID);
+        var resultado = await AgendamentoState.DeletarAsync(agendamentoEditado.ID);
 
         if (resultado.Success)
         {

@@ -63,8 +63,10 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
 -  **Feature:** modelo ERD completo.    
 -  **Feature:** Migrar persistência de dados do Google Sheets para um banco de dados relacional com Entity Framework.
 -  **Feature:** Gerar o DbContext (DocDbContext).
--  **Feature:** Criar migrations para subir no Azure SQL.
+-  **Feature:** Criar migrations para SQL.
 -  **Feature:** Substituir gradualmente seus repositórios Sheets → SQL.
+-  **Feature:** Migrar para azuere Cloud.
+
 
 ### **Épico: 🏗️ Débitos Técnicos**
 - **Feature:** Implementar um sistema de Logging robusto em toda a aplicação.
@@ -74,6 +76,7 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
 - **Feature:** implementar cache
 - **Feature:** Padronizar respostas de endpoints e dtos
 - **Feature:** Padronizar controllers
+- lidar como paciente homonimas, métodos de buscas avançados autocopleate, busca inteligente e indexada.
 
 ----------- 
 ### **Épico: 🖥️ Frontend (DocFront WEB)** 
@@ -97,45 +100,43 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
         - `[Task Done]`  **Páginas** páginas base para Pacientes.
 - **Feature:** Integração com API (prontuarios, Agendamento)(feature/integracao_models)
     - **Itens:** 
-        - `[Task]`  **Models** Criar view modelos e Dtos necessários.
-        - `[Task]`  **Serviços** Criar ApiService base com HttpClient injetado (DI), implementar wrappers endpoints.
-        - `[Task]`  **Components** Componentes básicos para novas entidades, tabs, cards, aba, button. 
-        - `[Task]`  **Páginas** Ajustar páginas base para entidades, Criar, Detalhes.
-        - `[Task ]`  **Erros** Validar tratamento de erro local básico
+        - `[Task Done]`  **Models** Criar view modelos e Dtos necessários.
+        - `[Task Done]`  **Serviços** Criar ApiService base com HttpClient injetado (DI), implementar wrappers endpoints.
+        - `[Task Done]`  **Components** Componentes básicos para novas entidades, tabs, cards, aba, button. 
+        - `[Task Done]`  **Páginas** Ajustar páginas base para entidades, Criar, Detalhes.
+        - `[Task Done]`  **Erros** Validar tratamento de erro local básico
 - **Feature:** Integração com API (Agendamento)(feature/integracao_models_Agendamento) Ativa
     - **Itens:** 
-        - `[Task]`  **Models** Criar view models e Dtos necessários.
+        - `[Task Done]`  **Models** Criar view models e Dtos necessários.
             - Models para distinguindo as classes de Agendamento e Enums necessários
             - Dtos do paraa Agendamento
             - Ajustes para a implementação
-        - `[Task]`  **Serviços** Criar ApiService base com HttpClient injetado (DI), implementar wrappers endpoints.
+        - `[Task Done]`  **Serviços** Criar ApiService base com HttpClient injetado (DI), implementar wrappers endpoints.
             - Adequação de ApiService
             - Criação de AgendamentoService
             - Criação de AgendamentoMapper, PacienteMapper
             - Adequação da Api, novo endpoint de Agendamento
-        - `[Task]`  **Páginas** Ajustar páginas base para entidades, Criar, Detalhes.
+        - `[Task Done]`  **Páginas** Ajustar páginas base para entidades, Criar, Detalhes.
             - Adequção da página Detalhes
-        - `[Task]`  **Components** Componentes básicos para novas entidades, tabs, cards, aba, button. 
+        - `[Task Done]`  **Components** Componentes básicos para novas entidades, tabs, cards, aba, button. 
             - cards Agendamento
             - AbaAgendamento
             - Componente AgendamentoList 
             - Componentes de section da AbaAgendamento
-        - `[Task ]`  **Erros** Validar tratamento de erro local básico
-        
-
-        
+        - `[Task UnDone]`  **Erros** Validar tratamento de erro local básico
+                
+- **Feature:** Store de Dados (State Management)(feature/Store_State_Management)
+    - **Itens:** 
+        - `[Task]`  **Ferramente** Scoped Services ou fluxor. Avaliar se nessesário agora.
+        - `[Task]`  **Cache** Criar cache para os dados necessários.
+        - `[Task]`  **Funcionalidades** Implementar refresh e invalidação de cache.(ex: IMemoryCache)
+        - `[Task]`  **Funcionalidades** Implementar debounce para chamadas (evitar spam).
 - **Feature:** Tools / Observabilidade
     - **Itens:** 
         - `[Task]`  **debugger** Configurar logging local (ILogger).
         - `[Task]`  **Settings** Criar ErrorBoundary global. (Interceptor HTTP)
         - `[Task]`  **Wrappers** Adicionar toast / popup para erros e sucesso.
         - `[Task]`  **Wrappers** Loading states (Skeleton / Spinner)
-- **Feature:** Store de Dados (State Management)
-    - **Itens:** 
-        - `[Task]`  **Ferramente** Scoped Services ou fluxor.
-        - `[Task]`  **Cache** Criar cache para os dados necessários.
-        - `[Task]`  **Funcionalidades** Implementar refresh e invalidação de cache.(ex: IMemoryCache)
-        - `[Task]`  **Funcionalidades** Implementar debounce para chamadas (evitar spam).
 - **Feature:** Validação
     - **Itens:** 
         - `[Task]`  **Funcionalidades** validar funcionalidades básicas.
@@ -162,9 +163,13 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
         - depois da execusao de enpoints destinar para páginas corretas. 
         - Carregar as opções/enums para edicao e criacao  
         - busca por nome e cpf para pacientes, caminho para criar prontuario, epecificar o nome da paciente depois d um novo paciente: não precisa procurar os prontuarios(criar essa excessão). Fazer mapper de pacientes
+        - Autocompleate básico para busca de paciente usadno GetAll, ajusta repo da api.
+        - Criar os dtos, específicos de paciente.
         - padronizar nomenclaturas dtos, models, components
         - padronizar endpoints, associando com api
         - ajustes da de UI para Prontuarios, uso de enuns( adequar api para fornecer lista de exames, alterar section exames)
+        - Otimizar o uso de cache de prontuario e Agendamneto, {e possível utilizar cache de prontuariolist para não aconar o GetByID?}
+        - Acrescentar opção de novo prontuario na abaProntuarios e AbaAgenmentos.
 
 
        
@@ -201,6 +206,11 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
         - `[Task]`  **Screens** Criar vídeo curto (screen capture).
         - `[Task]`  **Documentação** Criar PDF com arquitetura geral.
         - `[Task]`  **App2.0** Criar backlog para versão 2.0.
+- **Feature:** Currículo e LinkedIn.
+    - **Itens:** 
+        - `[Task]`  **Apresentação** Atualizar CV.
+        - `[Task]`  **linkdn** Criar 1 post técnico (state management).
+        - `[Task]`  **Vagas** Encontrar e aplicar.
     
 -Sugestões de [epicos]
 🔜 UX / Produto

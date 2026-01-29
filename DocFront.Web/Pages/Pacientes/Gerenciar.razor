@@ -1,38 +1,39 @@
 @page "/Pacientes/Gerenciar"
 
-@inject PacienteService PacienteService
+@inject PacienteState PacienteState
 @inject NavigationManager Nav
-
-
 
 <h3 class="mb-4">Gerenciar Pacientes</h3>
 
 <div class="mb-3">
     <label for="busca">Buscar por Nome ou CPF</label>
-    <input id="busca" class="form-control" placeholder="Digite algo...ou clique em buscar " />
- 
+    <input class="form-control"
+       @bind="Busca"
+       placeholder="Digite nome ou CPF...ou clique em buscar" />
+    @* <input id="busca" class="form-control" placeholder="Digite algo...ou clique em buscar " /> *@
 </div>
 
-@* <button class="btn btn-primary mb-4">Buscar</button> *@
-<BtnAction Texto="Buscar" OnClick="@(() => BuscarTodosPacientes())" />
+@* <BtnAction Texto="Buscar" OnClick="@(() => BuscarTodosPacientes())" /> *@
+<BtnAction Texto="Buscar" OnClick="Buscar" />
 
 <hr />
 
-<h5>Resultados da busca (exemplo estático)</h5>
+<h5>Resultados da busca</h5>
 
 <div class="exhibition-box mt-3">
-    @if (Carregando)
+    @if (PacienteState.IsLoading)
     {
-        <p>Carregando...</p>
+        <LoadingSpinner />
+        @* <p>Carregando...</p> *@
     }
-    else if (!Resultados.Any())
+    else if (!PacienteState.Cards.Any())
     {
         <p>Nenhum paciente encontrado.</p>
     }
     else
     {
         <div class="exhibition-box mt-3">
-            @foreach (var paciente in Resultados)
+            @foreach (var paciente in PacienteState.Cards)
             {
                 <PacienteCard Paciente="paciente"
                             OnAbrir="AbrirPaciente" />
@@ -47,11 +48,27 @@
     @* private PacienteModel Paciente = new PacienteModel(); *@
     @* private string? MensagemSucesso; *@
     @* private string? MensagemErro; *@
-    bool Carregando;
-    List<PacienteListDto> Resultados = new();
+    @* bool Carregando;
+    List<PacienteListDto> Resultados = new(); *@
 
-    async Task BuscarTodosPacientes()
+    @* protected override async Task OnInitializedAsync()
     {
+        await PacienteState.LoadAllAsync();
+    }  *@
+    private string? Busca;
+
+    async Task Buscar()
+    {
+        if (string.IsNullOrWhiteSpace(Busca))
+            await PacienteState.BuscarTodosAsync();
+        else if (Busca.All(char.IsDigit))
+            await PacienteState.BuscarPorCpfAsync(Busca);
+        else
+            await PacienteState.BuscarPorNomeAsync(Busca);
+    }
+    @* async Task BuscarTodosPacientes()
+    {
+        await PacienteState.LoadAllAsync(force: true);
         Carregando = true;
 
         var result = await PacienteService.GetAll();
@@ -62,28 +79,6 @@
             Resultados.Clear();
 
         Carregando = false;
-    }
-
-    @* private async Task BuscarTodosFiltro()
-    {
-        MensagemSucesso = MensagemErro = null;
-
-        var resultado = await PacienteService.GetAll();
-
-        if (resultado.Success)
-        {
-            MensagemSucesso = "Pacientes cadastrados com sucesso!";
-            await Task.Delay(1500);
-            Paciente = new PacienteModel(); // 🔑 reset do form
-
-            StateHasChanged();
-
-            //criar cards
-        }
-        else
-        {
-            MensagemErro = $"Erro ao salvar: {resultado.Error}";
-        }
     } *@
 
     void AbrirPaciente(string id)

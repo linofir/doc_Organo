@@ -12,56 +12,35 @@ public class PacienteService : ApiService
     public async Task<ApiResponse<string>> Create(PacienteModel model)
     { 
         var dto = PacienteMapper.ToApi(model);
-        // var dto =new PacienteApiDto
-        // {
-        //     Nome = model.Nome,
-        //     CPF = model.CPF,
-        //     Nascimento = model.Nascimento,
-        //     Email = model.Email,
-        //     Telefone = model.Telefone,
-        //     Plano = model.Plano,
-        //     Carteira = model.Carteira,
-        //     RG = model.RG,
-
-        //     Endereco = new EnderecoDto
-        //     {
-        //         Logradouro = model.Logradouro,
-        //         Numero = model.Numero,
-        //         Bairro = model.Bairro,
-        //         Cidade = model.Cidade,
-        //         UF = model.UF,
-        //         CEP = model.CEP
-        //     }
-        // };
         var response = await PostAsync<PacienteApiDto, PacienteModel>(
                 "paciente",
                 dto
             );
 
-        if (!response.Success)
-            return ApiResponse<string>.Fail(response.Error!);
 
         return ApiResponse<string>.Ok(response.Data!.ID);
         // return PostAsync("paciente", dto);
     }
 
-    public async Task<ApiResponse<List<PacienteListDto>>> GetAll()
+    // public async Task<ApiResponse<List<PacienteListDto>>> GetAll()
+    // {
+    //     var response = await GetAsync<List<PacienteModel>>("paciente");
+
+    //     if (!response.Success || response.Data == null)
+    //         return ApiResponse<List<PacienteListDto>>.Fail(response.Error ?? "Erro ao buscar pacientes");
+    //     var listDtos = PacienteMapper.ToCard(response.Data);
+
+    //     return ApiResponse<List<PacienteListDto>>.Ok(listDtos);
+    // }
+    public async Task<ApiResponse<List<PacienteModel>>> GetAll()
     {
         var response = await GetAsync<List<PacienteModel>>("paciente");
 
         if (!response.Success || response.Data == null)
-            return ApiResponse<List<PacienteListDto>>.Fail(response.Error ?? "Erro ao buscar pacientes");
-        var listDtos = PacienteMapper.ToCard(response.Data);
+            return ApiResponse<List<PacienteModel>>.Fail(response.Error ?? "Erro ao buscar pacientes");
+        // var listDtos = PacienteMapper.ToCard(response.Data);
 
-        // var listDtos = response.Data.Select(p => new PacienteListDto
-        // {
-        //     Id = p.ID,
-        //     Nome = p.Nome,
-        //     CPF = p.CPF,
-        //     Email = p.Email
-        // }).ToList();
-
-        return ApiResponse<List<PacienteListDto>>.Ok(listDtos);
+        return ApiResponse<List<PacienteModel>>.Ok(response.Data);
     }
     public async Task<ApiResponse<PacienteModel>> GetById(string id)
     {
@@ -73,58 +52,37 @@ public class PacienteService : ApiService
         var api = response.Data;
         var paciente = PacienteMapper.ToModel(id, api);
 
-        // var paciente = new PacienteModel
-        // {
-        //     ID = id,
-        //     Nome = api.Nome,
-        //     CPF = api.CPF,
-        //     RG = api.RG,
-        //     Email = api.Email,
-        //     Telefone = api.Telefone,
-        //     Plano = api.Plano,
-        //     Carteira = api.Carteira,
-        //     Nascimento = api.Nascimento,
-
-        //     // 🔽 flatten do endereço
-        //     Logradouro = api.Endereco.Logradouro,
-        //     Numero = api.Endereco.Numero,
-        //     Bairro = api.Endereco.Bairro,
-        //     Cidade = api.Endereco.Cidade,
-        //     UF = api.Endereco.UF,
-        //     CEP = api.Endereco.CEP
-        // };
-
         return ApiResponse<PacienteModel>.Ok(paciente);
     }
     
-    public Task<ApiResponse<PacienteModel>> GetByCpf(string cpf)
-        => GetAsync<PacienteModel>($"paciente/{cpf}");
+    public async Task<ApiResponse<PacienteModel>> GetByCpf(string cpf)
+    {
+        var response = await GetAsync<PacienteApiDto>($"paciente/cpf/{cpf}");
+
+        if (!response.Success || response.Data is null)
+            return ApiResponse<PacienteModel>.Fail(response.Error!);
+
+        var api = response.Data;
+        var paciente = PacienteMapper.ToModel(api.ID, api);
+
+        return ApiResponse<PacienteModel>.Ok(paciente);
+    }
+    public async Task<ApiResponse<PacienteModel>> GetByNome(string nome)
+    {
+        var response = await GetAsync<PacienteApiDto>($"paciente/nome/{nome}");
+
+        if (!response.Success || response.Data is null)
+            return ApiResponse<PacienteModel>.Fail(response.Error!);
+
+        var api = response.Data;
+        var paciente = PacienteMapper.ToModel(api.ID, api);
+
+        return ApiResponse<PacienteModel>.Ok(paciente);
+    }
 
     public Task<ApiResponse<bool>> Update(string id, PacienteModel model)
     {
         var dto = PacienteMapper.ToApi(model);
-
-        // var dto =new PacienteApiDto
-        // {
-        //     Nome = model.Nome,
-        //     CPF = model.CPF,
-        //     Nascimento = model.Nascimento,
-        //     Email = model.Email,
-        //     Telefone = model.Telefone,
-        //     Plano = model.Plano,
-        //     Carteira = model.Carteira,
-        //     RG = model.RG,
-
-        //     Endereco = new EnderecoDto
-        //     {
-        //         Logradouro = model.Logradouro,
-        //         Numero = model.Numero,
-        //         Bairro = model.Bairro,
-        //         Cidade = model.Cidade,
-        //         UF = model.UF,
-        //         CEP = model.CEP
-        //     }
-        // };
         return PutAsync($"paciente/{id}", dto);
     }
 

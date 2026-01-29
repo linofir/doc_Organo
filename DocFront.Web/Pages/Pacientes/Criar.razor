@@ -1,6 +1,8 @@
 @page "/Pacientes/Criar"
 @using DocFront.Components.Utils
 @using DocFront.Models
+
+@inject PacienteState PacienteState
 @inject PacienteService PacienteService
 @inject NavigationManager Nav
 
@@ -123,12 +125,27 @@
 
     private async Task Salvar()
     {
-        MensagemSucesso = MensagemErro = null;
+        var result = await PacienteState.CriarAsync(Paciente);
+
+        if (result.Success)
+        {
+            MensagemSucesso = "Paciente cadastrado com sucesso!";
+            await Task.Delay(1500);
+            Paciente = new PacienteModel();
+            
+            PacienteIdCriado = result.Data;
+            MostrarDialogAcoes = true;
+        }
+        else
+            MensagemErro = $"Erro ao salvar: {result.Error}";
+
+        @* MensagemSucesso = MensagemErro = null;
 
         var resultado = await PacienteService.Create(Paciente);
 
         if (resultado.Success)
         {
+            PacienteState.Invalidate();
             MensagemSucesso = "Paciente cadastrado com sucesso!";
             await Task.Delay(1500);
             Paciente = new PacienteModel(); // 🔑 reset do form
@@ -142,7 +159,7 @@
         else
         {
             MensagemErro = $"Erro ao salvar: {resultado.Error}";
-        }
+        } *@
     }
 
     void CriarNovoPaciente()

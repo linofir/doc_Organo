@@ -36,6 +36,7 @@ public class PacienteController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetPacientes([FromQuery] int skip = 0, [FromQuery] int take = 100)
     {
+        Console.WriteLine("Buscando pacientes...");
         if(_repository == null) return NotFound();
         var pacientes = await _repository.GetAllAsync(skip, take);
         return Ok(_mapper.Map<IEnumerable<ReadPacienteDto>>(pacientes));
@@ -66,6 +67,30 @@ public class PacienteController : ControllerBase
             Console.WriteLine($"Erro: Múltiplos pacientes encontrados para o CPF '{cpf}'.");
             // Retorna 409 Conflict com uma mensagem clara
             return Conflict($"Erro: Múltiplos pacientes encontrados para o CPF '{cpf}'. O CPF deve ser único.");
+        }
+        var pacienteEncontrado = pacientes.First();
+        return Ok(_mapper.Map<ReadPacienteDto>(pacienteEncontrado));
+    }
+    
+    [HttpGet("nome/{nome}")]
+    public async Task<IActionResult> GetByName(string nome)
+    {
+        Console.WriteLine("test controller");
+        if (string.IsNullOrEmpty(nome))
+            return BadRequest("O nome da paciente precisa ser fornecido corretamente.");
+        string nomeLimpo = nome.Trim().Replace("\"", "");
+        var pacientes = await _repository.GetPacienteByNomeAsync(nomeLimpo);
+        if (pacientes == null || !pacientes.Any())
+        {
+            Console.WriteLine($"Paciente com nome '{nome}' não encontrado.");
+            return NotFound("Paciente não encontrado."); // HTTP 404 - OK para não encontrado
+        }
+
+        if (pacientes.Count() != 1)
+        {
+            Console.WriteLine($"Erro: Múltiplos pacientes encontrados para o nome '{nome}'.");
+            // Retorna 409 Conflict com uma mensagem clara
+            return Conflict($"Erro: Múltiplos pacientes encontrados para o nome '{nome}'. O CPF deve ser único.");
         }
         var pacienteEncontrado = pacientes.First();
         return Ok(_mapper.Map<ReadPacienteDto>(pacienteEncontrado));

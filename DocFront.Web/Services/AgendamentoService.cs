@@ -14,9 +14,9 @@ public class AgendamentoService : ApiService
 
     public AgendamentoService(IHttpClientFactory factory) 
         : base(factory) {}
-    public Task<ApiResponse<bool>> Create(AgendamentoViewModel model)
+    public Task<ApiResponse<bool>> Create(AgendamentoCreateApiDto dto)
     { 
-        var dto = AgendamentoMapper.ToApi(model);
+        // var dto = AgendamentoMapper.ToApi(model);
         return PostAsync("agendamento", dto);
     }
     public async Task<ApiResponse<string>> GetTotal()
@@ -30,43 +30,43 @@ public class AgendamentoService : ApiService
 
         return ApiResponse<string>.Ok(totalAgendamentos);
     }
-    public async Task<ApiResponse<AgendamentoViewModel>> GetById(string id)
+    public async Task<ApiResponse<AgendamentoReadApiDto>> GetById(string id)
     {
         var response = await GetAsync<AgendamentoReadApiDto>($"agendamento/{id}");
 
-        if (!response.Success || response.Data is null)
-            return ApiResponse<AgendamentoViewModel>.Fail(response.Error!);
+        // if (!response.Success || response.Data is null)
+        //     return ApiResponse<AgendamentoViewModel>.Fail(response.Error!);
 
-        var api = response.Data;
+        // var api = response.Data;
 
-        var prontuario = AgendamentoMapper.ToViewModel(api);
+        // var agendamento = AgendamentoMapper.ToViewModel(api);
 
-        return ApiResponse<AgendamentoViewModel>.Ok(prontuario!);
+        return response;
     }
-    public async Task<ApiResponse<List<AgendamentoCardDto>>> GetByPaciente(string id)
+    public async Task<ApiResponse<List<AgendamentoReadApiDto>>> GetByPaciente(string id)
     {
         var response = await GetAsync<List<AgendamentoReadApiDto>>($"agendamento/by-pacientId/?pacienteId={id}");
       
-        if (!response.Success)
-        return ApiResponse<List<AgendamentoCardDto>>.Fail(response.Error!);
+        // if (!response.Success)
+        // return ApiResponse<List<AgendamentoCardDto>>.Fail(response.Error!);
 
-        if (response.Data == null)
-        {
-            Console.WriteLine("response.Data é NULL");
-            return ApiResponse<List<AgendamentoCardDto>>.Ok(new());
-        }
+        // if (response.Data == null)
+        // {
+        //     Console.WriteLine("response.Data é NULL");
+        //     return ApiResponse<List<AgendamentoCardDto>>.Ok(new());
+        // }
 
-        var listAgendamentos = AgendamentoMapper.ToAgendamentoCard(response.Data);
+        // var listAgendamentos = AgendamentoMapper.ToAgendamentoCard(response.Data);
 
-        Console.WriteLine(listAgendamentos?.Count.ToString());
-        return ApiResponse<List<AgendamentoCardDto>>.Ok(listAgendamentos!);
+        // Console.WriteLine(listAgendamentos?.Count.ToString());
+        return response;
     }
     // public Task<ApiResponse<AgendamentoViewModel>> GetByCpf(string cpf)
     //     => GetAsync<AgendamentoViewModel>($"prontuario/{cpf}");
 
-    public Task<ApiResponse<bool>> Update(string id, AgendamentoViewModel model)
+    public Task<ApiResponse<bool>> Update(string id, AgendamentoCreateApiDto dto)
     {
-        var dto = AgendamentoMapper.ToUpdateApi(model);
+        // var dto = AgendamentoMapper.ToUpdateApi(model);
         // var json = JsonSerializer.Serialize(dto, new JsonSerializerOptions
         //     {
         //         WriteIndented = true

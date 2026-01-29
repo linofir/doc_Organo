@@ -10,11 +10,15 @@
     </button>
     @if (Carregando)
     {
-        <p>Carregando...</p>
+        <LoadingSpinner/>
+    }
+    else if (!string.IsNullOrEmpty(MenssagemErro))
+    {
+        <p class="text-danger">@MenssagemErro</p>
     }
     else if (!Resultados.Any())
     {
-        <p>Nenhum Agendamento encontrado.</p>
+        <p>Nenhum prontuário encontrado.</p>
     }
     else
     {
@@ -33,6 +37,8 @@
     public List<AgendamentoCardDto> Resultados { get; set; } = new();
     [Parameter]
     public bool Carregando { get; set; } 
+    [Parameter]
+    public string? MenssagemErro { get; set; }
     [Parameter]
     public EventCallback OnNovo { get; set; }
     [Parameter] 
