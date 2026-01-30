@@ -249,7 +249,7 @@ Este projeto utiliza um fluxo de trabalho baseado em *feature branches*, similar
   
 
 ### Próximos passos
-* A gestão do projeto é feita pelo documento PM(link) onde estão os épicos criados para melhor planejamento do desenvolvimento. abaixo está um resumo das features já previstas no backlog da próxima versão:
+* A gestão do projeto é feita pelo documento [PM](https://github.com/linofir/doc_Organo/blob/main/PM_DocOrgano.md) onde estão os épicos criados para melhor planejamento do desenvolvimento. abaixo está um resumo das features já previstas no backlog da próxima versão:
 
 + Coleta automática de dados( ex. prontuarios e senhas de agendamento).
 + Gerar relatórios automatizados.
@@ -277,8 +277,8 @@ Este projeto utiliza um fluxo de trabalho baseado em *feature branches*, similar
 ## 9. Demonstração
   
 
-* Link para vídeo: Em produção
-* Screenshots: Em produção
+* Link para vídeo: [link-ainda em produção](https://github.com/linofir/doc_Organo/blob/main/Static/Demo/Demo_DocOrgano.mp4) 
+* Screenshots: Em produção 
 
 ---
 ### 10. Acesso
