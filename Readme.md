@@ -281,7 +281,7 @@ Este projeto utiliza um fluxo de trabalho baseado em *feature branches*, similar
 ## 9. Demonstração
   
 
-* Link para vídeo: [link-ainda em produção]([https://github.com/linofir/doc_Organo/blob/main/Static/Demo/Demo_DocOrgano.mp4](https://github.com/user-attachments/assets/ae691ec0-1b4a-44fa-a950-d091e075ccae)) 
+* Link para vídeo: [link-ainda em produção](https://drive.google.com/file/d/12hG9Gp4xclllttx4IYVqKuT9FyWr0qDK/view?usp=sharing) 
 * Screenshots: Em produção 
 
 ---
