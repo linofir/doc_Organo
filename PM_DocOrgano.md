@@ -77,6 +77,7 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
 - **Feature:** Padronizar respostas de endpoints e dtos
 - **Feature:** Padronizar controllers
 - lidar como paciente homonimas, métodos de buscas avançados autocopleate, busca inteligente e indexada.
+-ao deletar paciente, deletar todos os dados de prontuario e agendamento
 
 ----------- 
 ### **Épico: 🖥️ Frontend (DocFront WEB)** 

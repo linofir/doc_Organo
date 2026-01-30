@@ -163,12 +163,12 @@ public class PacienteState
         return result;
     }
 
-    public async Task<ApiResponse<string>> CriarAsync(PacienteModel paciente)
+    public async Task<ApiResponse<PacienteModel>> CriarAsync(PacienteModel model)
     {
         IsLoading = true;
         Notify();
-
-        var response = await _service.Create(paciente);
+        var dto = PacienteMapper.ToApi(model);
+        var response = await _service.Create(dto);
 
         IsLoading = false;
 
@@ -179,6 +179,7 @@ public class PacienteState
         // return ApiResponse<string>.Fail(response.Error!);
 
         Notify();
+        Console.WriteLine(response.Data);
         
         return response;
     }

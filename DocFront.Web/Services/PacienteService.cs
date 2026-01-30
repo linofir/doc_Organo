@@ -9,16 +9,16 @@ public class PacienteService : ApiService
 {
     public PacienteService(IHttpClientFactory factory) 
         : base(factory) {}
-    public async Task<ApiResponse<string>> Create(PacienteModel model)
+    public async Task<ApiResponse<PacienteModel>> Create(PacienteApiDto dto)
     { 
-        var dto = PacienteMapper.ToApi(model);
+        // var dto = PacienteMapper.ToApi(model);
         var response = await PostAsync<PacienteApiDto, PacienteModel>(
                 "paciente",
                 dto
             );
 
 
-        return ApiResponse<string>.Ok(response.Data!.ID);
+        return response;
         // return PostAsync("paciente", dto);
     }
 
