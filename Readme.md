@@ -132,6 +132,10 @@ O projeto é desenvolvido como um produto real, com ciclos curtos de entrega, va
 
 #### Documentação Externa
 * [PDFPig](https://github.com/UglyToad/PdfPig/wiki)
+
+
+
+
 * [TabulaSharp](https://github.com/BobLd/tabula-sharp?tab=readme-ov-file)
 * [Closedxml](https://www.nuget.org/packages/closedxml/) 
 * [NPOI](https://www.nuget.org/packages/npoi/)
@@ -277,7 +281,7 @@ Este projeto utiliza um fluxo de trabalho baseado em *feature branches*, similar
 ## 9. Demonstração
   
 
-* Link para vídeo: [link-ainda em produção](https://github.com/linofir/doc_Organo/blob/main/Static/Demo/Demo_DocOrgano.mp4) 
+* Link para vídeo: [link-ainda em produção]([https://github.com/linofir/doc_Organo/blob/main/Static/Demo/Demo_DocOrgano.mp4](https://github.com/user-attachments/assets/ae691ec0-1b4a-44fa-a950-d091e075ccae)) 
 * Screenshots: Em produção 
 
 ---
