@@ -60,13 +60,44 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
 - **Feature:** Busca de pacientes por múltiplos critérios (CPF, Nome).
 
 ### **Épico: 🏗️ Infraestrutura
--  **Feature:** modelo ERD completo.    
--  **Feature:** Migrar persistência de dados do Google Sheets para um banco de dados relacional com Entity Framework.
--  **Feature:** Gerar o DbContext (DocDbContext).
--  **Feature:** Criar migrations para SQL.
--  **Feature:** Substituir gradualmente seus repositórios Sheets → SQL.
--  **Feature:** Migrar para azuere Cloud.
-
+- **Feature:** Base_DB. 
+- **Meta:** **Estruturar e criar base sólida do DB**
+- **Itens:**
+    - `[Task]` Criar ERD(Diagramas de Entidade-Relacionamento) completo.
+    - `[Feature]` Revisar entidades de domínio.
+    - `[Task]` Ajustar Models para EF.
+    - `[Task]` Decidir tipos de dados.
+    - `[Task]` Definir chaves e relacionamentos.
+    - `[Task]` Definir e preparar ferramentas(SQL server Azure Data Studio).
+- **Feature:** Criar persistência.
+- **Meta:** **Criar persistência de Pacientes do Google Sheets para um banco de dados relacional com Entity Framework**
+- **Itens:**    
+    - `[Task]` DocDbContext.
+    - `[Task]` Configurar EF Core.
+    - `[Task]` Definir injeção de dependências.
+    - `[Task]` Criar primeira migration.
+    - `[Task]` Testas novas implementações antes de substituir
+- **Feature:** Migração de Pacientes.
+- **Meta:** **Criar persistência de Pacientes do Google Sheets para um banco de dados relacional com Entity Framework**
+- **Itens:**    
+    - `[Task]` Criar repositório SQL de Paciente, Manter Sheets para o resto.Sistema hibrido
+    - `[Task]` Configurar EF Core.
+    - `[Task]` Feature flag simples (config). Ajustar queries , Adicionar índices
+    - `[Task]` Validar leitura/escrita SQL.
+- **Feature:** Substituir gradualmente repositórios Sheets → SQL.
+- **Meta:** **Substituir gradualmente repositórios Sheets → SQL**
+- **Itens:**    
+    - `[Task]` Criar repositório SQL para todas Entidades.
+    - `[Task]` Configurar EF Core.
+    - `[Task]` Feature flag simples (config). Ajustar queries , Adicionar índices
+    - `[Task]` Validar leitura/escrita SQL.
+- **Feature:** Cloud.
+- **Meta:** **Migrar para azuere Cloud.**
+- **Itens:**    
+    - `[Task]` Criar Azure SQL.
+    - `[Task]` Ajustar connection string.
+    - `[Task]` Testar deploy
+    - `[Task]` Documentar.
 
 ### **Épico: 🏗️ Débitos Técnicos**
 - **Feature:** Implementar um sistema de Logging robusto em toda a aplicação.
