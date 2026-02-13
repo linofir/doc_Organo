@@ -2,30 +2,8 @@
 
 Este documento serve como um guia central para o desenvolvimento, planejamento e execução do projeto DocAPI. Ele será mantido e atualizado conforme o projeto evolui.
 
-## 1. Visão do Projeto (Project Vision)
 
-**Tornar-se a plataforma central e inteligente para a gestão de dados de um consultório médico, automatizando processos, centralizando informações de pacientes e otimizando o fluxo de atendimento, desde a consulta inicial até o acompanhamento pós-procedimento.**
-
-## 2. Objetivos Estratégicos (Strategic Goals)
-
-- **Centralização de Dados:** Unificar informações de pacientes, prontuários, agendamentos e atendimentos em um único local, eliminando a dependência de múltiplas planilhas e documentos dispersos.
-- **Automação de Processos:** Automatizar tarefas repetitivas como a extração de dados de demonstrativos financeiros (HTML/XLS) e a verificação de senhas de convênio.
-- **Otimização do Fluxo de Atendimento:** Mapear e gerenciar ativamente as etapas do atendimento ao paciente (Consulta, Pré-Procedimento, Procedimento, Pós-Procedimento), fornecendo ao médico uma visão clara do status de cada paciente.
-- **Geração de Relatórios:** Simplificar a criação de documentos essenciais, como relatórios completos de pacientes e termos cirúrgicos, a partir dos dados já cadastrados.
-- **Robustez e Escalabilidade:** Evoluir a arquitetura do sistema, migrando de uma base de dados em Google Sheets para um banco de dados relacional (via Entity Framework) e implementando uma suíte de testes automatizados.
-
-## 3. Metodologia de Desenvolvimento (Development Methodology)
-
-Adotaremos uma abordagem híbrida, combinando os pontos fortes do **Scrum** e do **Kanban**.
-
-- **Scrum:** O trabalho será organizado em **Sprints**, ciclos de desenvolvimento com duração fixa (sugestão: 2 semanas). Cada Sprint terá uma meta clara e um conjunto de tarefas selecionadas do *Product Backlog*. Isso nos dará ritmo e previsibilidade.
-- **Kanban:** Utilizaremos um quadro Kanban para visualizar o fluxo de trabalho. Isso nos ajudará a gerenciar o trabalho em progresso (WIP), identificar gargalos e promover a melhoria contínua. As colunas do quadro podem ser: `Backlog` -> `A Fazer (Sprint)` -> `Em Desenvolvimento` -> `Em Revisão/Teste` -> `Concluído`.
-
-**Ferramentas Sugeridas:**
-- **Quadro Kanban:** GitHub Projects. 
-- **Controle de Versão:** Git com o fluxo de *feature-branch* de acordo com o `Readme.md`.
-
-## 4. Product Backlog (Épicos e Features)
+## Product Backlog (Épicos e Features)
 
 Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organizado em Épicos (grandes blocos de funcionalidade) e Features (entregas de valor).
 
@@ -109,6 +87,7 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
 - **Feature:** Padronizar controllers
 - lidar como paciente homonimas, métodos de buscas avançados autocopleate, busca inteligente e indexada.
 -ao deletar paciente, deletar todos os dados de prontuario e agendamento
+- Definir navegações da API
 
 ----------- 
 ### **Épico: 🖥️ Frontend (DocFront WEB)** 
@@ -260,7 +239,7 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
  Domain Events
 ---
 
-## 5. Roteiro de Produto (Product Roadmap - 3 Sprints Iniciais)
+## 5. Roteiro de Produto (Product Roadmap)
 
 ### **Sprint 0: Estruturar desenvolvimento**
 - **Meta:** **Estruturar e criar ferramentas para a gestão do projeto**
@@ -324,27 +303,4 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
 
 
 ---
-
-## Perguntas e Respostas
-
-> **Como seria a melhor forma de armazenar esse histórico de desenvolvimento? O Kanban é usado para isso?**
-
-Ótima pergunta! A resposta se divide em duas partes:
-
-1.  **O "Quê" (Decisões e Artefatos):** O histórico de *decisões de arquitetura*, *planejamento de Sprints* e a *visão do produto* deve ser armazenado em arquivos Markdown no próprio repositório Git, assim como este que acabamos de criar. O `Readme.md` e o `PROJECT_MANAGEMENT.md` são exemplos perfeitos. O Git, por natureza, versiona esse histórico para você.
-
-2.  **O "Como" (Fluxo de Trabalho):** O **Kanban** não armazena o histórico, mas sim **visualiza o estado atual e o fluxo do trabalho**. O histórico do *trabalho realizado* é, na verdade, uma combinação de:
-    - **Commits do Git:** A fonte da verdade mais granular. Boas mensagens de commit são essenciais (`feat: Adiciona endpoint para criar prontuário via PDF`).
-    - **Pull Requests (PRs):** Documentam a discussão, a revisão e a integração de uma feature.
-    - **Cartões Movidos para "Concluído":** Ferramentas como Jira ou GitHub Projects mantêm um registro dos cartões que foram concluídos em cada Sprint ou período, o que gera relatórios de *velocidade* e *lead time*.
-
-**Em resumo:** Use o **Git + Markdown** para o histórico de *planejamento e decisões* e o **Quadro Kanban/Scrum** para gerenciar e visualizar o *fluxo de execução*, cujo histórico fica registrado nos commits, PRs e na própria ferramenta do quadro.
-
----
-
-
-
-Ideias de prompt:
-<!--
-[PROMPT_SUGGESTION]Como posso configurar um quadro Kanban no GitHub Projects para este projeto?[/PROMPT_SUGGESTION]
 

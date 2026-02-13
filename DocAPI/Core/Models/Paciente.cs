@@ -7,14 +7,22 @@ namespace DocAPI.Core.Models;
 
 public class Paciente
 {
-    public Paciente(){}
-    // public Paciente()
-    // {
-    //     ID = Guid.NewGuid().ToString();
-    // }
-    [Key]
-    [Required(ErrorMessage = "Este campo é obrigatório")]
-    public string? ID { get; set; } = string.Empty;
+    // public Paciente(){} contructor antigo, que mantinha apra o funcionamento de alguma coisa que não lembro
+    protected Paciente() { } // EF, me explique pq isso é necessário e pq precisa ser protected( o que isso signigica?)
+
+    public Paciente(string nome, DateTime nascimento, string cpf) // esse contructor seria utilizado nos repositórios por exemplo?
+    {
+        ID = Guid.NewGuid();
+        Nome = nome;
+        Nascimento = Nascimento;
+        CPF = cpf;
+    }
+    // [Key] //  assm estava antes
+    // [Required(ErrorMessage = "Este campo é obrigatório")]
+    // public string? ID { get; set; } = string.Empty;
+    [Key]// queria entendeet melhor essa datanotation, para onde é necessária? 
+    [Required(ErrorMessage = "Este campo é obrigatório")]//queria entender melhor aqui esse uso, quando é acionado?
+    public Guid? ID { get; private set; } // preciso entender melhor o pq vc sugeriu que todas props fosse private set
     [Required(ErrorMessage = "O nome da paciente é obrigatório")]
     public string? Nome { get; set; }
     [Required(ErrorMessage = "O Nascimento da paciente é obrigatório")]
@@ -44,25 +52,10 @@ public class Paciente
     [Required(ErrorMessage = "A carteira da paciente é obrigatório")]
     public string? Carteira { get; set; }
     public Endereco? Endereco { get; set; } 
-    public string? Descricao 
-    {
-        get
-        {
-            string descricao = $@"
-        ID = {ID}
-        Nome = {Nome}
-        Nascimento = {Nascimento:dd/MM/yyyy}
-        Idade = {Idade}
-        CPF = {CPF}
-        RG = {RG}
-        Email = {Email}
-        Telefone = {Telefone}
-        Plano = {Plano}
-        Carteira = {Carteira}
-        Endereço = Rua/Av: {Endereco?.Logradouro}, {Endereco?.Numero}, {Endereco?.Bairro}, {Endereco?.Cidade}, {Endereco?.UF}, {Endereco?.CEP}
 
-        ";
-            return descricao;
-        }
-    }
+    // Navegações
+    public ICollection<Prontuario> Prontuarios { get; private set; } = new List<Prontuario>();
+    public ICollection<Agendamento> Agendamentos { get; private set; } = new List<Agendamento>();
+    public ICollection<Atendimento> Atendimentos { get; private set; } = new List<Atendimento>();
+    
 }

@@ -62,7 +62,7 @@ O projeto é desenvolvido como um produto real, com ciclos curtos de entrega, va
 | Infraestrutura | Implementações concretas de persistência | Infrastructure/  |
 | Dados          | DTOs, mapeamentos, configurações EF Core | Data/            |  
 
-*  **Domain-Driven Design (DDD)**: O projeto adota princípios de **Domain-Driven Design (DDD)**, organizando o código em torno do domínio do problema (Pacientes, Agendamentos, Prontuários e Atendimentos). As **regras de negócio** são tratadas nos serviços e modelos de domínio.
+*  **Domain-Driven Design (DDD)**: O projeto adota princípios de **Domain-Driven Design (DDD)**, organizando o código em torno do domínio do problema (Pacientes, Agendamentos, Prontuários e Atendimentos). As **regras de negócio** são tratadas nos serviços e modelos de domínio. **Projeto com modelagem de domínio documentada** Criação de ERD + Domain Overview antes da implementação e como auxílio no desenvolvimento
 
 * **Repository Pattern**: os repositórios são responsáveis exclusivamente pela persistência e recuperação de dados, abstraindo a origem (Google Sheets, banco relacional, etc.).
 
@@ -70,8 +70,9 @@ O projeto é desenvolvido como um produto real, com ciclos curtos de entrega, va
 
 * **API REST**: A API segue os princípios de **REST**, expondo recursos bem definidos por meio de endpoints HTTP(CRUD), retornando códigos de status adequados e separando claramente responsabilidades entre Controller, Service e Repositório.
 
-  
+* **Projeto com modelagem de domínio documentada** Criação de ERD + Domain Overview antes da implementação
 
+  
 ### No DocFrontWeb(Frontend)
 
 
@@ -85,7 +86,7 @@ O projeto é desenvolvido como um produto real, com ciclos curtos de entrega, va
 
 * **Mapeamento de Dados (Mapper):** Camada dedicada a transformar DTOs da API em ViewModels específicos para a interface, garantindo que a UI receba apenas o necessário para exibição.
 
-* MockUp: Criei páginas conceitos para ajudar no desenvolvimento.
+* **MockUp**: Criei páginas conceitos para ajudar no desenvolvimento.
 
 
 
@@ -116,9 +117,12 @@ O projeto é desenvolvido como um produto real, com ciclos curtos de entrega, va
 
 ## 5. Tecnologias e Bibliotecas
 
-### Gestão:
-- **Quadro Kanban:** GitHub Projects.
-- **Controle de Versão:** Git/GitHub com o fluxo de *feature-branch* de acordo com o `Readme.md`.
+### Documentação Doc_Organo: *****Gerar links
+- **Readme** - Visão geral e sintetização do projeto.
+- **PM(Project Management)** Para planejamento do desenvolvimento
+- **Quadro Kanban:** GitHub Projects para gestão do fluxo de trabalho.
+- **Controle de Versão:** Git/GitHub com o fluxo de *feature-branch* de acordo com o PM.
+- **Domain Overview & Business Rules** Documentação para auxilio de desenvolvimento da arquitetura/infraestrutura
 
 ### Na DocAPI(Backend):
 *   **.NET 7:** Framework principal da aplicação.
@@ -132,10 +136,6 @@ O projeto é desenvolvido como um produto real, com ciclos curtos de entrega, va
 
 #### Documentação Externa
 * [PDFPig](https://github.com/UglyToad/PdfPig/wiki)
-
-
-
-
 * [TabulaSharp](https://github.com/BobLd/tabula-sharp?tab=readme-ov-file)
 * [Closedxml](https://www.nuget.org/packages/closedxml/) 
 * [NPOI](https://www.nuget.org/packages/npoi/)
@@ -197,7 +197,7 @@ Este projeto utiliza um fluxo de trabalho baseado em *feature branches*, similar
 
 2.  **Criar uma nova branch para sua tarefa:**
 
-    Use um nome descritivo, como `feature/nome-da-funcionalidade` ou `fix/descricao-do-bug`.
+    Usar um nome descritivo, como `feature/nome-da-funcionalidade` ou `fix/descricao-do-bug`.
 
     ```bash
 

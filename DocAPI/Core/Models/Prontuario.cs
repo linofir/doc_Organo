@@ -52,7 +52,7 @@ public class DescricaoBasica
         Cpf = paciente.CPF;
     }
     [Required]
-    public string? PacienteId { get; set; }
+    public Guid? PacienteId { get; set; }
     [Required]
     public string? NomePaciente { get; set; } 
     public string? Cpf { get; set; } 
