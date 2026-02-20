@@ -6,11 +6,13 @@ using DocAPI.Services;
 // using DocAPI.Services.FileDataOfSenhaExtractorService;
 using DocAPI.Infrastructure.SheetsDb;
 using DocAPI.Core.Repositories;
-using DocAPI.Core.Models;
+
+using DocAPI.Infrastructure.Sql;
+// using DocAPI.Core.Models;
 using DocAPI.CLI;
 using Newtonsoft.Json.Converters;
-using UglyToad.PdfPig.Graphics.Colors;
-using System.Text.Json;
+// using UglyToad.PdfPig.Graphics.Colors;
+// using System.Text.Json;
 using QuestPDF.Infrastructure;
 using System.Net.Http;
 
@@ -24,6 +26,11 @@ if (args.Contains("--extract"))
     ExtractExamesCli.Run(args);
     return;
 }
+
+builder.Services.AddDbContext<DocDbContext>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
 // Add services to the container.
 //var connectionString = builder.Configuration.GetConnectionString("PacienteConnection");
@@ -82,21 +89,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
-// string filePath = @"C:\Users\lino\Downloads\transferir (7).xls";
-// var service = new FileDataOfSenhaExtractorService();
-//load test
-// var pathJson = service.PathToFile;
-// Console.WriteLine(pathJson);
-// var jsonCarregado = await service.LoadDescritivosFromFile(pathJson);
-// Console.WriteLine(await service.PrintSenhasExtraidosComoJson(jsonCarregado));
-//Coletar dados
-// var listaSenhas = await service.ExtractDataFromFileAsync(filePath);
-// // Console.WriteLine($"Nome: {listaSenhas.Senhas[0].NomePaciente}, Código: {listaSenhas.Senhas[0].Codigo}");
-// await service.SaveDescritivo(listaSenhas);
-// // Console.WriteLine(await service.PrintSenhasExtraidosComoJson(listaSenhas));
-
-    
 
 app.Run();
 

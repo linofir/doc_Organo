@@ -37,7 +37,7 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
 - **Feature:** CRUD completo para `Paciente` e `Endereco`.
 - **Feature:** Busca de pacientes por múltiplos critérios (CPF, Nome).
 
-### **Épico: 🏗️ Infraestrutura
+### **Épico: 🏗️ Infraestrutura - Persistência SQL
 - **Feature:** Base_DB. 
 - **Meta:** **Estruturar e criar base sólida do DB**
 - **Itens:**
@@ -51,7 +51,7 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
 - **Meta:** **Criar persistência de Pacientes do Google Sheets para um banco de dados relacional com Entity Framework**
 - **Itens:**    
     - `[Task]` DocDbContext.
-    - `[Task]` Configurar EF Core.
+    - `[Task]` Configurar EF Core. Fluent Api para validações   
     - `[Task]` Definir injeção de dependências.
     - `[Task]` Criar primeira migration.
     - `[Task]` Testas novas implementações antes de substituir
@@ -59,7 +59,7 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
 - **Meta:** **Criar persistência de Pacientes do Google Sheets para um banco de dados relacional com Entity Framework**
 - **Itens:**    
     - `[Task]` Criar repositório SQL de Paciente, Manter Sheets para o resto.Sistema hibrido
-    - `[Task]` Configurar EF Core.
+    - `[Task]` Configurar EF Core. Implementar validações estruturais
     - `[Task]` Feature flag simples (config). Ajustar queries , Adicionar índices
     - `[Task]` Validar leitura/escrita SQL.
 - **Feature:** Substituir gradualmente repositórios Sheets → SQL.
@@ -69,7 +69,24 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
     - `[Task]` Configurar EF Core.
     - `[Task]` Feature flag simples (config). Ajustar queries , Adicionar índices
     - `[Task]` Validar leitura/escrita SQL.
-- **Feature:** Cloud.
+
+### **Épico: 🏗️ Infraestrutura - Servers
+- **Feature:** Cloud. 
+- **Meta:** **Estruturar e preparar para deploy local**
+- **Itens:**
+    - `[Task]` Groundwork: containers na maquina local para primeiros passos.(Pesqiuisar: Como seria a gestão desses containers e se é um começo estratégico que faz sentido.)
+    - `[Task]` Instalação do Docker e Docker Compose.Criação do arquivo docker-compose.prod.yml unindo API + SQL Server + Frontend. (pesquisar se é uma boa decisão e como é essa gestão)
+
+- **Feature:** HomeLab. 
+- **Meta:** **Estruturar e preparar a hospedagem e servidores locais**
+- **Itens:**
+    - `[Task]` Groundwork: formatar máquina para os containers de cada server e finalizar pesquisa(Ubunto).
+    - `[Task]` Instalação do Ubuntu Server (versão LTS - Long Term Support).
+    - `[Task]` Hardening do Servidor (Configuração de Firewall ufw, chaves SSH e desativação de root).
+    - `[Task]` Instalação do Docker e Docker Compose, Criação do arquivo docker-compose.prod.yml unindo API + SQL Server + Frontend.
+    - `[Task]` Configuração do Nginx como Proxy Reverso (pesquisar quem gerenciará os containers as chamadas e enviará para os containers)
+    - `[Task]` Deploy dos serviços.
+
 - **Meta:** **Migrar para azuere Cloud.**
 - **Itens:**    
     - `[Task]` Criar Azure SQL.
@@ -88,6 +105,8 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
 - lidar como paciente homonimas, métodos de buscas avançados autocopleate, busca inteligente e indexada.
 -ao deletar paciente, deletar todos os dados de prontuario e agendamento
 - Definir navegações da API
+- Implementar vaidações do backend(regra de negocio)
+
 
 ----------- 
 ### **Épico: 🖥️ Frontend (DocFront WEB)** 

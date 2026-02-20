@@ -6,9 +6,12 @@ using DocAPI.Core.Models;
 namespace DocAPI.Core.Models;
 public class Agendamento
 {
+    // [Key]
+    // [Required(ErrorMessage = "Este campo é obrigatório")]
+    // public string ID { get; set; } = string.Empty;
     [Key]
     [Required(ErrorMessage = "Este campo é obrigatório")]
-    public string ID { get; set; } = string.Empty;
+    public string ID { get; private set; } = string.Empty;
     public Agendamento() {}
     
     // public Agendamento(Paciente paciente)
@@ -18,25 +21,25 @@ public class Agendamento
     //     ID = Guid.NewGuid().ToString();
     // }
     [Required(ErrorMessage = "Este campo é obrigatório")]
-    public string PacienteID { get; set; } = string.Empty;
+    public string PacienteID { get; private set; } = string.Empty;
     [Required(ErrorMessage = "Este campo é obrigatório")]
-    public string Nome { get; set; } = string.Empty;
+    public string Nome { get; private set; } = string.Empty;
     [Required(ErrorMessage = "Este campo é obrigatório")]
-    public string Aviso { get; set; } = string.Empty;
+    public string Aviso { get; private set; } = string.Empty;
     [Required(ErrorMessage = "Este campo é obrigatório")]
-    public DateOnly Data { get; set; } = DateOnly.MinValue;
-    public TimeOnly Horario { get; set; }
+    public DateOnly Data { get; private set; } = DateOnly.MinValue;
+    public TimeOnly Horario { get; private set; }
     [Required(ErrorMessage = "Este campo é obrigatório")]
-    public string Procedimento { get; set; } = string.Empty;
+    public string Procedimento { get; private set; } = string.Empty;
     [Required(ErrorMessage = "Este campo é obrigatório")]
-    public string Local { get; set; } = string.Empty;
-    public string Sala { get; set; } =string.Empty;
+    public string Local { get; private set; } = string.Empty;
+    public string Sala { get; private set; } =string.Empty;
     public Senha? SenhaAgendamento { get; set; }
     [Required(ErrorMessage = "Este campo é obrigatório")]
     public StatusAgendamento  Status { get; set; }
-    public string StatusInstrucoes { get; set; }
-    public string StatusAtestado { get; set; }
-    public DateOnly DataConsulta { get; set; } = DateOnly.MinValue;
+    public StatusInstrucoes IntrucaoStatus { get; private set; }
+    public StatusAtestado AtestadoStatus { get; private set; }
+    public DateOnly DataConsulta { get; private set; } = DateOnly.MinValue;
 
     public class Senha
     {
@@ -66,6 +69,31 @@ public class Agendamento
 
         [Display(Name = "Cancelada")]
         Cancelada = 7
+    }
+    public enum StatusAtestado
+    {
+        [Display(Name = "Não realizado")]//nao tem
+        NaoRealizado = 0,
+        [Display(Name = "Realizado")]//nao tem
+        Realizado = 1,
+
+        [Display(Name = "Pendente")]
+        Pendente = 2,
+
+    }
+
+    public enum StatusInstrucoes
+    {
+        [Display(Name = "Sem solicitação")]//nao tem
+        SemSolicitação = 0,
+        [Display(Name = "Em analise")]//nao tem
+        EmAnalise = 1,
+
+        [Display(Name = "Negado")]
+        Negado = 2,
+        [Display(Name = "Concluído")]
+        Concluido = 3,
+
     }
 
     

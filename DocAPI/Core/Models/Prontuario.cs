@@ -6,20 +6,24 @@ namespace DocAPI.Core.Models;
 
 public class Prontuario
 {
-    public Prontuario() { }
-    [Key]
+    protected Prontuario() { }
+    // [Key]
+    // [Required(ErrorMessage = "Este campo é obrigatório")]
+    // public string? ID { get; set; }
     [Required(ErrorMessage = "Este campo é obrigatório")]
-    public string? ID { get; set; }
-    // public Prontuario(Paciente paciente)
-    // {
-    //     ID = Guid.NewGuid().ToString();
-    //     DescricaoBasica = new DescricaoBasica(paciente);
-    //     Exames = new List<Exame>();
-    // }
+    public Guid ID { get; private set; }
+    public Prontuario(Paciente paciente)
+    {
+        ID = Guid.NewGuid();
+       
+    }
+    public Paciente? Paciente { get; private set; }
+    public string? PacienteId { get; private set; }
+    
     [Required(ErrorMessage = "A data é obrigatória")]
-    public DateOnly? DataConsulta {get; set; } 
+    public DateOnly? DataConsulta {get; private set; } 
     // [Required(ErrorMessage = "O tipo é obrigatória")]
-    public string? Tipo {get; set; }
+    public string? Tipo {get; private set; }
     [Required]
     public DescricaoBasica? DescricaoBasica { get; set; }
 
@@ -34,7 +38,7 @@ public class Prontuario
 
     public List<AcoesCD>? CD { get; set; }   
 
-    public string? InformacoesExtras { get; set; } = string.Empty;
+    public string? InformacoesExtras { get; private set; } = string.Empty;
 
     public List<Exame>? Exames { get; set; }
     public Internacao? SolicitacaoInternacao { get; set;}
