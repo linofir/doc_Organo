@@ -7,9 +7,9 @@ A plataforma foi desenhada para refletir o fluxo real dos processos médicos, n�
  ---
 ## 1.1 TL;DR Técnico
 
-- Backend: ASP.NET Core (.NET 7), DDD, Repository Pattern, REST API
+- Backend: ASP.NET Core (.NET 7), DDD, Repository Pattern, REST API, EF
 - Frontend: Blazor WebAssembly, State Management centralizado, fluxo unidirecional
-- Persistência atual: Google Sheets (validação rápida)
+- Persistência atual: Google Sheets (validação rápida), SQL, Docker
 - Status: MVP em uso real
 
 ---

@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using DocAPI.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -15,11 +14,7 @@ public class PacienteConfiguration : IEntityTypeConfiguration<Paciente>
             .IsRequired()
             .HasMaxLength(200);
         builder.Property(p => p.Nascimento)
-            .IsRequired()
-            .HasMaxLength(200);
-        builder.Property(p => p.Email)
-            .IsRequired()
-            .HasMaxLength(200);
+            .IsRequired();
 
         builder.Property(p => p.CPF)
             .HasMaxLength(11)
@@ -28,10 +23,10 @@ public class PacienteConfiguration : IEntityTypeConfiguration<Paciente>
             .IsUnique();
             
         builder.Property(p => p.RG)
-            .HasMaxLength(11)
-            .IsRequired();
+            .HasMaxLength(20);
         builder.HasIndex(p => p.RG)
             .IsUnique();
+
         builder.Property(p => p.Email)
             .IsRequired()
             .HasMaxLength(200);
@@ -39,10 +34,8 @@ public class PacienteConfiguration : IEntityTypeConfiguration<Paciente>
             .IsRequired()
             .HasMaxLength(200);
         builder.Property(p => p.Plano)
-            .IsRequired()
             .HasMaxLength(200);
         builder.Property(p => p.Carteira)
-            .IsRequired()
             .HasMaxLength(200);
 
 
@@ -51,9 +44,9 @@ public class PacienteConfiguration : IEntityTypeConfiguration<Paciente>
         
         //Relaççoes
         builder.OwnsOne(p => p.Endereco);
-    // Aqui preciso checar, já que acredito que essa relação faz referencia a collections de pacientes, correto? isso precisa ser integrado ao sql? O que significa exatamente essa definição abaixo?
+  
         builder.HasMany(p => p.Prontuarios)
-            .WithOne(p => p.Paciente)// eu referencio somente o ID, preciso mudar meu model para aceitar um ainstancia de paciente?
+            .WithOne(p => p.Paciente)
             .HasForeignKey(p => p.PacienteId);
         // builder.HasMany(p => p.Agendamentos)
         //     .WithOne(p => p.Paciente)// eu referencio somente o ID, preciso mudar meu model para aceitar um ainstancia de paciente?

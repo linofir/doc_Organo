@@ -131,5 +131,29 @@ O ERD foi desenhado para:
 * Adequação de tipagem para persistência 
 
 ## Decisões arquiteturais
+### Reflexões para decisão da infraestrutura
+
+* Isolamento de Recursos: "Quanto de RAM vou limitar para o SQL?" No Docker, você pode limitar o container para não 'comer' toda a memória do seu notebook e travar seu VS Code.
+
+* Segurança (Secrets): Nunca coloca a senha do banco direto no código ou no docker-compose. Ele usa arquivos .env.
+
+* Paridade de Ambiente: "O container que roda no meu notebook é exatamente igual ao que rodará na Azure?" Isso elimina o erro "na minha máquina funciona".
+
+* Eficiência de Dev: Em vez de instalar o SQL Server "pesado" no Windows, o container é levantado apenas quando você vai codar (docker-compose up -d) e desligado depois, mantendo o notebook rápido.
+
+### Trade-offs reais
+🟢 Vantagens
+
+✔ Ambiente idêntico ao Azure
+✔ Isolamento
+✔ Banco descartável
+✔ Controle de memória
+✔ Workflow profissional
+
+🔴 Desvantagens
+
+✔ Complexidade inicial maior
+✔ Mais camadas para debug
+✔ Docker consome RAM
 
 ## Evolução planejada

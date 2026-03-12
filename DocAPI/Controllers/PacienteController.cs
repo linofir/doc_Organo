@@ -42,7 +42,7 @@ public class PacienteController : ControllerBase
         return Ok(_mapper.Map<IEnumerable<ReadPacienteDto>>(pacientes));
     }
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetByID(string id)
+    public async Task<IActionResult> GetByID(Guid id)
     {
         var paciente = await _repository.GetByIdAsync(id);
         if (paciente == null) return NotFound();
@@ -153,12 +153,13 @@ public class PacienteController : ControllerBase
     //     }
     // }
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdatePaciente(string id, [FromBody] UpdatePacienteDto dto)
+    public async Task<IActionResult> UpdatePaciente(Guid id, [FromBody] UpdatePacienteDto dto)
     {
         try
         {
             // 1. Verifica se o ID foi fornecido
-            if (string.IsNullOrEmpty(id))
+            
+            if (string.IsNullOrEmpty(id.ToString()))
                 return BadRequest("O ID do paciente é obrigatório.");
 
             // 2. Mapeia o DTO para a entidade Paciente
@@ -177,11 +178,11 @@ public class PacienteController : ControllerBase
         }
     }
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeletePaciente(string id)
+    public async Task<IActionResult> DeletePaciente(Guid id)
     {
         try
         {
-            if (string.IsNullOrEmpty(id))
+            if (string.IsNullOrEmpty(id.ToString()))
             return BadRequest("O ID do paciente é obrigatório.");
             await _repository.DeleteAsync(id);
             return NoContent();

@@ -3,6 +3,8 @@ using System.ComponentModel.DataAnnotations;
 using static DocAPI.Core.Models.Agendamento;
 public class UpdateAgendamentoDto
     {
+        [Required(ErrorMessage = "O ID é obrigatório")]
+        public string? ID { get; set; } = string.Empty;
         [Required(ErrorMessage = "O paciente é obrigatório")]
         public string PacienteId { get; set; } = string.Empty;
         [Required(ErrorMessage = "O paciente é obrigatório")]

@@ -8,18 +8,21 @@ namespace DocAPI.Core.Models;
 public class Paciente
 {
     protected Paciente() {}
-    public Paciente(string nome, DateOnly nascimento, string cpf) // esse contructor seria utilizado nos repositórios por exemplo?Isso seria útil caso meu rep tenha q instanciar ma paciente correto?posso organizar meu código sem necessáriamente utilizar o constructor, correto? qual é a forma mais profissional. me explique o conceito de SOLID
+    public Paciente(string nome, DateOnly nascimento, string cpf, string rg, string email, string telefone) 
     {
         ID = Guid.NewGuid();
         Nome = nome;
         Nascimento = nascimento;
         CPF = cpf;
+        Email = email;
+        Telefone = telefone;
+        
     }
+    //acrescentar todas requireds no contructor
 
     public Guid ID { get; private set; } 
-    public string? Nome { get; private set; }
+    public string Nome { get; private set; } = string.Empty;
     public DateOnly Nascimento { get; private set; }
-    [NotMapped] 
     public int Idade
     {
         get
@@ -30,11 +33,11 @@ public class Paciente
             return idade;
         }
     }
-    public string? CPF { get; private set; }
+    public string CPF { get; private set; } = string.Empty;
     public string? RG { get; private set; }
-    public string? Email { get; private set; }
-    public string? Telefone { get; private set; }
-    public string? Plano { get; private set; }// possível enum
+    public string Email { get; private set; } = string.Empty;
+    public string Telefone { get; private set; } = string.Empty;
+    public string? Plano { get; private set; }
     public string? Carteira { get; private set; }
     public Endereco? Endereco { get; private set; } 
 

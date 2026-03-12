@@ -1,20 +1,19 @@
 using DocAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using Newtonsoft.Json.Converters;
+using QuestPDF.Infrastructure;
+
+using DocAPI.CLI;
 using DocAPI.Profiles;
 using DocAPI.Services;
 // using DocAPI.Services.FileDataOfSenhaExtractorService;
-using DocAPI.Infrastructure.SheetsDb;
+using DocAPI.Infrastructure.sqlDb.Repositories;
 using DocAPI.Core.Repositories;
-
-using DocAPI.Infrastructure.Sql;
-// using DocAPI.Core.Models;
-using DocAPI.CLI;
-using Newtonsoft.Json.Converters;
-// using UglyToad.PdfPig.Graphics.Colors;
-// using System.Text.Json;
-using QuestPDF.Infrastructure;
+using DocAPI.Infrastructure.SqlDb.Context;
+// using DocAPI.Infrastructure.SheetsDb; legacy
 using System.Net.Http;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -52,23 +51,24 @@ IMapper mapper = config.CreateMapper();
 
 builder.Services.AddSingleton<IMapper>(mapper);
 
-builder.Services.AddSingleton<GoogleSheetsDB>();
-builder.Services.AddSingleton<PdfGeneratorService>();
-builder.Services.AddSingleton<FileDataOfSenhaExtractorService>();
-builder.Services.AddScoped<IPacienteRepository, PacienteSheetsRepository>();
-builder.Services.AddScoped<IProntuarioRepository, ProntuarioSheetsRepository>();
-builder.Services.AddScoped<IAgendamentoRepository, AgendamentoSheetsRepository>();
-builder.Services.AddScoped<IAtendimentoRepository, AtendimentoSheetsRepository>();
+// builder.Services.AddSingleton<GoogleSheetsDB>();
+// builder.Services.AddSingleton<PdfGeneratorService>(); refatorar para novo repo
+// builder.Services.AddSingleton<FileDataOfSenhaExtractorService>(); refatorar para novo repo
+
+builder.Services.AddScoped<IPacienteRepository, PacienteRepository>();
+// builder.Services.AddScoped<IProntuarioRepository, ProntuarioSheetsRepository>();
+// builder.Services.AddScoped<IAgendamentoRepository, AgendamentoSheetsRepository>();
+// builder.Services.AddScoped<IAtendimentoRepository, AtendimentoSheetsRepository>();
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
     {
         options.SerializerSettings.Converters.Add(new StringEnumConverter());
-    });
-builder.Services.AddControllers()
+    })
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
     });
+
 builder.Services.AddEndpointsApiExplorer();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddSwaggerGen();

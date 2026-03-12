@@ -42,18 +42,31 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
 - **Meta:** **Estruturar e criar base sólida do DB**
 - **Itens:**
     - `[Task]` Criar ERD(Diagramas de Entidade-Relacionamento) completo.
-    - `[Feature]` Revisar entidades de domínio.
+        - `[Task]` Revisar entidades de domínio.
+        - `[Task]` Decidir tipos de dados.
+        - `[Task]` Definir chaves e relacionamentos.
     - `[Task]` Ajustar Models para EF.
-    - `[Task]` Decidir tipos de dados.
-    - `[Task]` Definir chaves e relacionamentos.
-    - `[Task]` Definir e preparar ferramentas(SQL server Azure Data Studio).
+        - `[Task]` Modelar Todas Efs das entidades. Relationships, Value Objects, Enums, Collectons
+        - `[Task]` Definir fluxo de implementação do EF.
+        - `[Task]` Implementar peimeiro fluxo do EF para paciente.
+    - `[Task]` Definir e preparar ferramentas(SQL server,SSMS, Conteiner/Docker), 
+        - `[Task]` Instalar Docker Desktop (Windows) 
+        - `[Task]` Configurar o WSL 2 (se estiver no Windows), para que o Docker rode sobre um kernel Linux real, aumentando a performance.
+        - `[Task]` Criar um arquivo docker-compose.yml na raiz do seu projeto.
+        - `[Task]` Configurar a imagem do SQL Server mcr.microsoft.com/mssql/server:2022-latest.
+        - `[Task]` Definir Volumes. Crucial: Sem volumes, se o container parar, seus pacientes cadastrados somem.
+        - `[Task]` Alterar a ConnectionString da sua API para apontar para o localhost,1433.
+        - `[Task]` Validar a conexão usando o SSMS.
+        - `[Task]` Rodar dotnet ef database update para o Entity Framework criar as tabelas no container. 
+        - `[Task]` Criar primeira migration. 
+
 - **Feature:** Criar persistência.
 - **Meta:** **Criar persistência de Pacientes do Google Sheets para um banco de dados relacional com Entity Framework**
 - **Itens:**    
-    - `[Task]` DocDbContext.
+    - `[Task]` DocDbContext para todas entidades .
     - `[Task]` Configurar EF Core. Fluent Api para validações   
     - `[Task]` Definir injeção de dependências.
-    - `[Task]` Criar primeira migration.
+    - `[Task]` Evoluir primeira migration.
     - `[Task]` Testas novas implementações antes de substituir
 - **Feature:** Migração de Pacientes.
 - **Meta:** **Criar persistência de Pacientes do Google Sheets para um banco de dados relacional com Entity Framework**

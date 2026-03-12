@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using DocAPI.Core.Models;
 
-namespace DocAPI.Infrastructure.Sql;
+namespace DocAPI.Infrastructure.SqlDb.Context;
 //hereança  de DbContext
 public class DocDbContext : DbContext
 {

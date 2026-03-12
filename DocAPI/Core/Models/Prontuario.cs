@@ -7,25 +7,28 @@ namespace DocAPI.Core.Models;
 public class Prontuario
 {
     protected Prontuario() { }
-    // [Key]
-    // [Required(ErrorMessage = "Este campo é obrigatório")]
-    // public string? ID { get; set; }
-    [Required(ErrorMessage = "Este campo é obrigatório")]
-    public Guid ID { get; private set; }
+
     public Prontuario(Paciente paciente)
     {
         ID = Guid.NewGuid();
-       
+        Paciente = paciente;
+        PacienteId = paciente.ID;
     }
-    public Paciente? Paciente { get; private set; }
-    public string? PacienteId { get; private set; }
+   
+    public Guid ID { get; private set; }
+    public Paciente Paciente { get; private set; } = null!;
+    public Guid PacienteId { get; private set; }
+
+    public int Versao { get; private set; }
+    public Guid? ProntuarioAnteriorId { get; private set; }
+    public DateTime CriadoEm { get; private set; }
+    public string CriadoPor { get; private set; } = string.Empty;
     
-    [Required(ErrorMessage = "A data é obrigatória")]
-    public DateOnly? DataConsulta {get; private set; } 
-    // [Required(ErrorMessage = "O tipo é obrigatória")]
-    public string? Tipo {get; private set; }
+    public DateOnly DataConsulta {get; private set; } //NOT NULL NO EF
+    public string Tipo {get; private set; } = string.Empty; //NOT NULL NO EF
+
     [Required]
-    public DescricaoBasica? DescricaoBasica { get; set; }
+    public DescricaoBasica? DescricaoBasica { get; set; } // como devo lidar com as value objects, devo deixar NOT NULL no EF?o q implica essa decisão
 
     [Required]
     public AGO? AGO { get; set; }
@@ -38,39 +41,39 @@ public class Prontuario
 
     public List<AcoesCD>? CD { get; set; }   
 
-    public string? InformacoesExtras { get; private set; } = string.Empty;
+    public string? InformacoesExtras { get; private set; }//não é obrigatório
 
-    public List<Exame>? Exames { get; set; }
-    public Internacao? SolicitacaoInternacao { get; set;}
-    public PosOp? PosOperatorio  { get; set;}
+    public List<Exame>? Exames { get; set; }// nem sempre será passado exames
+    public Internacao? SolicitacaoInternacao { get; set;}//nem sempre terá procedimento
+    public PosOp? PosOperatorio  { get; set;}//só terá essa classe se o tipo for posOp
 }        
 
 public class DescricaoBasica
 {
     public DescricaoBasica() {}
-    public DescricaoBasica(Paciente paciente)
+    public DescricaoBasica(Paciente paciente)// A primeira dúvida aqui é se preciso de um constructor
     {
         NomePaciente = paciente.Nome;
         Idade = paciente.Idade;
-        PacienteId = paciente.ID;
         Cpf = paciente.CPF;
     }
     [Required]
-    public Guid? PacienteId { get; set; }
+    public Guid? PacienteId { get; set; } // já que minha classe prontuario já é condicionada á uma instância de Paciente poderia somente usar para alimentar essas props? ou ainda será que é necessário criar uma coluna no EF já que terei acesso as pops de Paciente para referenciar diretamente no dominio?
     [Required]
     public string? NomePaciente { get; set; } 
+    [Required]
     public string? Cpf { get; set; } 
     [Required]
     public int Idade { get; set; } 
 
     [Required(ErrorMessage = "O campo profissão é obrigatório")]
-    public string? Profissao { get; set; }
+    public string? Profissao { get; set; }//ainda não vou criarum Enum, mas poderia ser no furuto, teria algum problema?
 
     [Required(ErrorMessage = "O campo religião é obrigatório")]
-    public string? Religiao { get; set; }
+    public string? Religiao { get; set; }// pensei em colocar como NOT NULL, para forçar o front a ter uma lista de seleção com a opção não declarada por exemplo. QUal a melhor forma de abordar isso? 
 
     [Required(ErrorMessage = "O campo queixa/encaminhamento é obrigatório")]
-    public string? QD { get; set; }
+    public string? QD { get; set; }//Será um campo de muitos caracteres no EF 
     public string? AtividadeFisica { get; set; } = string.Empty; ////////////////////
 }
     
@@ -78,7 +81,7 @@ public class DescricaoBasica
     {
         public string Menarca { get; set; } = string.Empty; 
         [Required(ErrorMessage = "O campo DUM é obrigatório")]
-        public string? DUM { get; set; }
+        public string? DUM { get; set; }//campo de muitos caracteres
 
         [Required(ErrorMessage = "O campo Paridade é obrigatório")]
         public string? Paridade { get; set; }
@@ -137,9 +140,9 @@ public class DescricaoBasica
         [Required]
         public string Comorbidades { get; set; } = string.Empty;
     }
-    public class Exame
+    public class Exame//aqui ainda tenho algumas dúvidas, será um VO, porém como seria uma lista de exames(de acrodo com a classe Exame) dentro da tabela Prontuario
     {
-        public string Codigo { get; set; } = string.Empty;
+        public string Codigo { get; set; } = string.Empty;//esse código é o código fornecido por uma tabela padrão de exames
         public string Nome { get; set; } = string.Empty;
     
     }
@@ -149,7 +152,7 @@ public class DescricaoBasica
         public DateOnly Data { get; set; }
         public string IndicacaoClinica { get; set; } = string.Empty;
         public string Observacao { get; set; } = string.Empty;
-        public string CID { get; set; } = string.Empty; 
+        public string CID { get; set; } = string.Empty; // sim essa tabela de CID que irá alimentar esse campo, qual a  melhro forma de faze-lo?
         public string TempoDoenca { get; set; } = string.Empty;
         public string Diarias { get; set; } = string.Empty;
         public string Tipo { get; set; } = string.Empty;

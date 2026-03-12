@@ -11,7 +11,7 @@ public class Agendamento
     // public string ID { get; set; } = string.Empty;
     [Key]
     [Required(ErrorMessage = "Este campo é obrigatório")]
-    public string ID { get; private set; } = string.Empty;
+    public string ID { get; set; } = string.Empty;
     public Agendamento() {}
     
     // public Agendamento(Paciente paciente)

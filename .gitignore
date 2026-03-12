@@ -39,3 +39,5 @@ DocAPI/Secrets/
 
 # Dotnet watch
 **/node_modules/
+
+.env
