@@ -1,134 +1,380 @@
 # Domain Overview
+
 ## Business Rules
-O Doc Organo é uma plataforma de gestão de atendimentos médicos orientada a fluxo de atendimento e histórico clínico. O sistema foi modelado a partir de regras de negócio reais, observadas na rotina de consultórios médicos, cobrindo desde o cadastro da paciente até o acompanhamento pós-operatório.
 
-* O domínio foi desenhado para:
+O **Doc Organo** é uma plataforma de gestão de atendimentos médicos orientada ao fluxo clínico e preservação do histórico da paciente.
 
-* Preservar histórico clínico (imutabilidade de prontuários)
+O sistema foi modelado a partir de regras de negócio observadas na rotina real de consultórios médicos, cobrindo desde o cadastro da paciente até o acompanhamento pós-operatório.
 
-* Permitir evolução do atendimento ao longo do tempo
+O domínio foi projetado para:
 
-* Separar claramente planejamento (Agendamentos), registro clínico (Prontuários) e gestão do fluxo (Atendimento)
+- Preservar histórico clínico através de **versionamento de prontuários**
+- Gerenciar a evolução do atendimento ao longo do tempo
+- Separar claramente responsabilidades entre entidades do sistema
+- Melhorar a eficiência da comunicação com a Paciente
 
-### Paceinte
-Explicação conceitual
-Parece alinhado com o domínio, não tem porblema conceitual e Vo embutido faz sentido no DB. Parece que fa sentido criar navegação para Prontuario já que uma paciente pode ter diversos prontuarios de diversos tipos e em momentos diferentes, assim como Agendamento. Para Atendmineto é preciso refletir mais sobre a regra de nogócio que farei abaixo.
+Principais separações conceituais:
 
-### Em Prontuario 
-Explicação conceitual: Uma paciente pode ter varios tipos de prontuariosao longo do atendimento, cada prontuario pode ter alterações, ou seja versões. Além disso, como existirão tipos diferentes de prontuario, alguns terão dados específicos, por exemplo o PosOP será somente utilizado em um prontuario de pos operação. Parece que faz sentido os VOs separados no DB. Seria melhor separar nos models tb?hoje são classes dentro do arquivo que contem a classe Prontuario. A lista de Exames como propriedade em prontuario é definida apos a geração de um prontuario, então, mesmo que seja relacionada a uma paciente é diretamente agregada a um prontuario. Pode acontecer inclusive um primeira consulta gera um prontuario que gera uma lista de exames, em um retorno pode ser gerado um novo prontuario e novos exames.
+- **Paciente** → cadastro da pessoa atendida
+- **Prontuário** → registro clínico de eventos médicos
+- **Agendamento** → planejamento logístico de procedimentos
+- **Atendimento** → gestão da jornada clínica da paciente
 
-### Em Agendamento
-Explicação conceitual:	Aqui é um controle dos agendamentos de procedimentos que acontecem ao longo do tratamento, por exemplo depois de uma consulta a médica define uma cirurgia(requisição do prontuário) A entidade cuida da gestão do procedimento desde a autorização do hospital até dados do procedimento agendado. Ainda tenho dúvida se é necessário atrelar á um prontuario
+Essa separação permite representar corretamente a realidade clínica, onde múltiplos registros podem existir ao longo do tratamento.
 
-### Em Atendimento
-Explicação conceitual:
-Não será somente um agregador, é onde monitora o acompanhamento da paciente como um todo. desde o cadastro da paciente até o pós operatório da mesma.
-Sim ele irá referenciar dados das outras entidades. posso aprofundar mais de como já modelei o model e o repositório(ainda não funcional)
-Irá definir que etapa do atendimento a paciente se encontra. Por exemplo fez a consulta, fez os exames e está aguardando a cirurgia.
-Irá conter dados únicos e gerados para a gestão do atendimento. por exemplo alertas de um acompanhamento pós operatório depois de um ano para que se faça uma verificação do estado da paciente.
+---
+
+# Entidades do Domínio
+
+## Paciente
+
+Representa a pessoa atendida pelo consultório.
+
+É responsável pelo armazenamento das informações cadastrais e serve como raiz para diversas informações clínicas associadas.
+
+### Responsabilidades
+
+- Identificação da paciente
+- Armazenamento de dados cadastrais
+- Controle de informações de contato
+- Registro de convênio
+
+### Relacionamentos
+
+Uma paciente pode possuir:
+
+- Vários **Prontuários**
+- Vários **Atendimentos**
+- Vários **Agendamentos**
+
+### Value Objects
+
+- Endereço
+
+---
+
+## Prontuário
+
+O prontuário representa um **snapshot clínico** de um momento específico do atendimento.
+
+Cada evento clínico relevante pode gerar um novo prontuário.
+
+### Características
+
+- Imutável após criação
+- Versionado
+- Associado a um atendimento
+- Pode possuir exames e internação
+
+### Responsabilidades
+
+- Registrar dados clínicos
+- Preservar histórico médico
+- Permitir acompanhamento evolutivo da paciente
+
+---
+
+## Internação
+
+Representa o contexto clínico necessário para realização de um procedimento hospitalar.
+
+Cada prontuário pode gerar **no máximo uma internação**.
+
+### Responsabilidades
+
+- Registro da indicação clínica
+- Associação com CID
+- Informações administrativas hospitalares
+- Controle de procedimentos realizados
+
+### Relacionamentos
+
+- 1:1 com Prontuário
+- 1:N com Procedimentos de Internação
+
+---
+
+## Procedimentos de Internação
+
+Representa procedimentos realizados dentro de uma internação.
+
+Uma internação pode possuir múltiplos procedimentos.
+
+Esse modelo evita duplicação de dados clínicos e mantém a estrutura normalizada.
+
+---
+
+## Exames
+
+Representa exames solicitados no contexto de um prontuário.
+
+Cada prontuário pode gerar múltiplos exames.
+
+### Responsabilidades
+
+- Registrar exames solicitados
+- Controlar status de execução
+- Registrar datas de solicitação e resultado
+
+---
+
+## Agendamento
+
+O agendamento representa o planejamento logístico de procedimentos médicos.
+
+Ele controla o processo administrativo necessário para que um procedimento ocorra.
+
+### Responsabilidades
+
+- Controle de datas e horários
+- Registro do local do procedimento
+- Controle de autorizações hospitalares
+- Gestão de senhas de autorização
+
+### Exemplos de dados controlados
+
+- Data e horário
+- Local e sala
+- Status do agendamento
+- Autorização hospitalar
+- Senha de liberação de procedimento
+
+---
+
+## Atendimento
+
+Representa a **jornada completa da paciente em um ciclo de cuidado**.
+
+Enquanto o prontuário registra dados clínicos, o atendimento controla o **fluxo do tratamento**.
+
+### Responsabilidades
+
+- Monitorar progresso do atendimento
+- Consolidar informações do tratamento
+- Identificar pendências
+- Controlar etapas clínicas
+
+### Etapas do atendimento
+
+- Consulta
+- Pré-procedimento
+- Procedimento
+- Pós-procedimento
+
+Cada etapa possui verificações específicas antes de permitir avanço no fluxo.
+
+---
+
+# Controle de Pendências e Alertas
+
+O sistema possui um mecanismo de **pendências clínicas e administrativas** associadas ao atendimento.
+
+Esse mecanismo permite identificar bloqueios ou ações necessárias antes da progressão do atendimento.
+
+### Exemplos de pendências
+
+- Exames não realizados
+- Autorização hospitalar pendente
+- Termo cirúrgico não assinado
+- Consulta pós-operatória pendente
+
+Essas informações são utilizadas para:
+
+- Alertar profissionais de saúde
+- Impedir progressão prematura de etapas
+- Facilitar visualização do estado do atendimento
+- MAnter a comunicação com a Paciente otimizada
+
+---
+
+# Ubiquitous Language
+
+Os seguintes termos são utilizados consistentemente no sistema:
+
+Paciente  
+Pessoa atendida pelo consultório.
+
+Prontuário  
+Registro clínico de um evento médico.
+
+Agendamento  
+Planejamento logístico de um procedimento.
+
+Atendimento  
+Jornada completa da paciente durante um ciclo de cuidado.
+
+Internação  
+Contexto clínico necessário para realização de procedimento hospitalar.
+
+Procedimento  
+Intervenção realizada durante uma internação.
+
+Versionamento de Prontuário  
+Estratégia para preservar histórico clínico.
+
+Value Object  
+Objeto sem identidade própria.
+
+Aggregate Root  
+Entidade responsável por garantir consistência dentro de um agregado.
+
+---
+
+# Aggregate Roots
+
+## Paciente
+
+Responsável por:
+
+- Identidade da paciente
+- Dados cadastrais
+- Relacionamentos clínicos principais
+
+---
+
+## Prontuário
+
+Responsável por:
+
+- Registro clínico
+- Versionamento
+- Associação com exames e internações
+
+---
+
+## Agendamento
+
+Responsável por:
+
+- Planejamento administrativo de procedimentos
+- Controle de autorizações
+- Organização logística
+
+---
+
+## Atendimento
+
+Responsável por:
+
+- Orquestrar o fluxo do tratamento
+- Controlar progresso clínico
+- Identificar pendências
+- Consolidar a jornada da paciente
+
+---
+
+# Entity vs Value Object
+
+## Paciente
+
+Value Object:
+
+- Endereço
+
+---
+
+## Prontuário
+
+Value Objects:
+
+- Descrição Básica
+- AGO
+- Antecedentes
+- Antecedentes Familiares
+- Pós-operatório
+
+---
+
+# Versioning Strategy
+
+## Prontuário
+
+Cada alteração clínica gera **um novo prontuário**, preservando o histórico completo.
+
+Campos utilizados:
+
+- Versao
+- ProntuarioAnteriorId
+- CriadoEm
+- CriadoPor
+
+Benefícios:
+
+- Histórico completo
+- Auditoria clínica
+- Segurança médica
+- Simplicidade de implementação
+
+---
+
+# Auditoria
+
+O sistema implementa auditoria básica para rastrear alterações em dados sensíveis.
+
+Campos comuns:
+
+- CriadoEm
+- AtualizadoEm
+- CriadoPor
+- AtualizadoPor
+
+Esses dados permitem identificar quando e por quem um registro foi criado ou modificado.
+
+---
+
+# Soft Delete
+
+Para preservar integridade histórica, algumas entidades utilizam **Soft Delete**.
+
+Em vez de remover dados fisicamente do banco, o registro é marcado como removido.
+
+Campos utilizados:
+
+- Deletado
+- DeletadoEm
+
+Isso evita perda de histórico clínico e mantém consistência entre registros relacionados.
+
+---
+
+# Evolução planejada
+
+## Checklist clínico configurável
+
+Sistema de checklists clínicos associados ao prontuário.
+
+Exemplo:
+
+- Solicitação de exames
+- Assinatura de termo cirúrgico
+- Orientações pós-operatórias
+
+---
+
+## State Machine de Atendimento
+
+Implementação futura de máquina de estados para controlar formalmente o fluxo de atendimento.
+
+Benefícios:
+
+- Fluxo previsível
+- Redução de erros operacionais
+- Controle rigoroso das etapas clínicas
+
+---
+
+## Estrutura de permissões
+
+Sistema de papéis para diferentes profissionais:
+
+- Médico
+- Secretária
+- Enfermeira
+- Administrador
 
 
-## Ubiquitous Language
-Os termos abaixo são utilizados de forma consistente no código, documentação e comunicação com stakeholders:
 
-* Paciente: Pessoa atendida pelo consultório
-* Prontuário: Registro clínico de um evento médico específico
-* Agendamento: Planejamento de procedimentos 
-* Atendimento: Jornada completa da paciente em um ciclo de cuidado
-* Versionamento de Prontuário: Evolução histórica de um prontuário
-* Value Object (VO): Estrutura de dados sem identidade própria
-* Aggregate Root: Entidade principal que controla regras e consistência
-
-## Aggregate Roots
-### Paciente 
-
-### Responsável por:
-* Identidade da paciente
-* Dados cadastrais
-* Endereço (VO embutido)
-
-### Relacionamentos:
-* 1:N com Prontuários
-* 1:N com Agendamentos
-* 1:N com Atendimentos
-
-## Prontuário 
-
-### Características:
-* Representar um registro clínico específico.
-* Imutável após criação
-* Versionado (histórico preservado)
-* Pode assumir diferentes tipos (consulta, retorno, pós-op, followUp)
-
-### Responsável por:
-* Registros dos dados clínicos
-* Exames e procedimentos associados
-* Controle de versão e hitórico clínico
-
-## Agendamento (Aggregate Root)
-
-### Responsável por
-* Planejamento/gerenciamento de procedimentos.
-
-### Características:
-* Independente de prontuário
-* Pode ou não gerar registros clínicos
-* Controla status, datas e autorizações do procedimento
-
-## Atendimento (Aggregate Root worflow)
-
-
-### Responsável por:
-* Representa a jornada completa da paciente.
-* Orquestrar e comunicar etapas do atendimento
-* Consolidar informações
-* Gerar alertas e pendências
-* Permitir múltiplos atendimentos ao longo da vida da paciente
-
-## Entity vs Value Object
-### Paciente
-* Endereço
-
-### Prontuario
-* Descrição Básica
-* AGO
-* Antecedentes
-* Antecedentes Familiares
-* Pós-Operatório
-* Exames, internaçao
-
-### Critérios adotados:
-
-* VO não possui identidade própria
-* VO depende totalmente do Aggregate Root
-* VO pode ser persistido como:
-- Colunas embutidas (ex: Endereço)
-- Tabela própria (Owned Entity)
-
-## Versioning Strategy
-### Prontuário
-
-#### Novas porps/campos principais:
-* Versão
-* Data de Criação
-* ProntuarioAnteriorId
-
-#### Benefícios e objetivos:
-* Cada alteração gera um novo registro
-* O histórico é preservado
-* Auditoria completa
-* Segurança clínica
-* Simplicidade no MVP
-
-## ERD
-O ERD foi desenhado para:
-
-* Coerência com o domínio
-* Migração segura para SQL
-* Compatibilidade com Entity Framework
-* Relacionamentos explícitos
-* Separação clara entre agregados
-* Adequação de tipagem para persistência 
+////
 
 ## Decisões arquiteturais
 ### Reflexões para decisão da infraestrutura

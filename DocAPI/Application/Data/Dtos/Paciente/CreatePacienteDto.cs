@@ -1,0 +1,29 @@
+using System.ComponentModel.DataAnnotations;
+using DocAPI.Core.Entities;
+
+namespace DocAPI.Data.Dtos;
+
+public class CreatePacienteDto
+{
+    [Required(ErrorMessage = "O nome do paciente é obrigatório")]
+    public string Nome { get; set; } = string.Empty;
+    [Required(ErrorMessage = "O Nascimento do paciente é obrigatório")] 
+    public DateOnly Nascimento { get; set; }
+    [Required(ErrorMessage = "O CPF do paciente é obrigatório")]
+    [StringLength(11, ErrorMessage = "O máximo de caracteres é 11")]
+    public string CPF { get; set; } = string.Empty;
+    [StringLength(11, ErrorMessage = "O máximo de caracteres é 11")]
+    [MaxLength(11)]
+    public string? RG { get; set; }
+    [Required(ErrorMessage = "O email do paciente é obrigatório")]
+    public string Email { get; set; } = string.Empty;
+    [Required(ErrorMessage = "O telefone do paciente é obrigatório")]
+    public string Telefone { get; set; } = string.Empty;
+    [Required(ErrorMessage = "O Plano do paciente é obrigatório")]
+    public string Plano { get; set; } = string.Empty;
+    [Required(ErrorMessage = "O Carteira do paciente é obrigatório")]
+    public string Carteira { get; set; } = string.Empty;
+    public CreateEnderecoDto Endereco { get; set; } = new();
+    
+    
+}

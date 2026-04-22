@@ -75,6 +75,9 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
     - `[Task]` Configurar EF Core. Implementar validações estruturais
     - `[Task]` Feature flag simples (config). Ajustar queries , Adicionar índices
     - `[Task]` Validar leitura/escrita SQL.
+    Uso de soft delete pode impactar relacionamentos obrigatórios note_001
+    lidar com Warning: Owned Types (Endereco / PosOp)
+    Lidar com a limitação do delete da ChecklistItemDefinition, Copiar dados da definição para execução (snapshot)
 - **Feature:** Substituir gradualmente repositórios Sheets → SQL.
 - **Meta:** **Substituir gradualmente repositórios Sheets → SQL**
 - **Itens:**    

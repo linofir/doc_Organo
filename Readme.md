@@ -21,7 +21,7 @@ A plataforma foi desenhada para refletir o fluxo real dos processos médicos, n�
 
 - **Otimização do Fluxo de Atendimento:** Mapear e gerenciar ativamente as etapas do atendimento ao paciente (Consulta, Pré-Procedimento, Procedimento, Pós-Procedimento), fornecendo ao médico uma visão clara do status de cada paciente, além de facilitar a comunicação com a paciente.
 
-- **Geração de Relatórios:** Simplificar a criação de documentos essenciais, como relatórios completos de pacientes e termos cirúrgicos, a partir dos dados já cadastrados.
+- **Geração de Relatórios:** Simplificar a criação de documentos essenciais, como relatórios completos de pacientes e termos cirúrgicos e financeiros, a partir dos dados já cadastrados.
 
 ### Técnico:
 
@@ -88,6 +88,8 @@ O projeto é desenvolvido como um produto real, com ciclos curtos de entrega, va
 
 * **MockUp**: Criei páginas conceitos para ajudar no desenvolvimento.
 
+### InfraStructure 
+
 
 
 ---
@@ -102,7 +104,7 @@ O projeto é desenvolvido como um produto real, com ciclos curtos de entrega, va
 5.  **Repositório (Sheets):** Lógica de acesso aos dados na classe de repositório em `DocAPI/Infrastructure/SheetsDb/`. Isso envolve a comunicação com o serviço `GoogleSheetsDB` responsável pela persistências dos dados(Banco de dados provisório).
 6.  **Controller:** Comunicação da API com o front pelo Controller em `DocAPI/Controllers` para expor os novos endpoints.
 7.  **Testes:** Validação das novas rotas e a lógica utilizando o Postman.
-
+-Acrescentar banco de dados---------------------------------
 ### No DocFrontWeb(Frontend):
 
 1. ViewModels: Estrutura de dados preparada para ser consumida pela UI.

@@ -9,7 +9,7 @@ using DocAPI.Profiles;
 using DocAPI.Services;
 // using DocAPI.Services.FileDataOfSenhaExtractorService;
 using DocAPI.Infrastructure.sqlDb.Repositories;
-using DocAPI.Core.Repositories;
+using DocAPI.Core.Interfaces.Repositories;
 using DocAPI.Infrastructure.SqlDb.Context;
 // using DocAPI.Infrastructure.SheetsDb; legacy
 using System.Net.Http;
@@ -30,11 +30,16 @@ builder.Services.AddDbContext<DocDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// var conn = builder.Configuration.GetConnectionString("DefaultConnection");
+// Console.WriteLine("CONN STRING USADA:");
+// Console.WriteLine(conn);
+// var name = Environment.GetEnvironmentVariable("DB_NAME");
 
-// Add services to the container.
-//var connectionString = builder.Configuration.GetConnectionString("PacienteConnection");
-
-//builder.Services.AddDbContext<PacienteContext>(opts => opts.UseLazyLoadingProxies().UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+// builder.Services.AddDbContext<DocDbContext>(options =>
+//     options.UseSqlServer(
+//         $"Server=localhost,1433;Database=DocDb;User Id=sa;Password={password};TrustServerCertificate=True;"
+//     ));
+// Console.WriteLine($"DB Name:{name}");
 
 var config = new MapperConfiguration(cfg =>
 {
@@ -46,10 +51,12 @@ var config = new MapperConfiguration(cfg =>
 });
 
 IMapper mapper = config.CreateMapper();
-//builder.Services.AddAutoMapper(typeof(Program).Assembly); outra opção
+//builder.Services.AddAutoMapper(typeof(Program).Assembly); outra opção. talvez na prox refatoração
 
 
 builder.Services.AddSingleton<IMapper>(mapper);
+
+// builder.Services.AddAutoMapper(typeof(Program)); //Preparar para próxima refatoração
 
 // builder.Services.AddSingleton<GoogleSheetsDB>();
 // builder.Services.AddSingleton<PdfGeneratorService>(); refatorar para novo repo
@@ -63,11 +70,11 @@ builder.Services.AddScoped<IPacienteRepository, PacienteRepository>();
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
     {
         options.SerializerSettings.Converters.Add(new StringEnumConverter());
-    })
-    .AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
     });
+    // .AddJsonOptions(options =>
+    // {
+    //     options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+    // });
 
 builder.Services.AddEndpointsApiExplorer();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

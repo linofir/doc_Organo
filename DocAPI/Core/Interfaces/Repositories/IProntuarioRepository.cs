@@ -1,0 +1,18 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using DocAPI.Core.Entities;
+
+namespace DocAPI.Interfaces.Repositories;
+public interface IProntuarioRepository
+{
+    Task<IEnumerable<Prontuario>> GetAllAsync(int skip = 0, int take = 10);
+    Task<Prontuario?> GetByIdAsync(string id);
+    Task<List<Prontuario>> GetProntuariosOfPacienteAsync( string pacienteId );
+    Task CreateAsync(Prontuario novoProntuario);
+    Task UpdateAsync(Prontuario prontuario, string id);
+    Task DeleteAsync(string id);
+    Task<Prontuario> CreateFromPdfAsync(string pacienteId, string pdfPath);
+    // Task<Stream> CreateReportByIdAsync(string pacienteId);
+    // Task<Stream> CreateReportByCpfAsync(string pacienteCpf);
+
+}
