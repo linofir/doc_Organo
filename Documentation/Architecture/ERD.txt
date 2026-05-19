@@ -1,0 +1,603 @@
+// =============================
+// PACIENTE
+// =============================
+
+Table Paciente {
+
+  ID uniqueidentifier [pk, not null]
+
+  Nome varchar(200) [not null]
+
+  Nascimento date [not null]
+
+  CPF varchar(11) [not null]
+
+  RG varchar(20)
+
+  Email varchar(200) [not null]
+
+  Telefone varchar(20) [not null]
+
+  Plano varchar(100)
+
+  Carteira varchar(100)
+
+  CriadoEm datetime2 [not null]
+  AtualizadoEm datetime2
+  AtualizadoPor varchar[200]
+  Deletado bit
+  DeletadoEm datetime2
+
+  Endereco_Logradouro varchar(200)
+
+  Endereco_Numero varchar(50)
+
+  Endereco_Bairro varchar(100)
+
+  Endereco_Cidade varchar(100)
+
+  Endereco_UF char(2)
+
+  Endereco_CEP varchar(20)
+
+  indexes {
+    (CPF) [unique]
+    (Email) 
+  }
+
+}
+
+
+
+// =============================
+// ATENDIMENTO (CASO CLÍNICO)
+// =============================
+
+Table Atendimento {
+
+  ID uniqueidentifier [pk]
+
+  PacienteId uniqueidentifier [not null, ref: > Paciente.ID]
+
+  EtapaAtual varchar(50)
+
+  MensagemParaMedico varchar(500)
+
+  CriadoEm datetime2 [not null]
+  AtualizadoEm datetime2
+  AtualizadoPor varchar[200]
+  Deletado bit
+  DeletadoEm datetime2
+
+  indexes {
+    (PacienteId)
+    (EtapaAtual)
+  }
+
+}
+
+
+// =============================
+// Client Event
+// =============================
+Table ClientEvent {
+  ID uniqueidentifier [pk]
+  AtendimentoId uniqueidentifier [not null, ref: > Atendimento.ID]
+  TipoEvento int //aqui pensei em usar enum
+  Descricao varchar(200)
+  DataEvento datetime2
+  Usuario varchar(50)
+ 
+  indexes {
+    (AtendimentoId)
+    (DataEvento)
+    (TipoEvento)
+  }
+}
+
+Table AtendimentoPendencia {
+
+  ID uniqueidentifier [pk]
+
+  AtendimentoId uniqueidentifier [ref: > Atendimento.ID]
+
+  Tipo varchar(50)
+
+  Descricao varchar(200)
+
+  Resolvido bit
+
+  CriadoEm datetime2
+  indexes {
+    (AtendimentoId)
+  }
+
+}
+
+// =============================
+// CHECKLIST TEMPLATE
+// =============================
+
+Table ChecklistDefinition {
+  ID uniqueidentifier [pk]
+  Nome varchar(50)
+  Descricao varchar(200)
+}
+
+Table ChecklistItemDefinition {
+  ID uniqueidentifier [pk]
+  ChecklistDefinitionId uniqueidentifier [not null, ref: > ChecklistDefinition.ID]
+  Descricao varchar(200)
+  Ordem int
+  Obrigatorio bit
+
+  indexes {
+    (ChecklistDefinitionId)
+  }
+}
+
+
+// =============================
+// CHECKLIST EXECUTION
+// =============================
+
+Table ChecklistExecution {
+  ID uniqueidentifier [pk]
+  ChecklistDefinitionId uniqueidentifier [not null, ref: > ChecklistDefinition.ID]
+  AtendimentoId uniqueidentifier [not null, ref: > Atendimento.ID]
+  CriadoEm datetime2
+
+  indexes {
+    (AtendimentoId, ChecklistDefinitionId) [unique]
+  }
+}
+
+Table ChecklistItemExecution {
+  ID uniqueidentifier [pk]
+  ChecklistExecutionId uniqueidentifier [not null, ref: > ChecklistExecution.ID]
+  ChecklistItemDefinitionId uniqueidentifier [not null, ref: > ChecklistItemDefinition.ID]
+
+  Concluido bit
+  ConcluidoEm datetime2
+  ConcluidoPor varchar(50)
+
+  indexes {
+    (ChecklistExecutionId)
+    (ChecklistItemDefinitionId)
+  }
+}
+
+
+// =============================
+// PRONTUÁRIO (SNAPSHOT CLÍNICO)
+// =============================
+
+Table Prontuario {
+
+  ID uniqueidentifier [pk]
+
+  PacienteId uniqueidentifier [not null, ref: > Paciente.ID]
+
+  AtendimentoId uniqueidentifier [not null, ref: > Atendimento.ID]
+
+  DataConsulta date [not null]
+
+  Tipo int
+
+  InformacoesExtras varchar(max)
+
+  Versao int [not null]
+
+  ProntuarioAnteriorId uniqueidentifier [ref: > Prontuario.ID]
+
+  CriadoEm datetime2 [not null]
+  AtualizadoEm datetime2
+  AtualizadoPor varchar[200]
+  Deletado bit
+  DeletadoEm datetime2
+
+  indexes {
+    (PacienteId) [unique]
+    (AtendimentoId)
+    (ProntuarioAnteriorId)
+    (Versao) [unique]
+  }
+
+
+
+// -----------------------------
+// DESCRIÇÃO BÁSICA
+// -----------------------------
+
+  DescricaoBasica_NomePaciente varchar(200)
+
+  DescricaoBasica_Cpf varchar(11)
+
+  DescricaoBasica_Idade int
+
+  DescricaoBasica_Profissao varchar(200)
+
+  DescricaoBasica_Religiao varchar(200)
+
+  DescricaoBasica_QD varchar(max)
+
+  DescricaoBasica_AtividadeFisica varchar(200)
+
+
+// -----------------------------
+// AGO
+// -----------------------------
+
+  Ago_Menarca varchar(50)
+
+  Ago_DUM varchar(50)
+
+  Ago_Paridade varchar(50)
+
+  Ago_DesejoGestacao varchar(50)
+
+  Ago_VacinaHPV int
+
+  Ago_MAC_TRH varchar(100)
+
+  Ago_Cco varchar(max)
+
+  Ago_Intercorrencias varchar(200)
+
+  Ago_Amamentacao varchar(100)
+
+  Ago_VidaSexual varchar(100)
+
+  Ago_Relacionamento varchar(100)
+
+  Ago_Parceiros varchar(100)
+
+  Ago_Coitarca varchar(100)
+
+  Ago_IST varchar(100)
+
+
+// -----------------------------
+// ANTECEDENTES
+// -----------------------------
+
+  Antecedentes_Comorbidades varchar(100)
+
+  Antecedentes_Medicacao varchar(100)
+
+  Antecedentes_Neoplasias varchar(100)
+
+  Antecedentes_Cirurgias varchar(100)
+
+  Antecedentes_Alergias varchar(100)
+
+  Antecedentes_Vicios varchar(100)
+
+  Antecedentes_HabitoIntestinal varchar(200)
+
+  Antecedentes_Vacinas varchar(200)
+
+
+// -----------------------------
+// ANTECEDENTES FAMILIARES
+// -----------------------------
+
+  AntecedentesFamiliares_Neoplasias varchar(200)
+
+  AntecedentesFamiliares_Comorbidades varchar(200)
+
+
+// -----------------------------
+// PÓS OPERATÓRIO
+// -----------------------------
+
+  PosOp_PeriodoSeguimento varchar(100)
+
+  PosOp_Conclusao varchar(500)
+
+  PosOp_ExameMacro varchar(max)
+
+}
+// -----------------------------
+// CD
+// -----------------------------
+
+Table ProntuarioAcaoCD {
+
+  ID uniqueidentifier [pk]
+
+  ProntuarioId uniqueidentifier [not null, ref: > Prontuario.ID]
+
+  Tipo int
+
+  indexes {
+    (ProntuarioId)
+  }
+
+}
+
+
+
+// =============================
+// EXAMES
+// =============================
+
+Table Exame {
+
+  ID uniqueidentifier [pk]
+
+  ProntuarioId uniqueidentifier [not null, ref: > Prontuario.ID]
+
+  Codigo varchar(20)
+
+  Nome varchar(200)
+
+  Status varchar(40)
+
+  DataSolicitacao date
+
+  DataResultado date
+
+  indexes {
+    (ProntuarioId) [unique]
+    (Status)
+    (DataSolicitacao)
+  }
+
+}
+
+
+
+// =============================
+// INTERNAÇÃO
+// =============================
+
+Table Internacao {
+
+  ID uniqueidentifier [pk]
+
+  ProntuarioId uniqueidentifier [not null, ref: > Prontuario.ID]
+
+  Data date
+
+  IndicacaoClinica varchar(max)
+
+  CIDCodigo varchar(10) [ref: > CID.Codigo]
+
+  Observacao varchar(max)
+
+  TempoDoenca varchar(40)
+
+  Diarias int
+
+  Tipo varchar(20)
+
+  Regime varchar(20)
+
+  Carater varchar(20)
+
+  UsaOPME bit
+
+  Local varchar(40)
+
+  Guia varchar(40)
+
+  indexes {
+    (ProntuarioId)
+    (CIDCodigo)
+    (Data)
+  }
+
+}
+
+
+
+// =============================
+// PROCEDIMENTOS DE INTERNAÇÃO
+// =============================
+
+Table ProcedimentoInternacao {
+
+  ID uniqueidentifier [pk]
+
+  InternacaoId uniqueidentifier [not null, ref: > Internacao.ID]
+
+  CodigoProcedimento varchar(20)
+
+  Descricao varchar(200)
+
+  indexes {
+    (InternacaoId) [unique]
+  }
+
+}
+// =============================
+// CID
+// =============================
+
+Table CID {
+
+  Codigo varchar(10) [pk]
+
+  Descricao varchar(300)
+
+}
+Table Agendamento{
+ID uniqueidentifier [pk]
+InternacaoId uniqueidentifier [not null, ref: > Internacao.ID]
+AtendimentoID uniqueidentifier [not null, ref: > Atendimento.ID]
+
+Nome varchar(20)
+Aviso varchar(20) 
+Data date 
+Horario time
+Local varchar(100)
+Sala varchar(10)
+Status int//enum no model
+InstrucaoStatus int
+AtestadoStatus int
+DataConsulta date
+
+CriadoEm datetime2 [not null]
+AtualizadoEm datetime2
+AtualizadoPor varchar[200]
+Deletado bit
+DeletadoEm datetime2
+
+SenhaAgendamento_Codigo varchar(20)
+SenhaAgendamento_DataPedido date
+SenhaAgendamento_DataLibetracao date
+SenhaAgendamento_Validade date
+
+indexes {
+    (Data, Horario)
+    (Status)
+    (InternacaoId) [unique]
+  }
+
+}
+
+
+// =============================
+// Audit
+// =============================
+Table AuditLog{
+
+ID uniqueidentifier [pk]
+Tabela varchar(100)
+RegistroId uniqueidentifier
+Operacao int //definir enum
+ValorAnterior varchar(max)
+ValorNovo varchar(max)
+Usuario varchar(100)
+DataOperacao datetime2
+
+indexes {
+  (Tabela, RegistroId)
+  (DataOperacao)
+  }
+}
+
+// =============================
+// Financeiro
+// =============================
+
+Table DemonstrativoFinanceiro {
+  ID uniqueidentifier [pk]
+  Periodo date [not null]
+
+  // opcional (auditoria)
+  JsonOriginal varchar(max)
+
+  CriadoEm datetime [not null]
+}
+
+Table GuiaFinanceira {
+  ID uniqueidentifier [pk]
+  DemonstrativoFinanceiroId uniqueidentifier [not null, ref: > DemonstrativoFinanceiro.ID]
+
+  TipoGuia varchar(50) [not null]
+  TipoGuiaDescricao varchar(200)
+
+  CriadoEm datetime [not null]
+
+  Indexes {
+    DemonstrativoFinanceiroId
+    TipoGuia
+  }
+}
+
+Table ItemFinanceiro {
+  ID uniqueidentifier [pk]
+  GuiaFinanceiraId uniqueidentifier [not null, ref: > GuiaFinanceira.ID]
+
+  Lote varchar(20)
+  Guia varchar(20)
+  Protocolo varchar(20)
+
+  NomeUsuario varchar(200)
+
+  TipoUsuario varchar(10)
+  Info varchar(5)
+
+  Data date [not null]
+
+  ServicoCodigo varchar(20) [not null]
+  ServicoDescricao varchar(300)
+
+  Quantidade int
+
+  ValorTabela decimal(10,2)
+  GrauParticipacao varchar(10)
+  PercentualVia decimal(5,2)
+  HonorarioFator decimal(5,2)
+  ValorPago decimal(10,2)
+
+  CriadoEm datetime [not null]
+
+  Indexes {
+    GuiaFinanceiraId
+    Data
+    ServicoCodigo
+    Guia
+    Protocolo
+    Lote
+    (Guia, ServicoCodigo)
+    (ServicoCodigo, Data)
+  }
+}
+
+Table ConciliacaoFinanceira {
+  ID uniqueidentifier [pk]
+
+  Periodo date [not null]
+
+  CriadoEm datetime [not null]
+  AtualizadoEm datetime [not null]
+  AtualizadoPor varchar(50)
+
+  Indexes {
+    Periodo
+    CriadoEm
+  }
+}
+
+Table ItemConciliacao {
+  Id uniqueidentifier [pk]
+
+  ConciliacaoId uniqueidentifier [not null, ref: > ConciliacaoFinanceira.ID]
+  ItemFinanceiroId uniqueidentifier [not null]
+
+  AtendimentoId uniqueidentifier [ref: > Atendimento.ID]
+  ProcedimentoInternacaoId uniqueidentifier [ref: > ProcedimentoInternacao.ID]
+
+  ValorEsperado decimal(10,2) [not null]
+  ValorPago decimal(10,2) [not null]
+  Diferenca decimal(10,2) [not null]
+
+  Status int [not null]
+
+  Observacao varchar(500)
+
+  CriadoEm datetime [not null]
+  AtualizadoEm datetime [not null]
+  AtualizadoPor varchar(50)
+
+  Indexes {
+    ConciliacaoId
+    ItemFinanceiroId
+    AtendimentoId
+    ProcedimentoInternacaoId
+    Status
+
+    // 🔥 ESSENCIAL PRA CONCILIAÇÃO
+    (ItemFinanceiroId, Status)
+    (AtendimentoId, Status)
+    (ProcedimentoInternacaoId, Status)
+
+    // 🔥 análise de divergência
+    (Status, Diferenca)
+    (ConciliacaoId, Status)
+
+  }
+}

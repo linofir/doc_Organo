@@ -203,6 +203,6 @@ Essas melhorias garantirão maior segurança e confiabilidade do sistema em ambi
 
 
 
-# TDD
+# E2E tests
 
 Front, application, infra , domain tests

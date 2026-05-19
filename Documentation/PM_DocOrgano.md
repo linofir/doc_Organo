@@ -85,7 +85,13 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
     - `[Task]` Configurar EF Core.
     - `[Task]` Feature flag simples (config). Ajustar queries , Adicionar índices
     - `[Task]` Validar leitura/escrita SQL.
-
+### **Épico: 🏗️ SECURITY 
+- **Feature:** Investigate. 
+- **Meta:** **Search and Research**
+- **Itens:**
+    - `[Task]` Identify current reabilities.
+    - `[Task]` Set Priorities.
+    - `[Task]` Identify risks and vunerabilities.
 ### **Épico: 🏗️ Infraestrutura - Servers
 - **Feature:** Cloud. 
 - **Meta:** **Estruturar e preparar para deploy local**
