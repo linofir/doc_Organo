@@ -1,3 +1,6 @@
+// Doc Organo — ERD (dbdiagram.io / DBML)
+// Canonical schema reference. See docs/migration-sql.md for Sheets→SQL plan.
+
 // =============================
 // PACIENTE
 // =============================

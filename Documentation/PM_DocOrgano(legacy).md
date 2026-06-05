@@ -8,6 +8,7 @@ Este documento serve como um guia central para o desenvolvimento, planejamento e
 Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organizado em Épicos (grandes blocos de funcionalidade) e Features (entregas de valor).
 
 ---
+***Épicos executados MVP2 -branch main***
 ### **Épico: 🚀 Gestão (Core do Negócio)**
 - **Feature:** Estruturar desenvolvimento. OK
 - **Feature:** Definir Documentação.        
@@ -36,9 +37,81 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
 ### **Épico: 🧑‍⚕️ Gestão de Pacientes**
 - **Feature:** CRUD completo para `Paciente` e `Endereco`.
 - **Feature:** Busca de pacientes por múltiplos critérios (CPF, Nome).
-
-### **Épico: 🏗️ Infraestrutura - Persistência SQL
+### **Épico: 🖥️ Frontend (DocFront WEB)** 
+- **Feature:** Criar a base técnica web (Blazor + MAUI). (feature/Integracao_API)
+    - **Itens:** 
+        - `[Task Done]`  **Projeto** DocFront.Web (Blazor Server — para web) 
+        - `[Task Done]`  **Pastas** /Pages, /Components, /Models, /Services, /Utils, /Styles.
+        - `[Task Done]`  **Integração** Associação com inicial API Injetar `HttpClient`, configurar `appsettings.json`.
+        - `[Task Done]`  **Integração** Configurar program.cs.
+        - `[Task Done]`  **Teste:** Teste Iniciais.
+- **Feature:** Integração com API (backend pronto)
+    - **Itens:** 
+        - `[Task Done]`  **Serviços** Criar ApiService base com HttpClient injetado (DI).
+        - `[Task Done]`  **Settings** Configurar appsettings.json com URL do backend.
+        - `[Task Done]`  **Wrappers** Criar wrappers para endpoints. Mapear principais endpoints.
+        - `[Task Done]`  **Erros** Validar tratamento de erro local paciente (BadRequest, 500 etc). Criar tratamento de erros friendly
+        - `[Task Done]`  **Loading** Implementar loading states e retry. Loading global
+        - `[Task Done]`  **Models** Criar modelos C# idênticos aos DTOs.
+        - `[Task Done]`  **viweModels** Criar modelos para exibição (ViewModels quando necessário).
+        - `[Task Done]`  **Components** Componentes básicos para pacientes, tabs, cards, aba, button. 
+        - `[Task Done]`  **Páginas** páginas base para Pacientes.
+- **Feature:** Integração com API (prontuarios, Agendamento)(feature/integracao_models)
+    - **Itens:** 
+        - `[Task Done]`  **Models** Criar view modelos e Dtos necessários.
+        - `[Task Done]`  **Serviços** Criar ApiService base com HttpClient injetado (DI), implementar wrappers endpoints.
+        - `[Task Done]`  **Components** Componentes básicos para novas entidades, tabs, cards, aba, button. 
+        - `[Task Done]`  **Páginas** Ajustar páginas base para entidades, Criar, Detalhes.
+        - `[Task Done]`  **Erros** Validar tratamento de erro local básico
+- **Feature:** Integração com API (Agendamento)(feature/integracao_models_Agendamento) Ativa
+    - **Itens:** 
+        - `[Task Done]`  **Models** Criar view models e Dtos necessários.
+            - Models para distinguindo as classes de Agendamento e Enums necessários
+            - Dtos do paraa Agendamento
+            - Ajustes para a implementação
+        - `[Task Done]`  **Serviços** Criar ApiService base com HttpClient injetado (DI), implementar wrappers endpoints.
+            - Adequação de ApiService
+            - Criação de AgendamentoService
+            - Criação de AgendamentoMapper, PacienteMapper
+            - Adequação da Api, novo endpoint de Agendamento
+        - `[Task Done]`  **Páginas** Ajustar páginas base para entidades, Criar, Detalhes.
+            - Adequção da página Detalhes
+        - `[Task Done]`  **Components** Componentes básicos para novas entidades, tabs, cards, aba, button. 
+            - cards Agendamento
+            - AbaAgendamento
+            - Componente AgendamentoList 
+            - Componentes de section da AbaAgendamento
+        - `[Task UnDone]`  **Erros** Validar tratamento de erro local básico
+                
+- **Feature:** Store de Dados (State Management)(feature/Store_State_Management)
+    - **Itens:** 
+        - `[Task]`  **Ferramente** Scoped Services ou fluxor. Avaliar se nessesário agora.
+        - `[Task]`  **Cache** Criar cache para os dados necessários.
+        - `[Task]`  **Funcionalidades** Implementar refresh e invalidação de cache.(ex: IMemoryCache)
+        - `[Task]`  **Funcionalidades** Implementar debounce para chamadas (evitar spam).
+### **Épico: 🖥️ MVP implementation**
+- **Feature:** Build, Deploy e Testes
+    - **Itens:** 
+        - `[Task]`  **Build** Criar pipeline para gerar Build Windows (.msix ou .exe) e Build Android (.apk)
+        - `[Task]`  **mobile** Deploy local no celular (USB).
+        - `[Task]`  **Testes** Testar performance e responsividade Window/Android.
+        - `[Task]`  **Documentação** Documentar instruções de instalação do app.
+- **Feature:** MVP Final / Demonstração.
+    - **Itens:** 
+        - `[Task]`  **Apresentação** Criar script da apresentação.
+        - `[Task]`  **Screens** Criar vídeo curto (screen capture).
+        - `[Task]`  **Documentação** Criar PDF com arquitetura geral.
+        - `[Task]`  **App2.0** Criar backlog para versão 2.0.
+- **Feature:** Currículo e LinkedIn.
+    - **Itens:** 
+        - `[Task]`  **Apresentação** Atualizar CV.
+        - `[Task]`  **linkdn** Criar 1 post técnico (state management).
+        - `[Task]`  **Vagas** Encontrar e aplicar.
+---- 
+***BackLog MVP2***
+### **Épico: 🏗️ Infraestrutura - Persistência SQL 
 - **Feature:** Base_DB. 
+-  **Status:** On review
 - **Meta:** **Estruturar e criar base sólida do DB**
 - **Itens:**
     - `[Task]` Criar ERD(Diagramas de Entidade-Relacionamento) completo.
@@ -60,7 +133,8 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
         - `[Task]` Rodar dotnet ef database update para o Entity Framework criar as tabelas no container. 
         - `[Task]` Criar primeira migration. 
 
-- **Feature:** Criar persistência.
+- **Feature:** Criar persistência. 
+-  **Status:** On review
 - **Meta:** **Criar persistência de Pacientes do Google Sheets para um banco de dados relacional com Entity Framework**
 - **Itens:**    
     - `[Task]` DocDbContext para todas entidades .
@@ -115,6 +189,7 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
     - `[Task]` Ajustar connection string.
     - `[Task]` Testar deploy
     - `[Task]` Documentar.
+### **
 
 ### **Épico: 🏗️ Débitos Técnicos**
 - **Feature:** Implementar um sistema de Logging robusto em toda a aplicação.
@@ -131,58 +206,15 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
 
 
 ----------- 
-### **Épico: 🖥️ Frontend (DocFront WEB)** 
-- **Feature:** Criar a base técnica web (Blazor + MAUI). (feature/Integracao_API)
-    - **Itens:** 
-        - `[Task Done]`  **Projeto** DocFront.Web (Blazor Server — para web) 
-        - `[Task Done]`  **Pastas** /Pages, /Components, /Models, /Services, /Utils, /Styles.
-        - `[Task Done]`  **Integração** Associação com inicial API Injetar `HttpClient`, configurar `appsettings.json`.
-        - `[Task Done]`  **Integração** Configurar program.cs.
-        - `[Task Done]`  **Teste:** Teste Iniciais.
-- **Feature:** Integração com API (backend pronto)
-    - **Itens:** 
-        - `[Task Done]`  **Serviços** Criar ApiService base com HttpClient injetado (DI).
-        - `[Task Done]`  **Settings** Configurar appsettings.json com URL do backend.
-        - `[Task Done]`  **Wrappers** Criar wrappers para endpoints. Mapear principais endpoints.
-        - `[Task Done]`  **Erros** Validar tratamento de erro local paciente (BadRequest, 500 etc). Criar tratamento de erros friendly
-        - `[Task Done]`  **Loading** Implementar loading states e retry. Loading global
-        - `[Task Done]`  **Models** Criar modelos C# idênticos aos DTOs.
-        - `[Task Done]`  **viweModels** Criar modelos para exibição (ViewModels quando necessário).
-        - `[Task Done]`  **Components** Componentes básicos para pacientes, tabs, cards, aba, button. 
-        - `[Task Done]`  **Páginas** páginas base para Pacientes.
-- **Feature:** Integração com API (prontuarios, Agendamento)(feature/integracao_models)
-    - **Itens:** 
-        - `[Task Done]`  **Models** Criar view modelos e Dtos necessários.
-        - `[Task Done]`  **Serviços** Criar ApiService base com HttpClient injetado (DI), implementar wrappers endpoints.
-        - `[Task Done]`  **Components** Componentes básicos para novas entidades, tabs, cards, aba, button. 
-        - `[Task Done]`  **Páginas** Ajustar páginas base para entidades, Criar, Detalhes.
-        - `[Task Done]`  **Erros** Validar tratamento de erro local básico
-- **Feature:** Integração com API (Agendamento)(feature/integracao_models_Agendamento) Ativa
-    - **Itens:** 
-        - `[Task Done]`  **Models** Criar view models e Dtos necessários.
-            - Models para distinguindo as classes de Agendamento e Enums necessários
-            - Dtos do paraa Agendamento
-            - Ajustes para a implementação
-        - `[Task Done]`  **Serviços** Criar ApiService base com HttpClient injetado (DI), implementar wrappers endpoints.
-            - Adequação de ApiService
-            - Criação de AgendamentoService
-            - Criação de AgendamentoMapper, PacienteMapper
-            - Adequação da Api, novo endpoint de Agendamento
-        - `[Task Done]`  **Páginas** Ajustar páginas base para entidades, Criar, Detalhes.
-            - Adequção da página Detalhes
-        - `[Task Done]`  **Components** Componentes básicos para novas entidades, tabs, cards, aba, button. 
-            - cards Agendamento
-            - AbaAgendamento
-            - Componente AgendamentoList 
-            - Componentes de section da AbaAgendamento
-        - `[Task UnDone]`  **Erros** Validar tratamento de erro local básico
-                
-- **Feature:** Store de Dados (State Management)(feature/Store_State_Management)
-    - **Itens:** 
-        - `[Task]`  **Ferramente** Scoped Services ou fluxor. Avaliar se nessesário agora.
-        - `[Task]`  **Cache** Criar cache para os dados necessários.
-        - `[Task]`  **Funcionalidades** Implementar refresh e invalidação de cache.(ex: IMemoryCache)
-        - `[Task]`  **Funcionalidades** Implementar debounce para chamadas (evitar spam).
+
+### **Épico: 🖥️ Frontend (DocFront WEB) MVP2** 
+- **Feature:** Desenvolver melhor
+- **Meta:**: Evoluir o front para ser compativel com o novo backend 
+- **Itens:**
+- **Feature:** 
+- **Meta:**: Evoluir o front para ser compativel com o novo backend 
+- **Itens:**
+
 - **Feature:** Tools / Observabilidade
     - **Itens:** 
         - `[Task]`  **debugger** Configurar logging local (ILogger).
@@ -195,7 +227,7 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
         - `[Task]`  **Erros** Tratar erros da API com feedback ao usuário, global.
         - `[Task]`  **Funcionalidades** Implementar refresh e invalidação de cache.
         - `[Task]`  **Funcionalidades** Implementar debounce para chamadas (evitar spam).
-### **Épico: 🖥️ Frontend (DocFront) V2**
+### **Épico: 🖥️ Frontend (DocFront) **
 - **Feature:** Criar a base técnica do aplicativo (Blazor hybrid + MAUI). 
     - **Itens:** 
         - `[Task]`  **Projeto** Criação/Estruturação do projeto Blazor Server. Blazor Hybrid + .NET MAUI.(2)
@@ -222,8 +254,6 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
         - ajustes da de UI para Prontuarios, uso de enuns( adequar api para fornecer lista de exames, alterar section exames)
         - Otimizar o uso de cache de prontuario e Agendamneto, {e possível utilizar cache de prontuariolist para não aconar o GetByID?}
         - Acrescentar opção de novo prontuario na abaProntuarios e AbaAgenmentos.
-
-
        
 - **Feature:** UI/UX. 
     - **Itens:** 
@@ -245,11 +275,11 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
         - `[Task]`  **Referências** Definir tipografia.
         - `[Task]`  **Identidade** Criar identidade mínima (ícone do app).
         
-### **Épico: 🖥️ MVP**
+### **Épico: 🖥️ MVP2 implementation**
 - **Feature:** Build, Deploy e Testes
     - **Itens:** 
         - `[Task]`  **Build** Criar pipeline para gerar Build Windows (.msix ou .exe) e Build Android (.apk)
-        - `[Task]`  **mobile** Deploy local no celular (USB).
+        - `[Task]`  
         - `[Task]`  **Testes** Testar performance e responsividade Window/Android.
         - `[Task]`  **Documentação** Documentar instruções de instalação do app.
 - **Feature:** MVP Final / Demonstração.
@@ -261,7 +291,7 @@ Este é o backlog inicial, derivado do seu `ToDo Product Log`. Ele está organiz
 - **Feature:** Currículo e LinkedIn.
     - **Itens:** 
         - `[Task]`  **Apresentação** Atualizar CV.
-        - `[Task]`  **linkdn** Criar 1 post técnico (state management).
+        - `[Task]`  **linkdn** Criar 1 post das novas ferures e evoluções do projeto.
         - `[Task]`  **Vagas** Encontrar e aplicar.
     
 -Sugestões de [epicos]

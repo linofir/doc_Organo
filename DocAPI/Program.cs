@@ -1,4 +1,3 @@
-using DocAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using Newtonsoft.Json.Converters;
@@ -6,13 +5,10 @@ using QuestPDF.Infrastructure;
 
 using DocAPI.CLI;
 using DocAPI.Profiles;
-using DocAPI.Services;
-// using DocAPI.Services.FileDataOfSenhaExtractorService;
-using DocAPI.Infrastructure.sqlDb.Repositories;
 using DocAPI.Core.Interfaces.Repositories;
+using DocAPI.Interfaces.Repositories;
+using DocAPI.Infrastructure.Repositories;
 using DocAPI.Infrastructure.SqlDb.Context;
-// using DocAPI.Infrastructure.SheetsDb; legacy
-using System.Net.Http;
 
 
 
@@ -63,9 +59,9 @@ builder.Services.AddSingleton<IMapper>(mapper);
 // builder.Services.AddSingleton<FileDataOfSenhaExtractorService>(); refatorar para novo repo
 
 builder.Services.AddScoped<IPacienteRepository, PacienteRepository>();
-// builder.Services.AddScoped<IProntuarioRepository, ProntuarioSheetsRepository>();
-// builder.Services.AddScoped<IAgendamentoRepository, AgendamentoSheetsRepository>();
-// builder.Services.AddScoped<IAtendimentoRepository, AtendimentoSheetsRepository>();
+builder.Services.AddScoped<IProntuarioRepository, ProntuarioRepository>();
+builder.Services.AddScoped<IAgendamentoRepository, AgendamentoRepository>();
+builder.Services.AddScoped<IAtendimentoRepository, AtendimentoRepository>();
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
     {

@@ -1,0 +1,10 @@
+---
+description: Keep documentation updated for better context usage
+alwaysApply: true
+---
+
+# Update Documentation
+
+- Update `Documentation/State.md` when current branch, runtime status, blockers, verification status, or next steps change.
+- Route durable decisions to ADR evaluation using `Documentation/AI-Harness/Harness-Design/harness-architecture.md`.
+- Put architecture, technical, harness, operational, and feature-specific updates in their owning documents; use `.cursor/skills/documentation-update/SKILL.md` for routing when unclear.

@@ -7,10 +7,11 @@ A plataforma foi desenhada para refletir o fluxo real dos processos médicos, n�
  ---
 ## 1.1 TL;DR Técnico
 
-- Backend: ASP.NET Core (.NET 7), DDD, Repository Pattern, REST API, EF
-- Frontend: Blazor WebAssembly, State Management centralizado, fluxo unidirecional
-- Persistência atual: Google Sheets (validação rápida), SQL, Docker
+- Backend: ASP.NET Core (.NET 7), DDD, Repository Pattern, REST API, EF Core
+- Frontend: Blazor **Server** (`DocFront.Web`), State Management centralizado, fluxo unidirecional
+- Persistência: branch `main` → Google Sheets; branch `feature/base_DB` → SQL Server + Docker (migração em andamento)
 - Status: MVP em uso real
+- Documentação IA: [AGENTS.md](AGENTS.md) · [docs/documentation-index.md](docs/documentation-index.md)
 
 ---
 ## 2. Objetivos Estratégicos (Strategic Goals)
@@ -46,9 +47,9 @@ O projeto é desenvolvido como um produto real, com ciclos curtos de entrega, va
 
 - A arquitetura segue um padrão semelhante ao **Model-View-Controller (MVC)**, onde:
 
-    - **Model:** As entidades de negócio em `DocAPI/Core/Models`.
-    - **Controller:** Os endpoints da API em `DocAPI/Controllers`, que orquestram as requisições.
-    - **View:** O frontend (separado), `DocFront`, que consumirá esta API.
+    - **Model:** Entidades em `DocAPI/Core/Entities`.
+    - **Controller:** Endpoints em `DocAPI/API/Controllers`.
+    - **View:** Frontend `DocFront.Web` (Blazor Server).
    
 ### Na DocAPI(Backend):
 
@@ -56,11 +57,11 @@ O projeto é desenvolvido como um produto real, com ciclos curtos de entrega, va
 
 | Camada         | Função                                   | Pasta do projeto |
 | -------------- | ---------------------------------------- | ---------------- |
-| Apresentação   | Controllers e endpoints da API           | Controllers/     |
-| Aplicação      | Orquestra regras e casos de uso          | Services/        |
+| Apresentação   | Controllers e endpoints da API           | API/Controllers/     |
+| Aplicação      | DTOs, mapeamentos, serviços de integração | Application/        |
 | Domínio        | Entidades e interfaces de repositórios   | Core/            |
-| Infraestrutura | Implementações concretas de persistência | Infrastructure/  |
-| Dados          | DTOs, mapeamentos, configurações EF Core | Data/            |  
+| Infraestrutura | EF Core, repositórios SQL                | Infrastructure/  |
+| Legado         | Referência Google Sheets (comentado)     | Legacy/_LegacySheetsDb/ |  
 
 *  **Domain-Driven Design (DDD)**: O projeto adota princípios de **Domain-Driven Design (DDD)**, organizando o código em torno do domínio do problema (Pacientes, Agendamentos, Prontuários e Atendimentos). As **regras de negócio** são tratadas nos serviços e modelos de domínio. **Projeto com modelagem de domínio documentada** Criação de ERD + Domain Overview antes da implementação e como auxílio no desenvolvimento
 
@@ -119,7 +120,7 @@ O projeto é desenvolvido como um produto real, com ciclos curtos de entrega, va
 
 ## 5. Tecnologias e Bibliotecas
 
-### Documentação Doc_Organo: *****Gerar links
+### Documentação Doc_Organo: 
 - **Readme** - Visão geral e sintetização do projeto.
 - **PM(Project Management)** Para planejamento do desenvolvimento
 - **Quadro Kanban:** GitHub Projects para gestão do fluxo de trabalho.
@@ -145,7 +146,7 @@ O projeto é desenvolvido como um produto real, com ciclos curtos de entrega, va
 * [CSharp](https://learn.microsoft.com/en-us/aspnet/core/blazor/tutorials/movie-database-app/part-1?view=aspnetcore-10.0&pivots=vsc)
   
 ### No DocFrontWeb(Frontend):
-* **Blazor WebAssembly** é utilizado no frontend web.  O projeto já está estruturado visando futura reutilização de componentes e lógica de estado em uma aplicação **Blazor MAUI**, planejada para a versão 2.0 (mobile).
+* **Blazor Server** é utilizado no frontend web (`DocFront.Web`). O projeto está estruturado visando futura reutilização de componentes em **Blazor MAUI** (versão 2.0 mobile).
 
 ---
 ## 6. **Como executar**
@@ -255,7 +256,7 @@ Este projeto utiliza um fluxo de trabalho baseado em *feature branches*, similar
   
 
 ### Próximos passos
-* A gestão do projeto é feita pelo documento [PM](https://github.com/linofir/doc_Organo/blob/main/PM_DocOrgano.md) onde estão os épicos criados para melhor planejamento do desenvolvimento. abaixo está um resumo das features já previstas no backlog da próxima versão:
+* A gestão do projeto é feita pelo documento [PM](Documentation/Product/PM_DocOrgano.md). Abaixo está um resumo das features previstas no backlog:
 
 + Coleta automática de dados( ex. prontuarios e senhas de agendamento).
 + Gerar relatórios automatizados.

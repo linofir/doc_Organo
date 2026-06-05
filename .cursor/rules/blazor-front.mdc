@@ -1,0 +1,29 @@
+---
+description: Blazor Server frontend patterns for DocFront.Web
+globs: DocFront.Web/**/*
+alwaysApply: false
+---
+
+# DocFront.Web — Blazor Server
+
+## Stack
+
+Blazor **Server** (`AddServerSideBlazor`) — not WebAssembly.
+
+## Data flow
+
+```
+API → Service (HttpClient) → State (cache) → UI (Pages/Components)
+```
+
+- UI should not call `HttpClient` directly.
+- Use Mappers for DTO ↔ ViewModel in State or Service consistently.
+
+## API base URL
+
+Configured in `appsettings.json` → `ApiSettings:BaseUrl` (default `https://localhost:7004`).
+
+## Conventions
+
+- Match API route names (`paciente`, `prontuario`, `agendamento`).
+- Atendimento is not integrated in front yet — do not add UI without API stability.

@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using DocAPI.Core.Entities;
+
+namespace DocAPI.Infrastructure.SqlDb.Configurations;
+
 public class AtendimentoPendenciaConfiguration : IEntityTypeConfiguration<AtendimentoPendencia>
 {
     public void Configure(EntityTypeBuilder<AtendimentoPendencia> builder)

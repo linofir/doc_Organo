@@ -5,6 +5,10 @@ VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocAPI", "DocAPI\DocAPI.csproj", "{0C4DAFF3-AE3F-4589-A7DC-8364F312D24F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocAPI.Tests", "DocAPI.Tests\DocAPI.Tests.csproj", "{5870A576-E98E-409C-8FF7-CAE21B8E3B61}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocFront.Web", "DocFront.Web\DocFront.Web.csproj", "{B7214C96-52B2-4220-B6BD-29CD00A69DC0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{0C4DAFF3-AE3F-4589-A7DC-8364F312D24F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C4DAFF3-AE3F-4589-A7DC-8364F312D24F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C4DAFF3-AE3F-4589-A7DC-8364F312D24F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5870A576-E98E-409C-8FF7-CAE21B8E3B61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5870A576-E98E-409C-8FF7-CAE21B8E3B61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5870A576-E98E-409C-8FF7-CAE21B8E3B61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5870A576-E98E-409C-8FF7-CAE21B8E3B61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7214C96-52B2-4220-B6BD-29CD00A69DC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7214C96-52B2-4220-B6BD-29CD00A69DC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7214C96-52B2-4220-B6BD-29CD00A69DC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7214C96-52B2-4220-B6BD-29CD00A69DC0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

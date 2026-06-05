@@ -1,44 +1,84 @@
 using DocAPI.Core.Entities;
 using DocAPI.Core.Interfaces.Repositories;
-using DocAPI.Services; //Planejando a implementação dos meus serviços como extração de dados do pdf
+using DocAPI.Infrastructure.SqlDb.Context;
+using Microsoft.EntityFrameworkCore;
 
-
-namespace DocAPI.Infrastructure.sqlDb.Repositories;
+namespace DocAPI.Infrastructure.Repositories;
 
 public class PacienteRepository : IPacienteRepository
 {
-    // public PacienteSheetsRepository()
-    // {
-        
-    // }
+    private readonly DocDbContext _context;
+
+    public PacienteRepository(DocDbContext context)
+    {
+        _context = context;
+    }
+
     public async Task<IEnumerable<Paciente>> GetAllAsync(int skip = 0, int take = 10)
     {
-        throw new NotImplementedException();
+        return await _context.Pacientes
+            .OrderBy(p => p.Nome)
+            .Skip(skip)
+            .Take(take)
+            .ToListAsync();
     }
+
     public async Task<Paciente?> GetByIdAsync(Guid id)
     {
-        throw new NotImplementedException();
+        return await _context.Pacientes
+            .FirstOrDefaultAsync(p => p.ID == id);
     }
+
     public async Task<List<Paciente>> GetPacienteByCpfAsync(string cpf)
     {
-        throw new NotImplementedException();
+        var cpfLimpo = cpf.Trim();
+        return await _context.Pacientes
+            .Where(p => p.CPF == cpfLimpo)
+            .ToListAsync();
     }
+
     public async Task<List<Paciente>> GetPacienteByNomeAsync(string nome)
     {
-        throw new NotImplementedException();
+        var nomeLimpo = nome.Trim();
+        return await _context.Pacientes
+            .Where(p => p.Nome.Contains(nomeLimpo))
+            .ToListAsync();
     }
+
     public async Task CreateAsync(Paciente paciente)
     {
-        throw new NotImplementedException();
+        paciente.AplicarCriacao();
+        _context.Pacientes.Add(paciente);
+        await _context.SaveChangesAsync();
     }
 
     public async Task UpdateAsync(Paciente paciente, Guid id)
     {
-        throw new NotImplementedException();
+        var existing = await _context.Pacientes.FirstOrDefaultAsync(p => p.ID == id);
+        if (existing == null)
+            throw new KeyNotFoundException($"Paciente com ID '{id}' não encontrado.");
+
+        existing.AplicarAtualizacao(
+            paciente.Nome,
+            paciente.Nascimento,
+            paciente.CPF,
+            paciente.RG,
+            paciente.Email,
+            paciente.Telefone,
+            paciente.Plano,
+            paciente.Carteira,
+            paciente.Endereco);
+
+        await _context.SaveChangesAsync();
     }
 
     public async Task DeleteAsync(Guid id)
     {
-        throw new NotImplementedException();
+        var existing = await _context.Pacientes.FirstOrDefaultAsync(p => p.ID == id);
+        if (existing == null)
+            throw new KeyNotFoundException($"Paciente com ID '{id}' não encontrado.");
+
+        existing.MarcarComoExcluido();
+        await _context.SaveChangesAsync();
     }
 }
