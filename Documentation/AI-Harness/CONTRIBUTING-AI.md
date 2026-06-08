@@ -13,11 +13,13 @@ This guide describes the contribution workflow. It does not replace `AGENTS.md`,
 
 ## Lifecycle
 
-Use the approved harness lifecycle:
+The Harness supports the following lifecycle:
 
-```text
-Research -> Plan -> SDD when required -> Implement -> Verification -> State / ADR / Documentation Updates
-```
+Research → Plan → SDD (when required) → Implement → Verification → State / ADR / Documentation Updates
+
+A session may start at any phase.
+
+Do not repeat completed phases when authoritative artifacts already exist. Use existing research, SDDs, ADRs, plans, and documentation as inputs and continue from the appropriate lifecycle stage.
 
 ## Before Coding
 
@@ -28,13 +30,19 @@ Research -> Plan -> SDD when required -> Implement -> Verification -> State / AD
 
 ## Research
 
-Research should produce durable findings or a short handoff, not depend on long chat history. Use targeted code reads and relevant skills such as `.cursor/skills/codebase-decomposition/SKILL.md`.
+Research should produce durable findings or a short handoff, not depend on long chat history.
+
+Research should not be repeated when authoritative findings already exist. Existing research artifacts should be treated as inputs to planning, SDD creation, implementation, or verification unless new information is required.
+
+Use targeted code reads and relevant skills such as `.cursor/skills/codebase-decomposition/SKILL.md`.
 
 Canonical research context lives in `Documentation/AI-Harness/research/AI-Research.md` and `Documentation/AI-Harness/research/playbook.md`.
 
 ## Plan And SDD
 
 Use SDD when the change is large, cross-layer, clinical/security-sensitive, persistence-related, API-contract-changing, Legacy-behavior-porting, or likely to require an ADR.
+
+An existing approved SDD should be treated as the authoritative feature plan unless new requirements or risks justify revisiting the design.
 
 SDD templates live in `Documentation/AI-Harness/template/sdd/`. Feature SDDs should keep:
 
@@ -48,7 +56,7 @@ Keep implementation scoped to the accepted plan or active SDD. Use rules for gua
 
 ## Verification
 
-Before work is considered complete, apply verifier responsibility:
+Before implementation work is considered complete, apply verifier responsibility:
 
 - Select applicable gates from the diff, active SDD, rules, ADRs, and review prompts.
 - Run or request build, tests, SQL/API/UI smoke checks, and review prompts when relevant.
@@ -68,6 +76,10 @@ Baseline gates are:
 ## Updates
 
 Update `Documentation/State.md` when current branch/runtime/blocker/next-step truth changes. Evaluate ADR need when a durable decision affects architecture boundaries, persistence, schema lifecycle, security/auth, public API contracts, cross-context ownership, major technology/runtime choices, or irreversible migration decisions.
+
+Not every change requires documentation updates.
+
+Documentation should only be updated when the corresponding source of truth changes.
 
 Use `.cursor/skills/documentation-update/SKILL.md` for documentation routing, path drift checks, and authority validation.
 

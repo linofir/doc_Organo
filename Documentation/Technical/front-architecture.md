@@ -53,3 +53,4 @@ Pages / Components
 - List pages use State cache before refetching.
 - Match API routes: `paciente`, `prontuario`, `agendamento`.
 - Avoid large frontend architecture changes before backend contracts stabilize.
+- Atendimento is not integrated in front yet — do not add UI without API stability.

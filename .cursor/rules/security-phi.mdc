@@ -9,4 +9,8 @@ alwaysApply: true
 - Do not log PHI in `Console.WriteLine` — prefer structured logging without sensitive fields.
 - Private repository — still assume all clinical data is sensitive in prompts and outputs.
 - Do not expose connection strings or Google service account JSON in code or docs.
-- Treat auth, authorization, and patient-data exposure changes as security-sensitive; route deeper checks to the verifier and security/PHI review prompt.
+- Treat auth, authorization, patient-data exposure and auditability changes as security-sensitive; route deeper checks to the verifier and security/PHI review prompt.
+
+## Additional Context
+
+- `Documantation/AI-Harness/review-prompts/security-phi-review.md`

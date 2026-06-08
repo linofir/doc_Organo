@@ -26,4 +26,9 @@ Configured in `appsettings.json` → `ApiSettings:BaseUrl` (default `https://loc
 ## Conventions
 
 - Match API route names (`paciente`, `prontuario`, `agendamento`).
-- Atendimento is not integrated in front yet — do not add UI without API stability.
+- Do not introduce new UI flows that depend on unstable API contracts.
+
+## Additional Context
+
+See:
+`Documentation/Technical/front-architecture.md`

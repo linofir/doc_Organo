@@ -48,9 +48,9 @@ Canonical documentation lives under `Documentation/`.
 | [../Technical/migration-sql.md](../Technical/migration-sql.md) | Sheets to SQL migration plan |
 | [../Technical/front-architecture.md](../Technical/front-architecture.md) | Blazor Server frontend architecture |
 | [../Technical/runbook.md](../Technical/runbook.md) | Local development runbook |
-| `../Technical/api-contract.md` | Future API contract documentation |
+| `../Technical/api-contract.md | Public API contract documentation (future or when created) |
 
-## Harness Design
+## ## Harness Design (Governance Source)
 
 | Doc | Purpose |
 |-----|---------|
@@ -89,5 +89,6 @@ Canonical documentation lives under `Documentation/`.
 - Use SDD for feature-specific truth.
 - Use rules for guardrails.
 - Use skills for workflows.
+- Do not store operational truth in AGENTS.md, rules, skills, or contribution guides.
 
 

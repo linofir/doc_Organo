@@ -25,6 +25,7 @@ Use this skill to load the minimum useful project context at the start of a Doc 
 | SQL migration | `Documentation/Technical/migration-sql.md` and `.cursor/skills/sql-migration-workflow/SKILL.md` |
 | Frontend | `Documentation/Technical/front-architecture.md` |
 | Harness operations | `Documentation/AI-Harness/CONTRIBUTING-AI.md` |
+| Harness governance | `Documentation/AI-Harness/Harness-Design/**` |
 | Documentation routing | `.cursor/skills/documentation-update/SKILL.md` |
 
 ## Guardrails

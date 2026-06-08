@@ -87,6 +87,6 @@ Durable decisions require ADR evaluation. ADRs are for decisions future develope
 
 ## Verification
 
-Meaningful work should pass through verifier responsibility before being considered complete. The verifier selects applicable gates, runs or requests checks, applies review prompts as sensors, records skipped gates with reasons, summarizes residual risk, and recommends State, ADR, documentation, rule, or skill follow-up.
+Work that changes behavior, architecture, persistence, contracts, security, documentation, or governance should pass through verifier responsibility before being considered complete. The verifier selects applicable gates, runs or requests checks, applies review prompts as sensors, records skipped gates with reasons, summarizes residual risk, and recommends State, ADR, documentation, rule, or skill follow-up.
 
 Baseline gates are `dotnet build`, `dotnet test`, targeted SQL/API/UI smoke checks when relevant, review prompts under `Documentation/AI-Harness/review-prompts/`, and the PR checklist.

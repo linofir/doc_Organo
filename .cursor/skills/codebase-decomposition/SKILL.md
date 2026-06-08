@@ -88,6 +88,7 @@ Destination for ported clinical rules should be entity behavior or thin applicat
 - Route durable changes to ADR evaluation using `Documentation/AI-Harness/Harness-Design/harness-architecture.md`.
 - Route gate selection and skipped-gate reasoning to verifier responsibility.
 - Route current branch/runtime updates to `Documentation/State.md`.
+- If a feature SDD exists, treat it as the feature source of truth.
 
 ## Abstraction Gate
 

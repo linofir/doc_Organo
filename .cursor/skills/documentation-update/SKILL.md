@@ -50,6 +50,7 @@ Check touched docs, rules, and skills for:
 - Old SDD template folder references.
 - Old ADR folder references.
 - Deprecated rule names that were replaced by current rule files.
+- References to renamed, moved, or deleted artifacts.
 
 ## Authority Validation
 
@@ -59,6 +60,18 @@ Check touched docs, rules, and skills for:
 - Rules stay concise and workflow-free.
 - Skills own repeatable procedures and handoffs.
 - Review prompts are sensors; verifier responsibility selects and applies them.
+
+## Ownership Validation
+
+Check whether information is stored in the correct artifact.
+
+Common violations:
+
+- Operational status in ADRs
+- Workflow procedures in rules
+- Architecture decisions in State.md
+- Feature-specific truth outside an active SDD
+- Durable decisions outside ADRs
 
 ## Output Format
 
@@ -78,5 +91,9 @@ Check touched docs, rules, and skills for:
 
 ## Authority Check
 - Conflicts found:
+- Follow-up:
+
+## Ownership Check
+- Violations:
 - Follow-up:
 ```
