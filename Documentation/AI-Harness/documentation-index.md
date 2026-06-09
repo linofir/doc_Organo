@@ -58,7 +58,7 @@ Canonical documentation lives under `Documentation/`.
 | [Harness-Design/agents-strategy.md](Harness-Design/agents-strategy.md) | `AGENTS.md` responsibility model |
 | [Harness-Design/rules-strategy.md](Harness-Design/rules-strategy.md) | Rule ownership and growth policy |
 | [Harness-Design/skills-strategy.md](Harness-Design/skills-strategy.md) | Skill ownership and candidate workflows |
-| [Harness-Design/sdd-adoption-roadmap.md](Harness-Design/sdd-adoption-roadmap.md) | SDD, testing, verification, security, MCP adoption |
+| [Harness-Design/sdd-adoption-roadmap.md](Harness-Design/sdd-adoption-roadmap.md) | SDD Operational Governance: adaptive sizing, workflow phases, ownership, traceability, verification, testing, ADR, documentation, and brownfield migration integration |
 
 ## AI Harness Operations
 
