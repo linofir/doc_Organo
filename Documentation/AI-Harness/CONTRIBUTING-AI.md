@@ -38,17 +38,25 @@ Use targeted code reads and relevant skills such as `.cursor/skills/codebase-dec
 
 Canonical research context lives in `Documentation/AI-Harness/research/AI-Research.md` and `Documentation/AI-Harness/research/playbook.md`.
 
+Generated SDD artifacts, verification handoffs, reports, and lessons learned should be written in English.
+
 ## Plan And SDD
 
 Use SDD when the change is large, cross-layer, clinical/security-sensitive, persistence-related, API-contract-changing, Legacy-behavior-porting, or likely to require an ADR.
 
 An existing approved SDD should be treated as the authoritative feature plan unless new requirements or risks justify revisiting the design.
 
-SDD templates live in `Documentation/AI-Harness/template/sdd/`. Feature SDDs should keep:
+SDD templates live in `Documentation/AI-Harness/template/sdd/`. Feature SDDs live under `Documentation/SDD/<feature-slug>/` and should keep:
 
 - `specify.md` for feature scope and acceptance criteria.
 - `design.md` for technical approach, risks, and ADR trigger analysis.
 - `tasks.md` for implementation steps and verification expectations.
+
+When verification and reporting artifacts exist for the feature, keep them with the feature:
+
+- `verification.md` for the Verifier handoff or output.
+- `reports/session-handoff.md` for session continuation.
+- `reports/feature-report.md` for post-verification feature summary.
 
 ## Implement
 

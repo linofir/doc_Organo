@@ -11,7 +11,8 @@ Canonical documentation lives under `Documentation/`.
 | `Documentation/Product/` | Product intent, backlog, roadmap |
 | `Documentation/Architecture/` | Domain model, architecture, schema, ADRs |
 | `Documentation/Technical/` | Runtime, migration, frontend, API technical guidance |
-| `Documentation/AI-Harness/` | Harness design, contribution workflow, research, rules index, review prompts, SDD templates |
+| `Documentation/AI-Harness/` | Harness design, contribution workflow, research, rules index, review prompts, SDD templates, verification templates, reporting templates |
+| `Documentation/SDD/` | Feature-specific SDD artifacts, verification handoffs, and lightweight feature reports |
 | `.cursor/` | Machine-facing rules and skills |
 
 ## Read First
@@ -48,9 +49,9 @@ Canonical documentation lives under `Documentation/`.
 | [../Technical/migration-sql.md](../Technical/migration-sql.md) | Sheets to SQL migration plan |
 | [../Technical/front-architecture.md](../Technical/front-architecture.md) | Blazor Server frontend architecture |
 | [../Technical/runbook.md](../Technical/runbook.md) | Local development runbook |
-| `../Technical/api-contract.md | Public API contract documentation (future or when created) |
+| `../Technical/api-contract.md` | Public API contract documentation (future or when created) |
 
-## ## Harness Design (Governance Source)
+## Harness Design (Governance Source)
 
 | Doc | Purpose |
 |-----|---------|
@@ -58,7 +59,10 @@ Canonical documentation lives under `Documentation/`.
 | [Harness-Design/agents-strategy.md](Harness-Design/agents-strategy.md) | `AGENTS.md` responsibility model |
 | [Harness-Design/rules-strategy.md](Harness-Design/rules-strategy.md) | Rule ownership and growth policy |
 | [Harness-Design/skills-strategy.md](Harness-Design/skills-strategy.md) | Skill ownership and candidate workflows |
-| [Harness-Design/sdd-adoption-roadmap.md](Harness-Design/sdd-adoption-roadmap.md) | SDD Operational Governance: adaptive sizing, workflow phases, ownership, traceability, verification, testing, ADR, documentation, and brownfield migration integration |
+| [Harness-Design/sdd-operational.md](Harness-Design/sdd-operational.md) | SDD Operational Governance: adaptive sizing, workflow phases, ownership, traceability, verification, testing, ADR, documentation, and brownfield migration integration |
+| [Harness-Design/verification-governance.md](Harness-Design/verification-governance.md) | Verification governance boundaries and evidence policy |
+| [Harness-Design/reporting-strategy.md](Harness-Design/reporting-strategy.md) | Lightweight reporting boundaries for session handoff, feature reports, lessons learned, and future observability |
+| [Harness-Design/template-architecture.md](Harness-Design/template-architecture.md) | Template ecosystem, Feature SDD folder structure, dependencies, creation order, and validation order |
 
 ## AI Harness Operations
 
@@ -74,6 +78,10 @@ Canonical documentation lives under `Documentation/`.
 | [template/sdd/specify.md](template/sdd/specify.md) | SDD specify template |
 | [template/sdd/design.md](template/sdd/design.md) | SDD design template |
 | [template/sdd/tasks.md](template/sdd/tasks.md) | SDD tasks template |
+| [template/verification/verification.md](template/verification/verification.md) | Verification handoff template |
+| [template/reporting/session-handoff.md](template/reporting/session-handoff.md) | Session handoff template |
+| [template/reporting/feature-report.md](template/reporting/feature-report.md) | Feature report template |
+| [../SDD/README.md](../SDD/README.md) | Feature SDD folder structure and ownership |
 
 ## Cursor Artifacts
 

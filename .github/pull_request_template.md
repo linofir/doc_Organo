@@ -1,6 +1,6 @@
 ## Summary
 
-<!-- What does this PR do and why? Link PM epic or docs/sdd feature folder if applicable. -->
+<!-- What does this PR do and why? Link PM epic or Documentation/SDD/<feature-slug>/ feature folder if applicable. -->
 
 ## Type of change
 

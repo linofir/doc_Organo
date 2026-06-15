@@ -12,7 +12,7 @@ This document is not the operational backlog. Use:
 - [PM_DocOrgano.md](PM_DocOrgano.md) for epics, tasks, risks, and MVP2 sequencing.
 - [RoadMap.md](RoadMap.md) for future product horizons.
 - [State.md](../State.md) for what is true right now.
-- `Documentation/AI-Harness/sdd/<feature>/` for future feature-level specify/design/tasks artifacts.
+- Active SDD artifacts for feature-level planning when governance requires them.
 
 ## 2. Problem
 
@@ -28,16 +28,16 @@ This creates:
 
 ## 3. Vision
 
-Doc Organo centralizes clinical and administrative data, automates repetitive extraction tasks, and gives clinicians a clear view of each patient's journey from first contact through post-procedure follow-up.
+Doc Organo centralizes clinical and administrative data, automates intake from external information sources, and gives clinicians a clear view of each patient's journey from first contact through post-procedure follow-up.
 
-The product should help a small clinic move from spreadsheet-driven operations to a reliable clinical workflow system, while preserving the behavior already validated in the MVP1 Google Sheets version.
+The product should help a small clinic move from spreadsheet-driven operations to a reliable clinical workflow system, while using the MVP1 Google Sheets version as evidence for validated workflows.
 
 ## 4. Product Context
 
 Doc Organo is a real-world clinic management platform used in a controlled environment with real clinical workflows.
 
 - **MVP1:** validated the first client-facing version using Google Sheets persistence and Blazor Server UI.
-- **MVP2:** focuses on SQL migration, reliability, security, tests, service organization, and documentation/harness maturity.
+- **MVP2:** focuses on SQL migration, reliability, security, tests, service organization, and documentation/harness maturity. AI-assisted development is treated as a support capability for safer migration, traceability, verification discipline, and documentation continuity.
 - **MVP3/Future:** may include mobile, advanced financial workflows, advanced audit, full RBAC and production hardening.
 
 ## 5. Users and Personas
@@ -56,10 +56,11 @@ Doc Organo is a real-world clinic management platform used in a controlled envir
 2. Support the care journey stages: Consulta → Pré-Procedimento → Procedimento → Pós-Procedimento.
 3. Preserve clinical history through versioned medical records and soft-delete behavior where appropriate.
 4. Generate PDFs, reports, and required clinical documents from existing data.
-5. Automate extraction of useful external data, including PDFs, HTML demonstrativos, and authorized-password files.
+5. Consume, extract, normalize, relate, and preserve traceability for useful external information from documents, portals, provider systems, authorization sources, and uploaded files.
 6. Migrate persistence from Google Sheets to SQL Server for reliability, consistency, and scale.
 7. Introduce authentication and authorization in a way that protects clinical data without blocking the current controlled MVP workflow.
 8. Improve verification through automated tests, integration tests, and eventually E2E coverage for core flows.
+9. Maintain enough development governance, traceability, and documentation continuity to support safe evolution by a solo/small team.
 
 ## 7. Non-Goals and Out of Scope
 
@@ -80,7 +81,10 @@ These items are intentionally outside the MVP2 product scope until the clinical 
 - The `main` branch remains the behavioral reference for the Google Sheets implementation.
 - The active SQL migration is incremental: Paciente first, then Prontuario, Agendamento, and Atendimento.
 - The product is developed by a solo/small team, so documentation must be concise and useful for AI-assisted development.
-- Legacy Sheets code is a behavioral reference until SQL replacements and characterization tests cover equivalent behavior.
+- Legacy codebase behavior is evidence and reference material, not architectural authority. During migration, behavior may be preserved, adapted, or intentionally replaced when product, domain, architecture, security, and verification evidence support the decision.
+- Characterization tests, targeted behavior comparison, and verification evidence provide confidence that migrated workflows preserve the intended clinical and administrative outcomes.
+- MVP2 reliability depends on keeping product intent, implementation planning, verification evidence, and documentation follow-up traceable without turning product documents into workflow manuals.
+- Documentation must preserve enough product intent, architectural context, and decision continuity for human contributors, AI-assisted sessions, and future project phases.
 
 ## 9. User Stories
 
@@ -107,20 +111,26 @@ These items are intentionally outside the MVP2 product scope until the clinical 
 - As the clinic, we want pending items and validations before stage progression so important clinical or administrative steps are not missed.
 - As a future improvement, we want the Atendimento flow to evolve toward a more formal state machine if it reduces validation complexity.
 
-### Documents and Extraction
+### External Information Intake and Documents
 
 - As the clinic, we want to generate documents and reports from structured data so manual document preparation is reduced.
-- As the clinic, we want to extract useful data from PDFs and HTML files so external information can feed the workflow without repeated manual entry.
+- As the clinic, we want to consume and extract useful information from PDFs, HTML portals, hospital systems, healthcare provider systems, authorization systems, uploaded documents, external medical records, and administrative documents so external information can feed the workflow without repeated manual entry.
+- As the clinic, we want imported information normalized, related to the correct patient or workflow, and traceable to its source so clinical and administrative context is not lost.
 
 ## 10. Success Metrics
 
 - Daily use in a controlled real clinic environment.
 - Reduced time spent on manual spreadsheet tasks.
 - Stable API and UI for core flows without data loss.
+- Reduced manual data entry for information available from external documents, portals, or provider/authorization sources.
+- Successful intake and extraction of selected external information needed by the MVP2 clinical workflow.
+- Imported information remains traceable to source and context.
 - SQL-backed Paciente flow validated before expanding the migration.
 - Prontuario, Agendamento, and Atendimento migrated without losing legacy behavior.
+- Clinical and administrative context is preserved across SQL migration and external information intake.
 - E2E tests or equivalent smoke tests cover the core clinical flows.
 - No patient-identifiable or clinical data exposed in commits, logs, prompts, or documentation examples.
+- Feature planning, verification evidence, and documentation follow-up remain traceable enough to support safe clinical migration and future maintenance.
 
 ## 11. Constraints
 
@@ -138,6 +148,7 @@ These items are intentionally outside the MVP2 product scope until the clinical 
 - Which core workflows must have automated integration or E2E coverage before `feature/base_DB` can be considered stable?
 - Which legacy Atendimento validations should become domain invariants, and which should become application use cases?
 - When should the product introduce configurable clinical checklists instead of hard-coded validations?
+- What level of verification evidence is required before a migrated clinical workflow can be considered equivalent to its legacy behavior?
 
 ## 13. Reference Links
 
@@ -147,3 +158,5 @@ These items are intentionally outside the MVP2 product scope until the clinical 
 - Domain language and rules: [Domain_Overview_Business_Rules.md](../Architecture/Domain_Overview_Business_Rules.md)
 - SQL migration plan: [migration-sql.md](../Technical/migration-sql.md)
 - AI research and harness planning: [AI-Research.md](../AI-Harness/research/AI-Research.md)
+- AI harness governance: [harness-architecture.md](../AI-Harness/Harness-Design/harness-architecture.md)
+- SDD operational governance: [sdd-operational.md](../AI-Harness/Harness-Design/sdd-operational.md)

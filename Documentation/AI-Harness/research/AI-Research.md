@@ -18,7 +18,7 @@ Use this file to understand why the harness exists, what problems it is solving,
 | `Documentation/AI-Harness/Harness-Design/agents-strategy.md` | `AGENTS.md` responsibility model | Canonical design |
 | `Documentation/AI-Harness/Harness-Design/rules-strategy.md` | Rules responsibility and growth policy | Canonical design |
 | `Documentation/AI-Harness/Harness-Design/skills-strategy.md` | Skills responsibility and candidate workflows | Canonical design |
-| `Documentation/AI-Harness/Harness-Design/sdd-adoption-roadmap.md` | SDD adoption, testing, verification, security, MCP roadmap | Canonical design |
+| `Documentation/AI-Harness/Harness-Design/sdd-operational.md` | SDD operational governance, adaptive sizing, phase ownership, traceability, verification handoff, ADR/documentation integration, and brownfield migration expectations | Canonical design |
 | `Documentation/State.md` | Current branch/runtime truth | Read before large tasks |
 | `AGENTS.md` | Static project bootstrap | Stable context only |
 | `Documentation/Product/PRD.md` | Stable product intent | Canonical WHY |
@@ -230,7 +230,7 @@ This file explains research conclusions and context. The design documents define
 - `agents-strategy.md` defines `AGENTS.md` ownership.
 - `rules-strategy.md` defines rule ownership and growth policy.
 - `skills-strategy.md` defines skill ownership and candidate workflows.
-- `sdd-adoption-roadmap.md` defines SDD, testing, verification, security, and MCP adoption.
+- `sdd-operational.md` defines SDD operational governance, adaptive sizing, phase ownership, traceability, verification handoff, ADR/documentation integration, and brownfield migration expectations.
 
 When research conclusions change, update this file. When governance decisions change, update the design documents. When operational instructions change, update the operational artifact in a separate pass. The current design baseline expects the operational refactor to preserve ADR policy, verifier ownership, artifact authority hierarchy, and the harness lifecycle flow.
 
@@ -241,6 +241,6 @@ When research conclusions change, update this file. When governance decisions ch
 - `Documentation/AI-Harness/Harness-Design/agents-strategy.md`
 - `Documentation/AI-Harness/Harness-Design/rules-strategy.md`
 - `Documentation/AI-Harness/Harness-Design/skills-strategy.md`
-- `Documentation/AI-Harness/Harness-Design/sdd-adoption-roadmap.md`
+- `Documentation/AI-Harness/Harness-Design/sdd-operational.md`
 - `Documentation/AI-Harness/documentation-index.md`
 - `Documentation/Architecture/ADR/ADR-003-documentation-taxonomy.md`

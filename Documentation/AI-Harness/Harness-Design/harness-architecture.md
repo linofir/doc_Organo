@@ -36,7 +36,7 @@ Main architecture risks:
 - SDD templates exist, but there are no feature SDD instances yet.
 - Verification gates are documented but not fully enforced by CI, review-prompt routine, or a dedicated verifier workflow.
 - `Documentation/State.md` is designed as the current truth, but it can become stale if not updated at the end of implementation sessions or PRs.
-- `check-docs.md` exists but is empty, and some rules or skills are not reflected consistently in indexes.
+- `check-docs.md` and the verifier skill exist, but some governance documents, rules, skills, and indexes can still drift if they are not updated together.
 
 ## Component Responsibilities
 
@@ -208,9 +208,9 @@ The target loop is:
 Missing or incomplete:
 
 - Documentation path normalization guidance for stale `docs/` links and absent `Documentation/AI-Harness/Research/*` paths.
-- A non-empty documentation review prompt.
+- Ongoing documentation path normalization for renamed or moved harness artifacts.
 - Review prompt coverage for EF migrations and API contracts.
-- A verifier workflow or skill that defines when to run build, tests, smoke checks, and review prompts.
+- Continued alignment between verification governance, the verifier skill, review prompts, and future CI.
 - Skills for SQL migration slices and legacy Atendimento rule porting.
 - Feature SDD instances for active work.
 - CI workflow enforcing at least `dotnet build` and `dotnet test`.

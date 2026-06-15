@@ -1,43 +1,125 @@
-# Design — [Feature name]
+# Design - [Feature Name]
 
-> Input: [specify.md](./specify.md) in this folder.
+> Copy this template to `Documentation/SDD/<feature-slug>/design.md`.
+> Input: `specify.md` in the same feature folder.
+> Generated SDD artifacts should be written in English.
 
-## Architecture overview
+## Design Summary
 
-High-level approach (1-2 paragraphs).
+Describe the proposed approach in one or two paragraphs.
 
-## Components
+## Requirement Mapping
 
-| Component | Path | Responsibility |
-|-----------|------|----------------|
-| | | |
+| Requirement | Design response |
+|-------------|-----------------|
+| `REQ-001` | ... |
 
-## Reuse analysis
+## Affected Components
 
-| Existing code | Reuse? | Notes |
-|---------------|--------|-------|
-| | yes/no | |
+| Component | Path | Responsibility | Change |
+|-----------|------|----------------|--------|
+| ... | `...` | ... | Add / Update / Remove / Verify |
 
-## Data model
+## Reuse Analysis
 
-Entities/DTOs touched. Link `Documentation/Architecture/erd.dbml` if schema changes.
+Prefer existing patterns before introducing new abstractions.
 
-## API changes
+| Existing code or pattern | Reuse decision | Notes |
+|--------------------------|----------------|-------|
+| ... | Reuse / Adapt / Do not reuse | ... |
 
-| Method | Route | Request | Response |
-|--------|-------|---------|----------|
-| | | | |
+## Architecture And Ownership
 
-## Front changes (if any)
+Describe bounded-context, aggregate, service, repository, controller, frontend, or documentation ownership implications.
 
-Pages/State/Services affected.
+- Architecture impact:
+- Ownership boundaries:
+- Conflicts or constraints:
+
+## Data And Persistence
+
+Use when entities, EF configuration, migrations, repositories, schema, or SQL behavior are touched.
+
+- Entities:
+- DTOs:
+- EF mappings:
+- Migration impact:
+- SQL/runtime checks:
+
+## API Contract
+
+Use when controllers, routes, DTOs, IDs, request shape, response shape, or front compatibility are touched.
+
+| Method | Route | Request | Response | Compatibility notes |
+|--------|-------|---------|----------|---------------------|
+| ... | ... | ... | ... | ... |
+
+## Frontend Impact
+
+Use when Blazor pages, services, state, mappers, UI flow, or smoke checks are touched.
+
+- Pages/components:
+- Services/state:
+- UI behavior:
+- Smoke checks:
+
+## Security And PHI Design
+
+Describe how the design avoids exposing patient identity, clinical data, files, logs, prompts, tests, auth assumptions, API exposure, or secrets.
+
+- Security-sensitive: Yes / No
+- Review prompt expected: Yes / No
+- Mitigations:
+
+## Legacy Behavior Decision
+
+Use when behavior is compared with Legacy code.
+
+| Behavior | Source | Preserve / Adapt / Abandon | Design rationale |
+|----------|--------|----------------------------|------------------|
+| ... | `DocAPI/Legacy/_LegacySheetsDb/...` | ... | ... |
+
+## Testing Approach
+
+Describe testability and expected implementation-time tests.
+
+| Requirement | Test or check approach | Notes |
+|-------------|------------------------|-------|
+| `REQ-001` | ... | ... |
+
+## Verification Handoff Notes
+
+List expected verifier inputs. The Verifier will select final gates.
+
+- Expected gates:
+- Expected review sensors:
+- Known skipped or manual checks:
+- Evidence the implementation must provide:
 
 ## Risks
 
-| Risk | Mitigation |
-|------|------------|
-| | |
+| Risk | Impact | Mitigation |
+|------|--------|------------|
+| ... | ... | ... |
 
-## ADRs
+## ADR Evaluation
 
-New decisions -> `Documentation/Architecture/ADR/ADR-NNN-*.md`
+| Question | Answer |
+|----------|--------|
+| Does this change affect durable architecture, persistence, schema lifecycle, security/auth, API contracts, ownership, runtime, or irreversible migration decisions? | Yes / No |
+| Existing ADRs referenced | ... |
+| New ADR candidate | None / ... |
+| Decision needed before tasks or execution? | Yes / No |
+
+## Documentation Follow-up Candidates
+
+List possible follow-up. Documentation Update will route final ownership.
+
+- State:
+- ADR:
+- Architecture docs:
+- Technical docs:
+- Rules:
+- Skills:
+- Review prompts:
+- Templates:

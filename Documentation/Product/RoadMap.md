@@ -22,14 +22,50 @@ O MVP2 está em execução/planejamento e deve ficar detalhado no PM. O foco est
 - Confiabilidade de dados e testes.
 - Segurança básica e tratamento de PHI.
 - Organização dos serviços criados no MVP1.
+- Intake e extração de informações externas como capacidade de suporte aos fluxos clínicos e administrativos.
 - Frontend alinhado aos novos contratos do backend.
-- Documentação e harness de IA mais confiáveis.
+- Documentação, rastreabilidade e harness de IA mais confiáveis.
+- Adoção inicial de governança SDD, Verifier, Documentation Update e reporting leve como suporte à migração clínica segura.
 
 Não repetir aqui a lista de features do MVP2; ver [PM_DocOrgano.md](PM_DocOrgano.md).
 
-## 3. Horizonte MVP3 — Produto Clínico Avançado
+## 3. Horizonte AI Harness Evolution
 
-### 3.1 Checklist clínico configurável
+Este horizonte registra a evolução futura das capacidades de desenvolvimento assistido por IA no Doc Organo. Ele é estratégico e não substitui o PM, os documentos de governança do AI Harness, templates, skills ou artefatos SDD.
+
+### 3.1 MVP2 Adoption Foundation
+
+No MVP2, o AI Harness deve amadurecer como capacidade de suporte à migração clínica, com foco em:
+
+- Governança documental e normalização de caminhos/índices.
+- Validação real do fluxo SDD em fatias da migração SQL.
+- Adoção do Verifier como responsabilidade de conclusão.
+- Uso do Documentation Update para preservar continuidade documental.
+- Reporting leve para session handoff, feature reports e lessons learned.
+
+### 3.2 Future Evolution
+
+Após a adoção inicial estar estável, o harness poderá evoluir para capacidades mais amplas:
+
+- Reporting Strategy.
+- Workflow Observability.
+- Harness Metrics.
+- MCP Strategy.
+- Integrações com ferramentas externas de gestão, revisão e evidência.
+
+### 3.3 Deferred Automation
+
+As capacidades abaixo devem permanecer futuras até que SDD, verificação, documentação e reporting estejam estabilizados em uso real:
+
+- Agent Orchestration.
+- Autonomous Workflows.
+- Self-healing governance.
+- Ecossistemas MCP customizados ou avançados.
+- Automação ampla de decisões de governança.
+
+## 4. Horizonte MVP3 — Produto Clínico Avançado
+
+### 4.1 Checklist clínico configurável
 
 Sistema configurável de checklists clínicos para definir requisitos obrigatórios antes da progressão de etapas do atendimento.
 
@@ -40,7 +76,7 @@ Objetivos:
 - Melhorar segurança do atendimento.
 - Reduzir regras hard-coded quando o domínio estiver mais estável.
 
-### 3.2 Atendimento State Machine
+### 4.2 Atendimento State Machine
 
 Evolução do fluxo de Atendimento para uma máquina de estados formal, caso isso simplifique validações e reduza risco.
 
@@ -52,7 +88,7 @@ Etapas previstas:
 - Pós-Procedimento.
 - Finalizado.
 
-### 3.3 Clinical Event Timeline
+### 4.3 Clinical Event Timeline
 
 Linha do tempo clínica para registrar e visualizar eventos relevantes cronologicamente.
 
@@ -65,9 +101,9 @@ Exemplos:
 - Procedimento realizado.
 - Consulta pós-operatória.
 
-## 4. Horizonte Financeiro
+## 5. Horizonte Financeiro
 
-### 4.1 Persistência do demonstrativo financeiro
+### 5.1 Persistência do demonstrativo financeiro
 
 O sistema poderá persistir dados do demonstrativo financeiro como fonte externa importada e auditável.
 
@@ -78,7 +114,7 @@ Objetivos:
 - Evitar dependência do arquivo externo após importação.
 - Criar base para auditoria financeira.
 
-### 4.2 Conciliação financeira
+### 5.2 Conciliação financeira
 
 Após a persistência financeira estar estável, o sistema poderá conciliar dados internos com demonstrativos externos.
 
@@ -89,9 +125,9 @@ Possíveis conciliações:
 - Exames, quando aplicável.
 - Valores pagos vs. valores esperados.
 
-## 5. Segurança, Identidade e Auditoria
+## 6. Segurança, Identidade e Auditoria
 
-### 5.1 Identity and Authentication
+### 6.1 Identity and Authentication
 
 O sistema deverá evoluir para autenticação completa quando sair do ambiente controlado ou quando a operação exigir maior segregação de acesso.
 
@@ -101,7 +137,7 @@ Possíveis tecnologias:
 - JWT Authentication.
 - OAuth providers, se houver necessidade real.
 
-### 5.2 RBAC
+### 6.2 RBAC
 
 Controle de acesso por perfil.
 
@@ -113,7 +149,7 @@ Perfis previstos:
 - Administrador.
 - Paciente.
 
-### 5.3 Advanced Audit Logging
+### 6.3 Advanced Audit Logging
 
 Auditoria detalhada de alterações no banco de dados.
 
@@ -124,7 +160,7 @@ Informações possíveis:
 - Valores anteriores.
 - Valores novos.
 
-## 6. Infraestrutura e Operação
+## 7. Infraestrutura e Operação
 
 Evolução futura de ambiente local/controlado para infraestrutura mais robusta.
 
@@ -136,7 +172,7 @@ Possíveis caminhos:
 - Deploy automatizado.
 - Hardening de servidor local/HomeLab, se continuar relevante.
 
-## 7. Segurança de Dados e Compliance
+## 8. Segurança de Dados e Compliance
 
 Como o sistema lida com dados clínicos, melhorias futuras podem incluir:
 
@@ -146,7 +182,7 @@ Como o sistema lida com dados clínicos, melhorias futuras podem incluir:
 - Políticas de retenção e exclusão lógica.
 - Conformidade com regulamentações aplicáveis de proteção de dados.
 
-## 8. Testes e Qualidade
+## 9. Testes e Qualidade
 
 Evolução futura da estratégia de testes:
 
@@ -156,7 +192,7 @@ Evolução futura da estratégia de testes:
 - Testes de componentes no frontend quando houver estabilidade.
 - E2E tests para os fluxos clínicos centrais.
 
-## 9. Mobile e UX Avançado
+## 10. Mobile e UX Avançado
 
 A experiência mobile/MAUI deve permanecer como horizonte futuro, não como prioridade do MVP2.
 
@@ -167,7 +203,7 @@ Possibilidades:
 - Design system mais completo.
 - AppShell e fluxos mobile específicos.
 
-## 10. Critério para mover item do RoadMap para PM
+## 11. Critério para mover item do RoadMap para PM
 
 Um item sai deste RoadMap e entra no PM quando:
 
@@ -176,7 +212,8 @@ Um item sai deste RoadMap e entra no PM quando:
 3. O escopo pode ser fatiado em features pequenas.
 4. Existem critérios de aceite ou validação.
 5. A implementação não conflita com prioridades mais básicas.
+6. No caso do AI Harness, a capacidade já foi validada em uso real ou é necessária para reduzir risco atual de migração, verificação, rastreabilidade ou documentação.
 
-## 11. Informações Preservadas
+## 12. Informações Preservadas
 
-A versão anterior continha persistência do demonstrativo, conciliação financeira, checklist clínico, state machine, timeline clínica, auditoria avançada, RBAC, identity, infraestrutura, segurança/compliance e E2E. Esses temas foram preservados e reorganizados como horizontes.
+A versão anterior continha persistência do demonstrativo, conciliação financeira, checklist clínico, state machine, timeline clínica, auditoria avançada, RBAC, identity, infraestrutura, segurança/compliance e E2E. Esses temas foram preservados e reorganizados como horizontes. A evolução do AI Harness foi adicionada como horizonte estratégico separado para evitar misturar adoção MVP2 com automação futura.

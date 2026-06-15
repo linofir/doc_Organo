@@ -35,6 +35,9 @@ Skills should not own:
 | `doc-organo-context` | Session orientation | Read State, AGENTS, Domain Overview for domain work; summarize stack and do-not rules | Good bootstrap skill. Should stay short and point outward. |
 | `codebase-decomposition` | DDD and technical debt analysis | Map bounded context, aggregates, entry points, Legacy references, suggested next slice | Strong fit for refactors, migration planning, and SDD design inputs. |
 | `effective-harness-planning` | Harness review and planning | Evaluate AGENTS, rules, skills, PRD, ADRs, SDD templates, State, MCPs, verification | Strong fit for this architecture work. Current duplicate locations should be resolved later. |
+| `verifier` | Verification workflow | Select gates, apply review sensors, record skipped gates, summarize residual risk, identify follow-up needs | Operational verifier workflow now exists; keep aligned with Verification Governance. |
+| `documentation-update` | Documentation routing | Route State, ADR, durable docs, rules, skills, prompts, SDD, and path-drift follow-up | Strong fit for authority and ownership validation. |
+| `sql-migration-workflow` | SQL migration workflow | Guide EF and SQL migration changes | Existing workflow for persistence-focused slices. |
 
 ## Missing Or Candidate Skills
 
@@ -42,9 +45,9 @@ Candidate skills should be created when a workflow repeats or carries enough ris
 
 | Candidate skill | Purpose | Inputs | Outputs | Priority rationale |
 |-----------------|---------|--------|---------|-------------------|
-| `sql-migration-slice` | Guide one aggregate from Legacy/Stub to EF SQL | `State.md`, `migration-sql.md`, relevant repository/controller/entity, EF configs, tests | Per-aggregate migration plan, verification checklist, State update notes | Active epic; reduces big-bang migration risk |
+| `sql-migration-slice` refinement | Refine the existing SQL migration workflow after real pilot usage | `State.md`, `migration-sql.md`, relevant repository/controller/entity, EF configs, tests | Per-aggregate migration plan, verification checklist, State update notes | Active epic; reduces big-bang migration risk |
 | `port-legacy-atendimento` | Port `ValidacaoEtapa*` behavior from Legacy Sheets to domain/use cases | Targeted Legacy methods, Domain Overview, Atendimento entity/use cases, characterization tests | Rule map, test cases, destination design | High clinical risk; Legacy is behavior spec |
-| `verification-gate` or `verifier-checklist` | Operationalize the verifier role for a change | Diff, SDD tasks, PR template, review prompts, commands, `State.md`, ADRs | Gate result, skipped-gate reasons, residual risks, State/ADR/doc follow-up signal | Verification ownership is now defined conceptually but not yet operationally consistent |
+| `verifier` refinement | Improve the existing verifier skill after real pilot usage | Diff, SDD tasks, PR template, review prompts, commands, `State.md`, ADRs | Gate result, skipped-gate reasons, residual risks, State/ADR/doc follow-up signal | Verification workflow exists; pilot evidence should drive refinements |
 | `security-phi-review` | Apply security review workflow before PR or after sensitive changes | Diff, `security-phi-review.md`, PHI rule, PRD constraints | Findings by severity and remediation guidance | Security risks are high and clinical data is sensitive |
 | `api-contract-review` | Review endpoint/DTO/ID/response changes | Controllers, DTOs, front services, future API contract doc | Contract drift findings | Useful after API contract doc exists |
 | `docs-taxonomy-review` | Check path consistency and documentation placement | Documentation index, ADR-003, touched docs | Documentation consistency findings | Useful while path drift remains |
@@ -133,7 +136,7 @@ Retire or merge a skill when:
 
 ## Verifier Skill Design Target
 
-A future verifier skill should be created only after the conceptual verifier workflow is validated in real reviews. It should not replace CI or human review; it should make verification decisions explicit and repeatable.
+The verifier skill now exists and should be refined only after real reviews reveal workflow gaps. It should not replace CI or human review; it should make verification decisions explicit and repeatable.
 
 The skill should:
 

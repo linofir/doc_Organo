@@ -33,7 +33,7 @@ Rules should not own:
 | Rule | Load policy | Current responsibility | Assessment |
 |------|-------------|------------------------|------------|
 | `security-phi.mdc` | Always-on | PHI, secrets, credentials, logging restrictions | Essential and correctly short. Should remain always-on. |
-| `token-economy.mdc` | Always-on | State/AGENTS loading, targeted Legacy reads, markdown handoff | Useful, but contains stale `docs/sdd/` path guidance that should later be normalized. |
+| `token-economy.mdc` | Always-on | State/AGENTS loading, targeted Legacy reads, markdown handoff | Useful. Keep aligned with `Documentation/SDD/` and current harness paths. |
 | `update-doc.mdc` | Always-on | Update State for architecture changes; remind agents to apply ADR governance for durable decisions | Useful but not listed in `Documentation/AI-Harness/rules.md`; "significant decision" should be replaced later with the formal ADR policy. |
 | `dotnet-ddd.mdc` | `DocAPI/**/*.cs` | Backend CA light, ubiquitous language, repository boundaries, abstraction gate, Financial deferral | Well scoped. Should remain concise and point to Domain Overview for detail. |
 | `ef-migrations.mdc` | SQL DB and migrations | EF migration rules, soft delete, owned types, connection string safety | Useful but has a stale ADR path. Could later include migration verification expectations. |
@@ -148,7 +148,7 @@ These recommendations are for a later operational update pass:
 - Note that workflows longer than a small rule should become skills.
 - Replace vague ADR language with a concise pointer to the formal ADR Governance Policy.
 - Add verifier-related wording only after the verifier workflow is operationally defined.
-- Normalize stale paths, especially `docs/sdd/` and ADR links.
+- Normalize stale paths, especially old `docs/` compatibility paths and ADR links.
 
 ## Rule Design Standard
 

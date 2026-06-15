@@ -341,4 +341,4 @@ This playbook explains the methodology. The actionable architecture is defined i
 - `Documentation/AI-Harness/Harness-Design/agents-strategy.md`
 - `Documentation/AI-Harness/Harness-Design/rules-strategy.md`
 - `Documentation/AI-Harness/Harness-Design/skills-strategy.md`
-- `Documentation/AI-Harness/Harness-Design/sdd-adoption-roadmap.md`
+- `Documentation/AI-Harness/Harness-Design/sdd-operational.md`

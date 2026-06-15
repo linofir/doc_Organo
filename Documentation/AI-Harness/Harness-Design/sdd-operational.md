@@ -6,42 +6,20 @@ This document defines how Spec-Driven Development operates inside the Doc Organo
 
 SDD is the feature-level planning contract between product or architecture intent and implementation. It does not replace `AGENTS.md`, `Documentation/State.md`, ADRs, Documentation Update, Verifier, rules, skills, review prompts, product docs, architecture docs, or technical docs. It coordinates with them while preserving their ownership boundaries.
 
-This file keeps the existing `sdd-adoption-roadmap.md` path for compatibility, but the document identity is now SDD Operational Governance.
-
 This document focuses on governance expectations, not templates, schemas, tooling, automation, MCP strategy, sub-agent orchestration, CI/CD architecture, or future skill implementation.
 
-## Governance Review
+## Governance Model
 
-The previous roadmap established useful foundations:
+The operational model establishes these foundations:
 
 - SDD owns feature-specific scope, design, task planning, and verification expectations.
-- SDD should be required by risk and size, not for every change.
-- `specify.md`, `design.md`, and `tasks.md` already have clear high-level responsibilities.
-- Verification, testing, ADR evaluation, and documentation follow-up are recognized as part of completion.
-- Legacy Codebase behavior, SQL migration, clinical/security risk, and cross-layer changes are treated as stronger SDD triggers.
-
-The roadmap needed to evolve from adoption guidance into operational governance because it mixed several concerns:
-
-- Adoption phases and future maturity work.
-- SDD artifact responsibilities.
-- Verification policy.
-- Security review expectations.
-- MCP recommendations.
-- Future verifier-skill recommendations.
-
-The improved model keeps the useful thresholds and artifact ownership, adds adaptive workflow depth, makes phase entry and exit criteria explicit, and clarifies handoffs to existing governance workflows.
-
-## Gap Analysis
-
-| Gap | Impact | Governance response |
-|-----|--------|---------------------|
-| Fixed pipeline implied by artifact list | Small work could inherit unnecessary ceremony; risky small work could be under-planned | Adopt adaptive sizing with explicit escalation rules |
-| Phase completion conditions were implicit | Agents could claim a phase is complete without evidence | Define entry and exit criteria for every phase |
-| Skipped phases lacked handoff rules | Work could skip `tasks.md` without a concrete execution plan | Require inline atomic steps when Tasks is skipped |
-| Ownership overlap with Verifier and Documentation Update | SDD could accidentally duplicate gate selection or documentation routing | Define SDD as planning/handoff owner, not verifier or router |
-| Traceability was implied but not governed | Requirements, tests, and verification evidence could drift apart | Add lightweight requirement-to-verification traceability |
-| Task quality was not fully specified | Task lists could become vague checklists instead of executable slices | Add task independence, dependency, requirement, ADR, and testing rules |
-| Brownfield migration needs were scattered | SDD could default to greenfield thinking | Add explicit Legacy, characterization, incremental migration, and bounded-context expectations |
+- SDD is required by risk and size, not for every change.
+- `specify.md`, `design.md`, and `tasks.md` have distinct responsibilities.
+- Verification, testing, ADR evaluation, and documentation follow-up are part of completion.
+- Legacy Codebase behavior, SQL migration, clinical/security risk, and cross-layer changes are strong SDD triggers.
+- Adaptive workflow depth prevents low-risk work from inheriting unnecessary ceremony while keeping risky work explicit.
+- Phase entry and exit criteria prevent agents from claiming completion without evidence.
+- SDD hands off to existing governance workflows instead of replacing them.
 
 ## Conflict Analysis
 
@@ -102,34 +80,6 @@ Specify -> Design -> Tasks -> Execute -> Verify
 ```
 
 Phases may be intentionally simplified or skipped based on sizing, but the lifecycle responsibility does not disappear. The missing responsibility must be carried by a lighter artifact, an inline plan, or verifier evidence.
-
-## New Sections To Add
-
-This governance model adds the following concepts beyond the old roadmap:
-
-- Adaptive sizing by Small, Medium, Large, and Complex work.
-- Explicit rules for when Specify, Design, and Tasks are required, simplified, or skipped.
-- Entry and exit criteria for every phase.
-- Safety valve for skipped Tasks.
-- Context loading strategy for SDD sessions.
-- Escalation policy for authority, architecture, requirement, technical constraint, Legacy Codebase, and verification conflicts.
-- Feature lifecycle ownership and governance-level Definition of Done.
-- Ownership model across SDD, Verifier, Documentation Update, ADR governance, architecture, rules, skills, review prompts, and State.
-- Lightweight requirement-to-documentation-follow-up traceability.
-- Task quality principles.
-- Brownfield and Legacy Codebase migration expectations.
-- Verification, testing, ADR, and documentation integration models.
-
-## Sections To Remove
-
-The following roadmap-style content should not remain in this document as operational SDD governance:
-
-- Phased adoption roadmap language that describes future maturity milestones as the main structure.
-- MCP usage strategy, except where runtime evidence is generally mentioned as verifier input.
-- Future verifier-skill design details.
-- CI/CD architecture recommendations.
-- Template-format instructions beyond artifact purpose and governance expectations.
-- Security review adoption strategy as a standalone section; security-sensitive work is handled through sizing, verifier gate selection, review prompts, and existing security/PHI governance.
 
 ## Adaptive Sizing Model
 
@@ -726,7 +676,6 @@ Current improvements reduce ownership overlap by assigning:
 Remaining gaps to monitor:
 
 - SDD templates may need light updates later to reflect escalation, Definition of Done, verifier handoff, and traceability expectations.
-- Existing docs and research notes may still describe this document as a roadmap rather than operational governance.
 - `AGENTS.md` still uses implementation-specific Legacy Sheets wording; this is acceptable current context but may need future generalization.
 - Review prompt coverage for EF migrations and API contracts remains a future candidate, not a current SDD responsibility.
 - A completed feature SDD example is still needed to validate whether the governance is practical in real migration work.
@@ -743,10 +692,9 @@ Duplicated responsibilities to avoid:
 Future work may build on this governance, but should not be implemented by this document:
 
 - Create a future `spec-workflow` skill only after this governance has been used on at least one real feature SDD.
-- Normalize references to this governance in `AGENTS.md`, `CONTRIBUTING-AI.md`, documentation index, PR template, rules, and skills during a separate documentation update pass.
 - Improve SDD templates after observing real usage against Prontuario, Agendamento, Atendimento, or another SQL migration slice.
 - Consider template support for escalation outcomes, Definition of Done checks, verifier handoff, documentation follow-up evaluation, and Legacy Codebase behavior decisions.
 - Add or refine review prompts for EF migrations and API contracts if recurring verification gaps appear.
 - Use one completed SQL migration or Legacy Codebase behavior port as the reference SDD example.
 - Consider lightweight traceability conventions in templates only after requirement IDs prove useful in real work.
-- integration with reporting-strategy, a governance that creates session handoff, feature report, harness metrics, workflow observability. 
+- Integrate with `reporting-strategy.md` for lightweight session handoff, feature report, lessons learned, and future workflow observability boundaries.

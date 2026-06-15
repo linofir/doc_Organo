@@ -81,7 +81,9 @@ Use the lifecycle defined by the harness design:
 Research -> Plan -> SDD when required -> Implement -> Verification -> State / ADR / Documentation Updates
 ```
 
-Use SDD for work that is large, cross-layer, clinical/security-sensitive, persistence-related, API-contract-changing, Legacy-behavior-porting, or likely to need an ADR. Templates live under `Documentation/AI-Harness/template/sdd/`; feature SDD folders should use the canonical path defined by the current contribution workflow.
+Use SDD for work that is large, cross-layer, clinical/security-sensitive, persistence-related, API-contract-changing, Legacy-behavior-porting, or likely to need an ADR. Templates live under `Documentation/AI-Harness/template/`; feature SDD folders live under `Documentation/SDD/<feature-slug>/`.
+
+Generated SDD artifacts, verification handoffs, reports, and lessons learned should be written in English.
 
 Durable decisions require ADR evaluation. ADRs are for decisions future developers or agents must know to avoid re-litigating or accidentally reversing architecture, persistence, schema, security/auth, public API, cross-context ownership, major runtime, or irreversible migration choices.
 
