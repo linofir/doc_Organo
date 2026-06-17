@@ -61,6 +61,32 @@ Check touched docs, rules, and skills for:
 - Skills own repeatable procedures and handoffs.
 - Review prompts are sensors; verifier responsibility selects and applies them.
 
+## Post-Verify Documentation Follow-Up (Mandatory)
+
+After Verify for SDD-backed work, execute this checklist — not merely evaluate routing candidates. Documentation Follow-Up is mandatory execution per `Documentation/AI-Harness/Harness-Design/sdd-operational.md`.
+
+| Document | Update when |
+|----------|-------------|
+| `Documentation/State.md` | Branch, runtime status, blockers, verification status, active epic, or next steps changed |
+| `Documentation/Product/PM_DocOrgano.md` | Backlog item status or sequencing changed |
+| `Documentation/Technical/migration-sql.md` | Persistence, migration, or aggregate status changed |
+| `Documentation/Technical/runbook.md` | Runtime prerequisites, credentials, or local setup changed |
+
+For each checklist item:
+
+1. Read the current document.
+2. Determine whether the verified feature changed operational truth.
+3. Update the document or record **No update needed** with reason.
+
+Additional follow-up beyond this checklist still routes through Routing Rules above. Routing evaluation alone is insufficient when mandatory items apply.
+
+## Follow-Up vs Routing Evaluation
+
+- **Routing evaluation** — decide which artifact owns a discovered fact.
+- **Follow-Up execution** — apply updates to mandatory checklist documents and routed candidates.
+
+Do not treat Documentation Follow-Up as a suggestion list. When Verify completes SDD-backed work, run the mandatory checklist unless the user explicitly defers with documented reason.
+
 ## Ownership Validation
 
 Check whether information is stored in the correct artifact.
@@ -77,6 +103,12 @@ Common violations:
 
 ```markdown
 # Documentation Update Handoff
+
+## Mandatory Follow-Up Checklist
+- State.md: Updated / No update needed — reason
+- PM_DocOrgano.md: Updated / No update needed — reason
+- migration-sql.md: Updated / No update needed — reason
+- runbook.md: Updated / No update needed — reason
 
 ## Routing
 - State:

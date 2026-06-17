@@ -35,9 +35,10 @@ Skills should not own:
 | `doc-organo-context` | Session orientation | Read State, AGENTS, Domain Overview for domain work; summarize stack and do-not rules | Good bootstrap skill. Should stay short and point outward. |
 | `codebase-decomposition` | DDD and technical debt analysis | Map bounded context, aggregates, entry points, Legacy references, suggested next slice | Strong fit for refactors, migration planning, and SDD design inputs. |
 | `effective-harness-planning` | Harness review and planning | Evaluate AGENTS, rules, skills, PRD, ADRs, SDD templates, State, MCPs, verification | Strong fit for this architecture work. Current duplicate locations should be resolved later. |
-| `verifier` | Verification workflow | Select gates, apply review sensors, record skipped gates, summarize residual risk, identify follow-up needs | Operational verifier workflow now exists; keep aligned with Verification Governance. |
-| `documentation-update` | Documentation routing | Route State, ADR, durable docs, rules, skills, prompts, SDD, and path-drift follow-up | Strong fit for authority and ownership validation. |
+| `verifier` | Verification workflow | Select gates, apply review sensors, record skipped gates, summarize residual risk, identify follow-up needs; Verify is not terminal for SDD-backed work | Operational; aligned with Verification Governance |
+| `documentation-update` | Documentation routing and mandatory Follow-Up execution | Execute post-Verify checklist (State.md priority, PM, migration-sql, runbook); route additional follow-up; path drift and authority validation | Operational; aligned with sdd-operational Documentation Follow-Up |
 | `sql-migration-workflow` | SQL migration workflow | Guide EF and SQL migration changes | Existing workflow for persistence-focused slices. |
+| `not-a-teacher` | Teacher Guide generation | Transform verified implementation into pedagogical artifacts per Knowledge Strategy | Operational workflow for post-Reporting learning artifacts; subordinate to code and governance. |
 
 ## Missing Or Candidate Skills
 

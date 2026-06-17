@@ -58,6 +58,19 @@ Baseline gates:
 
 When a gate is skipped, record a concrete reason. "Not needed" is acceptable only when tied to the classification, such as "No runtime or code behavior changed."
 
+### Environment-Dependent Evidence
+
+When SQL integration, Docker, or credential gates cannot run during Verify, apply `Documentation/AI-Harness/Harness-Design/verification-governance.md` Environment-Dependent Evidence policy.
+
+- Record gate status as **Skipped (environment unavailable)**, not Passed without evidence.
+- Accept Execute evidence only when Execute ran the gate successfully with documented prerequisites satisfied.
+- Classify residual risk when accepting Execute-only evidence.
+- Example: Docker unavailable during Verify re-run; SQL integration passed on Execute with `SA_PASSWORD` and `DOCORGANO_TEST_CONNECTION` documented.
+
+## SDD-Backed Work — Documentation Review Default
+
+For SDD-backed feature work, apply `check-docs.md` unless explicitly skipped with reason tied to classification. Documentation review is expected when operational truth, SDD alignment, or governance docs may have drifted during Execute/Verify.
+
 ## Review Sensor Selection
 
 Review prompts are sensors. They detect issues; they do not redefine policy.
@@ -111,7 +124,9 @@ Identify whether follow-up may be needed for:
 - SDD artifacts: feature scope, design, tasks, or verification expectations.
 - Review prompts: recurring review sensors that are missing or obsolete.
 
-Do not route or rewrite documentation inside this skill unless the user asked for documentation changes. Use `.cursor/skills/documentation-update/SKILL.md` for routing, path drift checks, and authority validation.
+The verifier **identifies** follow-up needs. Documentation Follow-Up **executes** mandatory updates via `.cursor/skills/documentation-update/SKILL.md`. Verify completion does not substitute for Documentation Follow-Up.
+
+Do not route or rewrite documentation inside this skill unless the user asked for documentation changes. Use `.cursor/skills/documentation-update/SKILL.md` for routing, path drift checks, authority validation, and mandatory post-Verify checklist execution.
 
 ## Completion Policy
 

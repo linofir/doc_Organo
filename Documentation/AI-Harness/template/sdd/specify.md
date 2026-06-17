@@ -38,13 +38,36 @@ Use simple requirement IDs for Medium, Large, and Complex work when traceability
 - [ ] `REQ-001` - ...
 - [ ] `REQ-002` - ...
 
+## Execution Prerequisites
+
+Document infrastructure, credentials, and baseline evidence before Execute. Required for Large and Complex work.
+
+| Prerequisite | Status | Notes |
+|--------------|--------|-------|
+| Docker SQL Server (`docorgano-sql`) | Required / N/A | ... |
+| `SA_PASSWORD` available | Required / N/A | ... |
+| `DOCORGANO_TEST_CONNECTION` when SQL integration tests apply | Required / N/A | ... |
+| Baseline `dotnet build` | Pass / Not run | ... |
+| Baseline `dotnet test` count | ... tests | Capture count before Execute for measurable progress |
+
+Cross-reference `Documentation/Technical/runbook.md` for local setup steps.
+
+## Backend Stabilization
+
+Use when this feature is a backend aggregate stabilization or SQL migration vertical slice.
+
+- Frontend validation in scope: Yes / No
+- Default for backend stabilization: **No** — exclude Blazor smoke and UI contract work unless explicitly required
+- Frontend/API drift follow-up: ...
+
 ## Sizing
 
 | Field | Decision |
 |-------|----------|
 | Size | Small / Medium / Large / Complex |
 | Rationale | ... |
-| Required phases | Specify / Design / Tasks / Execute / Verify |
+| Migration vertical note | For first SQL migration vertical pilots, prefer **Large** even when code effort appears modest |
+| Required phases | Specify / Design / Tasks / SDD Pre-Execution Review / Execute / Verify / Documentation Follow-Up / Reporting / Teacher Guide when warranted |
 | Escalation triggers | ... |
 
 ## Assumptions And Constraints
@@ -62,6 +85,8 @@ List relevant terms and confirm they match `Documentation/Architecture/Domain_Ov
 - ...
 
 ## Legacy Behavior
+
+**Recommended for Legacy-behavior migration SDDs; required when material Legacy behavior is in scope.**
 
 Use this section when existing Legacy behavior is being preserved, adapted, or intentionally abandoned.
 

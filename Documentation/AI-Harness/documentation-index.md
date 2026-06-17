@@ -62,6 +62,8 @@ Canonical documentation lives under `Documentation/`.
 | [Harness-Design/sdd-operational.md](Harness-Design/sdd-operational.md) | SDD Operational Governance: adaptive sizing, workflow phases, ownership, traceability, verification, testing, ADR, documentation, and brownfield migration integration |
 | [Harness-Design/verification-governance.md](Harness-Design/verification-governance.md) | Verification governance boundaries and evidence policy |
 | [Harness-Design/reporting-strategy.md](Harness-Design/reporting-strategy.md) | Lightweight reporting boundaries for session handoff, feature reports, lessons learned, and future observability |
+| [Harness-Design/knowledge-strategy.md](Harness-Design/knowledge-strategy.md) | Knowledge-transfer governance for Teacher Guides: boundaries, mandatory sections, lifecycle, and study roadmap policy |
+| [../../.cursor/skills/not-a-teacher/SKILL.md](../../.cursor/skills/not-a-teacher/SKILL.md) | Operational workflow to generate or update `teacher-guide.md` from verified implementation |
 | [Harness-Design/template-architecture.md](Harness-Design/template-architecture.md) | Template ecosystem, Feature SDD folder structure, dependencies, creation order, and validation order |
 
 ## AI Harness Operations
@@ -70,7 +72,8 @@ Canonical documentation lives under `Documentation/`.
 |-----|---------|
 | [research/AI-Research.md](research/AI-Research.md) | Research baseline and adoption risks |
 | [research/playbook.md](research/playbook.md) | RPI and context engineering methodology |
-| [CONTRIBUTING-AI.md](CONTRIBUTING-AI.md) | AI contribution lifecycle |
+| [research/sdd-pilot-report-v1.0.md](research/sdd-pilot-report-v1.0.md) | Final consolidated retrospective for the Paciente SQL Stabilization SDD pilot |
+| [CONTRIBUTING-AI.md](CONTRIBUTING-AI.md) | AI contribution lifecycle, post-Verify phase ownership, Harness Calibration Workflow |
 | [rules.md](rules.md) | Cursor rule inventory and governance metadata |
 | [review-prompts/domain-review.md](review-prompts/domain-review.md) | Domain review sensor |
 | [review-prompts/security-phi-review.md](review-prompts/security-phi-review.md) | Security and PHI review sensor |

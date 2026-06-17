@@ -28,12 +28,15 @@ Documentation/SDD/<feature-slug>/
 ├── design.md
 ├── tasks.md
 ├── verification.md
+├── teacher-guide.md
 └── reports/
     ├── session-handoff.md
     └── feature-report.md
 ```
 
-`specify.md`, `design.md`, and `tasks.md` are SDD artifacts. `verification.md` is the verifier handoff/output for the feature. `reports/` contains communication artifacts and must not replace State, SDD, or Verifier authority.
+`specify.md`, `design.md`, and `tasks.md` are SDD artifacts. `verification.md` is the verifier handoff/output for the feature. `teacher-guide.md` is the knowledge-transfer artifact when generated. `reports/` contains communication artifacts and must not replace State, SDD, or Verifier authority.
+
+**Pre-calibration reference:** Paciente SQL Stabilization SDD predates post-pilot template calibration. Use it as a behavioral reference, not as a structural conformance example. Prontuario forward SDD is the first post-calibration consumer.
 
 Do not create feature folders until a feature actually enters retrospective calibration, forward SDD, implementation, verification, or reporting.
 
@@ -80,11 +83,11 @@ The v1 templates should be good enough to run the first pilot, not final. They s
 
 Validate templates in this order:
 
-1. Check against SDD Operational Governance for phase responsibilities, sizing, traceability, Definition of Done, ADR evaluation, and brownfield expectations.
-2. Check against Verification Governance for verifier handoff quality and residual-risk boundaries.
-3. Check against Reporting Strategy for State/Verifier/SDD boundary protection.
-4. Use Paciente retrospective calibration to test whether traceability and reporting are practical.
-5. Use the ProntuarioRepository forward SDD pilot to test full Specify -> Design -> Tasks -> Execute -> Verify flow.
+1. Check against SDD Operational Governance for phase responsibilities, sizing, SDD Pre-Execution Review, traceability, Definition of Done, ADR evaluation, Execution Prerequisites, Backend Stabilization Rule, and brownfield expectations.
+2. Check against Verification Governance for verifier handoff quality, Environment-Dependent Evidence policy, and residual-risk boundaries.
+3. Check against Reporting Strategy for State/Verifier/SDD boundary protection and Reporting-after-Documentation-Follow-Up ordering.
+4. Use Paciente retrospective calibration as pre-calibration reference; do not retrofit Paciente SDD folder to match updated templates.
+5. Use the ProntuarioRepository forward SDD pilot to test full Specify -> Design -> Tasks -> SDD Pre-Execution Review -> Execute -> Verify -> Documentation Follow-Up flow.
 6. Review pilot findings before updating templates, rules, skills, or governance.
 
 ## Current Execution Boundary

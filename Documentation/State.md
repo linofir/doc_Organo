@@ -2,7 +2,7 @@
 
 Operational snapshot for agents and developers. Update at the end of each work session or merged PR.
 
-**Last updated:** 2026-06-17
+**Last updated:** 2026-06-17 (harness calibration complete)
 
 ## Current branch
 
@@ -22,7 +22,7 @@ Operational snapshot for agents and developers. Update at the end of each work s
 
 **Infraestrutura SQL** — vertical slice **Paciente** backend verified; next: Prontuario → Agendamento → Atendimento.
 
-Current harness phase: **Post-pilot calibration**. Paciente SQL Stabilization SDD pilot executed and verified; templates and governance ready for Prontuario forward SDD.
+Current harness phase: **Harness calibration complete (Wave 1 + Wave 2)**. Governance, templates, skills, reporting templates, and Harness Calibration Workflow aligned from [sdd-pilot-report-v1.0.md](AI-Harness/research/sdd-pilot-report-v1.0.md). Paciente SDD is pre-calibration reference. **Ready for Prontuario forward SDD.**
 
 ## Recent decisions
 
@@ -36,6 +36,8 @@ Current harness phase: **Post-pilot calibration**. Paciente SQL Stabilization SD
 | 2026-06 | Feature SDD location set to `Documentation/SDD/<feature-slug>/`; generated SDD, verification, reporting, and lessons-learned artifacts should be written in English |
 | 2026-06 | Verification Governance v1, Reporting Strategy v1, Template Architecture, and v1 verification/reporting templates prepared for first SDD pilot |
 | 2026-06 | Paciente SQL Stabilization verified (REQ-001–REQ-008); `GET /Paciente/nome/{nome}` retired; collection search adopted; ADR-001 referenced, no new ADR |
+| 2026-06 | Wave 1 harness calibration: SDD Pre-Execution Review, post-Verify lifecycle, Execution Prerequisites, Environment-Dependent Evidence, mandatory Documentation Follow-Up |
+| 2026-06 | Wave 2 harness calibration: Definition of Done alignment, CONTRIBUTING-AI post-Verify chain, reporting templates, SDD README, Harness Calibration Workflow |
 
 ## Known blockers
 
@@ -56,8 +58,7 @@ Residual risk (accepted): SQL integration environment-dependent; no controller-l
 1. Commit Paciente SQL stabilization implementation changes (if not yet committed).
 2. Re-run full 15-test suite with Docker SQL + `SA_PASSWORD` before merge.
 3. Plan WS07 frontend alignment for retired `GET /Paciente/nome/{nome}` → collection search.
-4. Run `ProntuarioRepository` forward SDD pilot in a separate execution session.
-5. Calibrate SDD/verification/reporting templates from Paciente pilot findings (see [feature-report.md](SDD/paciente-sql-stabilization/reports/feature-report.md)).
+4. Run `ProntuarioRepository` forward SDD (harness calibration complete; use templates under `Documentation/AI-Harness/template/sdd/`).
 
 ## Task management
 

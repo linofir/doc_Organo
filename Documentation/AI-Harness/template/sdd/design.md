@@ -8,6 +8,8 @@
 
 Describe the proposed approach in one or two paragraphs.
 
+**Outcome-oriented design:** State what must be true after implementation — behaviors, contracts, persistence outcomes, and constraints. Avoid prescribing specific classes, methods, factories, or mapping strategies unless an accepted ADR requires them. Execute owns implementation choices that satisfy these outcomes.
+
 ## Requirement Mapping
 
 | Requirement | Design response |
@@ -50,6 +52,8 @@ Use when entities, EF configuration, migrations, repositories, schema, or SQL be
 
 Use when controllers, routes, DTOs, IDs, request shape, response shape, or front compatibility are touched.
 
+**Contract resolution:** Ambiguous routes, semantic contradictions, or unresolved naming decisions must be resolved during SDD Pre-Execution Review before Execute. Do not defer contract decisions to implementation.
+
 | Method | Route | Request | Response | Compatibility notes |
 |--------|-------|---------|----------|---------------------|
 | ... | ... | ... | ... | ... |
@@ -78,6 +82,15 @@ Use when behavior is compared with Legacy code.
 | Behavior | Source | Preserve / Adapt / Abandon | Design rationale |
 |----------|--------|----------------------------|------------------|
 | ... | `DocAPI/Legacy/_LegacySheetsDb/...` | ... | ... |
+
+## Runtime Validation Environment
+
+Document the environment and manual checks needed to produce auditable runtime evidence during Execute and Verify.
+
+| Check | Environment | Expected result | Evidence location |
+|-------|-------------|-----------------|-------------------|
+| Swagger smoke | DocAPI running locally | ... | session notes / verification summary |
+| SQL integration | Docker + credentials | ... | test output |
 
 ## Testing Approach
 

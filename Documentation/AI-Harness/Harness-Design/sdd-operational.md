@@ -69,17 +69,24 @@ Use this operational structure for SDD governance:
 2. Specify captures what is needed and why.
 3. Design captures how the solution should work when technical judgment is material.
 4. Tasks capture executable implementation slices when sequencing, dependencies, or verification expectations are non-trivial.
-5. Execute implements the accepted scope and records deviations.
-6. Verify determines whether completion evidence is sufficient.
-7. Documentation Update and ADR governance handle durable follow-up after verification identifies the need.
+5. SDD Pre-Execution Review resolves ambiguities, validates prerequisites, and confirms Execute readiness before coding.
+6. Execute implements the accepted scope and records deviations.
+7. Verify determines whether completion evidence is sufficient.
+8. Documentation Follow-Up executes mandatory project documentation updates identified by Verify.
+9. Reporting produces session handoff and feature report after operational truth is synchronized.
+10. Teacher Guide generation transfers verified implementation knowledge when warranted.
+11. Documentation Update and ADR governance handle routing and durable follow-up beyond the mandatory checklist.
 
-The canonical lifecycle is:
+The canonical SDD lifecycle is:
 
 ```text
-Specify -> Design -> Tasks -> Execute -> Verify
+Specify -> Design -> Tasks -> SDD Pre-Execution Review -> Execute -> Verify
+  -> Documentation Follow-Up -> Reporting -> Teacher Guide
 ```
 
-Phases may be intentionally simplified or skipped based on sizing, but the lifecycle responsibility does not disappear. The missing responsibility must be carried by a lighter artifact, an inline plan, or verifier evidence.
+For Large and Complex SDD-backed work, SDD Pre-Execution Review and the post-Verify chain are mandatory phases, not optional refinements.
+
+Phases may be intentionally simplified or skipped based on sizing, but the lifecycle responsibility does not disappear. The missing responsibility must be carried by a lighter artifact, an inline plan, or verifier evidence. Small and Medium work may inline SDD Review checks before Execute and may combine Documentation Follow-Up with Reporting when risk is low.
 
 ## Adaptive Sizing Model
 
@@ -92,7 +99,16 @@ Process depth is determined by complexity, risk, uncertainty, and blast radius, 
 | Large | Multi-component feature; cross-layer work; persistence/API/UI/domain interaction; significant implementation effort | Full `specify.md` required | Full `design.md` required | Full `tasks.md` required | Required | Required |
 | Complex | Ambiguity, architectural uncertainty, new domain knowledge, security/PHI sensitivity, Legacy Codebase behavior migration, irreversible decisions, or significant risk | Full `specify.md` required, including assumptions and open questions | Full `design.md` required, including risks and ADR candidates | Full `tasks.md` required, including dependencies and verification expectations | Required with scope monitoring | Required with explicit residual risk |
 
+For **Large** and **Complex** SDD-backed work, the sizing table above covers Specify through Verify. The same sizes also require, unless explicitly skipped with rationale:
+
+- SDD Pre-Execution Review before Execute.
+- Documentation Follow-Up after Verify.
+- Reporting after Documentation Follow-Up.
+- Teacher Guide after Reporting when knowledge strategy criteria apply.
+
 Sizing must be conservative for brownfield clinical work. A change that appears small by file count can be Medium, Large, or Complex if it touches clinical behavior, PHI/security, persistence, Legacy Codebase behavior, schema, API contracts, bounded-context ownership, or ADR criteria.
+
+For the first SQL migration vertical pilot in a bounded context, prefer **Large** sizing even when implementation complexity appears modest. Large sizing reflects process validation, Legacy behavior characterization, cross-layer verification, and harness calibration — not code volume alone.
 
 ### Required Phase Rules
 
@@ -108,13 +124,17 @@ Sizing must be conservative for brownfield clinical work. A change that appears 
 
 | Phase | Purpose | Ownership | Expected outputs | Handoff responsibility |
 |-------|---------|-----------|------------------|------------------------|
-| Specify | Define what is needed, why it matters, boundaries, assumptions, constraints, and acceptance criteria | SDD owns feature scope; Product and Domain docs provide inputs | Inline intent or `specify.md`; requirements; out-of-scope; assumptions; open questions; acceptance criteria | Hand Design enough scope to choose an implementation approach; hand Verify acceptance criteria |
-| Design | Define how the solution should work and how it fits Doc Organo architecture | SDD owns feature design; ADRs own durable decisions; Architecture/Technical docs own durable explanations | Inline design note or `design.md`; affected components; integration points; risks; testing approach; ADR candidates | Hand Tasks an implementable approach; hand ADR governance any durable decision candidates |
-| Tasks | Convert accepted scope and design into executable slices | SDD owns feature task plan; tasks do not create new scope | Inline atomic steps or `tasks.md`; sequencing; dependencies; requirement mapping; verification expectations | Hand Execute clear implementation slices; hand Verifier expected evidence |
-| Execute | Implement the scoped change using focused context | Implementation session owns code/doc edits within accepted scope | Code, docs, tests, migration artifacts, or governance edits; recorded deviations when scope changes | Hand Verify diff, tests, skipped checks, deviations, and any SDD updates needed |
-| Verify | Decide whether work is complete enough to continue | Verifier owns gate selection, review sensors, residual risk, and completion decision | Verification summary; gate evidence; skipped-gate reasons; review findings; residual risk; follow-up needs | Hand Documentation Update and ADR governance any durable follow-up signals |
+| Specify | Define what is needed, why it matters, boundaries, assumptions, constraints, and acceptance criteria | SDD owns feature scope; Product and Domain docs provide inputs | Inline intent or `specify.md`; requirements; out-of-scope; assumptions; open questions; acceptance criteria; Execution Prerequisites when Large or Complex | Hand Design enough scope to choose an implementation approach; hand Verify acceptance criteria |
+| Design | Define how the solution should work and how it fits Doc Organo architecture | SDD owns feature design; ADRs own durable decisions; Architecture/Technical docs own durable explanations | Inline design note or `design.md`; affected components; integration points; risks; testing approach; Runtime Validation Environment when relevant; ADR candidates | Hand Tasks an implementable approach; hand SDD Review outcome-oriented design and unresolved API contract risks |
+| Tasks | Convert accepted scope and design into executable slices | SDD owns feature task plan; tasks do not create new scope | Inline atomic steps or `tasks.md`; TASK / VP / DF lists; sequencing; dependencies; requirement mapping; verification expectations; Execution Boundary | Hand SDD Review a reviewable plan; hand Execute clear implementation slices after review exit |
+| SDD Pre-Execution Review | Resolve ambiguities, validate prerequisites, confirm scope boundaries, and gate Execute readiness | SDD Review session owns review findings; active SDD owns resulting updates | Review findings; resolved API contracts; confirmed Execution Prerequisites; updated SDD artifacts when needed; explicit Execute readiness decision | Hand Execute only after exit criteria pass; hand Verify updated acceptance criteria and expected evidence |
+| Execute | Implement the scoped change using focused context | Implementation session owns code/doc edits within accepted scope | Code, tests, migration artifacts; recorded deviations when scope changes; no verification artifacts, reporting, or project doc updates unless explicitly in scope | Hand Verify diff, tests, skipped checks, deviations, and any SDD updates needed |
+| Verify | Decide whether work is complete enough to continue | Verifier owns gate selection, review sensors, residual risk, and completion decision | Verification summary; gate evidence; skipped-gate reasons; review findings; residual risk; follow-up needs | Hand Documentation Follow-Up mandatory update targets; hand ADR governance any durable decision candidates |
+| Documentation Follow-Up | Execute mandatory project documentation updates after Verify | Documentation Update workflow owns routing and edits | Updated State, PM, migration-sql, runbook, and other routed docs; SDD artifact sync when needed | Hand Reporting synchronized operational truth and feature summary inputs |
+| Reporting | Preserve session continuity and feature summary after operational truth is updated | Reporting owns communication artifacts, not authority | `session-handoff.md`, `feature-report.md`, embedded lessons learned | Hand Teacher Guide generation verified implementation knowledge when warranted |
+| Teacher Guide | Transfer verified implementation knowledge for onboarding and safe evolution | Knowledge strategy and `not-a-teacher` skill own generation workflow | `teacher-guide.md` when warranted | End of feature lifecycle for Large SDD-backed work unless explicitly skipped with reason |
 
-If a phase is skipped, the next phase must explicitly carry the missing responsibility. For example, if Design is skipped, Tasks or Execute must state that the implementation follows an existing pattern and identify that pattern. If Tasks is skipped, Execute must begin with atomic implementation steps.
+If a phase is skipped, the next phase must explicitly carry the missing responsibility. For example, if Design is skipped, Tasks or Execute must state that the implementation follows an existing pattern and identify that pattern. If Tasks is skipped, Execute must begin with atomic implementation steps. If SDD Pre-Execution Review is skipped for Medium work, Execute entry must document inline review checks that substitute for formal review exit criteria.
 
 ## Feature Lifecycle Ownership
 
@@ -123,9 +143,12 @@ If a phase is skipped, the next phase must explicitly carry the missing responsi
 | Specify | Active SDD | Product docs, domain docs, user-approved scope, and accepted ADRs constrain scope | Capture feature requirements, boundaries, assumptions, open questions, and acceptance criteria |
 | Design | Active SDD | Accepted ADRs, Architecture docs, Technical docs, and approved domain models constrain design | Propose feature-level design, surface conflicts, identify ADR candidates, and preserve ownership boundaries |
 | Tasks | Active SDD | Accepted Specify and Design constrain tasks | Convert scope and design into executable slices with dependencies, traceability, and verification expectations |
+| SDD Pre-Execution Review | SDD Review session | Active SDD, `sdd-operational.md`, and accepted ADRs constrain review scope | Resolve ambiguities, validate prerequisites, confirm Execute boundaries, and gate Execute readiness |
 | Execute | Implementation session | Active SDD, rules, skills, accepted ADRs, and current code patterns constrain changes | Implement within scope, add required tests, and record deviations or escalation triggers |
 | Verify | Verifier workflow | Verifier owns gate selection, review sensor use, residual risk, and completion judgment | Provide acceptance criteria, expected gates, risks, and traceability evidence for verifier evaluation |
-| Documentation follow-up | Documentation Update workflow | Owning documentation artifact determines final routing | Identify candidate follow-up needs without duplicating routing decisions |
+| Documentation Follow-Up | Documentation Update workflow | Owning documentation artifact determines final routing beyond mandatory checklist | Execute mandatory updates and route additional follow-up needs |
+| Reporting | Reporting workflow | Reporting artifacts are communication, not authority | Provide continuity and feature summary after Documentation Follow-Up |
+| Teacher Guide | Knowledge strategy and `not-a-teacher` skill | Code and ADRs win on conflict | Generate pedagogical artifact after Reporting when warranted |
 | ADR decisions | ADR governance | Accepted ADRs are the durable architecture authority | Identify ADR candidates and stop for escalation when unresolved decisions block safe design or execution |
 | Operational truth | `Documentation/State.md` | `Documentation/State.md` owns current branch, runtime status, blockers, and next steps | Read current truth before planning and identify State update needs after verification |
 
@@ -162,7 +185,9 @@ Exit criteria:
 - Architecture, persistence, API, frontend, security, and migration impacts are described when relevant.
 - Testing approach and testability risks are identified.
 - ADR candidates are identified or explicitly ruled out.
+- Design states outcomes and constraints, not implementation prescriptions. Prefer describing what must be true over naming specific classes, methods, or mapping strategies unless a durable ADR requires them.
 - Design is specific enough to create implementation tasks or execute directly.
+- API contract ambiguities are identified; unresolved contract decisions are flagged for SDD Pre-Execution Review.
 
 ### Tasks
 
@@ -180,6 +205,26 @@ Exit criteria:
 - Tasks constrained by ADRs or ADR candidates reference them.
 - Testing expectations are embedded in implementation tasks.
 - Verification gates, review prompts, smoke checks, and expected evidence are listed at the right level of detail.
+- TASK items cover Execute implementation only. VP items cover Verify preparation. DF items cover Documentation Follow-Up preparation. Do not mix these categories in a single list without labels.
+- Execution Boundary explicitly excludes verification artifacts, reporting, project documentation updates, and Teacher Guide generation unless explicitly approved as in-scope work.
+
+### SDD Pre-Execution Review
+
+Entry criteria:
+
+- Specify, Design, and Tasks responsibilities are complete for the current sizing.
+- Active SDD artifacts exist or inline equivalents are available for Medium work.
+- Open questions, API contract ambiguities, and Execution Prerequisites have been identified.
+
+Exit criteria:
+
+- Scope boundaries and Execute Boundaries are confirmed; adjacent work is deferred, not hidden in tasks.
+- Execution Prerequisites are documented and validated or explicitly accepted with residual risk.
+- Baseline build and test counts are captured when required by sizing.
+- API contract ambiguities are resolved or explicitly deferred with human approval and residual risk.
+- Design prescriptions that belong in Execute are removed or reframed as outcomes.
+- Backend Stabilization scope is confirmed when the feature is a backend aggregate stabilization slice.
+- Execute readiness is explicitly declared or escalation is triggered.
 
 ### Execute
 
@@ -187,6 +232,8 @@ Entry criteria:
 
 - Scope is known through inline Specify or `specify.md`.
 - Required Design and Tasks phases are complete or intentionally skipped with rationale.
+- SDD Pre-Execution Review exit criteria are satisfied for Large and Complex work, or inline review checks are documented for Medium work.
+- Execution Prerequisites are satisfied or explicitly accepted with documented residual risk, including infrastructure, credentials, and baseline build/test evidence when required.
 - If Tasks are skipped, atomic implementation steps have been listed before editing.
 - Task-specific context and rules/skills are loaded without broad unnecessary context.
 
@@ -217,21 +264,61 @@ Exit criteria:
 - Follow-up needs for State, ADRs, Architecture/Technical docs, SDD, rules, skills, or review prompts are identified.
 - Work is declared complete, not complete, or complete only with accepted residual risk.
 
+### Documentation Follow-Up
+
+Entry criteria:
+
+- Verify exit criteria are satisfied or Verify declared completion with accepted residual risk.
+- Verifier identified documentation follow-up targets.
+
+Exit criteria:
+
+- Mandatory checklist executed: `Documentation/State.md`, `Documentation/Product/PM_DocOrgano.md`, `Documentation/Technical/migration-sql.md`, and `Documentation/Technical/runbook.md` when the feature touched migration or runtime prerequisites.
+- Additional follow-up candidates routed through Documentation Update when warranted.
+- Active SDD artifacts synchronized when implementation or verification changed scope, design, tasks, or expected evidence.
+- Documentation Follow-Up is execution, not suggestion. Routing evaluation alone is insufficient.
+
+## Backend Stabilization Rule
+
+When a feature is classified as backend aggregate stabilization or SQL migration vertical work:
+
+- Exclude frontend validation, Blazor smoke checks, and UI contract alignment from default Execute scope unless explicitly required by acceptance criteria.
+- Document frontend/API contract drift as follow-up or out-of-scope, not as hidden Execute tasks.
+- Prefer API and repository verification over UI smoke for the stabilization slice.
+
+This rule prevents scope drift during SDD Pre-Execution Review and Execute for SQL migration verticals.
+
+## Execution Prerequisites
+
+Large and Complex SDD-backed work must document Execution Prerequisites before Execute. Prerequisites include:
+
+- Infrastructure availability, such as Docker SQL Server running locally.
+- Credential availability, such as `SA_PASSWORD` and `DOCORGANO_TEST_CONNECTION` when SQL integration tests apply.
+- Baseline build and automated test counts captured before implementation begins.
+- Runtime validation environment expectations when manual smoke checks are required.
+
+Missing prerequisites must block Execute or be explicitly accepted with documented residual risk during SDD Pre-Execution Review. Do not discover false test failures during Execute when prerequisites were knowable earlier.
+
 ## Definition Of Done
 
 A feature is not done solely because implementation finished. The governance-level Definition of Done applies to SDD-backed work and to simplified SDD flows where the same responsibilities are carried inline.
+
+For Large and Complex SDD-backed work, completion requires the full post-Verify chain unless a phase is explicitly skipped with documented rationale and residual risk.
 
 A feature may be considered complete only when:
 
 - Implementation addresses the accepted scope or explicitly records approved deviations.
 - Required automated tests were added, updated, or intentionally deferred with reason and residual risk.
-- Applicable verification gates were selected and evaluated by verifier responsibility.
-- Failed, skipped, blocked, or deferred gates have concrete explanations.
-- Residual risk is classified and accepted at the appropriate level.
+- **Verify** is complete: applicable verification gates were selected and evaluated by verifier responsibility; failed, skipped, blocked, or deferred gates have concrete explanations; residual risk is classified and accepted at the appropriate level.
+- **Documentation Follow-Up** is executed for SDD-backed work: mandatory checklist in Documentation Integration Model is applied — not merely evaluated. `Documentation/State.md` is the highest-priority mandatory item when operational truth changed.
+- **Reporting** is complete when reporting policy applies: `feature-report.md` and session handoff when needed, produced after Documentation Follow-Up so reports reflect synchronized operational truth.
+- **Teacher Guide** is complete when knowledge strategy criteria apply: `teacher-guide.md` generated after Reporting, or skip recorded with reason in Documentation Follow-Up or feature report.
 - ADR evaluation was performed when architecture, persistence, schema, security/auth, API contract, ownership, runtime, or irreversible decisions were involved.
-- Documentation follow-up was evaluated for State, ADRs, Architecture docs, Technical docs, rules, skills, review prompts, and active SDD artifacts.
+- Additional documentation follow-up beyond the mandatory checklist was routed when warranted.
 - Requirement traceability is complete enough for the feature size and risk.
 - Legacy Codebase behavior decisions are explicit when behavior was preserved, adapted, or abandoned.
+
+Verify completion alone does not satisfy Definition of Done for SDD-backed work. Documentation Follow-Up, Reporting, and Teacher Guide (when applicable) remain required completion responsibilities.
 
 If any required evidence is missing, the feature is not complete. It may be reported as blocked, partially complete, or complete only with accepted residual risk.
 
@@ -408,7 +495,8 @@ Traceability should be lightweight, useful, and maintained only at the depth jus
 Recommended chain:
 
 ```text
-Requirement -> Design -> Task -> Implementation -> Test -> Verification -> Documentation Follow-up
+Requirement -> Design -> Task -> Implementation -> Test -> Verification
+  -> Documentation Follow-Up -> Reporting -> Teacher Guide
 ```
 
 Requirement IDs:
@@ -426,7 +514,9 @@ Traceability expectations:
 - Implementation evidence maps changed code, docs, migrations, or configuration back to the task or requirement when the connection is not obvious.
 - Tests should clearly map to requirements through test names, task notes, or verification summary.
 - Verification validates that accepted requirements have implementation and test evidence or documented residual risk.
-- Documentation follow-up records whether requirement, architecture, operational, or governance truth changed and which owner must route it.
+- Documentation Follow-Up executes mandatory project documentation updates and routes additional follow-up when warranted.
+- Reporting summarizes the feature after operational truth is synchronized; it does not replace Verify or Documentation Follow-Up.
+- Teacher Guide transfers verified implementation knowledge when warranted; it does not replace Reporting or SDD artifacts.
 
 Traceability review should look for missing links:
 
@@ -444,6 +534,14 @@ Traceability should not become bureaucracy. It exists to prevent lost requiremen
 ## Task Governance Model
 
 Tasks are implementation slices, not independent sources of scope. They must implement the accepted Specify and Design artifacts.
+
+Task ID conventions:
+
+- `TASK-*` — Execute implementation work only.
+- `VP-*` — Verify preparation work, such as verification artifact structure or gate planning. Not Execute work.
+- `DF-*` — Documentation Follow-Up preparation work, such as identifying update candidates. Not Execute work.
+
+Keep TASK, VP, and DF items in separate lists or clearly labeled sections in `tasks.md`. Do not mix workflow preparation into TASK lists without labels.
 
 Task quality principles:
 
@@ -577,9 +675,18 @@ If an ADR candidate is identified during Design or Execute, continue only when t
 
 ## Documentation Integration Model
 
-SDD identifies documentation follow-up needs but does not own documentation routing.
+SDD identifies documentation follow-up needs, but Documentation Update owns routing. Documentation Follow-Up is a mandatory post-Verify phase for SDD-backed work, not an optional evaluation.
 
-Documentation follow-up may be needed when:
+After Verify, execute the mandatory Documentation Follow-Up checklist before Reporting:
+
+- `Documentation/State.md`
+- `Documentation/Product/PM_DocOrgano.md`
+- `Documentation/Technical/migration-sql.md` when persistence or migration behavior changed
+- `Documentation/Technical/runbook.md` when runtime prerequisites or local setup changed
+
+The Verifier identifies follow-up needs after gates and review sensors. Documentation Follow-Up executes mandatory updates and routes additional candidates through Documentation Update.
+
+Documentation follow-up may also be needed when:
 
 - Operational truth changes, such as current branch status, runtime status, blockers, verification status, or next steps.
 - An accepted ADR changes architecture direction.
@@ -608,7 +715,7 @@ Documentation Update owns:
 - Authority validation.
 - Ownership validation.
 
-The Verifier identifies documentation follow-up needs after gates and review sensors. Documentation Update decides the owning artifact and applies or recommends changes.
+Reporting follows Documentation Follow-Up, not Execute or Verify. Teacher Guide generation follows Reporting when knowledge strategy criteria apply.
 
 ## Brownfield And Legacy Considerations
 
@@ -629,6 +736,7 @@ Legacy Codebase behavior migration expectations:
 - Treat Legacy code as a source of observed behavior, not as an authority source.
 - Accepted ADRs, documented business rules, security requirements, and approved domain models override Legacy Codebase behavior when they conflict.
 - Legacy Codebase behavior may be preserved, adapted, or intentionally abandoned when the decision is explicit and traceable.
+- For Legacy-behavior migration SDDs, include a Legacy characterization step before implementation — preserve/adapt/abandon table, targeted method reads, and characterization tests when clinical rules are material.
 - Record whether each material behavior is preserved, adapted, or abandoned in Specify, Design, Tasks, verification evidence, or documentation follow-up as appropriate.
 - Read targeted Legacy methods, not broad folders.
 - Capture the behavior being preserved or intentionally changed.
@@ -651,17 +759,20 @@ Use this decision flow:
 2. Classify the change by size, risk, uncertainty, and touched ownership boundaries.
 3. Decide SDD depth:
    - Small: inline Specify, inline steps, Execute, Verify.
-   - Medium: brief Specify; Design and Tasks only when risk or dependency requires them.
-   - Large: full Specify, Design, Tasks, Execute, Verify.
-   - Complex: full Specify, Design, Tasks, Execute with scope monitoring, Verify with explicit residual risk.
+   - Medium: brief Specify; Design and Tasks only when risk or dependency requires them; inline review before Execute when Large phases are skipped.
+   - Large: full Specify, Design, Tasks, SDD Pre-Execution Review, Execute, Verify, Documentation Follow-Up, Reporting, Teacher Guide when warranted.
+   - Complex: full lifecycle with scope monitoring during Execute and explicit residual risk during Verify.
 4. Load only task-specific context needed for the current phase.
 5. Complete phase entry and exit criteria before moving forward.
 6. Pause for escalation when authority, architecture, requirement, technical constraint, Legacy Codebase, or verification conflicts cannot be resolved safely.
 7. If Tasks are skipped, list atomic implementation steps before editing.
 8. Escalate to formal Tasks when hidden complexity appears.
-9. Implement tests as part of executable work.
-10. Hand off to Verifier for gate selection, review prompts, evidence, skipped checks, residual risk, and Definition of Done evaluation.
-11. Evaluate documentation follow-up candidates before routing them through the owning workflow.
+9. Complete SDD Pre-Execution Review before Execute for Large and Complex work.
+10. Implement tests as part of executable work.
+11. Hand off to Verifier for gate selection, review prompts, evidence, skipped checks, residual risk, and Definition of Done evaluation.
+12. Execute Documentation Follow-Up before Reporting.
+13. Generate Teacher Guide after Reporting when knowledge strategy criteria apply.
+14. Evaluate additional documentation follow-up candidates beyond the mandatory checklist before routing them through Documentation Update.
 
 ## Governance Consistency Review
 
@@ -675,10 +786,9 @@ Current improvements reduce ownership overlap by assigning:
 
 Remaining gaps to monitor:
 
-- SDD templates may need light updates later to reflect escalation, Definition of Done, verifier handoff, and traceability expectations.
-- `AGENTS.md` still uses implementation-specific Legacy Sheets wording; this is acceptable current context but may need future generalization.
 - Review prompt coverage for EF migrations and API contracts remains a future candidate, not a current SDD responsibility.
-- A completed feature SDD example is still needed to validate whether the governance is practical in real migration work.
+- Paciente SQL Stabilization SDD is a pre-calibration reference; Prontuario forward SDD is the first post-calibration consumer of updated templates and governance.
+- Harness Calibration Workflow should be documented in `CONTRIBUTING-AI.md` after Wave 1 governance updates complete.
 
 Duplicated responsibilities to avoid:
 

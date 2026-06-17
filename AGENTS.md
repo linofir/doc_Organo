@@ -75,10 +75,13 @@ API default: `https://localhost:7004` from `DocFront.Web/appsettings.json`.
 
 ## Harness Workflow
 
-Use the lifecycle defined by the harness design:
+Use the lifecycle defined by `Documentation/AI-Harness/Harness-Design/sdd-operational.md`:
 
 ```text
-Research -> Plan -> SDD when required -> Implement -> Verification -> State / ADR / Documentation Updates
+Research -> Plan -> SDD when required
+  -> SDD Pre-Execution Review (Large/Complex)
+  -> Execute -> Verify -> Documentation Follow-Up -> Reporting -> Teacher Guide
+  -> State / ADR / Documentation Updates
 ```
 
 Use SDD for work that is large, cross-layer, clinical/security-sensitive, persistence-related, API-contract-changing, Legacy-behavior-porting, or likely to need an ADR. Templates live under `Documentation/AI-Harness/template/`; feature SDD folders live under `Documentation/SDD/<feature-slug>/`.

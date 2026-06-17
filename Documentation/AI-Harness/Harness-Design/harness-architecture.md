@@ -19,24 +19,25 @@ It does not rewrite operational artifacts and does not create feature implementa
 
 ## Current State Assessment
 
-The harness is architecturally coherent but still in a foundation phase.
+The harness has completed first-pilot calibration (Paciente SQL Stabilization) and Wave 1–2 governance alignment. It is operational for forward SDD work; CI enforcement and some secondary docs remain incremental improvements.
 
 Existing strengths:
 
-- `AGENTS.md` gives a compact project bootstrap: stack, branch split, repository layout, bounded contexts, commands, SDD entry point, MCP suggestions, and verification gates.
-- `.cursor/rules/` already separates always-on security/token guidance from scoped backend, EF, and Blazor conventions.
-- `.cursor/skills/` contains useful workflows for session context, codebase decomposition, and harness planning.
-- `Documentation/AI-Harness/` contains contribution workflow, rules index, review prompts, SDD templates, and documentation taxonomy.
-- Product, architecture, technical, and ADR docs provide better-than-average durable context for AI-assisted development.
+- `AGENTS.md` gives a compact project bootstrap: stack, branch split, repository layout, bounded contexts, commands, SDD entry point, and verification entry points.
+- `.cursor/rules/` separates always-on security/token guidance from scoped backend, EF, and Blazor conventions.
+- `.cursor/skills/` includes operational workflows: verifier, documentation-update, not-a-teacher, sql-migration, codebase decomposition, and harness planning.
+- `Documentation/AI-Harness/` contains calibrated SDD operational governance, verification governance, reporting and knowledge strategy, templates, and contribution workflow including Harness Calibration Workflow.
+- First feature SDD instance exists: `Documentation/SDD/paciente-sql-stabilization/` (historical pre-calibration reference).
+- Product, architecture, technical, and ADR docs provide durable context for AI-assisted development.
 
 Main architecture risks:
 
-- Path drift remains after the `docs/` to `Documentation/` taxonomy decision. Several artifacts still reference old paths or inconsistent SDD template locations.
-- Previous references to `Documentation/studies.md`, `Documentation/AI-Research.md`, `Documentation/playbook.md`, and `Documentation/AI-Harness/Research/*` have been consolidated into `Documentation/AI-Harness/research/`.
-- SDD templates exist, but there are no feature SDD instances yet.
-- Verification gates are documented but not fully enforced by CI, review-prompt routine, or a dedicated verifier workflow.
-- `Documentation/State.md` is designed as the current truth, but it can become stale if not updated at the end of implementation sessions or PRs.
-- `check-docs.md` and the verifier skill exist, but some governance documents, rules, skills, and indexes can still drift if they are not updated together.
+- Path drift may remain in older research or auxiliary docs referencing pre-taxonomy paths.
+- `Documentation/State.md` can become stale if Documentation Follow-Up is skipped after Verify.
+- Harness secondary docs can drift from `sdd-operational.md` if calibration workflow is not followed after future pilots.
+- Review prompt coverage for EF migrations and API contracts remains incomplete.
+- CI workflow enforcing at least `dotnet build` and `dotnet test` is not yet in place.
+- `Documentation/Technical/api-contract.md` does not exist yet.
 
 ## Component Responsibilities
 
@@ -48,7 +49,7 @@ Main architecture risks:
 | `Documentation/State.md` | Current operational truth | Branch, runtime status, active epic, blockers, next steps, recent decisions, harness pointers | Latest merged work, session outcomes, verification results | Bootstrap state for next session | End of relevant session, PR merge, runtime status change, blocker resolution | Read before large tasks; feeds `AGENTS.md` context indirectly without becoming historical narrative |
 | Review prompts | Pre-merge review sensors | Domain, security/PHI, documentation, EF/API contract checklists | Diff, domain docs, security rules, ADRs, PR template | Findings by severity, missing checks, gate result | New review class, recurring bug, new compliance concern | Complement rules; deeper than always-on guidance; should feed PR review and future rules |
 | Verifier role | Verification ownership model | Decide applicable gates, run or request checks, apply review prompts, record skipped gates, summarize residual risk | Diff, SDD tasks, review prompts, PR template, ADRs, security rules, `State.md` | Verification summary, skipped-gate reasons, residual risks, State/doc/ADR follow-up signal | Change reaches review/PR boundary, risky work completes, SDD tasks claim done | Orchestrates review prompts and test/smoke gates; does not replace human review or CI |
-| SDD | Feature design workflow | Per-feature specify, design, tasks for features larger than a small change | PRD, PM, RoadMap, Domain Overview, architecture docs, State, research | Scoped feature contract, design decisions, executable tasks, verification plan | Feature > half day, cross-module change, risky clinical/security behavior | Bridges Plan to Implement; tasks should reference review prompts and State update |
+| SDD | Feature design workflow | Per-feature specify, design, tasks for features larger than a small change | PRD, PM, RoadMap, Domain Overview, architecture docs, State, research | Scoped feature contract, design decisions, executable tasks, verification plan | Feature > half day, cross-module change, risky clinical/security behavior | Bridges Plan to Execute and post-Verify completion chain; tasks should reference review prompts and Follow-Up |
 | MCPs | External tool and runtime bridge | GitHub PR/issues, browser smoke tests, future docs/db access | Tool schemas, repo state, browser or GitHub data | Runtime evidence, PR metadata, smoke-test observations | Need external state or browser verification | MCP results should be summarized into docs or PRs, not become hidden chat-only context |
 | Auxiliary docs | Durable knowledge base | PRD, PM, RoadMap, Architecture, ADRs, Technical docs, AI research, playbook, documentation index | Product decisions, architecture decisions, implementation evidence | Canonical context for agents and humans | Product, architecture, technical, methodology, or taxonomy change | Referenced by `AGENTS.md`, skills, SDD, and review prompts |
 
@@ -77,10 +78,17 @@ Research
 Plan
 ->
 SDD when risk, size, or cross-module scope requires it
+  (Specify -> Design -> Tasks -> SDD Pre-Execution Review for Large/Complex)
 ->
-Implement
+Execute
 ->
-Verification
+Verify
+->
+Documentation Follow-Up
+->
+Reporting
+->
+Teacher Guide when warranted
 ->
 State / ADR / Documentation Updates
 ```
@@ -89,12 +97,30 @@ State / ADR / Documentation Updates
 |-------|---------|----------------|-----------------|
 | Research | Understand codebase, docs, risks, and existing decisions | Code, docs, ADRs, research baseline, targeted searches | Durable findings or a short handoff, not long chat history |
 | Plan | Convert research into a proposed path | Research output, PRD/PM, architecture docs, `State.md` | Plan, design note, or decision that can be reviewed |
-| SDD | Capture feature-specific scope and design when risk warrants it | Plan, PRD/PM, Domain Overview, ADRs, technical docs | `specify.md`, `design.md`, `tasks.md` for the feature |
-| Implement | Make scoped changes using focused context | SDD or plan, relevant files, rules, skills | Code or documentation changes within the approved scope |
-| Verification | Produce evidence that the work is correct enough to continue | Diff, SDD tasks, review prompts, test/smoke commands | Verification summary, skipped-gate reasons, residual risks |
+| SDD | Capture feature-specific scope and design when risk warrants it | Plan, PRD/PM, Domain Overview, ADRs, technical docs | `specify.md`, `design.md`, `tasks.md`; SDD Pre-Execution Review before Execute for Large/Complex work |
+| Execute | Make scoped changes using focused context | SDD or plan, relevant files, rules, skills | Code or documentation changes within the approved scope |
+| Verify | Produce evidence that the work is correct enough to continue | Diff, SDD tasks, review prompts, test/smoke commands | Verification summary, skipped-gate reasons, residual risks |
+| Documentation Follow-Up | Synchronize operational and technical truth after Verify | Verifier follow-up targets, active SDD | Updated State, PM, migration-sql, runbook, and routed docs |
+| Reporting | Preserve continuity and feature summary | Verified implementation, synchronized docs | Session handoff, feature report, embedded lessons learned |
+| Teacher Guide | Transfer verified implementation knowledge | Finalized code, verification, reporting | `teacher-guide.md` when knowledge strategy criteria apply |
 | Updates | Feed durable learning back into the harness | Verification results, merged work, new decisions | State update, ADR, docs update, or future rule/skill recommendation |
 
 Research and Plan may produce only design documentation. Implementation should not begin just because research exists; it begins when scope, risk, and verification expectations are clear enough.
+
+## Harness Calibration Workflow
+
+Feature SDD completion does not automatically update harness governance. When a pilot produces repeatable harness friction, use the calibration workflow defined operationally in `Documentation/AI-Harness/CONTRIBUTING-AI.md`.
+
+```text
+Pilot Execution -> Pilot Report -> Implementation Plan (Proven only)
+  -> Review / Approval -> Phased Governance Update -> Consistency Audit -> Next Pilot
+```
+
+Pilot reports under `Documentation/AI-Harness/research/` are calibration inputs, not feature truth, verification output, or operational truth. They do not override `sdd-operational.md`, `verification-governance.md`, or `Documentation/State.md`.
+
+Finding maturity for adoption: **Experimental** → **Pilot-Proven** (Proven in report) → **Adopted** (implemented in governance) → **Canonical** (stable authority). Preliminary and Deferred findings require second-pilot validation or explicit approval before adoption.
+
+First calibration instance: Paciente SQL Stabilization → `sdd-pilot-report-v1.0.md` → Wave 1–2 governance updates.
 
 ## ADR Governance Policy
 
@@ -211,8 +237,7 @@ Missing or incomplete:
 - Ongoing documentation path normalization for renamed or moved harness artifacts.
 - Review prompt coverage for EF migrations and API contracts.
 - Continued alignment between verification governance, the verifier skill, review prompts, and future CI.
-- Skills for SQL migration slices and legacy Atendimento rule porting.
-- Feature SDD instances for active work.
+- Skills for legacy Atendimento rule porting beyond sql-migration-workflow.
 - CI workflow enforcing at least `dotnet build` and `dotnet test`.
 - `Documentation/Technical/api-contract.md`.
 - Clear MCP usage policy beyond GitHub and browser recommendations.

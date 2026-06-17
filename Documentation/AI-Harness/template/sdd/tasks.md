@@ -10,9 +10,10 @@ State what this task plan will execute and what it will not execute.
 
 - Included:
 - Excluded:
-- Current execution does not begin until this task plan is accepted.
+- **Explicitly excluded from Execute:** verification artifacts (`verification.md`), reporting (`feature-report.md`, `session-handoff.md`), project documentation updates (State, PM, migration-sql, runbook), Teacher Guide generation.
+- Current execution does not begin until SDD Pre-Execution Review exit criteria are satisfied.
 
-## Task List
+## Implementation Tasks (TASK)
 
 - [ ] `TASK-001` - ...
   - **Requirements:** `REQ-001`
@@ -25,6 +26,24 @@ State what this task plan will execute and what it will not execute.
   - **Files:** `...`
   - **Depends on:** `TASK-001`
   - **Tests or checks:** ...
+  - **Done when:** ...
+
+## Verify Preparation (VP)
+
+Workflow preparation for Verify — not Execute implementation.
+
+- [ ] `VP-001` - ...
+  - **Purpose:** ...
+  - **Depends on:** `TASK-...`
+  - **Done when:** ...
+
+## Documentation Follow-Up Preparation (DF)
+
+Workflow preparation for Documentation Follow-Up — not Execute implementation.
+
+- [ ] `DF-001` - ...
+  - **Purpose:** ...
+  - **Depends on:** `TASK-...` / `VP-...`
   - **Done when:** ...
 
 ## Dependency Map

@@ -18,6 +18,9 @@
 | Build | Passed / Failed / Skipped / Blocked | ... |
 | Automated tests | Passed / Failed / Skipped / Blocked | ... |
 | SQL / Persistence | Passed / Failed / Skipped / Blocked | ... |
+
+For environment-dependent gates (Docker, credentials), use **Skipped (environment unavailable)** when Verify cannot reproduce Execute evidence. See `Documentation/AI-Harness/Harness-Design/verification-governance.md` Environment-Dependent Evidence policy.
+
 | API | Passed / Failed / Skipped / Blocked | ... |
 | UI | Passed / Failed / Skipped / Blocked | ... |
 | Security / PHI | Passed / Failed / Skipped / Blocked | ... |

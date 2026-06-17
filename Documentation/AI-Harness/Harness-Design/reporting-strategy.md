@@ -22,7 +22,7 @@ This v1 does not define full metrics, dashboards, release reporting, external-to
 Reporting owns:
 
 - Short, reviewable summaries that help the next session continue from the right place.
-- Feature-level completion summaries after verification.
+- Feature-level completion summaries after Documentation Follow-Up (Verify must be complete first).
 - Lessons learned that may inform later template, skill, rule, review prompt, or governance updates.
 - A lightweight vocabulary for future reporting and observability.
 
@@ -54,7 +54,7 @@ Session handoff should be concise. It is not a replacement for State, SDD, or Ve
 
 ### Feature Report
 
-Use after a feature or pilot slice has gone through verification.
+Use after Verify is complete **and** Documentation Follow-Up has synchronized operational truth.
 
 It should answer:
 
@@ -99,6 +99,14 @@ Reporting may link to a feature SDD, summarize progress, and capture lessons fro
 Verifier outputs are the source for gate status, skipped gates, residual risk, and completion decisions.
 
 Reporting may summarize verification results after they exist. It must not select gates or accept residual risk.
+
+## Phase Ordering
+
+Reporting runs **after Documentation Follow-Up**, not during Execute or Verify.
+
+Documentation Follow-Up synchronizes operational truth in State, PM, migration-sql, runbook, and other routed docs. Feature reports and session handoffs should reflect that synchronized truth, not pre-follow-up drift.
+
+Teacher Guide generation runs after Reporting when knowledge strategy criteria apply. See `Documentation/AI-Harness/Harness-Design/knowledge-strategy.md`.
 
 ## Relationship With Future Metrics
 

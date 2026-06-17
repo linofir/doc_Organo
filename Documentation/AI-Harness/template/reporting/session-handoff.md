@@ -6,7 +6,9 @@
 
 ## Current Phase
 
-- Phase: Research / Design / SDD / Execute / Verify / Documentation Update / Review
+Use the calibrated lifecycle phase name exactly as listed:
+
+- Phase: Research / Specify / Design / Tasks / SDD Pre-Execution Review / Execute / Verify / Documentation Follow-Up / Reporting / Teacher Guide
 - Active feature or scope:
 - Active SDD:
 
@@ -39,14 +41,23 @@ Summarize only what the next session needs. Do not replace `Documentation/State.
 - Skipped or blocked gates:
 - Residual risk:
 
-## Documentation Follow-up
+## Documentation Follow-Up
 
-- State:
+Mandatory post-Verify for SDD-backed work. Record checklist execution, not routing evaluation alone.
+
+- State.md:
+- PM:
+- migration-sql.md:
+- runbook.md:
 - ADR:
 - Architecture / Technical docs:
-- SDD:
+- SDD artifact sync:
 - Rules / Skills / Review prompts:
-- Reporting:
+
+## Reporting And Teacher Guide
+
+- Feature report status (after Documentation Follow-Up):
+- Teacher Guide status (after Reporting, when applicable):
 
 ## Notes For Resume
 
