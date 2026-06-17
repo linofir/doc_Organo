@@ -34,18 +34,18 @@ Current execution does not begin until this task plan is accepted and Execution 
 
 Confirm before TASK-002 (first implementation task):
 
-- [ ] Docker SQL container `docorgano-sql` running
-- [ ] `SA_PASSWORD` set
-- [ ] `dotnet ef database update --project DocAPI/DocAPI.csproj` succeeded
-- [ ] `dotnet run --project DocAPI/DocAPI.csproj` starts successfully
-- [ ] Baseline `dotnet test` executed; result recorded in session notes
-- [ ] Swagger UI reachable
+- [x] Docker SQL container `docorgano-sql` running
+- [x] `SA_PASSWORD` set
+- [x] `dotnet ef database update --project DocAPI/DocAPI.csproj` succeeded
+- [x] `dotnet run --project DocAPI/DocAPI.csproj` starts successfully
+- [x] Baseline `dotnet test` executed; result recorded in session notes
+- [x] Swagger UI reachable
 
 ## Task List
 
 ### Pre-implementation
 
-- [ ] `TASK-001` - Legacy characterization sign-off
+- [x] `TASK-001` - Legacy characterization sign-off
   - **Requirements:** `REQ-008`
   - **Files:** `Documentation/SDD/paciente-sql-stabilization/specify.md` (Legacy Behavior section)
   - **Depends on:** None
@@ -54,56 +54,56 @@ Confirm before TASK-002 (first implementation task):
 
 ### Implementation
 
-- [ ] `TASK-002` - Ensure full field persistence on create/update
+- [x] `TASK-002` - Ensure full field persistence on create/update
   - **Requirements:** `REQ-001`
   - **Files:** Paciente domain, mapping, and related application layer as needed
   - **Depends on:** `TASK-001`, Execution Prerequisites
   - **Tests or checks:** Manual or automated check that all DTO fields persist before TASK-003
   - **Done when:** Create and update persist Nome, Nascimento, CPF, RG, Email, Telefone, Plano, Carteira, and Endereco
 
-- [ ] `TASK-003` - Add mapping/persistence unit tests for full field round-trip
+- [x] `TASK-003` - Add mapping/persistence unit tests for full field round-trip
   - **Requirements:** `REQ-001`
   - **Files:** `DocAPI.Tests/` (repository or mapping tests)
   - **Depends on:** `TASK-002`
   - **Tests or checks:** `dotnet test --filter Paciente`
   - **Done when:** Tests assert Plano, Carteira, RG, and all Endereco fields persist on create and update
 
-- [ ] `TASK-004` - Expand repository unit tests
+- [x] `TASK-004` - Expand repository unit tests
   - **Requirements:** `REQ-002`, `REQ-003`
   - **Files:** `DocAPI.Tests/Infrastructure/PacienteRepositoryTests.cs`
   - **Depends on:** None (parallel with TASK-002 after prerequisites)
   - **Tests or checks:** `dotnet test --filter PacienteRepository`
   - **Done when:** Tests cover pagination/ordering, nome partial collection search, CPF exact lookup, and soft-delete query filter exclusion
 
-- [ ] `TASK-005` - API stabilization (status codes, PHI, create response)
+- [x] `TASK-005` - API stabilization (status codes, PHI, create response)
   - **Requirements:** `REQ-004`, `REQ-005`
   - **Files:** `DocAPI/API/Controllers/PacienteController.cs`
   - **Depends on:** `TASK-002`
   - **Tests or checks:** Code review; automated tests where practical
   - **Done when:** PHI logging removed; duplicate CPF returns 409; missing resource returns 404; POST returns `ReadPacienteDto` with 201; PUT/DELETE return 204 or 404
 
-- [ ] `TASK-006` - Implement patient search API contract
+- [x] `TASK-006` - Implement patient search API contract
   - **Requirements:** `REQ-003`, `REQ-004`
   - **Files:** `DocAPI/API/Controllers/PacienteController.cs`, repository if query exposure needed
   - **Depends on:** `TASK-004`, `TASK-005`
   - **Tests or checks:** Repository and API tests; Swagger collection search scenarios
   - **Done when:** Single-resource routes (`/{id}`, `/cpf/{cpf}`) and collection search route per `design.md` API Contract Decision are implemented; retired nome single-result semantics removed; 200 + empty array for zero nome matches
 
-- [ ] `TASK-007` - SQL integration tests
+- [x] `TASK-007` - SQL integration tests
   - **Requirements:** `REQ-006`
   - **Files:** `DocAPI.Tests/Integration/` (new or updated test class)
   - **Depends on:** `TASK-003`, `TASK-004`
   - **Tests or checks:** `dotnet test --filter PacienteSql` (or project filter)
   - **Done when:** Integration tests meet SQL Integration Testing criteria below
 
-- [ ] `TASK-008` - Swagger runtime validation
+- [x] `TASK-008` - Swagger runtime validation
   - **Requirements:** `REQ-007`
   - **Files:** Session notes only (not `verification.md`)
   - **Depends on:** `TASK-006`, `TASK-007`
   - **Tests or checks:** Manual checklist per `specify.md` Runtime Validation Environment
   - **Done when:** All scenarios recorded: Create, Read, Update, Delete, Duplicate CPF, Search, Soft delete
 
-- [ ] `TASK-009` - Build and automated test gate
+- [x] `TASK-009` - Build and automated test gate
   - **Requirements:** All (`REQ-001` through `REQ-008`)
   - **Files:** Solution-wide
   - **Depends on:** `TASK-003` through `TASK-008`
@@ -152,7 +152,7 @@ Full verification without skip requires a passing SQL integration run on a machi
 
 Post-implementation work prepared for the Verify phase. **Not part of Execute implementation.**
 
-- [ ] `VP-001` - Verification handoff preparation
+- [x] `VP-001` - Verification handoff preparation
   - **Requirements:** All
   - **Owner:** Verify phase (may be drafted during Execute session notes)
   - **Depends on:** `TASK-009`, `TASK-008`
@@ -163,7 +163,7 @@ Post-implementation work prepared for the Verify phase. **Not part of Execute im
 
 Post-verify routing candidates. **Not part of Execute implementation.**
 
-- [ ] `DF-001` - Documentation follow-up routing
+- [x] `DF-001` - Documentation follow-up routing
   - **Requirements:** Governance
   - **Owner:** Documentation Update after Verify
   - **Depends on:** `VP-001`
@@ -217,10 +217,10 @@ Post-verify routing candidates. **Not part of Execute implementation.**
 
 ## Review Sensors
 
-- [ ] `Documentation/AI-Harness/review-prompts/domain-review.md`
-- [ ] `Documentation/AI-Harness/review-prompts/security-phi-review.md`
-- [ ] `Documentation/AI-Harness/review-prompts/check-docs.md`
-- [ ] `Documentation/AI-Harness/review-prompts/test-strategy.md`
+- [x] `Documentation/AI-Harness/review-prompts/domain-review.md`
+- [x] `Documentation/AI-Harness/review-prompts/security-phi-review.md`
+- [x] `Documentation/AI-Harness/review-prompts/check-docs.md`
+- [x] `Documentation/AI-Harness/review-prompts/test-strategy.md`
 
 ## Known Risks And Skipped Checks
 

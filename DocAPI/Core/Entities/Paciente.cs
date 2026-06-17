@@ -54,6 +54,14 @@ public class Paciente
             CriadoEm = DateTime.UtcNow;
     }
 
+    public void ComplementarCadastro(string? rg, string? plano, string? carteira, Endereco? endereco)
+    {
+        RG = rg;
+        Plano = plano;
+        Carteira = carteira;
+        Endereco = endereco;
+    }
+
     public void AplicarAtualizacao(
         string nome,
         DateOnly nascimento,

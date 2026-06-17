@@ -64,7 +64,7 @@ Objetivos do MVP2:
 
 | Prioridade | Feature | Status | Resultado esperado |
 |------------|---------|--------|--------------------|
-| P0 | Paciente SQL Stabilization Pilot | Planejado | `PacienteRepository` validado contra Docker SQL, Swagger e testes, CRUD SQL funcional e alinhado ao domínio |
+| P0 | Paciente SQL Stabilization Pilot | Verificado | `PacienteRepository` validado contra Docker SQL, Swagger e testes; REQ-001–REQ-008 satisfeitos — ver [verification.md](../SDD/paciente-sql-stabilization/verification.md) |
 | P0 | Implementar `ProntuarioRepository` EF | Próximo | CRUD SQL funcional e alinhado ao domínio |
 | P0 | Implementar `AgendamentoRepository` EF | Próximo | CRUD SQL funcional e preparado para autorizações |
 | P0 | Implementar `AtendimentoRepository` EF | Próximo | CRUD SQL com regras portadas do legado |
@@ -87,7 +87,7 @@ Objetivos do MVP2:
 
 | Prioridade | Feature | Status | Resultado esperado |
 |------------|---------|--------|--------------------|
-| P0 | Testes SQL de integração para Paciente | Planejado | Cobertura além de EF InMemory |
+| P0 | Testes SQL de integração para Paciente | Verificado | `PacienteSqlIntegrationTests` com skip policy; 15 testes no total (14 unit + 1 SQL) |
 | P0 | Testes de caracterização para Atendimento | Planejado | Regras legadas documentadas por testes |
 | P1 | CI mínimo com `dotnet test` | Planejado | Feedback automático antes de merge |
 | P1 | Smoke tests Swagger/Blazor | Planejado | Validação manual orientada por checklist |
@@ -97,8 +97,8 @@ Objetivos do MVP2:
 
 | Prioridade | Feature | Status | Resultado esperado |
 |------------|---------|--------|--------------------|
-| P0 | Remover logs com dados sensíveis | Planejado | Nenhum PHI em `Console.WriteLine`, logs, commits ou exemplos |
-| P0 | Criar review prompt de segurança/PHI | Planejado | Checklist reutilizável em PRs |
+| P0 | Remover logs com dados sensíveis | Verificado (Paciente) | PHI removido de `PacienteController`; demais controllers ainda pendentes |
+| P0 | Criar review prompt de segurança/PHI | Executado | `Documentation/AI-Harness/review-prompts/security-phi-review.md` — aplicado no piloto Paciente |
 | P1 | Definir escopo mínimo de auth para MVP2 | Planejado | ADR com decisão: ambiente controlado vs auth mínima |
 | P1 | Planejar Identity/Auth como capacidade de suporte | Planejado | Login e autorização sem criar bounded context prematuro |
 | P2 | RBAC avançado por perfil | MVP3 | Médico, secretária, admin, enfermeira e paciente |
@@ -173,9 +173,9 @@ Esta iniciativa é uma capacidade de suporte para o MVP2, não um novo domínio 
 | Grupo | Prioridade | Status | Resultado esperado |
 |-------|------------|--------|--------------------|
 | AI Harness Foundation | P1 | Planejado | Governança, documentação, regras, skills, índices e caminhos alinhados aos artefatos canônicos |
-| AI Harness Adoption | P1 | Planejado | Calibração retrospectiva da vertical Paciente SQL, primeiro piloto SDD forward, adoção do Verifier e uso do Documentation Update |
+| AI Harness Adoption | P1 | Em calibração | Piloto SDD Paciente SQL Stabilization executado e verificado; calibrar templates antes do piloto Prontuario forward |
 | AI Harness Evolution | P2 | Planejado | Estratégia leve para reporting futuro, session handoff, feature reports, lessons learned e preparação para observabilidade de workflow |
-| Verification Adoption | P1 | Planejado | Verifier usado em execuções reais para evidência de conclusão, risco residual e follow-up documental |
+| Verification Adoption | P1 | Verificado (piloto) | Verifier aplicado no piloto Paciente SQL Stabilization; `verification.md` gerado |
 
 Itens planejados para MVP2:
 

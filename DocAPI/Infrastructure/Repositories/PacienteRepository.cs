@@ -37,11 +37,14 @@ public class PacienteRepository : IPacienteRepository
             .ToListAsync();
     }
 
-    public async Task<List<Paciente>> GetPacienteByNomeAsync(string nome)
+    public async Task<List<Paciente>> GetPacienteByNomeAsync(string nome, int skip = 0, int take = 100)
     {
         var nomeLimpo = nome.Trim();
         return await _context.Pacientes
             .Where(p => p.Nome.Contains(nomeLimpo))
+            .OrderBy(p => p.Nome)
+            .Skip(skip)
+            .Take(take)
             .ToListAsync();
     }
 

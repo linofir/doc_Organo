@@ -2,7 +2,7 @@
 
 Operational snapshot for agents and developers. Update at the end of each work session or merged PR.
 
-**Last updated:** 2026-06-11
+**Last updated:** 2026-06-17
 
 ## Current branch
 
@@ -12,17 +12,17 @@ Operational snapshot for agents and developers. Update at the end of each work s
 
 | Component | Status |
 |-----------|--------|
-| DocAPI (SQL) | **Paciente** EF repository implemented + unit tests; Prontuario/Agendamento/Atendimento stubbed (DI resolves, throws until migrated) |
+| DocAPI (SQL) | **Paciente** backend stabilized — full-field CRUD, collection search, soft delete, duplicate CPF 409, PHI-safe controller, 14 unit + 1 SQL integration test (15 total). Prontuario/Agendamento/Atendimento stubbed (DI resolves, throws until migrated) |
 | DocAPI (`main`) | Functional with Google Sheets (reference only) |
-| DocFront.Web | Blazor Server; expects API at `https://localhost:7004` |
+| DocFront.Web | Blazor Server; expects API at `https://localhost:7004`. Still calls retired `paciente/nome/{nome}` — WS07 debt |
 | SQL Server | Docker `docorgano-sql`; requires `SA_PASSWORD` env var |
-| AI harness | SDD pilot preparation artifacts created; governance and v1 templates live under [AI-Harness](AI-Harness/documentation-index.md); Feature SDDs live under [SDD/](SDD/) |
+| AI harness | First SDD pilot complete (Paciente SQL Stabilization): Execute + Verify done; Documentation Follow-Up complete |
 
 ## Active epic
 
-**Infraestrutura SQL** — vertical slice **Paciente** first, then Prontuario → Agendamento → Atendimento.
+**Infraestrutura SQL** — vertical slice **Paciente** backend verified; next: Prontuario → Agendamento → Atendimento.
 
-Current harness phase: **SDD pilot preparation**. Governance and template v1 artifacts are prepared for review before pilot execution.
+Current harness phase: **Post-pilot calibration**. Paciente SQL Stabilization SDD pilot executed and verified; templates and governance ready for Prontuario forward SDD.
 
 ## Recent decisions
 
@@ -35,25 +35,29 @@ Current harness phase: **SDD pilot preparation**. Governance and template v1 art
 | 2026-06 | SDD Operational Governance established as the canonical governance document |
 | 2026-06 | Feature SDD location set to `Documentation/SDD/<feature-slug>/`; generated SDD, verification, reporting, and lessons-learned artifacts should be written in English |
 | 2026-06 | Verification Governance v1, Reporting Strategy v1, Template Architecture, and v1 verification/reporting templates prepared for first SDD pilot |
+| 2026-06 | Paciente SQL Stabilization verified (REQ-001–REQ-008); `GET /Paciente/nome/{nome}` retired; collection search adopted; ADR-001 referenced, no new ADR |
 
 ## Known blockers
 
 - Atendimento business rules only in commented Legacy (~700 LOC) — must port to domain/use cases.
 - Financial tables in schema — out of scope until clinical migration completes.
+- Frontend/API contract drift on Paciente nome search until WS07 aligns with collection search route.
+
+## Verification status
+
+| Feature | Decision | Reference |
+|---------|----------|-----------|
+| Paciente SQL Stabilization | Complete with accepted residual risk | [verification.md](SDD/paciente-sql-stabilization/verification.md) |
+
+Residual risk (accepted): SQL integration environment-dependent; no controller-level API tests; WS07 frontend alignment pending; `AtualizadoPor` unset; CPF checksum not validated.
 
 ## Next steps
 
-1. Review the SDD pilot preparation artifacts and v1 templates.
-2. Run Paciente retrospective calibration in a separate execution session.
-3. Run `ProntuarioRepository` forward SDD pilot in a separate execution session.
-4. After the pilot, adjust and validate templates based on real friction and verifier/reporting evidence.
-
-Out of scope for the current preparation execution:
-
-- Do not implement Paciente retrospective calibration yet.
-- Do not implement the `ProntuarioRepository` forward SDD pilot yet.
-- Do not create feature-specific Paciente or Prontuario SDD folders yet.
-- Do not implement application code as part of this preparation pass.
+1. Commit Paciente SQL stabilization implementation changes (if not yet committed).
+2. Re-run full 15-test suite with Docker SQL + `SA_PASSWORD` before merge.
+3. Plan WS07 frontend alignment for retired `GET /Paciente/nome/{nome}` → collection search.
+4. Run `ProntuarioRepository` forward SDD pilot in a separate execution session.
+5. Calibrate SDD/verification/reporting templates from Paciente pilot findings (see [feature-report.md](SDD/paciente-sql-stabilization/reports/feature-report.md)).
 
 ## Task management
 

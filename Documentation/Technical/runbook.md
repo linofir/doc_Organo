@@ -45,6 +45,30 @@ Ensure `ApiSettings:BaseUrl` matches API HTTPS port.
 dotnet test
 ```
 
+### SQL integration tests (Paciente)
+
+Integration tests in `DocAPI.Tests/Integration/` require a reachable SQL Server instance. They skip (do not fail) when prerequisites are missing.
+
+**Prerequisites:**
+
+1. Docker container `docorgano-sql` running
+2. `SA_PASSWORD` set (same value used for `docker compose` and API)
+3. Database migrated: `dotnet ef database update --project DocAPI/DocAPI.csproj`
+
+**Optional override:** set `DOCORGANO_TEST_CONNECTION` to a full SQL Server connection string when not using the Docker default.
+
+```powershell
+$env:SA_PASSWORD = "YourStrong!Passw0rd"
+# Optional:
+# $env:DOCORGANO_TEST_CONNECTION = "Server=localhost,1433;Database=DocOrgano;User Id=sa;Password=...;TrustServerCertificate=True"
+
+docker compose up -d
+dotnet ef database update --project DocAPI/DocAPI.csproj
+dotnet test DocAPI.Tests/DocAPI.Tests.csproj --filter PacienteSql
+```
+
+Expected: 14 unit tests pass; 1 SQL integration test passes when Docker is available, or skips with reason when not.
+
 ## CLI — PDF extract
 
 ```bash
