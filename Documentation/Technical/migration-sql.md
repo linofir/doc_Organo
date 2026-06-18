@@ -5,12 +5,17 @@ Reference behavior: `main` (Google Sheets via `Legacy/_LegacySheetsDb/`)
 
 ## Order of migration
 
-| Order | Aggregate | Repository | Legacy reference | Done criteria | Status |
-|-------|-----------|------------|------------------|---------------|--------|
+Approved sequencing (2026-06 — Research consolidation: Paciente, Atendimento Minimal/Workflow, Prontuario):
+
+| Order | Aggregate / slice | Repository | Legacy reference | Done criteria | Status |
+|-------|-------------------|------------|------------------|---------------|--------|
 | 1 | **Paciente** | `PacienteRepository` | `PacienteSheetsRepository.cs` | CRUD + SQL test + Swagger | **Backend verified** (2026-06) — WS07 frontend alignment pending |
-| 2 | Prontuario | `ProntuarioRepository` | `ProntuarioSheetsRepository.cs` | CRUD + front tabs | Not started |
-| 3 | Agendamento | `AgendamentoRepository` | `AgendamentoSheetsRepository.cs` | CRUD + front | Not started |
-| 4 | Atendimento | `AtendimentoRepository` | `AtendimentoSheetsRepository.cs` | Rules ported + CRUD | Not started |
+| 2 | **Atendimento Minimal** | `AtendimentoRepository` | `AtendimentoSheetsRepository.cs` (CRUD only) | CRUD + Paciente FK + Guid + SQL test + Swagger | Not started — [research.md](../SDD/atendimento-minimal-sql-stabilization/research.md) |
+| 3 | **Prontuario** | `ProntuarioRepository` | `ProntuarioSheetsRepository.cs` | CRUD + versioning + nested children + SQL test | Not started — **requires Atendimento Minimal verified** — [research.md](../SDD/prontuario-sql-stabilization/research.md) |
+| 4 | **Agendamento** | `AgendamentoRepository` | `AgendamentoSheetsRepository.cs` | CRUD + SQL test | Not started — **requires Atendimento Minimal verified** |
+| 5 | **Atendimento Workflow** | `AtendimentoRepository` (extended) | `AtendimentoSheetsRepository.cs` (`ValidacaoEtapa*`) | Rules ported + pendências/events + workflow endpoint + characterization tests | Not started — **requires Minimal + Prontuario + Agendamento verified** — [research.md](../SDD/atendimento-workflow-stabilization/research.md) |
+
+> **Prerequisite clarification:** Only **Atendimento Minimal** (order 2) is required before Prontuario and Agendamento. **Atendimento Workflow** (order 5) is **not** a prerequisite for Prontuario or Agendamento — it extends persistence with journey orchestration after those aggregates are SQL-stable.
 
 ## Per-entity checklist
 
@@ -27,7 +32,42 @@ Reference behavior: `main` (Google Sheets via `Legacy/_LegacySheetsDb/`)
 - [x] State.md updated
 ```
 
-### Template for remaining aggregates
+### Atendimento Minimal (order #2)
+
+```markdown
+- [ ] EF config reviewed (Fluent API) — `AtendimentoConfiguration`
+- [ ] Repository uses DocDbContext — CRUD + soft delete + list by PacienteId
+- [ ] Registered in Program.cs DI
+- [ ] Controller IDs aligned (Guid)
+- [ ] Paciente FK validation on create
+- [ ] Integration test(s) — `AtendimentoSqlIntegrationTests` with skip policy
+- [ ] Legacy behavior reviewed — CRUD preserve/adapt/abandon in atendimento-minimal-sql-stabilization SDD
+- [ ] PHI-safe controller (no Console.WriteLine)
+- [ ] Swagger smoke checklist
+- [ ] Report/followUp routes explicitly out of scope (501 or undocumented)
+- [ ] Front service smoke — deferred to WS07
+- [ ] State.md updated
+```
+
+### Atendimento Workflow (order #5 — extension of order #2)
+
+```markdown
+- [ ] Prerequisites verified — Atendimento Minimal, Prontuario, Agendamento
+- [ ] Application Use Cases — stage evaluators (not repository, not aggregate methods)
+- [ ] Pendencias + ClinicalEvents persistence on workflow refresh
+- [ ] Journey projection DTO — legacy nested stage objects abandoned
+- [ ] Workflow endpoint — explicit invocation (e.g. POST atualizar-jornada)
+- [ ] ValidacaoEtapaPosProcedimento — net-new design (not legacy migration)
+- [ ] Characterization tests for Consulta, PreProcedimento, Procedimento stages
+- [ ] Cross-aggregate SQL integration tests (Paciente → Atendimento → Prontuario → Agendamento → workflow)
+- [ ] Legacy behavior table — preserve/adapt/abandon per stage
+- [ ] PHI-safe workflow path
+- [ ] Swagger smoke for workflow endpoint
+- [ ] Front service smoke — deferred to WS07 (journey projection required)
+- [ ] State.md updated
+```
+
+### Template for remaining aggregates (Prontuario, Agendamento)
 
 ```markdown
 - [ ] EF config reviewed (Fluent API)
@@ -36,7 +76,8 @@ Reference behavior: `main` (Google Sheets via `Legacy/_LegacySheetsDb/`)
 - [ ] Controller IDs aligned (Guid)
 - [ ] Integration test(s)
 - [ ] Legacy behavior reviewed
-- [ ] Front service smoke (if applicable)
+- [ ] Atendimento Minimal prerequisite satisfied (valid AtendimentoId FK)
+- [ ] Front service smoke (if applicable) — deferred to WS07
 - [ ] State.md updated
 ```
 
@@ -90,24 +131,29 @@ dotnet ef database update --project DocAPI/DocAPI.csproj
 
 Connection: `DocAPI/appsettings.json` → `DefaultConnection`
 
-## Atendimento rules port
+## Atendimento rules port (Workflow slice only — order #5)
 
 Source: `DocAPI/Legacy/_LegacySheetsDb/AtendimentoSheetsRepository.cs`
 
+Owned by SDD: `Documentation/SDD/atendimento-workflow-stabilization/`
+
 | Method | Target |
 |--------|--------|
-| `ValidacaoEtapaConsulta` | Domain or `Application/UseCases/` |
+| `ValidacaoEtapaConsulta` | `Application/UseCases/` (stage evaluator) |
 | `ValidacaoPreProcedimento` | Same |
 | `ValidacaoEtapaProcedimento` | Same |
-| `ValidacaoEtapaPosProcedimento` | Same |
+| `ValidacaoEtapaPosProcedimento` | Net-new domain design — not legacy migration |
 
-Do not leave validation in repository.
+Do not leave validation in repository. Do not implement as aggregate root methods (`atendimento.ValidacaoEtapa*()`).
+
+**Not in scope for Atendimento Minimal (order #2):** any `ValidacaoEtapa*` logic.
 
 ## Merge criteria for `main`
 
 Do not merge `feature/base_DB` into `main` until:
 
 1. Paciente slice complete with SQL validation and tests. **Backend criteria met**; WS07 frontend smoke pending.
-2. Prontuario + Agendamento CRUD on SQL.
-3. Atendimento rules ported and tested.
-4. Security/PHI review completed for touched flows.
+2. Atendimento Minimal slice complete — valid `AtendimentoId` FK for downstream aggregates.
+3. Prontuario + Agendamento CRUD on SQL.
+4. Atendimento Workflow rules ported and tested (characterization + integration).
+5. Security/PHI review completed for touched flows.

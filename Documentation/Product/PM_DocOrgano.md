@@ -23,7 +23,7 @@ Contexto de planejamento:
 - Persistência alvo: SQL Server + EF Core.
 - Referência de comportamento legado: Google Sheets como evidência para migração e testes de caracterização.
 - Frontend: Blazor Server (`DocFront.Web`).
-- Prioridade técnica: Paciente SQL primeiro, depois Prontuario, Agendamento e Atendimento.
+- Prioridade técnica: Paciente SQL → Atendimento Minimal SQL → Prontuario → Agendamento → Atendimento Workflow (ver [migration-sql.md](../Technical/migration-sql.md)).
 - Capacidade de suporte: AI Harness usado para aumentar rastreabilidade, continuidade documental, verificação e segurança da migração clínica.
 
 Status operacional de branch, runtime, blockers e próximos passos deve ser consultado em [../State.md](../State.md).
@@ -65,9 +65,10 @@ Objetivos do MVP2:
 | Prioridade | Feature | Status | Resultado esperado |
 |------------|---------|--------|--------------------|
 | P0 | Paciente SQL Stabilization Pilot | Verificado | `PacienteRepository` validado contra Docker SQL, Swagger e testes; REQ-001–REQ-008 satisfeitos — ver [verification.md](../SDD/paciente-sql-stabilization/verification.md) |
-| P0 | Implementar `ProntuarioRepository` EF | Próximo | CRUD SQL funcional e alinhado ao domínio |
-| P0 | Implementar `AgendamentoRepository` EF | Próximo | CRUD SQL funcional e preparado para autorizações |
-| P0 | Implementar `AtendimentoRepository` EF | Próximo | CRUD SQL com regras portadas do legado |
+| P0 | Atendimento Minimal SQL Stabilization | Próximo | `AtendimentoRepository` SQL com CRUD básico, contratos Guid, validação FK Paciente, soft delete, controller PHI-safe, testes SQL de integração e Swagger — desbloqueia `AtendimentoId` para Prontuario e Agendamento; SDD [research.md](../SDD/atendimento-minimal-sql-stabilization/research.md) |
+| P0 | Prontuario SQL Migration & Stabilization | Planejado | Vertical Prontuário validada contra SQL Server, EF Core, API, testes e governança SDD, preservando comportamento clínico do legado. **Prerequisite:** Atendimento Minimal SQL Stabilization verified — ver [research.md](../SDD/prontuario-sql-stabilization/research.md) |
+| P0 | Agendamento SQL Migration & Stabilization | Planejado | Vertical Agendamento validada contra SQL Server, EF Core, API, testes e governança SDD, preservando comportamento clínico do legado. **Prerequisite:** Atendimento Minimal SQL Stabilization verified |
+| P0 | Atendimento Workflow Stabilization | Planejado | Orquestração da jornada clínica: stage evaluators, pendências, clinical events, journey projection, characterization tests via Application Use Cases. **Prerequisites:** Atendimento Minimal, Prontuario e Agendamento verified — SDD [research.md](../SDD/atendimento-workflow-stabilization/research.md) |
 | P1 | Atualizar plano de migração SQL | Planejado | Checklist por entidade e critérios de merge claros |
 | P1 | Avaliar feature flag de persistência | Planejado | Decidir se ainda faz sentido manter fallback/híbrido |
 | P2 | Planejar upgrade para .NET 8 LTS | Futuro próximo | ADR e execução após estabilização da migração clínica |
@@ -76,8 +77,8 @@ Objetivos do MVP2:
 
 | Prioridade | Feature | Status | Resultado esperado |
 |------------|---------|--------|--------------------|
-| P0 | Portar validações de Atendimento do Legacy | Planejado | `ValidacaoEtapa*` fora de repositórios e dentro de domínio/use cases |
-| P0 | Criar testes de caracterização do Legacy | Planejado | Comportamento validado antes de remover código legado |
+| P0 | Portar validações de Atendimento do Legacy | Planejado | `ValidacaoEtapa*` portadas no SDD [atendimento-workflow-stabilization](../SDD/atendimento-workflow-stabilization/research.md) via **Application Use Cases** (stage evaluators) — **não** em repositories, **não** em métodos do aggregate root |
+| P0 | Criar testes de caracterização do Legacy | Planejado | Comportamento validado antes de remover código legado; Atendimento Workflow coberto em WS03 |
 | P1 | Introduzir use cases finos quando necessário | Planejado | Orquestração multi-agregado sem Mediator/CQRS prematuro |
 | P1 | Padronizar IDs e contratos | Planejado | `Guid` consistente em entidades, DTOs e controllers |
 | P1 | Revisar exclusão e histórico clínico | Planejado | Soft delete e versionamento preservando histórico |
@@ -88,7 +89,8 @@ Objetivos do MVP2:
 | Prioridade | Feature | Status | Resultado esperado |
 |------------|---------|--------|--------------------|
 | P0 | Testes SQL de integração para Paciente | Verificado | `PacienteSqlIntegrationTests` com skip policy; 15 testes no total (14 unit + 1 SQL) |
-| P0 | Testes de caracterização para Atendimento | Planejado | Regras legadas documentadas por testes |
+| P0 | Atendimento Minimal SQL Integration Tests | Planejado | `AtendimentoSqlIntegrationTests` — CRUD round-trip contra Docker SQL; fixture Paciente → Atendimento |
+| P0 | Atendimento Workflow Characterization Tests | Planejado | Regras legadas `ValidacaoEtapa*` documentadas por testes de caracterização antes do Execute do workflow SDD |
 | P1 | CI mínimo com `dotnet test` | Planejado | Feedback automático antes de merge |
 | P1 | Smoke tests Swagger/Blazor | Planejado | Validação manual orientada por checklist |
 | P2 | E2E tests dos fluxos clínicos | MVP3 candidato | Cobertura ponta a ponta quando UI/API estabilizarem |
@@ -121,7 +123,7 @@ Objetivos do MVP2:
 | `GoogleSheetsDB` | MVP1 only | Manter como referência em `main`/Legacy; não reativar em `feature/base_DB` sem decisão explícita |
 | `PacienteSheetsRepository` | Legado | Usar como referência de comportamento para migração |
 | `ProntuarioSheetsRepository` | Legado | Usar para testes de caracterização e migração |
-| `AtendimentoSheetsRepository` | Legado crítico | Portar regras de validação para domínio/use cases |
+| `AtendimentoSheetsRepository` | Legado crítico | Portar regras de validação via Application Use Cases no SDD atendimento-workflow-stabilization |
 | PDF extractor/generator | Criado, precisa revisão | Planejar integração, testes e tratamento seguro de arquivos |
 | `CollectDemonstrativoDataService` | Criado, futuro financeiro | Não expandir financeiro antes da migração clínica |
 | `CollectSenhasAutorizadasDataService` | Criado, precisa integração | Avaliar integração com Agendamento/Atendimento no MVP2 |
@@ -144,7 +146,7 @@ Documentos e capacidades a planejar:
 |------------|---------|--------|--------------------|
 | P0 | Alinhar Paciente com SQL/API atual | Planejado | UI validada contra backend SQL |
 | P0 | Integrar Prontuario e Agendamento com novos contratos | Planejado | Tabs e services coerentes com API SQL |
-| P0 | Planejar e integrar Atendimento no front | Planejado | Service/State/UI após backend estabilizar regras |
+| P0 | Planejar e integrar Atendimento no front | Planejado | Service/State/UI **somente após** Atendimento Workflow Verification e journey projection disponível no backend; UI deve suportar múltiplas jornadas por paciente (seletor de atendimento) |
 | P1 | Padronizar `ApiResponse<T>` e tratamento de erro | Planejado | Feedback claro para usuário e menos duplicação |
 | P1 | Criar ErrorBoundary/toasts/loading states | Planejado | Melhor experiência sem grande redesign |
 | P1 | Revisar navegação e fluxo das páginas clínicas | Planejado | Caminhos principais mais claros após estabilização dos contratos SQL/API |
@@ -173,14 +175,14 @@ Esta iniciativa é uma capacidade de suporte para o MVP2, não um novo domínio 
 | Grupo | Prioridade | Status | Resultado esperado |
 |-------|------------|--------|--------------------|
 | AI Harness Foundation | P1 | Planejado | Governança, documentação, regras, skills, índices e caminhos alinhados aos artefatos canônicos |
-| AI Harness Adoption | P1 | Em calibração | Piloto SDD Paciente SQL Stabilization executado e verificado; calibrar templates antes do piloto Prontuario forward |
+| AI Harness Adoption | P1 | Calibração concluída | Piloto Paciente verificado; próximo forward SDD: Atendimento Minimal, depois Prontuario |
 | AI Harness Evolution | P2 | Planejado | Estratégia leve para reporting futuro, session handoff, feature reports, lessons learned e preparação para observabilidade de workflow |
 | Verification Adoption | P1 | Verificado (piloto) | Verifier aplicado no piloto Paciente SQL Stabilization; `verification.md` gerado |
 
 Itens planejados para MVP2:
 
 - Calibrar retrospectivamente `Validar vertical Paciente em SQL` como reconstrução de rastreabilidade, validação de reporting e ajuste de governança.
-- Usar `ProntuarioRepository` EF como primeiro candidato preferencial para validação SDD forward.
+- Usar **Atendimento Minimal SQL Stabilization** como próximo forward SDD; Prontuario segue após Minimal verified.
 - Aplicar o Verifier como responsabilidade explícita antes de considerar trabalho relevante concluído.
 - Usar Documentation Update para avaliar follow-up de State, ADRs, documentação técnica/arquitetural, regras, skills, prompts e SDD quando a verdade do projeto mudar.
 - Ajustar templates SDD apenas depois da calibração e do primeiro piloto revelarem necessidades reais.
@@ -218,16 +220,16 @@ Itens que devem permanecer fora do MVP2, salvo decisão explícita:
 | Risco/Desafio | Probabilidade | Impacto | Mitigação |
 |----------------|---------------|---------|-----------|
 | Dependência do comportamento legado em Sheets | Alta | Alto | Usar Legacy como referência e criar testes de caracterização antes de remover código |
-| Migração SQL incompleta gerar endpoints quebrados | Alta | Alto | Expor status dos repositórios, priorizar Paciente → Prontuario → Agendamento → Atendimento |
+| Migração SQL incompleta gerar endpoints quebrados | Alta | Alto | Expor status dos repositórios; sequência aprovada: Paciente → Atendimento Minimal → Prontuario → Agendamento → Atendimento Workflow |
 | PHI em logs, prompts ou commits | Média | Alto | Aplicar regra `security-phi`, criar review prompt e remover `Console.WriteLine` sensível |
 | Ausência de auth em ambiente com dados reais | Média | Alto | Definir ADR de auth mínima ou restrição explícita de ambiente controlado |
-| Regras de Atendimento ficarem em repositório | Alta | Alto | Portar para domínio/use cases e revisar com checklist DDD |
+| Regras de Atendimento ficarem em repositório | Alta | Alto | Portar via Application Use Cases no SDD atendimento-workflow-stabilization (não repository, não aggregate methods) |
 | Serviços de extração frágeis por formatos externos | Média | Médio/Alto | Criar testes com arquivos de exemplo e logging seguro |
 | Acúmulo de débitos técnicos durante MVP2 | Média | Médio | Tratar débitos como features planejadas por workstream, não como lista solta |
 | Overengineering arquitetural | Média | Médio | Manter CA leve; adiar CQRS/Mediator/Domain Events |
 | Ponto único de falha no desenvolvimento | Alta | Médio | Manter PRD, PM, RoadMap, State e ADRs atualizados |
 | Front avançar antes dos contratos backend estabilizarem | Média | Médio | Planejar UI por vertical slice e validar contra API real |
-| Governança SDD/verificação existir nos documentos mas não ser adotada nas fatias reais | Média | Alto | Validar primeiro com Paciente retrospectivo e Prontuario forward; usar Verifier e Documentation Update como gates de conclusão |
+| Governança SDD/verificação existir nos documentos mas não ser adotada nas fatias reais | Média | Alto | Validar com forward SDDs na sequência aprovada; usar Verifier e Documentation Update como gates de conclusão |
 | Reporting virar histórico solto ou duplicar State/Verifier | Média | Médio | Manter reporting leve no MVP2 e limitar seu papel a handoff, feature reports e lessons learned |
 
 ## 8. Informações Preservadas

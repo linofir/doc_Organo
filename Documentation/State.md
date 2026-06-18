@@ -2,7 +2,7 @@
 
 Operational snapshot for agents and developers. Update at the end of each work session or merged PR.
 
-**Last updated:** 2026-06-17 (harness calibration complete)
+**Last updated:** 2026-06-17 (documentation alignment — Atendimento split + migration sequencing)
 
 ## Current branch
 
@@ -20,9 +20,26 @@ Operational snapshot for agents and developers. Update at the end of each work s
 
 ## Active epic
 
-**Infraestrutura SQL** — vertical slice **Paciente** backend verified; next: Prontuario → Agendamento → Atendimento.
+**Infraestrutura SQL** — vertical slice **Paciente** backend verified.
 
-Current harness phase: **Harness calibration complete (Wave 1 + Wave 2)**. Governance, templates, skills, reporting templates, and Harness Calibration Workflow aligned from [sdd-pilot-report-v1.0.md](AI-Harness/research/sdd-pilot-report-v1.0.md). Paciente SDD is pre-calibration reference. **Ready for Prontuario forward SDD.**
+**Approved migration sequencing:**
+
+```text
+Paciente → Atendimento Minimal → Prontuario → Agendamento → Atendimento Workflow → WS07 Frontend
+```
+
+**Next planned implementation:** Atendimento Minimal SQL Stabilization.
+
+Current harness phase: **Harness calibration complete (Wave 1 + Wave 2)**. Forward SDD pilots: Atendimento Minimal (next), then Prontuario, Agendamento, Atendimento Workflow.
+
+## SDD research status
+
+| Feature SDD | Research | Specify |
+|-------------|----------|---------|
+| [paciente-sql-stabilization](SDD/paciente-sql-stabilization/) | Complete (pre-calibration) | Complete — verified |
+| [atendimento-minimal-sql-stabilization](SDD/atendimento-minimal-sql-stabilization/research.md) | **Complete** | Ready |
+| [atendimento-workflow-stabilization](SDD/atendimento-workflow-stabilization/research.md) | **Complete** | Not ready — blocked on Minimal + Prontuario + Agendamento Verify |
+| [prontuario-sql-stabilization](SDD/prontuario-sql-stabilization/research.md) | **Complete** | Ready with conditions — requires Atendimento Minimal verified |
 
 ## Recent decisions
 
@@ -38,10 +55,12 @@ Current harness phase: **Harness calibration complete (Wave 1 + Wave 2)**. Gover
 | 2026-06 | Paciente SQL Stabilization verified (REQ-001–REQ-008); `GET /Paciente/nome/{nome}` retired; collection search adopted; ADR-001 referenced, no new ADR |
 | 2026-06 | Wave 1 harness calibration: SDD Pre-Execution Review, post-Verify lifecycle, Execution Prerequisites, Environment-Dependent Evidence, mandatory Documentation Follow-Up |
 | 2026-06 | Wave 2 harness calibration: Definition of Done alignment, CONTRIBUTING-AI post-Verify chain, reporting templates, SDD README, Harness Calibration Workflow |
+| 2026-06 | Atendimento split into two SDDs: **Minimal SQL** (FK prerequisite for Prontuario/Agendamento) and **Workflow** (journey orchestration after Prontuario + Agendamento). Approved order documented in [migration-sql.md](Technical/migration-sql.md) and [PM_DocOrgano.md](Product/PM_DocOrgano.md) |
 
 ## Known blockers
 
-- Atendimento business rules only in commented Legacy (~700 LOC) — must port to domain/use cases.
+- `AtendimentoRepository` stubbed — Prontuario and Agendamento cannot persist without **Atendimento Minimal** slice (valid `AtendimentoId` FK).
+- Atendimento workflow rules (~700 LOC Legacy) port deferred to **atendimento-workflow-stabilization** — requires Prontuario + Agendamento SQL verified first.
 - Financial tables in schema — out of scope until clinical migration completes.
 - Frontend/API contract drift on Paciente nome search until WS07 aligns with collection search route.
 
@@ -55,10 +74,10 @@ Residual risk (accepted): SQL integration environment-dependent; no controller-l
 
 ## Next steps
 
-1. Commit Paciente SQL stabilization implementation changes (if not yet committed).
-2. Re-run full 15-test suite with Docker SQL + `SA_PASSWORD` before merge.
+1. Run **Atendimento Minimal SQL Stabilization** forward SDD (Specify → Design → Tasks → Execute → Verify).
+2. Re-run full 15-test Paciente suite with Docker SQL + `SA_PASSWORD` before merge (if not yet done).
 3. Plan WS07 frontend alignment for retired `GET /Paciente/nome/{nome}` → collection search.
-4. Run `ProntuarioRepository` forward SDD (harness calibration complete; use templates under `Documentation/AI-Harness/template/sdd/`).
+4. After Atendimento Minimal verified — run **Prontuario SQL Stabilization** forward SDD.
 
 ## Task management
 
