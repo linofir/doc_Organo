@@ -811,3 +811,4 @@ Future work may build on this governance, but should not be implemented by this 
 - Use one completed SQL migration or Legacy Codebase behavior port as the reference SDD example.
 - Consider lightweight traceability conventions in templates only after requirement IDs prove useful in real work.
 - Integrate with `reporting-strategy.md` for lightweight session handoff, feature report, lessons learned, and future workflow observability boundaries.
+- Integrate with `sdd-pilot-report-governance.md` for phased SDD pilot reports, workflow calibration findings, and governance improvement plan inputs.

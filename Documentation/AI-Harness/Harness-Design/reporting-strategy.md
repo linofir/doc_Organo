@@ -6,6 +6,8 @@ This document defines the lightweight reporting strategy for the Doc Organo AI H
 
 Reporting is communication, not authority. It must not replace `Documentation/State.md`, active SDD artifacts, Verifier outputs, ADRs, PM, RoadMap, or Documentation Update.
 
+**Related (not redundant):** [sdd-pilot-report-governance.md](sdd-pilot-report-governance.md) governs **SDD Pilot Reports** — phased workflow calibration (`sdd-pilot-report-v*.md`), GOV/WF findings, and input to the governance improvement plan. This document governs **session handoff** and **feature report** only.
+
 ## Scope
 
 Reporting v1 supports the first SDD pilot preparation and follow-up. It covers:

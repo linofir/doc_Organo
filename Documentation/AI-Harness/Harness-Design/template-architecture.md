@@ -38,7 +38,7 @@ Documentation/SDD/<feature-slug>/
 
 `specify.md`, `design.md`, and `tasks.md` are SDD artifacts. `verification.md` is the verifier handoff/output for the feature. `teacher-guide.md` is the knowledge-transfer artifact when generated. `reports/` contains communication artifacts and must not replace State, SDD, or Verifier authority.
 
-**Pre-calibration reference:** Paciente SQL Stabilization SDD predates post-pilot template calibration. Use it as a behavioral reference, not as a structural conformance example. Prontuario forward SDD is the first post-calibration consumer.
+**Calibration reference:** Paciente, Atendimento Minimal, and Prontuario SDDs under `Documentation/SDD/` are calibration instances. Use [template/sdd/](../template/sdd/) for structure; use feature `reports/sdd-pilot-report-v*.md` for workflow evaluation per [sdd-pilot-report-governance.md](sdd-pilot-report-governance.md).
 
 Do not create feature folders until a feature actually enters retrospective calibration, forward SDD, implementation, verification, or reporting.
 
@@ -52,7 +52,7 @@ Do not create feature folders until a feature actually enters retrospective cali
 | Verification | `Documentation/AI-Harness/template/verification/verification.md` | `Documentation/SDD/<feature-slug>/verification.md` | Verifier |
 | Session Handoff | `Documentation/AI-Harness/template/reporting/session-handoff.md` | `Documentation/SDD/<feature-slug>/reports/session-handoff.md` or a session-specific reporting location when needed | Reporting |
 | Feature Report | `Documentation/AI-Harness/template/reporting/feature-report.md` | `Documentation/SDD/<feature-slug>/reports/feature-report.md` | Reporting |
-| SDD Pilot Report | `Documentation/AI-Harness/template/reporting/sdd-pilot-report.md` | `Documentation/SDD/<feature-slug>/reports/sdd-pilot-report-v*.md` | Harness calibration |
+| SDD Pilot Report | `Documentation/AI-Harness/template/reporting/sdd-pilot-report.md` | `Documentation/SDD/<feature-slug>/reports/sdd-pilot-report-v*.md` | Harness calibration — rules in [sdd-pilot-report-governance.md](sdd-pilot-report-governance.md) |
 | Governance Improvement Plan | `Documentation/AI-Harness/template/governance/governance-improvement-plan.md` | `Documentation/SDD/<feature-slug>/reports/governance-improvement-plan.md` | Harness calibration |
 | Teacher Guide | `Documentation/AI-Harness/template/knowledge/teacher-guide.md` | `Documentation/SDD/<feature-slug>/teacher-guide.md` | Knowledge transfer |
 
@@ -72,8 +72,9 @@ Template dependencies:
 
 - SDD templates depend on SDD Operational Governance.
 - Verification template depends on Verification Governance and the verifier skill.
-- Reporting templates depend on Reporting Strategy.
-- Governance improvement plan template depends on Reporting Strategy, CONTRIBUTING-AI Harness Calibration Workflow, and pilot report / feature report evidence.
+- Reporting templates depend on [Reporting Strategy](reporting-strategy.md) (session handoff, feature report).
+- SDD Pilot Report instances depend on [sdd-pilot-report-governance.md](sdd-pilot-report-governance.md) (workflow calibration, versioning, findings).
+- Governance improvement plan template depends on Reporting Strategy, sdd-pilot-report-governance, CONTRIBUTING-AI Harness Calibration Workflow, and pilot report / feature report evidence.
 - Feature SDD folder structure depends on ADR-003 documentation taxonomy and the accepted `Documentation/SDD/` destination.
 - Template updates after pilot evidence depend on Documentation Update routing.
 

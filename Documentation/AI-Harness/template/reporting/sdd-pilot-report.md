@@ -3,6 +3,7 @@
 > Consolidated retrospective for harness calibration pilots.
 > Place at `Documentation/SDD/<feature-slug>/reports/sdd-pilot-report-v0.1.md` (increment version on phase advance).
 > Generated pilot reports should be written in English.
+> **Governance:** `Documentation/AI-Harness/Harness-Design/sdd-pilot-report-governance.md` (versioning, findings, boundaries vs Reporting Strategy).
 
 ## Report Metadata
 

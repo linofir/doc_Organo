@@ -12,7 +12,7 @@ Canonical documentation lives under `Documentation/`.
 | `Documentation/Architecture/` | Domain model, architecture, schema, ADRs |
 | `Documentation/Technical/` | Runtime, migration, frontend, API technical guidance |
 | `Documentation/AI-Harness/` | Harness design, contribution workflow, research, rules index, review prompts, SDD templates, verification templates, reporting templates |
-| `Documentation/SDD/` | Feature-specific SDD artifacts, verification handoffs, and lightweight feature reports |
+| `Documentation/SDD/` | Feature-specific SDD artifacts, verification handoffs, pilot reports, and lightweight feature reports |
 | `.cursor/` | Machine-facing rules and skills |
 
 ## Read First
@@ -62,6 +62,7 @@ Canonical documentation lives under `Documentation/`.
 | [Harness-Design/sdd-operational.md](Harness-Design/sdd-operational.md) | SDD Operational Governance: adaptive sizing, workflow phases, ownership, traceability, verification, testing, ADR, documentation, and brownfield migration integration |
 | [Harness-Design/verification-governance.md](Harness-Design/verification-governance.md) | Verification governance boundaries and evidence policy |
 | [Harness-Design/reporting-strategy.md](Harness-Design/reporting-strategy.md) | Lightweight reporting boundaries for session handoff, feature reports, lessons learned, and future observability |
+| [Harness-Design/sdd-pilot-report-governance.md](Harness-Design/sdd-pilot-report-governance.md) | SDD Pilot Report governance: phased workflow calibration, versioning, findings registry, and boundary vs Reporting Strategy |
 | [Harness-Design/knowledge-strategy.md](Harness-Design/knowledge-strategy.md) | Knowledge-transfer governance for Teacher Guides: boundaries, mandatory sections, lifecycle, and study roadmap policy |
 | [../../.cursor/skills/not-a-teacher/SKILL.md](../../.cursor/skills/not-a-teacher/SKILL.md) | Operational workflow to generate or update `teacher-guide.md` from verified implementation |
 | [Harness-Design/template-architecture.md](Harness-Design/template-architecture.md) | Template ecosystem, Feature SDD folder structure, dependencies, creation order, and validation order |
@@ -72,7 +73,6 @@ Canonical documentation lives under `Documentation/`.
 |-----|---------|
 | [research/AI-Research.md](research/AI-Research.md) | Research baseline and adoption risks |
 | [research/playbook.md](research/playbook.md) | RPI and context engineering methodology |
-| [research/sdd-pilot-report-v1.0.md](research/sdd-pilot-report-v1.0.md) | Final consolidated retrospective for the Paciente SQL Stabilization SDD pilot |
 | [CONTRIBUTING-AI.md](CONTRIBUTING-AI.md) | AI contribution lifecycle, post-Verify phase ownership, Harness Calibration Workflow |
 | [rules.md](rules.md) | Cursor rule inventory and governance metadata |
 | [review-prompts/domain-review.md](review-prompts/domain-review.md) | Domain review sensor |
@@ -84,10 +84,22 @@ Canonical documentation lives under `Documentation/`.
 | [template/verification/verification.md](template/verification/verification.md) | Verification handoff template |
 | [template/reporting/session-handoff.md](template/reporting/session-handoff.md) | Session handoff template |
 | [template/reporting/feature-report.md](template/reporting/feature-report.md) | Feature report template |
-| [template/reporting/sdd-pilot-report.md](template/reporting/sdd-pilot-report.md) | SDD pilot / calibration retrospective template |
+| [template/reporting/sdd-pilot-report.md](template/reporting/sdd-pilot-report.md) | SDD pilot report section scaffold — full rules in [sdd-pilot-report-governance.md](Harness-Design/sdd-pilot-report-governance.md) |
 | [template/governance/governance-improvement-plan.md](template/governance/governance-improvement-plan.md) | Post-feature harness calibration plan (pilot evidence → Wave 1/2/3 execution) |
 | [template/knowledge/teacher-guide.md](template/knowledge/teacher-guide.md) | Teacher Guide template |
 | [../SDD/README.md](../SDD/README.md) | Feature SDD folder structure and ownership |
+
+## Feature SDD — Pilot Reports (instances)
+
+Canonical location: `Documentation/SDD/<feature-slug>/reports/sdd-pilot-report-v*.md`. Governed by [Harness-Design/sdd-pilot-report-governance.md](Harness-Design/sdd-pilot-report-governance.md).
+
+| Feature | Report | Status |
+|---------|--------|--------|
+| Paciente SQL Stabilization | [../SDD/paciente-sql-stabilization/reports/sdd-pilot-report-v1.0.md](../SDD/paciente-sql-stabilization/reports/sdd-pilot-report-v1.0.md) | Consolidated (first full lifecycle pilot) |
+| Atendimento Minimal SQL Stabilization | [../SDD/atendimento-minimal-sql-stabilization/reports/sdd-pilot-report-v0.6.md](../SDD/atendimento-minimal-sql-stabilization/reports/sdd-pilot-report-v0.6.md) | Execute + Verify (forward SDD #2) |
+| Prontuario SQL Stabilization | [../SDD/prontuario-sql-stabilization/reports/sdd-pilot-report-v0.1.md](../SDD/prontuario-sql-stabilization/reports/sdd-pilot-report-v0.1.md) | Research + Research Delta (in progress) |
+
+Related per-feature calibration output: [../SDD/atendimento-minimal-sql-stabilization/reports/governance-improvement-plan.md](../SDD/atendimento-minimal-sql-stabilization/reports/governance-improvement-plan.md) (instance template: [template/governance/governance-improvement-plan.md](template/governance/governance-improvement-plan.md)).
 
 ## Cursor Artifacts
 

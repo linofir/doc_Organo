@@ -183,7 +183,7 @@ Pilot Execution (feature SDD lifecycle)
 
 ### Pilot Report Role (META-02)
 
-Pilot reports are calibration inputs. Preferred location: `Documentation/SDD/<feature-slug>/reports/sdd-pilot-report-v*.md`. Historical Paciente report may also appear under `Documentation/AI-Harness/research/`.
+Pilot reports are calibration inputs. Preferred location: `Documentation/SDD/<feature-slug>/reports/sdd-pilot-report-v*.md`. Governance: `Documentation/AI-Harness/Harness-Design/sdd-pilot-report-governance.md`. Index of instances: `Documentation/AI-Harness/documentation-index.md` § Feature SDD — Pilot Reports.
 
 They are:
 
@@ -227,7 +227,7 @@ Preliminary and Deferred pilot findings require a second pilot or explicit appro
 |---------------|-------|
 | Harness lifecycle and SDD phase policy | `sdd-operational.md` |
 | Verification policy | `verification-governance.md` |
-| Reporting and knowledge transfer policy | `reporting-strategy.md`, `knowledge-strategy.md` |
+| Reporting and knowledge transfer policy | `reporting-strategy.md`, `sdd-pilot-report-governance.md`, `knowledge-strategy.md` |
 | Template structure | `template-architecture.md`, templates under `template/` |
 | Operational procedure | This document |
 | Current calibration status | `Documentation/State.md` |

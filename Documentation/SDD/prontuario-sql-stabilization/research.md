@@ -2,15 +2,16 @@
 
 > Feature SDD: `Documentation/SDD/prontuario-sql-stabilization/`  
 > Generated SDD artifacts are written in English.  
-> **Phase:** Research (complete)  
+> **Phase:** Research (complete — delta reconciled 2026-06-18)  
 > **Lifecycle position:** Research → Specify → Design → Tasks → SDD Pre-Execution Review → Execute → Verify → Documentation Follow-Up → Reporting → Teacher Guide
 
-This document consolidates two planning sessions:
+This document consolidates three planning sessions:
 
 1. **Part 1 — Feature Discovery & Scope Decomposition** — initial boundary analysis before Research decisions were approved.
 2. **Part 2 — SDD Research Consolidation** — validation of six approved decisions against codebase and governance; authoritative input for Specify.
+3. **Part 3 — Research Delta (post Atendimento Minimal Verify)** — reconciles Part 1/2 against verified prerequisite SDD, updated PM/migration sequencing, and stakeholder refinements from the 2026-06-18 session.
 
-When Part 1 and Part 2 conflict, **Part 2 governs** (especially Atendimento workflow, versioning in scope, and mapping/domain approach).
+When parts conflict, **Part 3 governs** operational status, Atendimento prerequisite ownership, and PM sequencing; **Part 2 governs** Prontuario domain decisions (versioning, CID, mapping, rich domain) unless Part 3 explicitly supersedes them.
 
 ---
 
@@ -980,6 +981,241 @@ Before writing `specify.md`, confirm:
 
 ---
 
+---
+
+# Part 3 — Research Delta (post Atendimento Minimal Verify)
+
+**Date:** 2026-06-18  
+**Trigger:** Atendimento Minimal SQL Stabilization verified; PM and `migration-sql.md` resequenced; code audit confirms prerequisite satisfied; stakeholder session refined research-sufficient criteria.  
+**Governance:** No new discovery pass required unless Specify rejects items marked **Specify decision required** below.
+
+## Context change
+
+| Change | Before (Part 1/2) | After (Part 3) |
+|--------|---------------------|----------------|
+| Atendimento SQL | Stub — Execute blocker | **Verified** — [atendimento-minimal-sql-stabilization/verification.md](../atendimento-minimal-sql-stabilization/verification.md) |
+| Atendimento scope in Prontuario SDD | Upstream REQ inside Prontuario slice | **Out of scope** — owned by separate verified SDD |
+| PM / migration order | Contradiction: Prontuario #2, Atendimento #4 | **Aligned:** Paciente → Atendimento Minimal → Prontuario → Agendamento → Atendimento Workflow |
+| Test baseline | Paciente-only fixtures | **27 tests**; `AtendimentoSqlIntegrationTests` reusable as fixture pattern |
+| Prontuario code | Stub (unchanged) | Still stub — **Execute target** of this SDD |
+
+## Superseded findings (Part 1/2 — do not carry into Specify)
+
+| Superseded claim | Superseding truth |
+|------------------|-------------------|
+| "Minimal Atendimento SQL create" is a Prontuario SDD REQ or Execute blocker | Prerequisite **satisfied** via verified SDD; Prontuario **consumes** existing API/repository only |
+| "Critical contradiction" on PM order unresolved | Resolved in [PM_DocOrgano.md](../../Product/PM_DocOrgano.md) and [migration-sql.md](../../Technical/migration-sql.md) (2026-06) |
+| Supporting feature "Minimal Atendimento row provisioning" in core Prontuario SDD | **Removed** from Prontuario scope — reference verified SDD instead |
+| Risk R1 "Atendimento repo stub blocks all Prontuario creates" | **Mitigated** — residual risk is contract misuse (wrong PacienteId / missing Atendimento), not stub |
+| Specify Entry Checklist: include minimal Atendimento implementation | **Replaced:** prerequisite verified + Prontuario validates FK only |
+| Research readiness "WITH CONDITIONS" on Atendimento blocker | **Conditions satisfied** — ready for Specify |
+
+## Confirmed unchanged (Part 2 decisions — still authoritative)
+
+| # | Decision | Part 3 note |
+|---|----------|-------------|
+| 1 | Create Atendimento → Create Prontuario; no auto-create inside Prontuario | Atendimento path is **production API** from verified SDD |
+| 2 | Versioning **IN SCOPE**; legacy in-place update **abandoned** | See **Versioning semantics** below — clarify "new row" |
+| 3 | Internacao optional; CID mandatory when Internacao present | CID catalog out of scope; synthetic CID in tests only |
+| 4 | Backend source of truth; Guid + root FKs | Prontuario DTOs/controllers still drift — Execute fixes |
+| 5 | Replace `ProntuarioProfile` AutoMapper — do not patch | Unchanged |
+| 6 | Rich domain model (factories, `CriarNovaVersao`, soft delete) | Unchanged |
+| — | Feature sizing **Large** | Unchanged — composite graph + versioning |
+
+## Atendimento contracts consumed by Prontuario (verified — not re-implemented)
+
+Source: [atendimento-minimal-sql-stabilization/design.md](../atendimento-minimal-sql-stabilization/design.md), [verification.md](../atendimento-minimal-sql-stabilization/verification.md).
+
+| Capability | Contract (stable for Prontuario prerequisite) |
+|------------|--------------------------------------------------|
+| Create | `POST /Atendimento` — `CreateAtendimentoDto`: `PacienteId` (Guid), optional `MensagemParaMedico` → **201** + `ReadAtendimentoDto`; `EtapaAtual = Consulta` |
+| Read | `GET /Atendimento/{id}` → **200** / **404** (soft-deleted excluded) |
+| List by patient | `GET /Atendimento/paciente/{pacienteId}` → all non-deleted journeys |
+| Update / delete | PUT (message only), DELETE (soft) — **not used** by Prontuario create path |
+| FK validation | Invalid or soft-deleted `PacienteId` on create → **404** |
+| IDs | **Guid** end-to-end on repository interface and API |
+| Out of scope for Atendimento slice | Workflow, stage advancement, pendências, report PDF implementation (**501** routes preserved) |
+
+**Prontuario repository/controller must validate on create:**
+
+- `AtendimentoId` exists and is not soft-deleted
+- `Atendimento.PacienteId == Prontuario.PacienteId`
+- On failure: **404** (missing/deleted/mismatch) — Paciente/Atendimento precedent
+
+## Research-sufficient criteria (session refinements)
+
+### 1 — Who creates Atendimento before Prontuario?
+
+**Backend (this SDD):** Client calls verified `POST /Atendimento`, then `POST /Prontuario` with explicit `AtendimentoId`. No auto-create inside Prontuario.
+
+**Product / UX (out of scope for backend stabilization — document for WS07 and product):**
+
+- After Paciente registration, UI may **guide** the user to open an Atendimento before clinical documentation (onboarding flow).
+- On `POST /Prontuario` without a valid `AtendimentoId`, API returns **404** with a **generic** message (PHI-safe); Specify may add a stable error **code** (e.g. `atendimento_required`) for frontend to show "create atendimento to start clinical workflow" — **not** a new backend endpoint in this slice.
+
+**Specify decision required:** Whether `400` + machine-readable code is preferred over `404` when `AtendimentoId` is omitted vs invalid — default **404** for consistency with Paciente FK pattern.
+
+### 2 — What does Prontuario validate on AtendimentoId?
+
+**In scope for Prontuario SQL Stabilization:**
+
+- Existence, same `PacienteId`, not soft-deleted (persistence gate only).
+
+**Out of scope — owned by `atendimento-workflow-stabilization` (after Prontuario verified):**
+
+Stage evaluators read **Prontuario data** to drive journey state. Legacy `ValidacaoEtapaConsulta` (reference only) uses at minimum:
+
+| Prontuario surface | Legacy / workflow use (indicative) |
+|--------------------|-------------------------------------|
+| `AtendimentoId` FK | Scope prontuarios to journey (adapt from legacy "all patient prontuarios") |
+| `Tipo` (e.g. Consulta) | Select consulta prontuario for Consulta stage |
+| `DataConsulta` | Consulta completion by date |
+| `AcoesCD` / `ProntuarioAcaoCD` | CD pendency materialization |
+| `Internacao` / procedures | Pre-procedimento procedure list (legacy denormalized path) |
+| Pós-op prontuario | `ValidacaoEtapaPosProcedimento` — **net-new design** in workflow SDD |
+
+**Prontuario SDD deliverable for downstream workflow:** persist queryable fields with stable types (especially `Tipo`, `DataConsulta`, CD collection, Internacao graph) and **`AtendimentoId` on every version row**. Do **not** implement evaluators or pendência writes in Prontuario Execute.
+
+Cross-reference: [atendimento-workflow-stabilization/research.md](../atendimento-workflow-stabilization/research.md) — workflow blocked until Prontuario + Agendamento verified.
+
+### 3 — Versioning: what PUT does ("new row" explained)
+
+**Terminology:** "New row" means a **new database record** — new `Prontuario.Id` (Guid), new `Versao`, `ProntuarioAnteriorId` pointing to the prior version. The **previous row is never mutated** (immutable clinical snapshot per [Domain_Overview_Business_Rules.md](../../Architecture/Domain_Overview_Business_Rules.md)).
+
+**Default for MVP2 backend stabilization (Recommend for Specify):**
+
+| Action | Behavior |
+|--------|----------|
+| POST | Creates **version 1** for `(PacienteId, Versao)` sequence |
+| PUT | Creates **successor version** (new Id, incremented `Versao`, same `AtendimentoId` unless Specify says otherwise); returns **201** + new `ReadProntuarioDto` |
+| Prior version row | Unchanged — historical snapshot preserved |
+
+**Open product questions (not blocking Research exit — resolve in Specify or WS07):**
+
+| Question | Research recommendation |
+|----------|-------------------------|
+| Are there fields mutable **without** a new version? | **Default no** for clinical sections in MVP2 — domain: "Cada alteração clínica gera um novo prontuário." Non-clinical audit fields (`AtualizadoPor`) already accepted residual risk. |
+| Should the physician **choose** "edit same version" vs "new version"? | **Defer to WS07/product.** Backend SDD default: PUT always creates successor (no dual mode in Execute). If product requires choice, add explicit API (e.g. `POST /Prontuario/{id}/versoes`) in a follow-up — not silent in-place PUT. |
+| Partial PATCH without versioning? | **Out of scope** — no PATCH in this SDD |
+
+**ADR candidate:** PUT semantic change vs legacy (201 + new Id) — evaluate in Specify/Design.
+
+### 4 — Internacao without CID
+
+**Execute / Verify:** When Internacao payload is present, unknown `CIDCodigo` → **400/404**; SQL integration tests insert **synthetic CID** in fixture setup (e.g. `Z99.9`).
+
+**Accepted technical debt (Documentation Follow-Up — not blocking Specify):**
+
+| Debt | Route to |
+|------|----------|
+| No production CID catalog | **CID Catalog Management** — PM backlog / future WS01 feature |
+| Manual synthetic CID in tests only | Document in `migration-sql.md` Prontuario checklist + post-Verify DF |
+| ERD / domain catalog gap | `erd.dbml` + PM item already identified in Part 2 |
+
+### 5 — Explicit out of scope and future work registry
+
+| Item | Disposition | Future owner |
+|------|-------------|--------------|
+| Atendimento repository/controller implementation | **Done** — verified SDD | — |
+| Atendimento workflow / `ValidacaoEtapa*` / pendências | **Out of scope** | `atendimento-workflow-stabilization` after Prontuario + Agendamento verified |
+| WS07 Blazor / UX onboarding (create Atendimento after Paciente) | **Out of scope** | WS07 |
+| `POST /Prontuario/from-pdf` | **Out of scope** — extractor commented | Future feature: **Prontuario PDF ingestion** — requires updated extraction model (WS06); document in PM when model defined |
+| PDF patient reports | **Out of scope** | Workflow/report feature |
+| CID catalog | **Out of scope** | CID Catalog Management |
+| Auth / RBAC | **Out of scope** | Future |
+| Google Sheets | **Out of scope** | — |
+
+**Note on PDF:** Research cannot close PDF ingestion until the extraction model is updated. Part 3 registers this as **follow-up feature**, not a gap in Prontuario SQL stabilization scope.
+
+## Code audit summary (Pass 1 — 2026-06-18)
+
+| Area | Finding | Still valid for Specify? |
+|------|---------|--------------------------|
+| `AtendimentoRepository` | SQL CRUD + soft delete + list by Paciente | ✓ Prerequisite — do not re-implement |
+| `ProntuarioRepository` | Stub — `NotImplementedException` | ✓ Execute target |
+| `CreateProntuarioDto` | No root `AtendimentoId` / `PacienteId` | ✓ Contract drift — Specify must require |
+| `ProntuarioProfile` | Known unsafe mappings (Part 2) | ✓ Replace in Execute |
+| Integration tests | No Prontuario tests; Atendimento pattern available | ✓ REQ in Specify |
+| Infra | `SqlConnectionResolver`, `scripts/load-env.ps1`, `sql-integration-test.ps1` | ✓ Execution Prerequisites |
+
+## Updated dependency table
+
+| Dependency | Status |
+|------------|--------|
+| Paciente SQL stabilization | **Verified** |
+| Atendimento Minimal SQL stabilization | **Verified** (2026-06-18) |
+| `InitialCreate` schema | **Available** |
+| Harness Wave 1–3 calibration | **Complete** |
+| Docker SQL + `SA_PASSWORD` | Environment-dependent (runbook) |
+| Prontuario repository/controller | **Not started** — this SDD |
+| Agendamento SQL | Not required for Prontuario Execute |
+| Atendimento Workflow | Not required for Prontuario Execute |
+
+## Updated Specify Entry Checklist
+
+Part 3 re-validates the Part 2 checklist after prerequisite reconciliation.
+
+### Scope ownership
+
+- [x] **Minimal Atendimento SQL** — **prerequisite verified**; not in Prontuario Execute scope
+- [x] **Versioning IN SCOPE** — v1 on create; PUT creates successor row; `ProntuarioAnteriorId`; no diff/rollback/UI
+- [x] **Legacy in-place update ABANDONED**; clinical sections **PRESERVED** in successor versions
+- [x] **`POST /Prontuario/from-pdf` and PDF reports** — Out of Scope (future PDF ingestion feature)
+- [x] **WS07 / DocFront.Web** — Out of Scope
+- [x] **Full Atendimento workflow** — Out of Scope → `atendimento-workflow-stabilization`
+- [x] **CID catalog** — Out of Scope; Internacao optional; CID required when Internacao present
+- [x] **No new EF migration** — default unchanged
+
+### Decisions for Specify (carry forward)
+
+- [ ] **Version numbering:** per `PacienteId` (`IX_Prontuario_PacienteId_Versao`)
+- [ ] **PUT semantics:** successor version; HTTP **201** + new `Id` (default)
+- [ ] **Optional:** error code when `AtendimentoId` missing/invalid for UX messaging
+- [ ] **No dual mode** "update same version" in MVP2 backend (product choice → WS07/follow-up)
+- [ ] **List by paciente:** default all non-deleted versions
+- [ ] **DELETE:** soft-delete single version only
+- [ ] **`PacienteId` + `AtendimentoId`** on create at API root (Guid)
+- [ ] **`Tipo`** canonical type (int recommended)
+- [ ] **Internacao** full-field validation when section present
+- [ ] **Child collections:** replace-on-new-version
+- [ ] **DescricaoBasica snapshot** from `Paciente` where applicable
+- [ ] **Workflow-readable fields** persisted for downstream evaluators (Tipo, DataConsulta, CD, Internacao) — no evaluators in this SDD
+
+### Contract / mapping
+
+- [ ] **Guid** for Prontuario repository interface and API (Atendimento already Guid)
+- [ ] **Dedicated API DTOs** — no domain entity types in public DTOs
+- [ ] **AutoMapper replacement** for Prontuario slice
+- [ ] **`ReadProntuarioDto`** includes `Versao`, `ProntuarioAnteriorId`, `PacienteId`, `AtendimentoId`
+- [ ] **Legacy behavior table** (REQ-008 pattern)
+
+### Verification expectations
+
+- [ ] Unit: factory, versioning chain, soft delete, invalid Atendimento/CID
+- [ ] SQL integration: Paciente → **Atendimento (existing API)** → Prontuario v1 → PUT → v2 with nested children
+- [ ] Swagger smoke — Prontuario endpoints (Atendimento smoke already verified)
+- [ ] security-phi-review; domain-review for versioning
+
+### PM / documentation
+
+- [x] PM / migration-sql Atendimento-before-Prontuario — **applied**
+- [ ] CID Catalog Management — log in Specify / PM follow-up
+- [ ] ADR evaluation — versioning API PUT semantics
+- [ ] PDF ingestion — log as future feature when model ready
+- [ ] UX: guide create Atendimento after Paciente — WS07 / product note
+
+## Readiness decision (Part 3)
+
+### **READY FOR SPECIFY**
+
+- Atendimento Minimal prerequisite **satisfied** and reconciled.
+- Part 1/2 stale blocker and scope-ownership items **superseded**.
+- Open items above are **Specify/Design/WS07/product** decisions — not a second Research pass.
+
+**Next harness step:** Write `specify.md` using Part 2 domain decisions + Part 3 operational reconciliation + session refinements in **Research-sufficient criteria**.
+
+---
+
 ## References
 
 - `Documentation/State.md`
@@ -990,8 +1226,11 @@ Before writing `specify.md`, confirm:
 - `Documentation/Architecture/Domain_Overview_Business_Rules.md`
 - `Documentation/Architecture/ADR/ADR-001-soft-delete.md`
 - `Documentation/SDD/paciente-sql-stabilization/` (pilot reference)
+- `Documentation/SDD/atendimento-minimal-sql-stabilization/` (verified prerequisite)
+- `Documentation/SDD/atendimento-workflow-stabilization/research.md` (downstream consumer)
 - `Documentation/AI-Harness/Harness-Design/sdd-operational.md`
 - `DocAPI/Legacy/_LegacySheetsDb/ProntuarioSheetsRepository.cs` (behavioral reference only)
+- `DocAPI/Legacy/_LegacySheetsDb/AtendimentoSheetsRepository.cs` (`ValidacaoEtapa*` reference only)
 - `DocAPI/Infrastructure/Repositories/ProntuarioRepository.cs`
 - `DocAPI/Infrastructure/Repositories/AtendimentoRepository.cs`
 - `DocAPI/Application/Mappings/Profiles/ProntuarioProfile.cs`

@@ -2,7 +2,7 @@
 
 Operational snapshot for agents and developers. Update at the end of each work session or merged PR.
 
-**Last updated:** 2026-06-18 (Atendimento Minimal — Wave 3 harness calibration)
+**Last updated:** 2026-06-18 (Prontuario research delta — Part 3 reconciled)
 
 ## Current branch
 
@@ -39,7 +39,7 @@ Current harness phase: **Wave 3 harness calibration complete (Atendimento retros
 | [paciente-sql-stabilization](SDD/paciente-sql-stabilization/) | Complete (pre-calibration) | Complete — verified |
 | [atendimento-minimal-sql-stabilization](SDD/atendimento-minimal-sql-stabilization/) | **Complete** | Complete — verified |
 | [atendimento-workflow-stabilization](SDD/atendimento-workflow-stabilization/research.md) | **Complete** | Not ready — blocked on Prontuario + Agendamento Verify |
-| [prontuario-sql-stabilization](SDD/prontuario-sql-stabilization/research.md) | **Complete** | Ready — Atendimento Minimal prerequisite satisfied |
+| [prontuario-sql-stabilization](SDD/prontuario-sql-stabilization/research.md) | **Complete** (Part 3 delta 2026-06-18) | Ready — prerequisite reconciled; proceed Specify |
 
 ## Recent decisions
 

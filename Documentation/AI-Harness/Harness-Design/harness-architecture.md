@@ -116,11 +116,11 @@ Pilot Execution -> Pilot Report -> Implementation Plan (Proven only)
   -> Review / Approval -> Phased Governance Update -> Consistency Audit -> Next Pilot
 ```
 
-Pilot reports under `Documentation/AI-Harness/research/` are calibration inputs, not feature truth, verification output, or operational truth. They do not override `sdd-operational.md`, `verification-governance.md`, or `Documentation/State.md`.
+Pilot reports under `Documentation/SDD/<feature-slug>/reports/sdd-pilot-report-v*.md` are calibration inputs (see [sdd-pilot-report-governance.md](sdd-pilot-report-governance.md)), not feature truth, verification output, or operational truth. They do not override `sdd-operational.md`, `verification-governance.md`, or `Documentation/State.md`.
 
 Finding maturity for adoption: **Experimental** → **Pilot-Proven** (Proven in report) → **Adopted** (implemented in governance) → **Canonical** (stable authority). Preliminary and Deferred findings require second-pilot validation or explicit approval before adoption.
 
-First calibration instance: Paciente SQL Stabilization → `sdd-pilot-report-v1.0.md` → Wave 1–2 governance updates.
+First calibration instance: Paciente SQL Stabilization → [Documentation/SDD/paciente-sql-stabilization/reports/sdd-pilot-report-v1.0.md](../../SDD/paciente-sql-stabilization/reports/sdd-pilot-report-v1.0.md) → Wave 1–2 governance updates.
 
 ## ADR Governance Policy
 
