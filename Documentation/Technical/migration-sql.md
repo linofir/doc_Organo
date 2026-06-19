@@ -10,9 +10,9 @@ Approved sequencing (2026-06 — Research consolidation: Paciente, Atendimento M
 | Order | Aggregate / slice | Repository | Legacy reference | Done criteria | Status |
 |-------|-------------------|------------|------------------|---------------|--------|
 | 1 | **Paciente** | `PacienteRepository` | `PacienteSheetsRepository.cs` | CRUD + SQL test + Swagger | **Backend verified** (2026-06) — WS07 frontend alignment pending |
-| 2 | **Atendimento Minimal** | `AtendimentoRepository` | `AtendimentoSheetsRepository.cs` (CRUD only) | CRUD + Paciente FK + Guid + SQL test + Swagger | Not started — [research.md](../SDD/atendimento-minimal-sql-stabilization/research.md) |
-| 3 | **Prontuario** | `ProntuarioRepository` | `ProntuarioSheetsRepository.cs` | CRUD + versioning + nested children + SQL test | Not started — **requires Atendimento Minimal verified** — [research.md](../SDD/prontuario-sql-stabilization/research.md) |
-| 4 | **Agendamento** | `AgendamentoRepository` | `AgendamentoSheetsRepository.cs` | CRUD + SQL test | Not started — **requires Atendimento Minimal verified** |
+| 2 | **Atendimento Minimal** | `AtendimentoRepository` | `AtendimentoSheetsRepository.cs` (CRUD only) | CRUD + Paciente FK + Guid + SQL test + Swagger | **Backend verified** (2026-06) — WS07 frontend alignment pending |
+| 3 | **Prontuario** | `ProntuarioRepository` | `ProntuarioSheetsRepository.cs` | CRUD + versioning + nested children + SQL test | Not started — **Atendimento Minimal prerequisite satisfied** — [research.md](../SDD/prontuario-sql-stabilization/research.md) |
+| 4 | **Agendamento** | `AgendamentoRepository` | `AgendamentoSheetsRepository.cs` | CRUD + SQL test | Not started — **Atendimento Minimal prerequisite satisfied** |
 | 5 | **Atendimento Workflow** | `AtendimentoRepository` (extended) | `AtendimentoSheetsRepository.cs` (`ValidacaoEtapa*`) | Rules ported + pendências/events + workflow endpoint + characterization tests | Not started — **requires Minimal + Prontuario + Agendamento verified** — [research.md](../SDD/atendimento-workflow-stabilization/research.md) |
 
 > **Prerequisite clarification:** Only **Atendimento Minimal** (order 2) is required before Prontuario and Agendamento. **Atendimento Workflow** (order 5) is **not** a prerequisite for Prontuario or Agendamento — it extends persistence with journey orchestration after those aggregates are SQL-stable.
@@ -32,21 +32,21 @@ Approved sequencing (2026-06 — Research consolidation: Paciente, Atendimento M
 - [x] State.md updated
 ```
 
-### Atendimento Minimal (order #2)
+### Atendimento Minimal (order #2) — verified 2026-06
 
 ```markdown
-- [ ] EF config reviewed (Fluent API) — `AtendimentoConfiguration`
-- [ ] Repository uses DocDbContext — CRUD + soft delete + list by PacienteId
-- [ ] Registered in Program.cs DI
-- [ ] Controller IDs aligned (Guid)
-- [ ] Paciente FK validation on create
-- [ ] Integration test(s) — `AtendimentoSqlIntegrationTests` with skip policy
-- [ ] Legacy behavior reviewed — CRUD preserve/adapt/abandon in atendimento-minimal-sql-stabilization SDD
-- [ ] PHI-safe controller (no Console.WriteLine)
-- [ ] Swagger smoke checklist
-- [ ] Report/followUp routes explicitly out of scope (501 or undocumented)
+- [x] EF config reviewed (Fluent API) — `AtendimentoConfiguration`
+- [x] Repository uses DocDbContext — CRUD + soft delete + list by PacienteId
+- [x] Registered in Program.cs DI
+- [x] Controller IDs aligned (Guid)
+- [x] Paciente FK validation on create
+- [x] Integration test(s) — `AtendimentoSqlIntegrationTests` with skip policy
+- [x] Legacy behavior reviewed — CRUD preserve/adapt/abandon in atendimento-minimal-sql-stabilization SDD
+- [x] PHI-safe controller (no Console.WriteLine)
+- [x] Swagger smoke checklist — recorded in verification.md (Verify session)
+- [x] Report/followUp routes explicitly out of scope (501; routes preserved)
 - [ ] Front service smoke — deferred to WS07
-- [ ] State.md updated
+- [x] State.md updated
 ```
 
 ### Atendimento Workflow (order #5 — extension of order #2)
@@ -109,6 +109,40 @@ Mutations:
 
 Full design rationale: [design.md](../SDD/paciente-sql-stabilization/design.md).
 
+## Atendimento Minimal API contract (backend verified)
+
+Single-resource retrieval:
+
+| Method | Route | Success | Not found |
+|--------|-------|---------|-----------|
+| GET | `/Atendimento/{id}` | 200 + `ReadAtendimentoDto` | 404 |
+
+Collection retrieval:
+
+| Method | Route | Success |
+|--------|-------|---------|
+| GET | `/Atendimento?skip=&take=` | 200 + paginated array |
+| GET | `/Atendimento/paciente/{pacienteId}` | 200 + array (multiple active journeys allowed) |
+
+Mutations:
+
+| Method | Route | Success | Notes |
+|--------|-------|---------|-------|
+| POST | `/Atendimento` | 201 + `ReadAtendimentoDto` | Invalid or missing PacienteId → 404; `etapaAtual` set to Consulta via factory |
+| PUT | `/Atendimento/{id}` | 204 | Updates `MensagemParaMedico` only; missing → 404 |
+| DELETE | `/Atendimento/{id}` | 204 | Soft delete (ADR-001); missing → 404 |
+
+Deferred (routes preserved, 501 Not Implemented):
+
+| Method | Route | Response |
+|--------|-------|----------|
+| GET | `/Atendimento/report-id/{id}` | 501 |
+| GET | `/Atendimento/followUp-id/{id}` | 501 |
+
+**Not in scope:** stage advancement, workflow DTOs, `ValidacaoEtapa*` — owned by atendimento-workflow-stabilization SDD.
+
+Full design rationale: [design.md](../SDD/atendimento-minimal-sql-stabilization/design.md).
+
 ## Feature flag
 
 ```json
@@ -121,15 +155,14 @@ Not implemented yet. On `feature/base_DB`, SQL is the active target and Sheets i
 
 ## Infrastructure
 
-```bash
-# Set password (PowerShell)
-$env:SA_PASSWORD = "YourStrong!Passw0rd"
-
+```powershell
+# First time: copy .env.example to .env and set SA_PASSWORD
 docker compose up -d
 dotnet ef database update --project DocAPI/DocAPI.csproj
+dotnet test --filter FullyQualifiedName~Sql
 ```
 
-Connection: `DocAPI/appsettings.json` → `DefaultConnection`
+Credential source: repo-root `.env` (`SA_PASSWORD`, `DB_NAME`). Docker Compose, EF tools, API, and SQL integration tests resolve the same connection via `SqlConnectionResolver`. Convenience script: `scripts/sql-integration-test.ps1`.
 
 ## Atendimento rules port (Workflow slice only — order #5)
 
@@ -153,7 +186,7 @@ Do not leave validation in repository. Do not implement as aggregate root method
 Do not merge `feature/base_DB` into `main` until:
 
 1. Paciente slice complete with SQL validation and tests. **Backend criteria met**; WS07 frontend smoke pending.
-2. Atendimento Minimal slice complete — valid `AtendimentoId` FK for downstream aggregates.
+2. Atendimento Minimal slice complete — valid `AtendimentoId` FK for downstream aggregates. **Backend criteria met**; WS07 frontend smoke pending.
 3. Prontuario + Agendamento CRUD on SQL.
 4. Atendimento Workflow rules ported and tested (characterization + integration).
 5. Security/PHI review completed for touched flows.

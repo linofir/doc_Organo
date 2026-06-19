@@ -8,6 +8,7 @@ using DocAPI.Profiles;
 using DocAPI.Core.Interfaces.Repositories;
 using DocAPI.Interfaces.Repositories;
 using DocAPI.Infrastructure.Repositories;
+using DocAPI.Infrastructure.SqlDb;
 using DocAPI.Infrastructure.SqlDb.Context;
 
 
@@ -22,9 +23,18 @@ if (args.Contains("--extract"))
     return;
 }
 
+var connectionString = SqlConnectionResolver.ResolveConnectionString()
+    ?? builder.Configuration.GetConnectionString("DefaultConnection");
+
+if (string.IsNullOrWhiteSpace(connectionString) ||
+    connectionString.Contains("${SA_PASSWORD}", StringComparison.Ordinal))
+{
+    throw new InvalidOperationException(
+        $"SQL connection is not configured. {SqlConnectionResolver.GetSetupHint()}");
+}
+
 builder.Services.AddDbContext<DocDbContext>(options =>
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(connectionString));
 
 // var conn = builder.Configuration.GetConnectionString("DefaultConnection");
 // Console.WriteLine("CONN STRING USADA:");

@@ -8,7 +8,7 @@ using Xunit;
 
 namespace DocAPI.Tests.Integration;
 
-public class PacienteSqlIntegrationTests
+public class AtendimentoSqlIntegrationTests
 {
 
     private static async Task<bool> CanConnectAsync(string connectionString)
@@ -33,10 +33,8 @@ public class PacienteSqlIntegrationTests
         return new DocDbContext(options);
     }
 
-    private static string GenerateSyntheticCpf()
-    {
-        return $"{Random.Shared.Next(100000000, 999999999)}{Random.Shared.Next(10, 99)}";
-    }
+    private static string GenerateSyntheticCpf() =>
+        $"{Random.Shared.Next(100000000, 999999999)}{Random.Shared.Next(10, 99)}";
 
     private static Paciente BuildSyntheticPaciente(string cpf, string suffix)
     {
@@ -63,37 +61,44 @@ public class PacienteSqlIntegrationTests
     }
 
     [SkippableFact]
-    public async Task PacienteSql_CreateReadUpdateSoftDelete_RoundTrip()
+    public async Task AtendimentoSql_CreateReadUpdateSoftDelete_RoundTrip()
     {
         var connectionString = SqlConnectionResolver.ResolveConnectionString();
         Skip.If(connectionString == null, SqlConnectionResolver.GetSetupHint());
         Skip.If(!await CanConnectAsync(connectionString!), "Docker SQL is not reachable.");
 
         await using var context = CreateSqlContext(connectionString);
-        var repo = new PacienteRepository(context);
+        var pacienteRepo = new PacienteRepository(context);
+        var atendimentoRepo = new AtendimentoRepository(context);
+
         var suffix = Guid.NewGuid().ToString("N")[..8];
-        var cpf = GenerateSyntheticCpf();
-        var paciente = BuildSyntheticPaciente(cpf, suffix);
+        var paciente = BuildSyntheticPaciente(GenerateSyntheticCpf(), suffix);
+        await pacienteRepo.CreateAsync(paciente);
 
-        await repo.CreateAsync(paciente);
+        var atendimento = new Atendimento(paciente.ID, "Mensagem integracao");
+        await atendimentoRepo.CreateAsync(atendimento);
 
-        var created = await repo.GetByIdAsync(paciente.ID);
+        var created = await atendimentoRepo.GetByIdAsync(atendimento.Id);
         Assert.NotNull(created);
-        Assert.Equal("Plano Teste", created!.Plano);
-        Assert.Equal("Rua Integracao", created.Endereco!.Logradouro);
+        Assert.Equal(Atendimento.EtapaAtendimento.Consulta, created!.EtapaAtual);
+        Assert.Equal("Mensagem integracao", created.MensagemParaMedico);
 
-        var updated = BuildSyntheticPaciente(cpf, $"{suffix}-upd");
-        await repo.UpdateAsync(updated, paciente.ID);
+        var byPaciente = (await atendimentoRepo.GetByPacienteIdAsync(paciente.ID)).ToList();
+        Assert.Contains(byPaciente, a => a.Id == atendimento.Id);
 
-        var afterUpdate = await repo.GetByIdAsync(paciente.ID);
+        var updated = new Atendimento(paciente.ID, "Mensagem atualizada");
+        await atendimentoRepo.UpdateAsync(updated, atendimento.Id);
+
+        var afterUpdate = await atendimentoRepo.GetByIdAsync(atendimento.Id);
         Assert.NotNull(afterUpdate);
-        Assert.Equal($"Paciente Teste {suffix}-upd", afterUpdate!.Nome);
-        Assert.Equal("42", afterUpdate.Endereco!.Numero);
+        Assert.Equal("Mensagem atualizada", afterUpdate!.MensagemParaMedico);
+        Assert.Equal(Atendimento.EtapaAtendimento.Consulta, afterUpdate.EtapaAtual);
 
-        await repo.DeleteAsync(paciente.ID);
+        await atendimentoRepo.DeleteAsync(atendimento.Id);
 
-        Assert.Null(await repo.GetByIdAsync(paciente.ID));
-        Assert.Empty(await repo.GetPacienteByCpfAsync(cpf));
-        Assert.Empty(await repo.GetPacienteByNomeAsync(suffix));
+        Assert.Null(await atendimentoRepo.GetByIdAsync(atendimento.Id));
+        Assert.DoesNotContain(
+            (await atendimentoRepo.GetByPacienteIdAsync(paciente.ID)).Select(a => a.Id),
+            id => id == atendimento.Id);
     }
 }

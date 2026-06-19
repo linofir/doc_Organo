@@ -2,7 +2,7 @@
 
 Operational snapshot for agents and developers. Update at the end of each work session or merged PR.
 
-**Last updated:** 2026-06-17 (documentation alignment — Atendimento split + migration sequencing)
+**Last updated:** 2026-06-18 (Atendimento Minimal SQL Stabilization — Documentation Follow-Up)
 
 ## Current branch
 
@@ -12,15 +12,15 @@ Operational snapshot for agents and developers. Update at the end of each work s
 
 | Component | Status |
 |-----------|--------|
-| DocAPI (SQL) | **Paciente** backend stabilized — full-field CRUD, collection search, soft delete, duplicate CPF 409, PHI-safe controller, 14 unit + 1 SQL integration test (15 total). Prontuario/Agendamento/Atendimento stubbed (DI resolves, throws until migrated) |
+| DocAPI (SQL) | **Paciente** backend stabilized — full-field CRUD, collection search, soft delete, duplicate CPF 409, PHI-safe controller (14 unit + 1 SQL integration). **Atendimento Minimal** backend stabilized — CRUD, Paciente FK validation, Guid contracts, soft delete, PHI-safe controller, 501 report routes preserved (11 unit + 1 SQL integration). Prontuario/Agendamento stubbed (DI resolves, throws until migrated). **27 tests** total (Verify 2026-06-18) |
 | DocAPI (`main`) | Functional with Google Sheets (reference only) |
 | DocFront.Web | Blazor Server; expects API at `https://localhost:7004`. Still calls retired `paciente/nome/{nome}` — WS07 debt |
 | SQL Server | Docker `docorgano-sql`; requires `SA_PASSWORD` env var |
-| AI harness | First SDD pilot complete (Paciente SQL Stabilization): Execute + Verify done; Documentation Follow-Up complete |
+| AI harness | Second forward SDD complete (Atendimento Minimal SQL Stabilization): Execute + Verify + Documentation Follow-Up done. Paciente pilot also complete. |
 
 ## Active epic
 
-**Infraestrutura SQL** — vertical slice **Paciente** backend verified.
+**Infraestrutura SQL** — vertical slices **Paciente** and **Atendimento Minimal** backend verified.
 
 **Approved migration sequencing:**
 
@@ -28,18 +28,18 @@ Operational snapshot for agents and developers. Update at the end of each work s
 Paciente → Atendimento Minimal → Prontuario → Agendamento → Atendimento Workflow → WS07 Frontend
 ```
 
-**Next planned implementation:** Atendimento Minimal SQL Stabilization.
+**Next planned implementation:** Prontuario SQL Stabilization forward SDD.
 
-Current harness phase: **Harness calibration complete (Wave 1 + Wave 2)**. Forward SDD pilots: Atendimento Minimal (next), then Prontuario, Agendamento, Atendimento Workflow.
+Current harness phase: **Harness calibration complete (Wave 1 + Wave 2)**. Forward SDD pilots: Prontuario (next), then Agendamento, Atendimento Workflow.
 
 ## SDD research status
 
 | Feature SDD | Research | Specify |
 |-------------|----------|---------|
 | [paciente-sql-stabilization](SDD/paciente-sql-stabilization/) | Complete (pre-calibration) | Complete — verified |
-| [atendimento-minimal-sql-stabilization](SDD/atendimento-minimal-sql-stabilization/research.md) | **Complete** | Ready |
-| [atendimento-workflow-stabilization](SDD/atendimento-workflow-stabilization/research.md) | **Complete** | Not ready — blocked on Minimal + Prontuario + Agendamento Verify |
-| [prontuario-sql-stabilization](SDD/prontuario-sql-stabilization/research.md) | **Complete** | Ready with conditions — requires Atendimento Minimal verified |
+| [atendimento-minimal-sql-stabilization](SDD/atendimento-minimal-sql-stabilization/) | **Complete** | Complete — verified |
+| [atendimento-workflow-stabilization](SDD/atendimento-workflow-stabilization/research.md) | **Complete** | Not ready — blocked on Prontuario + Agendamento Verify |
+| [prontuario-sql-stabilization](SDD/prontuario-sql-stabilization/research.md) | **Complete** | Ready — Atendimento Minimal prerequisite satisfied |
 
 ## Recent decisions
 
@@ -56,10 +56,11 @@ Current harness phase: **Harness calibration complete (Wave 1 + Wave 2)**. Forwa
 | 2026-06 | Wave 1 harness calibration: SDD Pre-Execution Review, post-Verify lifecycle, Execution Prerequisites, Environment-Dependent Evidence, mandatory Documentation Follow-Up |
 | 2026-06 | Wave 2 harness calibration: Definition of Done alignment, CONTRIBUTING-AI post-Verify chain, reporting templates, SDD README, Harness Calibration Workflow |
 | 2026-06 | Atendimento split into two SDDs: **Minimal SQL** (FK prerequisite for Prontuario/Agendamento) and **Workflow** (journey orchestration after Prontuario + Agendamento). Approved order documented in [migration-sql.md](Technical/migration-sql.md) and [PM_DocOrgano.md](Product/PM_DocOrgano.md) |
+| 2026-06 | Atendimento Minimal SQL Stabilization verified (REQ-001–REQ-010); 27 tests; SQL integration + HTTP smoke; ADR-001 referenced, no new ADR; workflow and WS07 frontend deferred |
 
 ## Known blockers
 
-- `AtendimentoRepository` stubbed — Prontuario and Agendamento cannot persist without **Atendimento Minimal** slice (valid `AtendimentoId` FK).
+- Prontuario and Agendamento repositories still stubbed — **Atendimento Minimal** prerequisite satisfied; forward SDDs can proceed.
 - Atendimento workflow rules (~700 LOC Legacy) port deferred to **atendimento-workflow-stabilization** — requires Prontuario + Agendamento SQL verified first.
 - Financial tables in schema — out of scope until clinical migration completes.
 - Frontend/API contract drift on Paciente nome search until WS07 aligns with collection search route.
@@ -69,15 +70,16 @@ Current harness phase: **Harness calibration complete (Wave 1 + Wave 2)**. Forwa
 | Feature | Decision | Reference |
 |---------|----------|-----------|
 | Paciente SQL Stabilization | Complete with accepted residual risk | [verification.md](SDD/paciente-sql-stabilization/verification.md) |
+| Atendimento Minimal SQL Stabilization | Complete with accepted residual risk | [verification.md](SDD/atendimento-minimal-sql-stabilization/verification.md) |
 
-Residual risk (accepted): SQL integration environment-dependent; no controller-level API tests; WS07 frontend alignment pending; `AtualizadoPor` unset; CPF checksum not validated.
+Residual risk (accepted): SQL integration environment-dependent; optional mapping/negative tests deferred; WS07 frontend alignment pending; `AtualizadoPor` unset; report routes 501-only; workflow port deferred to separate SDD.
 
 ## Next steps
 
-1. Run **Atendimento Minimal SQL Stabilization** forward SDD (Specify → Design → Tasks → Execute → Verify).
-2. Re-run full 15-test Paciente suite with Docker SQL + `SA_PASSWORD` before merge (if not yet done).
-3. Plan WS07 frontend alignment for retired `GET /Paciente/nome/{nome}` → collection search.
-4. After Atendimento Minimal verified — run **Prontuario SQL Stabilization** forward SDD.
+1. Run **Prontuario SQL Stabilization** forward SDD (Specify → Design → Tasks → SDD Pre-Execution Review → Execute → Verify).
+2. Optional test debt: soft-deleted PacienteId → 404 on POST; `AtendimentoMappingTests`.
+3. Plan WS07 frontend alignment for retired `GET /Paciente/nome/{nome}` → collection search and Atendimento UI (after Workflow SDD).
+4. Proceed **Reporting** for Atendimento Minimal (feature report, session handoff).
 
 ## Task management
 

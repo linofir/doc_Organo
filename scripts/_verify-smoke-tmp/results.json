@@ -1,0 +1,121 @@
+﻿[
+    {
+        "Scenario":  "Swagger UI reachable",
+        "Endpoint":  "GET /swagger/index.html",
+        "Expected":  "200",
+        "Actual":  200,
+        "Pass":  true
+    },
+    {
+        "Scenario":  "Setup Paciente FK",
+        "Endpoint":  "POST /Paciente",
+        "Expected":  "201",
+        "Actual":  201,
+        "Pass":  true
+    },
+    {
+        "Scenario":  "Invalid PacienteId",
+        "Endpoint":  "POST /Atendimento",
+        "Expected":  "404",
+        "Actual":  404,
+        "Pass":  true
+    },
+    {
+        "Scenario":  "Create",
+        "Endpoint":  "POST /Atendimento",
+        "Expected":  "201 + Consulta (etapaAtual=0)",
+        "Actual":  "201 etapa=Consulta",
+        "Pass":  false
+    },
+    {
+        "Scenario":  "Read by ID",
+        "Endpoint":  "GET /Atendimento/{id}",
+        "Expected":  "200",
+        "Actual":  200,
+        "Pass":  true
+    },
+    {
+        "Scenario":  "Read missing ID",
+        "Endpoint":  "GET /Atendimento/{missingId}",
+        "Expected":  "404",
+        "Actual":  404,
+        "Pass":  true
+    },
+    {
+        "Scenario":  "List by Paciente",
+        "Endpoint":  "GET /Atendimento/paciente/{pacienteId}",
+        "Expected":  "200 + array (\u003e=1)",
+        "Actual":  "200 count=1",
+        "Pass":  true
+    },
+    {
+        "Scenario":  "Paginated list",
+        "Endpoint":  "GET /Atendimento?skip=0\u0026take=10",
+        "Expected":  "200 + array",
+        "Actual":  "200 count=1",
+        "Pass":  true
+    },
+    {
+        "Scenario":  "Two active journeys same patient",
+        "Endpoint":  "GET /Atendimento/paciente/{pacienteId}",
+        "Expected":  "200 count\u003e=2",
+        "Actual":  "200 count=2",
+        "Pass":  true
+    },
+    {
+        "Scenario":  "Update",
+        "Endpoint":  "PUT /Atendimento/{id}",
+        "Expected":  "204",
+        "Actual":  204,
+        "Pass":  true
+    },
+    {
+        "Scenario":  "Update missing ID",
+        "Endpoint":  "PUT /Atendimento/{missingId}",
+        "Expected":  "404",
+        "Actual":  404,
+        "Pass":  true
+    },
+    {
+        "Scenario":  "Report route",
+        "Endpoint":  "GET /Atendimento/report-id/{id}",
+        "Expected":  "501",
+        "Actual":  501,
+        "Pass":  true
+    },
+    {
+        "Scenario":  "FollowUp route",
+        "Endpoint":  "GET /Atendimento/followUp-id/{id}",
+        "Expected":  "501",
+        "Actual":  501,
+        "Pass":  true
+    },
+    {
+        "Scenario":  "Delete",
+        "Endpoint":  "DELETE /Atendimento/{id}",
+        "Expected":  "204",
+        "Actual":  204,
+        "Pass":  true
+    },
+    {
+        "Scenario":  "Soft delete exclusion GET by id",
+        "Endpoint":  "GET /Atendimento/{deletedId}",
+        "Expected":  "404",
+        "Actual":  404,
+        "Pass":  true
+    },
+    {
+        "Scenario":  "Soft delete exclusion list-by-paciente",
+        "Endpoint":  "GET /Atendimento/paciente/{pacienteId}",
+        "Expected":  "deleted not in list",
+        "Actual":  "listed=False count=1",
+        "Pass":  true
+    },
+    {
+        "Scenario":  "Delete missing ID",
+        "Endpoint":  "DELETE /Atendimento/{missingId}",
+        "Expected":  "404",
+        "Actual":  404,
+        "Pass":  true
+    }
+]

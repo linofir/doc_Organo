@@ -4,12 +4,25 @@ public class Atendimento
 {
     protected Atendimento() { }
 
-    public Atendimento(Guid pacienteId)
+    public Atendimento(Guid pacienteId, string? mensagemParaMedico = null)
     {
         Id = Guid.NewGuid();
         PacienteId = pacienteId;
         EtapaAtual = EtapaAtendimento.Consulta;
+        MensagemParaMedico = mensagemParaMedico;
         CriadoEm = DateTime.UtcNow;
+    }
+
+    public void AtualizarMensagemParaMedico(string? mensagemParaMedico)
+    {
+        MensagemParaMedico = mensagemParaMedico;
+        AtualizadoEm = DateTime.UtcNow;
+    }
+
+    public void MarcarComoExcluido()
+    {
+        Deletado = true;
+        DeletadoEm = DateTime.UtcNow;
     }
 
     public Guid Id { get; private set; }

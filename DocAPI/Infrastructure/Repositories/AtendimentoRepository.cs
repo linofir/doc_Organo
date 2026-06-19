@@ -1,34 +1,65 @@
 using DocAPI.Core.Entities;
 using DocAPI.Interfaces.Repositories;
+using DocAPI.Infrastructure.SqlDb.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace DocAPI.Infrastructure.Repositories;
 
-/// <summary>
-/// SQL implementation pending. Port rules from Legacy/_LegacySheetsDb/AtendimentoSheetsRepository.cs.
-/// </summary>
 public class AtendimentoRepository : IAtendimentoRepository
 {
-    private const string Message =
-        "AtendimentoRepository SQL não implementado. Migração em andamento — ver docs/migration-sql.md.";
+    private readonly DocDbContext _context;
 
-    public Task<IEnumerable<Atendimento>> GetAllAsync(int skip = 0, int take = 10) =>
-        throw new NotImplementedException(Message);
+    public AtendimentoRepository(DocDbContext context)
+    {
+        _context = context;
+    }
 
-    public Task<Atendimento?> GetByIdAsync(string id) =>
-        throw new NotImplementedException(Message);
+    public async Task<IEnumerable<Atendimento>> GetAllAsync(int skip = 0, int take = 10)
+    {
+        return await _context.Atendimentos
+            .OrderByDescending(a => a.CriadoEm)
+            .Skip(skip)
+            .Take(take)
+            .ToListAsync();
+    }
 
-    public Task CreateAsync(Atendimento novoAtendimento) =>
-        throw new NotImplementedException(Message);
+    public async Task<Atendimento?> GetByIdAsync(Guid id)
+    {
+        return await _context.Atendimentos
+            .FirstOrDefaultAsync(a => a.Id == id);
+    }
 
-    public Task UpdateAsync(Atendimento atendimento, string id) =>
-        throw new NotImplementedException(Message);
+    public async Task<IEnumerable<Atendimento>> GetByPacienteIdAsync(Guid pacienteId)
+    {
+        return await _context.Atendimentos
+            .Where(a => a.PacienteId == pacienteId)
+            .OrderByDescending(a => a.CriadoEm)
+            .ToListAsync();
+    }
 
-    public Task DeleteAsync(string id) =>
-        throw new NotImplementedException(Message);
+    public async Task CreateAsync(Atendimento novoAtendimento)
+    {
+        _context.Atendimentos.Add(novoAtendimento);
+        await _context.SaveChangesAsync();
+    }
 
-    public Task<Stream> CreateReportByIdAsync(string pacienteId) =>
-        throw new NotImplementedException(Message);
+    public async Task UpdateAsync(Atendimento atendimento, Guid id)
+    {
+        var existing = await _context.Atendimentos.FirstOrDefaultAsync(a => a.Id == id);
+        if (existing == null)
+            throw new KeyNotFoundException($"Atendimento com ID '{id}' não encontrado.");
 
-    public Task<Atendimento> CreateReportFollwUpByIdAsync(string pacienteId) =>
-        throw new NotImplementedException(Message);
+        existing.AtualizarMensagemParaMedico(atendimento.MensagemParaMedico);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task DeleteAsync(Guid id)
+    {
+        var existing = await _context.Atendimentos.FirstOrDefaultAsync(a => a.Id == id);
+        if (existing == null)
+            throw new KeyNotFoundException($"Atendimento com ID '{id}' não encontrado.");
+
+        existing.MarcarComoExcluido();
+        await _context.SaveChangesAsync();
+    }
 }

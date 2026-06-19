@@ -65,9 +65,9 @@ Objetivos do MVP2:
 | Prioridade | Feature | Status | Resultado esperado |
 |------------|---------|--------|--------------------|
 | P0 | Paciente SQL Stabilization Pilot | Verificado | `PacienteRepository` validado contra Docker SQL, Swagger e testes; REQ-001–REQ-008 satisfeitos — ver [verification.md](../SDD/paciente-sql-stabilization/verification.md) |
-| P0 | Atendimento Minimal SQL Stabilization | Próximo | `AtendimentoRepository` SQL com CRUD básico, contratos Guid, validação FK Paciente, soft delete, controller PHI-safe, testes SQL de integração e Swagger — desbloqueia `AtendimentoId` para Prontuario e Agendamento; SDD [research.md](../SDD/atendimento-minimal-sql-stabilization/research.md) |
-| P0 | Prontuario SQL Migration & Stabilization | Planejado | Vertical Prontuário validada contra SQL Server, EF Core, API, testes e governança SDD, preservando comportamento clínico do legado. **Prerequisite:** Atendimento Minimal SQL Stabilization verified — ver [research.md](../SDD/prontuario-sql-stabilization/research.md) |
-| P0 | Agendamento SQL Migration & Stabilization | Planejado | Vertical Agendamento validada contra SQL Server, EF Core, API, testes e governança SDD, preservando comportamento clínico do legado. **Prerequisite:** Atendimento Minimal SQL Stabilization verified |
+| P0 | Atendimento Minimal SQL Stabilization | Verificado | `AtendimentoRepository` SQL com CRUD básico, contratos Guid, validação FK Paciente, soft delete, controller PHI-safe, testes SQL de integração e Swagger — REQ-001–REQ-010 satisfeitos — ver [verification.md](../SDD/atendimento-minimal-sql-stabilization/verification.md) |
+| P0 | Prontuario SQL Migration & Stabilization | Próximo | Vertical Prontuário validada contra SQL Server, EF Core, API, testes e governança SDD, preservando comportamento clínico do legado. **Prerequisite satisfied:** Atendimento Minimal verified — ver [research.md](../SDD/prontuario-sql-stabilization/research.md) |
+| P0 | Agendamento SQL Migration & Stabilization | Planejado | Vertical Agendamento validada contra SQL Server, EF Core, API, testes e governança SDD, preservando comportamento clínico do legado. **Prerequisite satisfied:** Atendimento Minimal verified |
 | P0 | Atendimento Workflow Stabilization | Planejado | Orquestração da jornada clínica: stage evaluators, pendências, clinical events, journey projection, characterization tests via Application Use Cases. **Prerequisites:** Atendimento Minimal, Prontuario e Agendamento verified — SDD [research.md](../SDD/atendimento-workflow-stabilization/research.md) |
 | P1 | Atualizar plano de migração SQL | Planejado | Checklist por entidade e critérios de merge claros |
 | P1 | Avaliar feature flag de persistência | Planejado | Decidir se ainda faz sentido manter fallback/híbrido |
@@ -89,7 +89,7 @@ Objetivos do MVP2:
 | Prioridade | Feature | Status | Resultado esperado |
 |------------|---------|--------|--------------------|
 | P0 | Testes SQL de integração para Paciente | Verificado | `PacienteSqlIntegrationTests` com skip policy; 15 testes no total (14 unit + 1 SQL) |
-| P0 | Atendimento Minimal SQL Integration Tests | Planejado | `AtendimentoSqlIntegrationTests` — CRUD round-trip contra Docker SQL; fixture Paciente → Atendimento |
+| P0 | Atendimento Minimal SQL Integration Tests | Verificado | `AtendimentoSqlIntegrationTests` — CRUD round-trip contra Docker SQL; 27 testes no total (Verify 2026-06-18) |
 | P0 | Atendimento Workflow Characterization Tests | Planejado | Regras legadas `ValidacaoEtapa*` documentadas por testes de caracterização antes do Execute do workflow SDD |
 | P1 | CI mínimo com `dotnet test` | Planejado | Feedback automático antes de merge |
 | P1 | Smoke tests Swagger/Blazor | Planejado | Validação manual orientada por checklist |
@@ -175,14 +175,14 @@ Esta iniciativa é uma capacidade de suporte para o MVP2, não um novo domínio 
 | Grupo | Prioridade | Status | Resultado esperado |
 |-------|------------|--------|--------------------|
 | AI Harness Foundation | P1 | Planejado | Governança, documentação, regras, skills, índices e caminhos alinhados aos artefatos canônicos |
-| AI Harness Adoption | P1 | Calibração concluída | Piloto Paciente verificado; próximo forward SDD: Atendimento Minimal, depois Prontuario |
+| AI Harness Adoption | P1 | Calibração concluída | Piloto Paciente verificado; Atendimento Minimal verificado (segundo forward SDD); próximo: Prontuario |
 | AI Harness Evolution | P2 | Planejado | Estratégia leve para reporting futuro, session handoff, feature reports, lessons learned e preparação para observabilidade de workflow |
 | Verification Adoption | P1 | Verificado (piloto) | Verifier aplicado no piloto Paciente SQL Stabilization; `verification.md` gerado |
 
 Itens planejados para MVP2:
 
 - Calibrar retrospectivamente `Validar vertical Paciente em SQL` como reconstrução de rastreabilidade, validação de reporting e ajuste de governança.
-- Usar **Atendimento Minimal SQL Stabilization** como próximo forward SDD; Prontuario segue após Minimal verified.
+- Usar **Prontuario SQL Stabilization** como próximo forward SDD; Agendamento segue após Prontuario verified.
 - Aplicar o Verifier como responsabilidade explícita antes de considerar trabalho relevante concluído.
 - Usar Documentation Update para avaliar follow-up de State, ADRs, documentação técnica/arquitetural, regras, skills, prompts e SDD quando a verdade do projeto mudar.
 - Ajustar templates SDD apenas depois da calibração e do primeiro piloto revelarem necessidades reais.

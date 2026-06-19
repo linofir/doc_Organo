@@ -36,26 +36,26 @@ Current execution does not begin until SDD Pre-Execution Review exit criteria ar
 
 Confirm before `TASK-003` (first implementation task):
 
-- [ ] Paciente SQL slice verified (upstream FK source)
-- [ ] Docker SQL container `docorgano-sql` running
-- [ ] `SA_PASSWORD` set
-- [ ] `dotnet ef database update --project DocAPI/DocAPI.csproj` succeeded
-- [ ] `dotnet run --project DocAPI/DocAPI.csproj` starts successfully
-- [ ] Baseline `dotnet test` executed; result recorded in session notes
-- [ ] Swagger UI reachable
+- [x] Paciente SQL slice verified (upstream FK source)
+- [x] Docker SQL container `docorgano-sql` running
+- [x] `SA_PASSWORD` set
+- [x] `dotnet ef database update --project DocAPI/DocAPI.csproj` succeeded
+- [x] `dotnet run --project DocAPI/DocAPI.csproj` starts successfully
+- [x] Baseline `dotnet test` executed; result recorded in session notes
+- [x] Swagger UI reachable
 
 ## Task List
 
 ### Pre-implementation
 
-- [ ] `TASK-001` — Legacy characterization sign-off
+- [x] `TASK-001` — Legacy characterization sign-off
   - **Requirements:** `REQ-010`
   - **Files:** `Documentation/SDD/atendimento-minimal-sql-stabilization/specify.md` (Legacy Behavior section)
   - **Depends on:** None
   - **Tests or checks:** Review legacy table completeness; confirm preserve/adapt/abandon decisions
   - **Done when:** Legacy behavior table is complete and accepted; no code changes required
 
-- [ ] `TASK-002` — Review Atendimento aggregate and EF configuration
+- [x] `TASK-002` — Review Atendimento aggregate and EF configuration
   - **Requirements:** `REQ-001`, `REQ-004`, `REQ-005`
   - **Files:** `DocAPI/Core/Entities/Atendimento.cs`, `DocAPI/Infrastructure/SqlDb/Configurations/AtendimentoConfig.cs`, `DocAPI/Infrastructure/SqlDb/DbContext/DbContext.cs`
   - **Depends on:** `TASK-001`
@@ -64,49 +64,49 @@ Confirm before `TASK-003` (first implementation task):
 
 ### Implementation
 
-- [ ] `TASK-003` — Align repository interface and slim DTOs to Guid contract
+- [x] `TASK-003` — Align repository interface and slim DTOs to Guid contract
   - **Requirements:** `REQ-007`
   - **Files:** `DocAPI/Core/Interfaces/Repositories/IAtendimentoRepository.cs`, `DocAPI/Application/Data/Dtos/Atendimento/CreateAtendimentoDto.cs`, `UpdateAtendimentoDto.cs`, `ReadAtendimentoDto.cs`, `DocAPI/Application/Mappings/Profiles/AtendimentoProfile.cs`
   - **Depends on:** `TASK-002`, Execution Prerequisites
   - **Tests or checks:** Solution compiles; abandoned Legacy DTO fields removed
   - **Done when:** Interface uses `Guid`; report methods removed from interface; slim DTOs match `design.md` API Contract — create has `PacienteId` + optional `MensagemParaMedico` only; update has `MensagemParaMedico` only; no workflow DTOs or `EtapaAtual` on write DTOs; read mapping explicit
 
-- [ ] `TASK-004` — Implement `AtendimentoRepository` SQL CRUD (persistence-only)
+- [x] `TASK-004` — Implement `AtendimentoRepository` SQL CRUD (persistence-only)
   - **Requirements:** `REQ-001`, `REQ-002`, `REQ-003`, `REQ-004`, `REQ-005`
   - **Files:** `DocAPI/Infrastructure/Repositories/AtendimentoRepository.cs`
   - **Depends on:** `TASK-003`
   - **Tests or checks:** Manual or unit verification per operation before `TASK-005`
   - **Done when:** `GetAllAsync`, `GetByIdAsync`, `GetByPacienteIdAsync`, `CreateAsync`, `UpdateAsync`, `DeleteAsync` implemented against `DocDbContext`; soft delete via entity method; **no** Paciente FK validation, **no** workflow logic, **no** cross-aggregate reads
 
-- [ ] `TASK-005` — Repository unit tests
+- [x] `TASK-005` — Repository unit tests
   - **Requirements:** `REQ-001` through `REQ-005`
   - **Files:** `DocAPI.Tests/Infrastructure/AtendimentoRepositoryTests.cs` (new)
   - **Depends on:** `TASK-004`
   - **Tests or checks:** `dotnet test --filter AtendimentoRepository`
   - **Done when:** Tests cover create (Consulta initial stage via factory), read, list-by-paciente (including two active per patient), update message only (EtapaAtual unchanged), soft-delete exclusion; repository tests do **not** cover Paciente FK validation (owned by Controller/Application)
 
-- [ ] `TASK-006` — Controller hardening (Guid, Paciente FK validation, status codes, PHI, 501 reports)
+- [x] `TASK-006` — Controller hardening (Guid, Paciente FK validation, status codes, PHI, 501 reports)
   - **Requirements:** `REQ-006`, `REQ-007`, `REQ-009`
   - **Files:** `DocAPI/API/Controllers/AtendimentoController.cs`
   - **Depends on:** `TASK-004`
   - **Tests or checks:** Code review; automated tests where practical; negative test invalid PacienteId → 404
   - **Done when:** Guid route params; aggregate factory used on create (not blind AutoMapper); Paciente FK validated via `IPacienteRepository` before repository create; POST returns 201 + `ReadAtendimentoDto`; PUT/DELETE return 204 or 404; PHI logging removed; report/followUp routes **remain present** and return 501 without repository call; `GET /Atendimento/paciente/{pacienteId}` added; no stage-advance endpoints
 
-- [ ] `TASK-007` — SQL integration tests
+- [x] `TASK-007` — SQL integration tests
   - **Requirements:** `REQ-008`
   - **Files:** `DocAPI.Tests/Integration/AtendimentoSqlIntegrationTests.cs` (new)
   - **Depends on:** `TASK-005`
   - **Tests or checks:** `dotnet test --filter AtendimentoSql`
   - **Done when:** Integration tests meet SQL Integration Testing criteria below
 
-- [ ] `TASK-008` — Swagger runtime validation
+- [x] `TASK-008` — Swagger runtime validation
   - **Requirements:** All API-facing requirements
   - **Files:** Session notes only (not `verification.md`)
   - **Depends on:** `TASK-006`, `TASK-007`
   - **Tests or checks:** Manual checklist per `specify.md` Runtime Validation Environment
   - **Done when:** All scenarios recorded: Create, Read, List, ListByPaciente, Update, Delete, Invalid PacienteId, Soft delete exclusion, Report routes 501 (routes present)
 
-- [ ] `TASK-009` — Build and automated test gate
+- [x] `TASK-009` — Build and automated test gate
   - **Requirements:** All (`REQ-001` through `REQ-010`)
   - **Files:** Solution-wide
   - **Depends on:** `TASK-005` through `TASK-008`
@@ -156,7 +156,7 @@ Skip must use explicit test framework skip (e.g., `SkippableFact`, conditional `
 
 Post-implementation work prepared for the Verify phase. **Not part of Execute implementation.**
 
-- [ ] `VP-001` — Verification handoff preparation
+- [x] `VP-001` — Verification handoff preparation
   - **Requirements:** All
   - **Owner:** Verify phase (may be drafted during Execute session notes)
   - **Depends on:** `TASK-009`, `TASK-008`
@@ -167,7 +167,7 @@ Post-implementation work prepared for the Verify phase. **Not part of Execute im
 
 Post-verify routing candidates. **Not part of Execute implementation.**
 
-- [ ] `DF-001` — Documentation follow-up routing
+- [x] `DF-001` — Documentation follow-up routing
   - **Requirements:** Governance
   - **Owner:** Documentation Update after Verify
   - **Depends on:** `VP-001`
@@ -223,10 +223,10 @@ Post-verify routing candidates. **Not part of Execute implementation.**
 
 ## Review Sensors
 
-- [ ] `Documentation/AI-Harness/review-prompts/domain-review.md`
-- [ ] `Documentation/AI-Harness/review-prompts/security-phi-review.md`
-- [ ] `Documentation/AI-Harness/review-prompts/check-docs.md`
-- [ ] `Documentation/AI-Harness/review-prompts/test-strategy.md`
+- [x] `Documentation/AI-Harness/review-prompts/domain-review.md`
+- [x] `Documentation/AI-Harness/review-prompts/security-phi-review.md`
+- [x] `Documentation/AI-Harness/review-prompts/check-docs.md`
+- [x] `Documentation/AI-Harness/review-prompts/test-strategy.md`
 
 ## Known Risks And Skipped Checks
 

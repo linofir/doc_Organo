@@ -71,6 +71,8 @@ dotnet build
 dotnet test
 ```
 
+Local SQL credentials: copy `.env.example` to `.env` and set `SA_PASSWORD` (same value Docker uses). SQL integration workflow: `.\scripts\sql-integration-test.ps1` (see `Documentation/Technical/runbook.md`).
+
 API default: `https://localhost:7004` from `DocFront.Web/appsettings.json`.
 
 ## Harness Workflow
