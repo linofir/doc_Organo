@@ -84,6 +84,9 @@ Canonical documentation lives under `Documentation/`.
 | [template/verification/verification.md](template/verification/verification.md) | Verification handoff template |
 | [template/reporting/session-handoff.md](template/reporting/session-handoff.md) | Session handoff template |
 | [template/reporting/feature-report.md](template/reporting/feature-report.md) | Feature report template |
+| [template/reporting/sdd-pilot-report.md](template/reporting/sdd-pilot-report.md) | SDD pilot / calibration retrospective template |
+| [template/governance/governance-improvement-plan.md](template/governance/governance-improvement-plan.md) | Post-feature harness calibration plan (pilot evidence → Wave 1/2/3 execution) |
+| [template/knowledge/teacher-guide.md](template/knowledge/teacher-guide.md) | Teacher Guide template |
 | [../SDD/README.md](../SDD/README.md) | Feature SDD folder structure and ownership |
 
 ## Cursor Artifacts

@@ -128,7 +128,9 @@ When a gate is environment-dependent:
 1. Execute evidence may be accepted during Verify if Execute ran the gate successfully with documented environment prerequisites satisfied.
 2. Verify must record the gate as **Skipped (environment unavailable)** with a concrete reason, not as Passed without evidence.
 3. Residual risk must be classified and justified when Verify accepts Execute-only evidence.
-4. The skip reason must name the missing prerequisite, such as Docker unavailable or `SA_PASSWORD` not set.
+4. The skip reason must name the missing prerequisite, such as Docker unavailable, `SA_PASSWORD` not set, or **SQL login failure when credentials do not match the Docker volume** (distinct from host unreachable).
+
+Integration tests use `SqlIntegrationTestGate` to surface credential vs network failures in skip messages. Operators should read the skip text before assuming infrastructure is down.
 
 ### Documentation requirements
 

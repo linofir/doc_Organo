@@ -75,6 +75,8 @@ Feature folders should keep:
 - `teacher-guide.md` when knowledge strategy criteria apply.
 - `reports/session-handoff.md` for session continuation.
 - `reports/feature-report.md` after Documentation Follow-Up.
+- `reports/sdd-pilot-report-v*.md` for harness calibration retrospectives.
+- `reports/governance-improvement-plan.md` when calibration findings drive harness updates.
 
 ## SDD Pre-Execution Review
 
@@ -165,24 +167,30 @@ Calibrate the harness when a feature SDD pilot produces governance findings that
 
 ```text
 Pilot Execution (feature SDD lifecycle)
-  -> Pilot Report (consolidated retrospective under Documentation/AI-Harness/research/)
-  -> Governance Implementation Plan (Proven findings only)
+  -> Pilot Report (consolidated retrospective — prefer Documentation/SDD/<feature-slug>/reports/sdd-pilot-report-v*.md)
+  -> Governance Improvement Plan (template: `Documentation/AI-Harness/template/governance/governance-improvement-plan.md`; instance: `Documentation/SDD/<feature-slug>/reports/governance-improvement-plan.md`)
   -> Governance Review / Approval
   -> Phased Governance Update (Wave 1 critical path, Wave 2 secondary, Wave 3 optional)
   -> Consistency Audit
   -> Next Pilot (forward SDD)
 ```
 
-**First example:** Paciente SQL Stabilization → [sdd-pilot-report-v1.0.md](research/sdd-pilot-report-v1.0.md) → Wave 1 governance update → consistency review → Prontuario forward SDD.
+**Pilot report supersession:** When Verify or post-Follow-Up Reporting completes, publish a new pilot report version that **explicitly supersedes** prior Execute-only snapshots (e.g. v0.5 Execute → v0.6 Execute + Verify). Template: `Documentation/AI-Harness/template/reporting/sdd-pilot-report.md`.
+
+**First example:** Paciente SQL Stabilization → [sdd-pilot-report-v1.0.md](../SDD/paciente-sql-stabilization/reports/sdd-pilot-report-v1.0.md) → Wave 1 governance update → consistency review → Prontuario forward SDD.
+
+**Second example:** Atendimento Minimal SQL Stabilization → pilot report v0.3–v0.6 → Wave 3 harness calibration (credential probe, TASK-008 ownership, sql-migration-workflow skill, smoke scripts) → Prontuario forward SDD.
 
 ### Pilot Report Role (META-02)
 
-Pilot reports live under `Documentation/AI-Harness/research/`. They are:
+Pilot reports are calibration inputs. Preferred location: `Documentation/SDD/<feature-slug>/reports/sdd-pilot-report-v*.md`. Historical Paciente report may also appear under `Documentation/AI-Harness/research/`.
+
+They are:
 
 - **Input** to harness calibration and implementation planning
 - **Not** feature SDD truth, verification output, or operational truth
 
-They do not override `sdd-operational.md`, `verification-governance.md`, or `Documentation/State.md`. They feed governance updates through an implementation plan and review.
+They do not override `sdd-operational.md`, `verification-governance.md`, or `Documentation/State.md`. They feed governance updates through an improvement plan and review. Use version supersession when phases advance — do not leave stale Execute-only reports as current status.
 
 ### Finding Maturity And Promotion (META-03)
 
@@ -208,7 +216,7 @@ Preliminary and Deferred pilot findings require a second pilot or explicit appro
 ### Review And Approval
 
 1. Produce or update consolidated pilot report.
-2. Extract **Proven** findings into a governance implementation plan (no new artifact type required — plan may live in PR description or session handoff).
+2. Extract **Proven** findings into a governance improvement plan using `Documentation/AI-Harness/template/governance/governance-improvement-plan.md`.
 3. Review for effort, breaking change, phase DoD, and rollout wave assignment.
 4. Approve phased implementation before editing authority docs.
 5. Record calibration completion in `Documentation/State.md`.
@@ -225,7 +233,7 @@ Preliminary and Deferred pilot findings require a second pilot or explicit appro
 | Current calibration status | `Documentation/State.md` |
 | Durable architecture decisions | ADRs |
 
-Do not create standalone governance backlog files unless a future pilot proves the need.
+Do not create standalone governance backlog files unless a future pilot proves the need. Use `template/governance/governance-improvement-plan.md` after calibration pilots (validated by Atendimento retrospective, GOV-10).
 
 ## Commits
 

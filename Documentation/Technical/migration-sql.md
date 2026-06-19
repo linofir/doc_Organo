@@ -17,6 +17,22 @@ Approved sequencing (2026-06 — Research consolidation: Paciente, Atendimento M
 
 > **Prerequisite clarification:** Only **Atendimento Minimal** (order 2) is required before Prontuario and Agendamento. **Atendimento Workflow** (order 5) is **not** a prerequisite for Prontuario or Agendamento — it extends persistence with journey orchestration after those aggregates are SQL-stable.
 
+## Migration vertical patterns (calibrated)
+
+Reusable backend stabilization pattern after Paciente (#1) and Atendimento Minimal (#2):
+
+| Pattern | Paciente | Atendimento Minimal | Forward aggregates (Prontuario, Agendamento) |
+|---------|----------|---------------------|-----------------------------------------------|
+| Repository | Persistence-only CRUD + soft delete | + list-by-parent (`GetByPacienteIdAsync`) | Adapt list/query to aggregate |
+| Controller FK validation | N/A (root aggregate) | Validates `PacienteId` before create | Validate `AtendimentoId` (and other FKs) in controller |
+| API contract location | Section below + SDD | Section below + SDD | Add section here when verified |
+| SQL integration test | `PacienteSqlIntegrationTests` | `AtendimentoSqlIntegrationTests` | One round-trip class per aggregate |
+| Runtime smoke | Verify session / manual | `scripts/api-smoke-atendimento.ps1` or Verify HTTP table | Add aggregate script or Verify table |
+| Credential probe | Required before Execute | Required before Execute | Required before Execute |
+| Optional test debt | Controller HTTP gap accepted | Mapping tests + soft-deleted Paciente negative | Document in SDD design Optional Test Debt |
+
+Standalone `api-contract.md` remains deferred — migration-sql sections are authoritative until a multi-aggregate contract doc is justified.
+
 ## Per-entity checklist
 
 ### Paciente (Aggregate #1) — verified 2026-06

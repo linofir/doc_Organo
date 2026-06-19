@@ -91,7 +91,42 @@ dotnet test DocAPI.Tests/DocAPI.Tests.csproj --filter FullyQualifiedName~Sql
 
 **Optional override:** set `DOCORGANO_TEST_CONNECTION` to a full SQL Server connection string when not using the Docker default.
 
-Expected when Docker and `.env` are aligned: all unit tests pass and SQL integration tests pass. If `.env` is missing or `SA_PASSWORD` does not match the container volume, integration tests skip with the setup hint from `SqlConnectionResolver`.
+Expected when Docker and `.env` are aligned: all unit tests pass and SQL integration tests pass. If `.env` is missing or `SA_PASSWORD` does not match the container volume, integration tests skip with the setup hint from `SqlConnectionResolver`. If Docker is running but login fails, skip messages distinguish **credential mismatch** from **unreachable host** (see `SqlIntegrationTestGate`).
+
+### Credential probe (before Execute)
+
+Quick check before SQL-backed SDD Execute:
+
+```powershell
+. .\scripts\load-env.ps1
+docker compose ps
+dotnet ef database update --project DocAPI/DocAPI.csproj
+dotnet test DocAPI.Tests/DocAPI.Tests.csproj --filter "FullyQualifiedName~Sql" --verbosity minimal
+```
+
+If tests skip with a login/password message, align `.env` with the Docker volume — not a Docker outage.
+
+### API HTTP smoke (TASK-008)
+
+DocAPI must be running (`dotnet run --project DocAPI/DocAPI.csproj`).
+
+```powershell
+.\scripts\api-smoke-atendimento.ps1
+# Optional base URL:
+.\scripts\api-smoke-atendimento.ps1 -BaseUrl "https://localhost:7004"
+```
+
+Record durable results in `verification.md` during Verify. For manual curl smoke, write JSON with **UTF-8 without BOM**:
+
+```powershell
+$path = "payload.json"
+$json = '{"pacienteId":"...","mensagemParaMedico":"test"}'
+$utf8NoBom = New-Object System.Text.UTF8Encoding $false
+[System.IO.File]::WriteAllText($path, $json, $utf8NoBom)
+curl.exe -X POST "https://localhost:7004/Atendimento" -H "Content-Type: application/json" --data-binary "@$path"
+```
+
+Do **not** use `Set-Content -Encoding UTF8` for API JSON on Windows — it adds a BOM and breaks ASP.NET model binding.
 
 ## CLI — PDF extract
 
@@ -104,7 +139,8 @@ dotnet run --project DocAPI/DocAPI.csproj -- --extract
 | Issue | Check |
 |-------|-------|
 | Cannot connect SQL | Docker running, `.env` `SA_PASSWORD` matches container volume, port 1433 free |
-| Integration tests skip | `.env` missing or wrong `SA_PASSWORD`; run `.\scripts\load-env.ps1` or `.\scripts\sql-integration-test.ps1` |
+| Integration tests skip | Read skip message: credential hint → fix `.env`; login failure → password/volume mismatch; unreachable host → start Docker |
+| API POST returns 400 on valid JSON | PowerShell wrote UTF-8 BOM — use `[System.IO.File]::WriteAllText` with UTF8Encoding `$false` or `scripts/api-smoke-*.ps1` |
 | `dotnet ef` works but tests skip | User-secrets had a different connection; align `.env` and remove conflicting user-secrets override |
 | API DI error | `Program.cs` repository registrations and migration status |
 | Front cannot reach API | CORS/HTTPS URL in `appsettings.json` |

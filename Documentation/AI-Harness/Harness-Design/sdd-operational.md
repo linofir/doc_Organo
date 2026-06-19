@@ -244,6 +244,7 @@ Exit criteria:
 - Known acceptance criteria are addressed.
 - SDD artifacts are updated when implementation reveals scope, design, task, or verification changes.
 - Evidence and skipped checks are ready for verifier review.
+- **`TASK-*` checkboxes:** Execute may mark implementation tasks complete when code and tests for that task are done. Execute records runtime validation **intent** for TASK-008; Verify owns durable HTTP evidence.
 
 ### Verify
 
@@ -263,6 +264,8 @@ Exit criteria:
 - Residual risk is classified and justified.
 - Follow-up needs for State, ADRs, Architecture/Technical docs, SDD, rules, skills, or review prompts are identified.
 - Work is declared complete, not complete, or complete only with accepted residual risk.
+- **Runtime validation:** When TASK-008 or equivalent applies, Verify populates durable evidence in `verification.md` even if Execute omitted session notes.
+- **`TASK-*` acceptance:** Verify confirms requirement-level acceptance; Documentation Follow-Up does not substitute for Verify acceptance.
 
 ### Documentation Follow-Up
 

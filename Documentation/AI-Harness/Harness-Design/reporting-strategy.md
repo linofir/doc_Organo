@@ -119,7 +119,7 @@ Future workflow observability may track:
 - Documentation follow-up routed.
 - Repeated residual risks.
 
-These are future capabilities. They should not be implemented until the SDD pilot has produced enough real evidence to justify metrics.
+These are future capabilities. They should not be implemented until a third calibration pilot or CI observability need justifies metrics. Atendimento retrospective (2026-06) confirmed lightweight reporting remains sufficient.
 
 ## v1 Policy
 

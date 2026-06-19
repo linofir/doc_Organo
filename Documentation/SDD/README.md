@@ -11,6 +11,8 @@ Feature SDDs are created only when a feature enters retrospective calibration, f
 - `Documentation/AI-Harness/template/sdd/specify.md`
 - `Documentation/AI-Harness/template/sdd/design.md`
 - `Documentation/AI-Harness/template/sdd/tasks.md`
+- `Documentation/AI-Harness/template/verification/verification.md`
+- `Documentation/AI-Harness/template/reporting/` and `template/governance/governance-improvement-plan.md`
 - `Documentation/AI-Harness/Harness-Design/template-architecture.md`
 
 ## Folder Structure
@@ -26,7 +28,9 @@ Documentation/SDD/<feature-slug>/
 ├── teacher-guide.md
 └── reports/
     ├── session-handoff.md
-    └── feature-report.md
+    ├── feature-report.md
+    ├── sdd-pilot-report-v*.md
+    └── governance-improvement-plan.md
 ```
 
 ## Artifact Ownership
@@ -37,6 +41,8 @@ Documentation/SDD/<feature-slug>/
 - `verification.md` records Verifier output for the feature. It does not replace the verifier skill.
 - `teacher-guide.md` owns post-Reporting pedagogical content when generated. See knowledge-strategy.
 - `reports/` contains lightweight communication artifacts. Reports do not replace State, SDD, Verifier, ADRs, PM, or RoadMap.
+- `reports/sdd-pilot-report-v*.md` consolidates harness calibration evidence for a feature pilot.
+- `reports/governance-improvement-plan.md` turns pilot evidence into Wave 1/2/3 harness execution backlog when calibration is warranted.
 
 ## Language
 

@@ -31,7 +31,9 @@ Documentation/SDD/<feature-slug>/
 ├── teacher-guide.md
 └── reports/
     ├── session-handoff.md
-    └── feature-report.md
+    ├── feature-report.md
+    ├── sdd-pilot-report-v*.md
+    └── governance-improvement-plan.md
 ```
 
 `specify.md`, `design.md`, and `tasks.md` are SDD artifacts. `verification.md` is the verifier handoff/output for the feature. `teacher-guide.md` is the knowledge-transfer artifact when generated. `reports/` contains communication artifacts and must not replace State, SDD, or Verifier authority.
@@ -50,6 +52,9 @@ Do not create feature folders until a feature actually enters retrospective cali
 | Verification | `Documentation/AI-Harness/template/verification/verification.md` | `Documentation/SDD/<feature-slug>/verification.md` | Verifier |
 | Session Handoff | `Documentation/AI-Harness/template/reporting/session-handoff.md` | `Documentation/SDD/<feature-slug>/reports/session-handoff.md` or a session-specific reporting location when needed | Reporting |
 | Feature Report | `Documentation/AI-Harness/template/reporting/feature-report.md` | `Documentation/SDD/<feature-slug>/reports/feature-report.md` | Reporting |
+| SDD Pilot Report | `Documentation/AI-Harness/template/reporting/sdd-pilot-report.md` | `Documentation/SDD/<feature-slug>/reports/sdd-pilot-report-v*.md` | Harness calibration |
+| Governance Improvement Plan | `Documentation/AI-Harness/template/governance/governance-improvement-plan.md` | `Documentation/SDD/<feature-slug>/reports/governance-improvement-plan.md` | Harness calibration |
+| Teacher Guide | `Documentation/AI-Harness/template/knowledge/teacher-guide.md` | `Documentation/SDD/<feature-slug>/teacher-guide.md` | Knowledge transfer |
 
 ## Ownership
 
@@ -59,6 +64,8 @@ The verification template owns the structure of a verification handoff. It does 
 
 Reporting templates own continuity and communication structure. They do not own current truth, feature scope, gate decisions, or durable architecture decisions.
 
+The governance improvement plan template owns harness calibration backlog structure after a feature pilot. It does not implement governance changes by itself; Wave execution updates templates, skills, rules, and Harness Design docs through Documentation Update routing.
+
 ## Dependencies
 
 Template dependencies:
@@ -66,6 +73,7 @@ Template dependencies:
 - SDD templates depend on SDD Operational Governance.
 - Verification template depends on Verification Governance and the verifier skill.
 - Reporting templates depend on Reporting Strategy.
+- Governance improvement plan template depends on Reporting Strategy, CONTRIBUTING-AI Harness Calibration Workflow, and pilot report / feature report evidence.
 - Feature SDD folder structure depends on ADR-003 documentation taxonomy and the accepted `Documentation/SDD/` destination.
 - Template updates after pilot evidence depend on Documentation Update routing.
 
@@ -75,7 +83,9 @@ Create v1 templates in this order:
 
 1. SDD templates: `specify.md`, `design.md`, `tasks.md`.
 2. Verification template: `verification.md`.
-3. Reporting templates: `session-handoff.md`, `feature-report.md`.
+3. Reporting templates: `session-handoff.md`, `feature-report.md`, `sdd-pilot-report.md`.
+4. Governance calibration template: `governance-improvement-plan.md` — after second pilot validates the feedback loop (GOV-10).
+5. Knowledge template: `teacher-guide.md`.
 
 The v1 templates should be good enough to run the first pilot, not final. They should be adjusted after Paciente retrospective calibration and the ProntuarioRepository forward SDD pilot reveal real friction.
 
@@ -110,5 +120,6 @@ Templates should remain practical and short. Add structure only when it prevents
 - Unrouted documentation follow-up.
 - Legacy behavior preserve/adapt/abandon ambiguity.
 - Reporting that duplicates State, SDD, or Verifier outputs.
+- Harness calibration findings with no routed backlog or wave plan.
 
 After each pilot, update templates only through Documentation Update routing.

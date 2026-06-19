@@ -71,6 +71,17 @@ When SQL integration, Docker, or credential gates cannot run during Verify, appl
 
 For SDD-backed feature work, apply `check-docs.md` unless explicitly skipped with reason tied to classification. Documentation review is expected when operational truth, SDD alignment, or governance docs may have drifted during Execute/Verify.
 
+When `check-docs.md` reports **stale `Documentation/State.md`**, `migration-sql.md` checklist drift, or active SDD misalignment with verified implementation, treat documentation review as **blocking** until Documentation Follow-Up executes or the user explicitly accepts residual risk. Do not mark Verify complete while operational truth contradicts verified feature status without documenting the gap and mandatory Follow-Up target.
+
+## Runtime Validation (TASK-008)
+
+When the active SDD defines runtime validation (Swagger/HTTP smoke):
+
+- **Execute** may record intent or partial notes; missing structured Execute notes is not automatically a critical defect.
+- **Verify** owns the durable evidence table in `verification.md` § Runtime Validation.
+- If Execute did not provide smoke notes, run equivalent HTTP checks during Verify and record results in `verification.md`.
+- Prefer `scripts/api-smoke-<aggregate>.ps1` when available; otherwise use curl with **UTF-8 no-BOM** JSON files (see runbook).
+
 ## Review Sensor Selection
 
 Review prompts are sensors. They detect issues; they do not redefine policy.
@@ -127,6 +138,14 @@ Identify whether follow-up may be needed for:
 The verifier **identifies** follow-up needs. Documentation Follow-Up **executes** mandatory updates via `.cursor/skills/documentation-update/SKILL.md`. Verify completion does not substitute for Documentation Follow-Up.
 
 Do not route or rewrite documentation inside this skill unless the user asked for documentation changes. Use `.cursor/skills/documentation-update/SKILL.md` for routing, path drift checks, authority validation, and mandatory post-Verify checklist execution.
+
+## Task And Checkbox Ownership (SDD-Backed Work)
+
+| Phase | Owns |
+|-------|------|
+| Execute | Implementation complete; `TASK-*` done in code and handoff; may mark `TASK-*` in `tasks.md` |
+| Verify | Requirement acceptance; runtime evidence in `verification.md`; confirms `TASK-*` acceptance |
+| Documentation Follow-Up | Operational doc sync (`State`, PM, migration-sql, runbook); marks `VP-*` / `DF-*` — not default owner for `TASK-*` implementation status |
 
 ## Completion Policy
 

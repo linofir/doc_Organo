@@ -2,7 +2,7 @@ using DocAPI.Core.Entities;
 using DocAPI.Infrastructure.Repositories;
 using DocAPI.Infrastructure.SqlDb;
 using DocAPI.Infrastructure.SqlDb.Context;
-using Microsoft.Data.SqlClient;
+using DocAPI.Tests.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 
@@ -10,20 +10,6 @@ namespace DocAPI.Tests.Integration;
 
 public class AtendimentoSqlIntegrationTests
 {
-
-    private static async Task<bool> CanConnectAsync(string connectionString)
-    {
-        try
-        {
-            await using var connection = new SqlConnection(connectionString);
-            await connection.OpenAsync();
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
-    }
 
     private static DocDbContext CreateSqlContext(string connectionString)
     {
@@ -63,10 +49,10 @@ public class AtendimentoSqlIntegrationTests
     [SkippableFact]
     public async Task AtendimentoSql_CreateReadUpdateSoftDelete_RoundTrip()
     {
-        var connectionString = SqlConnectionResolver.ResolveConnectionString();
-        Skip.If(connectionString == null, SqlConnectionResolver.GetSetupHint());
-        Skip.If(!await CanConnectAsync(connectionString!), "Docker SQL is not reachable.");
+        var skipReason = await SqlIntegrationTestGate.GetSkipReasonAsync();
+        Skip.If(skipReason is not null, skipReason!);
 
+        var connectionString = SqlConnectionResolver.ResolveConnectionString()!;
         await using var context = CreateSqlContext(connectionString);
         var pacienteRepo = new PacienteRepository(context);
         var atendimentoRepo = new AtendimentoRepository(context);

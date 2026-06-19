@@ -70,7 +70,9 @@ What was updated during mandatory Follow-Up (not merely identified):
 
 ## Lessons Learned
 
-Capture workflow findings that may improve future SDD, verification, reporting, templates, rules, skills, or harness calibration.
+Capture workflow findings that may improve future SDD, verification, reporting, templates, rules, skills, or harness calibration. Route durable harness changes through Documentation Update / Harness Calibration — not applied directly from Reporting.
+
+When findings are substantial enough to drive harness changes, consolidate them into a [Governance Improvement Plan](../governance/governance-improvement-plan.md) after Reporting (see `Documentation/AI-Harness/CONTRIBUTING-AI.md`).
 
 - ...
 

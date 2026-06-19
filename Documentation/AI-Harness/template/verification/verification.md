@@ -11,6 +11,16 @@
 - Labels:
 - Evidence reviewed:
 
+## Execute Handoff Notes
+
+| Input | Status | Notes |
+|-------|--------|-------|
+| Implementation diff | Received / Missing | ... |
+| Build / test output | Received / Missing | ... |
+| SQL integration | Received / Missing / Re-confirmed in Verify | ... |
+| Runtime validation (TASK-008) | Received / **Verify will record** | Execute records intent; Verify owns durable table below |
+| Execute deviations | None / Documented | ... |
+
 ## Gate Results
 
 | Gate | Status | Evidence / Reason |
@@ -29,6 +39,16 @@ For environment-dependent gates (Docker, credentials), use **Skipped (environmen
 | Test strategy review | Passed / Failed / Skipped / Blocked | ... |
 | ADR evaluation | Needed / Not needed / Blocked | ... |
 | Legacy characterization | Passed / Failed / Skipped / Blocked | ... |
+
+## Runtime Validation (Verify-owned)
+
+Populate when API smoke, Swagger checklist, or manual runtime gates apply. This section is the **durable** TASK-008 evidence location.
+
+**Environment:** ...
+
+| Scenario | Endpoint | Expected | Actual | Pass |
+|----------|----------|----------|--------|------|
+| ... | ... | ... | ... | Yes / No |
 
 ## Review Sensors
 

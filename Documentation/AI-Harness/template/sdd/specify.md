@@ -52,6 +52,21 @@ Document infrastructure, credentials, and baseline evidence before Execute. Requ
 
 Cross-reference `Documentation/Technical/runbook.md` for local setup steps.
 
+### Credential Probe
+
+Run before Execute when SQL integration tests or local SQL gates apply. Record results in Execution Prerequisites.
+
+| Probe step | Pass criteria | Failure action |
+|------------|---------------|----------------|
+| Repo-root `.env` exists with `SA_PASSWORD` | File present and non-empty | Copy from `.env.example`; align password with Docker volume |
+| `scripts/load-env.ps1` loads variables | `$env:SA_PASSWORD` set in shell | Run probe from repo root |
+| Docker container `docorgano-sql` running | `docker compose ps` shows healthy | `docker compose up -d` |
+| SQL connect with resolved credentials | `SqlConnectionResolver` or `dotnet test` filter `Sql` passes | If login fails, password mismatch — see runbook volume note; do not assume "Docker unreachable" |
+| Database migrated | `dotnet ef database update --project DocAPI/DocAPI.csproj` succeeds | Apply migrations before Execute |
+| Optional one-command check | `.\scripts\sql-integration-test.ps1` passes or skips with credential hint only when `.env` missing | Fix credentials before treating integration as blocked |
+
+If the probe fails on **login** but Docker is running, treat as **credential misalignment**, not infrastructure unavailability.
+
 ## Backend Stabilization
 
 Use when this feature is a backend aggregate stabilization or SQL migration vertical slice.
@@ -75,6 +90,12 @@ Use when this feature is a backend aggregate stabilization or SQL migration vert
 - ...
 
 ## Open Questions
+
+Record unresolved decisions here. Resolve during SDD Pre-Execution Review or escalate.
+
+| ID | Question | Options | Decision | Date | Owner |
+|----|----------|---------|----------|------|-------|
+| DQ-001 | ... | ... | Open / Resolved | | |
 
 - ...
 

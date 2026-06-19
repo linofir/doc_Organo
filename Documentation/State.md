@@ -2,7 +2,7 @@
 
 Operational snapshot for agents and developers. Update at the end of each work session or merged PR.
 
-**Last updated:** 2026-06-18 (Atendimento Minimal SQL Stabilization — Documentation Follow-Up)
+**Last updated:** 2026-06-18 (Atendimento Minimal — Wave 3 harness calibration)
 
 ## Current branch
 
@@ -16,7 +16,7 @@ Operational snapshot for agents and developers. Update at the end of each work s
 | DocAPI (`main`) | Functional with Google Sheets (reference only) |
 | DocFront.Web | Blazor Server; expects API at `https://localhost:7004`. Still calls retired `paciente/nome/{nome}` — WS07 debt |
 | SQL Server | Docker `docorgano-sql`; requires `SA_PASSWORD` env var |
-| AI harness | Second forward SDD complete (Atendimento Minimal SQL Stabilization): Execute + Verify + Documentation Follow-Up done. Paciente pilot also complete. |
+| AI harness | Second forward SDD complete (Atendimento Minimal). **Wave 3 calibration applied** — credential probe, TASK-008 ownership, sql-migration-workflow skill, smoke scripts, pilot/teacher templates. Paciente pilot also complete. |
 
 ## Active epic
 
@@ -30,7 +30,7 @@ Paciente → Atendimento Minimal → Prontuario → Agendamento → Atendimento 
 
 **Next planned implementation:** Prontuario SQL Stabilization forward SDD.
 
-Current harness phase: **Harness calibration complete (Wave 1 + Wave 2)**. Forward SDD pilots: Prontuario (next), then Agendamento, Atendimento Workflow.
+Current harness phase: **Wave 3 harness calibration complete (Atendimento retrospective)**. Next forward SDD: **Prontuario SQL Stabilization**.
 
 ## SDD research status
 
@@ -57,6 +57,7 @@ Current harness phase: **Harness calibration complete (Wave 1 + Wave 2)**. Forwa
 | 2026-06 | Wave 2 harness calibration: Definition of Done alignment, CONTRIBUTING-AI post-Verify chain, reporting templates, SDD README, Harness Calibration Workflow |
 | 2026-06 | Atendimento split into two SDDs: **Minimal SQL** (FK prerequisite for Prontuario/Agendamento) and **Workflow** (journey orchestration after Prontuario + Agendamento). Approved order documented in [migration-sql.md](Technical/migration-sql.md) and [PM_DocOrgano.md](Product/PM_DocOrgano.md) |
 | 2026-06 | Atendimento Minimal SQL Stabilization verified (REQ-001–REQ-010); 27 tests; SQL integration + HTTP smoke; ADR-001 referenced, no new ADR; workflow and WS07 frontend deferred |
+| 2026-06 | **Wave 3 harness calibration (Atendimento retrospective):** Credential Probe in SDD templates; TASK-008 Verify ownership; `SqlIntegrationTestGate`; `scripts/api-smoke-atendimento.ps1`; sql-migration-workflow skill update; pilot report + teacher guide + **governance-improvement-plan** templates; migration vertical patterns in migration-sql.md |
 
 ## Known blockers
 
@@ -77,9 +78,9 @@ Residual risk (accepted): SQL integration environment-dependent; optional mappin
 ## Next steps
 
 1. Run **Prontuario SQL Stabilization** forward SDD (Specify → Design → Tasks → SDD Pre-Execution Review → Execute → Verify).
-2. Optional test debt: soft-deleted PacienteId → 404 on POST; `AtendimentoMappingTests`.
-3. Plan WS07 frontend alignment for retired `GET /Paciente/nome/{nome}` → collection search and Atendimento UI (after Workflow SDD).
-4. Proceed **Reporting** for Atendimento Minimal (feature report, session handoff).
+2. Complete **Teacher Guide** for Atendimento Minimal if not already generated (`teacher-guide.md`).
+3. Optional test debt: soft-deleted PacienteId → 404 on POST; `AtendimentoMappingTests`.
+4. Plan WS07 frontend alignment for retired `GET /Paciente/nome/{nome}` → collection search and Atendimento UI (after Workflow SDD).
 
 ## Task management
 

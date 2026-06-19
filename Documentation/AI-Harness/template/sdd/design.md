@@ -44,6 +44,7 @@ Use when entities, EF configuration, migrations, repositories, schema, or SQL be
 
 - Entities:
 - DTOs:
+- **DTO / entity namespace check:** When a DTO class name matches or shadows an entity name (e.g. `Atendimento` in `DocAPI.Application.Data.Dtos.Atendimento`), confirm AutoMapper and read DTOs use explicit namespaces or `global::` qualifiers before Execute.
 - EF mappings:
 - Migration impact:
 - SQL/runtime checks:
@@ -89,8 +90,23 @@ Document the environment and manual checks needed to produce auditable runtime e
 
 | Check | Environment | Expected result | Evidence location |
 |-------|-------------|-----------------|-------------------|
-| Swagger smoke | DocAPI running locally | ... | session notes / verification summary |
+| Swagger smoke | DocAPI running locally | ... | **Verify owns durable evidence** in `verification.md` § Runtime Validation |
 | SQL integration | Docker + credentials | ... | test output |
+
+**Runtime validation ownership:**
+
+- **Execute:** Confirm environment ready; run manual or scripted checks if time permits; record intent in session notes (not required to duplicate full evidence tables).
+- **Verify:** Owns durable HTTP/runtime evidence in `verification.md` when API or manual smoke gates apply. If Execute did not record smoke notes, Verify runs equivalent checks and records the table.
+
+## Optional Test Debt (Forward Migration Verticals)
+
+Document acceptable gaps explicitly when residual risk is accepted during SDD Pre-Execution Review.
+
+| Optional test | When to include | Default for backend stabilization |
+|---------------|-----------------|-------------------------------------|
+| AutoMapper mapping tests (`*MappingTests`) | DTO ↔ entity mapping is non-trivial | Recommended when multiple DTOs or owned types |
+| Soft-deleted parent FK negative test | Create depends on parent FK | Recommended when parent uses global soft-delete filter |
+| Controller HTTP integration tests | Critical status codes beyond unit mocks | Optional when Verify HTTP smoke covers routes |
 
 ## Testing Approach
 

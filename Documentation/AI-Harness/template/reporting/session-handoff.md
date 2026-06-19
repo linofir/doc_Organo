@@ -12,6 +12,21 @@ Use the calibrated lifecycle phase name exactly as listed:
 - Active feature or scope:
 - Active SDD:
 
+## Lifecycle Phase Status
+
+| Phase | Status | Notes |
+|-------|--------|-------|
+| Research | Not started / In progress / Complete | |
+| Specify | Not started / In progress / Complete | |
+| Design | Not started / In progress / Complete | |
+| Tasks | Not started / In progress / Complete | |
+| SDD Pre-Execution Review | Not started / In progress / Complete | |
+| Execute | Not started / In progress / Complete | |
+| Verify | Not started / In progress / Complete | |
+| Documentation Follow-Up | Not started / In progress / Complete | |
+| Reporting | Not started / In progress / Complete | |
+| Teacher Guide | Not started / In progress / Complete / Skipped | |
+
 ## Completed This Session
 
 - ...

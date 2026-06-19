@@ -37,6 +37,17 @@ Workflow preparation for Verify — not Execute implementation.
   - **Depends on:** `TASK-...`
   - **Done when:** ...
 
+## Runtime Validation (TASK-008 pattern)
+
+When `design.md` Runtime Validation Environment applies:
+
+- [ ] `TASK-008` - Runtime validation intent (Execute)
+  - **Requirements:** ...
+  - **Execute owns:** Environment confirmed; smoke checklist attempted or explicitly deferred with reason in handoff notes.
+  - **Verify owns:** Durable evidence table in `verification.md` § Runtime Validation (HTTP/Swagger scenarios, pass/fail).
+  - **Done when (Execute):** Implementation complete and runtime intent recorded — not when full evidence table exists.
+  - **Done when (Verify):** Runtime Validation section populated or gate explicitly skipped with reason.
+
 ## Documentation Follow-Up Preparation (DF)
 
 Workflow preparation for Documentation Follow-Up — not Execute implementation.
@@ -122,3 +133,14 @@ Before marking tasks complete, provide the Verifier with:
 - Review sensors applied or skipped.
 - Residual risks.
 - Documentation follow-up candidates.
+
+### Task Checkbox Ownership
+
+| Artifact | Execute | Verify | Documentation Follow-Up |
+|----------|---------|--------|-------------------------|
+| `TASK-*` implementation | Marks work done in handoff; may check boxes when implementation complete | Validates acceptance against requirements | Does **not** own implementation status |
+| `VP-*` | Prepares evidence inputs | Uses for gate selection | — |
+| `DF-*` | Identifies candidates only | Identifies mandatory targets | Executes doc sync; may mark `DF-*` complete |
+| `tasks.md` checkboxes | Execute may mark `TASK-*` complete when done | Verify confirms acceptance | May mark `VP-*` / `DF-*` when workflow phases complete |
+
+Do not treat Documentation Follow-Up as the default owner for marking `TASK-*` complete unless Execute never updated the file and Verify confirms acceptance.
