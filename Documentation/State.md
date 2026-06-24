@@ -2,7 +2,7 @@
 
 Operational snapshot for agents and developers. Update at the end of each work session or merged PR.
 
-**Last updated:** 2026-06-18 (Prontuario research delta — Part 3 reconciled)
+**Last updated:** 2026-06-19 (Prontuario Pre-Execution Review complete; ADR-006 accepted)
 
 ## Current branch
 
@@ -28,18 +28,18 @@ Operational snapshot for agents and developers. Update at the end of each work s
 Paciente → Atendimento Minimal → Prontuario → Agendamento → Atendimento Workflow → WS07 Frontend
 ```
 
-**Next planned implementation:** Prontuario SQL Stabilization forward SDD.
+**Next planned implementation:** Prontuario SQL Stabilization — **Execute** (Pre-Execution Review complete 2026-06-19).
 
-Current harness phase: **Wave 3 harness calibration complete (Atendimento retrospective)**. Next forward SDD: **Prontuario SQL Stabilization**.
+Current harness phase: **Prontuario forward SDD — Execute authorized (TASK-001)**. ADR-006 (dual-mode versioning API) accepted.
 
 ## SDD research status
 
-| Feature SDD | Research | Specify |
-|-------------|----------|---------|
-| [paciente-sql-stabilization](SDD/paciente-sql-stabilization/) | Complete (pre-calibration) | Complete — verified |
-| [atendimento-minimal-sql-stabilization](SDD/atendimento-minimal-sql-stabilization/) | **Complete** | Complete — verified |
-| [atendimento-workflow-stabilization](SDD/atendimento-workflow-stabilization/research.md) | **Complete** | Not ready — blocked on Prontuario + Agendamento Verify |
-| [prontuario-sql-stabilization](SDD/prontuario-sql-stabilization/research.md) | **Complete** (Part 3 delta 2026-06-18) | Ready — prerequisite reconciled; proceed Specify |
+| Feature SDD | Research | Specify | Design | Tasks | Pre-Exec Review |
+|-------------|----------|---------|--------|-------|-----------------|
+| [paciente-sql-stabilization](SDD/paciente-sql-stabilization/) | Complete (pre-calibration) | Complete — verified | — | — | — |
+| [atendimento-minimal-sql-stabilization](SDD/atendimento-minimal-sql-stabilization/) | **Complete** | Complete — verified | — | — | — |
+| [atendimento-workflow-stabilization](SDD/atendimento-workflow-stabilization/research.md) | **Complete** | Not ready — blocked on Prontuario + Agendamento Verify | — | — | — |
+| [prontuario-sql-stabilization](SDD/prontuario-sql-stabilization/) | **Complete** (Part 3 delta) | **Complete** | **Complete** | **Complete** | **Complete (2026-06-19)** — Execute authorized |
 
 ## Recent decisions
 
@@ -58,8 +58,7 @@ Current harness phase: **Wave 3 harness calibration complete (Atendimento retros
 | 2026-06 | Atendimento split into two SDDs: **Minimal SQL** (FK prerequisite for Prontuario/Agendamento) and **Workflow** (journey orchestration after Prontuario + Agendamento). Approved order documented in [migration-sql.md](Technical/migration-sql.md) and [PM_DocOrgano.md](Product/PM_DocOrgano.md) |
 | 2026-06 | Atendimento Minimal SQL Stabilization verified (REQ-001–REQ-010); 27 tests; SQL integration + HTTP smoke; ADR-001 referenced, no new ADR; workflow and WS07 frontend deferred |
 | 2026-06 | **Wave 3 harness calibration (Atendimento retrospective):** Credential Probe in SDD templates; TASK-008 Verify ownership; `SqlIntegrationTestGate`; `scripts/api-smoke-atendimento.ps1`; sql-migration-workflow skill update; pilot report + teacher guide + **governance-improvement-plan** templates; migration vertical patterns in migration-sql.md |
-
-## Known blockers
+| 2026-06-19 | **ADR-006 accepted:** Prontuario dual-mode versioning API (PUT correction vs POST `/versoes` evolution); Prontuario SDD Pre-Execution Review complete; Credential Probe pass (27/27 baseline, 2/2 SQL integration); Execute authorized |
 
 - Prontuario and Agendamento repositories still stubbed — **Atendimento Minimal** prerequisite satisfied; forward SDDs can proceed.
 - Atendimento workflow rules (~700 LOC Legacy) port deferred to **atendimento-workflow-stabilization** — requires Prontuario + Agendamento SQL verified first.
@@ -77,7 +76,7 @@ Residual risk (accepted): SQL integration environment-dependent; optional mappin
 
 ## Next steps
 
-1. Run **Prontuario SQL Stabilization** forward SDD (Specify → Design → Tasks → SDD Pre-Execution Review → Execute → Verify).
+1. **Execute** [Prontuario SQL Stabilization](SDD/prontuario-sql-stabilization/tasks.md) — start **TASK-001** (legacy sign-off).
 2. Complete **Teacher Guide** for Atendimento Minimal if not already generated (`teacher-guide.md`).
 3. Optional test debt: soft-deleted PacienteId → 404 on POST; `AtendimentoMappingTests`.
 4. Plan WS07 frontend alignment for retired `GET /Paciente/nome/{nome}` → collection search and Atendimento UI (after Workflow SDD).

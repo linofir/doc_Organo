@@ -120,7 +120,7 @@ See [../Technical/migration-sql.md](../Technical/migration-sql.md).
 
 ## 6. Clinical Versioning and History
 
-Prontuarios are treated as clinical snapshots. Each relevant clinical change should create a new version instead of overwriting history.
+Prontuarios are treated as clinical snapshots. Relevant **clinical evolution** creates a new version; **corrections** to the current version use an explicit in-place API path. See [ADR-006](ADR/ADR-006-prontuario-dual-mode-versioning-api.md) for the dual-mode HTTP contract (PUT correction vs POST `/versoes` evolution).
 
 Benefits:
 
