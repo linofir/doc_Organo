@@ -7,7 +7,7 @@ description: EF and SQL migration workflow for Doc Organo. Use when adding or ch
 
 ## Purpose
 
-Use this skill for the operational workflow around EF migrations and SQL persistence changes. EF invariants stay in `.cursor/rules/ef-migrations.mdc`; this skill owns the procedure.
+Use this skill for the operational workflow around EF migrations and SQL persistence changes. EF invariants stay in Harness rules (Cursor: `.cursor/rules/ef-migrations.mdc`; Cline: `.clinerules/ef-migrations.md`); this skill owns the procedure.
 
 ## Start Here
 
@@ -120,4 +120,3 @@ Optional test debt to document when accepted: mapping tests, soft-deleted parent
 - State:
 - ADR:
 - Technical/Architecture:
-```

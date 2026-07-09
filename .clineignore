@@ -1,0 +1,38 @@
+# .clineignore — Cline Context Optimization
+#
+# This is a Cline-specific optimization, not a Harness governance requirement.
+# It implements the Harness "avoid loading by default" context strategy through
+# Cline's native exclusion mechanism.
+#
+# Cursor does not read this file; it is safe to maintain alongside Cursor artifacts.
+
+# Legacy reference code — loaded only for targeted behavioral research
+DocAPI/Legacy/_LegacySheetsDb/
+
+# Financial domain — out of scope until clinical migration completes
+DocAPI/Core/Finance/
+
+# Binary and generated artifacts
+DocAPI/bin/
+DocAPI/obj/
+DocFront.Web/bin/
+DocFront.Web/obj/
+DocAPI.Tests/bin/
+DocAPI.Tests/obj/
+
+# Node artifacts (if present)
+node_modules/
+
+# IDE and tooling
+.vs/
+.idea/
+*.user
+*.suo
+
+# Screenshots and demos (large binary assets)
+Documentation/ScreenShots/
+Documentation/Demo/
+
+# AI research chat logs and historical research artifacts
+# (Loaded explicitly when needed for harness research tasks)
+Documentation/AI-Harness/research/*-chat-*.md

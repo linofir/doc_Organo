@@ -1,8 +1,8 @@
-# Cursor Rules Inventory
+# Rules Inventory
 
-Rules live in [.cursor/rules/](../../.cursor/rules/). This inventory is governance metadata, not a copy of rule content.
+Harness rules (Cursor: `.cursor/rules/*.mdc`; Cline: `.clinerules/*.md`) are short, persistent guardrails. This inventory is governance metadata, not a copy of rule content.
 
-Rules own short, persistent guardrails. Workflows belong in skills under `.cursor/skills/`; durable decisions belong in ADRs; current operational truth belongs in `Documentation/State.md`.
+Rules own short, persistent guardrails. Workflows belong in Harness skills (Cursor: `.cursor/skills/`; Cline: `.cline/skills/`); durable decisions belong in ADRs; current operational truth belongs in `Documentation/State.md`.
 
 | Rule file | Purpose | Scope | Ownership | Classification | Update trigger |
 |-----------|---------|-------|-----------|----------------|----------------|

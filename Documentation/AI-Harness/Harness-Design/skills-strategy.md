@@ -1,8 +1,8 @@
-# Skills Strategy
+# Harness Skills
 
 ## Purpose
 
-This document defines how Doc Organo should use Cursor skills as reusable task workflows. Skills should encode repeatable procedures that are too long for rules but too project-specific to leave as ad hoc prompts.
+This document defines how Doc Organo should use Harness skills (Cursor: `.cursor/skills/`; Cline: `.cline/skills/`) as reusable task workflows. Skills should encode repeatable procedures that are too long for rules but too project-specific to leave as ad hoc prompts.
 
 Skills are the harness layer for "how to do this kind of work here." They should reduce context drift, preserve domain-specific judgment, and turn repeated planning or implementation patterns into reliable agent behavior.
 
@@ -126,7 +126,7 @@ Retire or merge a skill when:
 | Component | Relationship |
 |-----------|--------------|
 | `AGENTS.md` | `AGENTS.md` routes agents to relevant skills; skills execute the workflow. |
-| `.cursor/rules/` | Rules define guardrails skills must obey; skills should not weaken always-on constraints. |
+| Harness rules (Cursor: `.cursor/rules/`; Cline: `.clinerules/`) | Rules define guardrails skills must obey; skills should not weaken always-on constraints. |
 | `Documentation/State.md` | Skills start from State and may recommend State updates after meaningful work. |
 | Review prompts | Skills can orchestrate review prompts and convert them into structured findings. |
 | SDD | Skills can generate research/design inputs for SDD, but SDD owns feature-specific scope and tasks. |

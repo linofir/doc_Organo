@@ -32,8 +32,8 @@ Do not repeat completed phases when authoritative artifacts already exist. Use e
 |-------|-------|----------------------|
 | SDD Pre-Execution Review | SDD Review session | Execute must not start until review exit criteria pass |
 | Execute | Implementation session | Verify evaluates evidence; Execute does not self-certify |
-| Verify | Verifier (`.cursor/skills/verifier/SKILL.md`) | Follow-Up, Reporting, and Teacher Guide remain |
-| Documentation Follow-Up | Documentation Update (`.cursor/skills/documentation-update/SKILL.md`) | Reporting must reflect synchronized operational truth |
+| Verify | Verifier (`verifier` skill) | Follow-Up, Reporting, and Teacher Guide remain |
+| Documentation Follow-Up | Documentation Update (`documentation-update` skill) | Reporting must reflect synchronized operational truth |
 | Reporting | Reporting artifacts (`feature-report.md`, `session-handoff.md`) | Teacher Guide depends on finalized reporting inputs |
 | Teacher Guide | `not-a-teacher` skill per knowledge-strategy | Final learning artifact when criteria apply |
 
@@ -43,7 +43,7 @@ Verify is **not** the end of SDD-backed feature work.
 
 1. Read `Documentation/State.md` for current branch truth.
 2. Read `AGENTS.md` for stable bootstrap and routing.
-3. Use `.cursor/skills/doc-organo-context/SKILL.md` when a session needs guided orientation.
+3. Use the `doc-organo-context` skill when a session needs guided orientation.
 4. Load task-specific docs from `Documentation/AI-Harness/documentation-index.md`.
 
 ## Research
@@ -52,7 +52,7 @@ Research should produce durable findings or a short handoff, not depend on long 
 
 Research should not be repeated when authoritative findings already exist. Existing research artifacts should be treated as inputs to planning, SDD creation, implementation, or verification unless new information is required.
 
-Use targeted code reads and relevant skills such as `.cursor/skills/codebase-decomposition/SKILL.md`.
+Use targeted code reads and relevant skills such as the `codebase-decomposition` skill.
 
 Canonical research context lives in `Documentation/AI-Harness/research/AI-Research.md` and `Documentation/AI-Harness/research/playbook.md`.
 
@@ -115,7 +115,7 @@ Baseline gates are:
 
 Mandatory post-Verify phase for SDD-backed work. Execute — do not merely evaluate routing.
 
-Use `.cursor/skills/documentation-update/SKILL.md` to run the mandatory checklist:
+Use the `documentation-update` skill to run the mandatory checklist:
 
 1. `Documentation/State.md` — highest priority when branch, runtime, blockers, verification status, or next steps changed
 2. `Documentation/Product/PM_DocOrgano.md`
@@ -139,7 +139,7 @@ See `Documentation/AI-Harness/Harness-Design/reporting-strategy.md`.
 
 Run **after Reporting** when knowledge strategy criteria apply.
 
-Use `.cursor/skills/not-a-teacher/SKILL.md` to generate `teacher-guide.md`. See `Documentation/AI-Harness/Harness-Design/knowledge-strategy.md`.
+Use the `not-a-teacher` skill to generate `teacher-guide.md`. See `Documentation/AI-Harness/Harness-Design/knowledge-strategy.md`.
 
 Record skip rationale in Documentation Follow-Up or feature report when an SDD existed but no Teacher Guide was produced.
 

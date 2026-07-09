@@ -4,7 +4,7 @@
 
 - .NET 7 SDK
 - Docker Desktop (WSL2 on Windows recommended)
-- Cursor / VS Code
+- Cursor / Cline / VS Code
 
 ## SQL Server
 

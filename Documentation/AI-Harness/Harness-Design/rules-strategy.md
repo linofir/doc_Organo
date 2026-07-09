@@ -1,8 +1,8 @@
-# Rules Strategy
+# Harness Rules
 
 ## Purpose
 
-This document defines how Doc Organo should use Cursor rules as concise, persistent AI guardrails. Rules should prevent recurring mistakes, protect sensitive clinical data, and keep agents aligned with stable project conventions without overloading every session with long documentation.
+This document defines how Doc Organo should use Harness rules (Cursor: `.cursor/rules/*.mdc`; Cline: `.clinerules/*.md`) as concise, persistent AI guardrails. Rules should prevent recurring mistakes, protect sensitive clinical data, and keep agents aligned with stable project conventions without overloading every session with long documentation.
 
 Rules are not the place for full workflows, feature plans, research notes, or detailed explanations. When guidance becomes procedural, it should move to a skill or durable documentation.
 
@@ -12,7 +12,7 @@ Rules should own:
 
 - Always-on safety constraints, especially PHI, credentials, logs, prompts, commits, and test data.
 - Short project invariants that agents must follow repeatedly.
-- Glob-scoped implementation conventions for backend, EF migrations, and Blazor Server.
+- File-scoped implementation conventions for backend, EF migrations, and Blazor Server.
 - Context loading guardrails such as reading `Documentation/State.md` and `AGENTS.md` for large tasks.
 - Documentation update reminders when architecture or current state changes.
 - Short implications of accepted ADRs when they must shape repeated agent behavior.
@@ -112,7 +112,7 @@ Do not create or update a rule when:
 |-----------|--------------|
 | `AGENTS.md` | `AGENTS.md` summarizes project context; rules enforce specific recurring guardrails. |
 | `Documentation/State.md` | Rules can require State reads/updates, but State owns current status. |
-| `.cursor/skills/` | Skills should absorb procedural guidance that is too long for rules. |
+| Harness skills (Cursor: `.cursor/skills/`; Cline: `.cline/skills/`) | Skills should absorb procedural guidance that is too long for rules. |
 | Review prompts | Review prompts provide deeper diff-based checks; rules provide concise preventive guidance. |
 | SDD | Rules may trigger SDD for larger/riskier work, but SDD owns feature planning. |
 | ADRs | ADRs explain decisions; rules encode short implications of accepted decisions. |

@@ -1,8 +1,3 @@
----
-description: Security and PHI handling for Doc Organo
-alwaysApply: true
----
-
 # Security — Doc Organo
 
 - Never commit real patient names, CPF, clinical data, credentials, or `.env` files.

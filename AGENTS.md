@@ -20,7 +20,9 @@ doc_Organo/
 ├── DocAPI/             # REST API, application, domain, EF repositories, SQL DbContext
 ├── DocFront.Web/       # Blazor Server UI, services, state, mappers
 ├── Documentation/      # Product, architecture, technical, AI harness, State
-└── .cursor/            # Machine-facing rules and project skills
+├── .cursor/            # Cursor machine-facing rules and skills
+├── .clinerules/        # Cline machine-facing rules
+└── .cline/             # Cline machine-facing skills
 ```
 
 ## Read First
@@ -41,7 +43,7 @@ doc_Organo/
 ## Authority Hierarchy
 
 - Architecture truth: accepted ADRs, then Architecture docs, then Technical docs.
-- Harness governance: Harness Design docs, then `AGENTS.md`, rules, skills, and contribution guides.
+- Harness governance: Harness Design docs, then Shared Assets (`AGENTS.md`), Harness rules (Cursor: `.cursor/rules/`; Cline: `.clinerules/`), Harness skills (Cursor: `.cursor/skills/`; Cline: `.cline/skills/`), and contribution guides.
 - Operational truth: `Documentation/State.md`.
 - Feature truth: the active SDD for that feature, when one exists.
 
@@ -50,7 +52,7 @@ Conflict rules:
 - ADRs override `AGENTS.md`, rules, skills, and SDD.
 - `Documentation/State.md` overrides stale bootstrap information.
 - An active SDD owns feature scope and verification expectations, but cannot contradict an accepted ADR without proposing a new ADR.
-- Rules are guardrails; skills are workflows.
+- Rules are guardrails; skills are workflows. Rules and skills are Harness Assets — tool-agnostic governance content projected into each tool's native format.
 
 ## Operational Constraints
 

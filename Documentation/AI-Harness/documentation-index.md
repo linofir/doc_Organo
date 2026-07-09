@@ -13,7 +13,7 @@ Canonical documentation lives under `Documentation/`.
 | `Documentation/Technical/` | Runtime, migration, frontend, API technical guidance |
 | `Documentation/AI-Harness/` | Harness design, contribution workflow, research, rules index, review prompts, SDD templates, verification templates, reporting templates |
 | `Documentation/SDD/` | Feature-specific SDD artifacts, verification handoffs, pilot reports, and lightweight feature reports |
-| `.cursor/` | Machine-facing rules and skills |
+| `.cursor/`, `.clinerules/`, `.cline/` | Tool-specific machine-facing rules and skills |
 
 ## Read First
 
@@ -74,7 +74,7 @@ Canonical documentation lives under `Documentation/`.
 | [research/AI-Research.md](research/AI-Research.md) | Research baseline and adoption risks |
 | [research/playbook.md](research/playbook.md) | RPI and context engineering methodology |
 | [CONTRIBUTING-AI.md](CONTRIBUTING-AI.md) | AI contribution lifecycle, post-Verify phase ownership, Harness Calibration Workflow |
-| [rules.md](rules.md) | Cursor rule inventory and governance metadata |
+| [rules.md](rules.md) | Harness rule inventory and governance metadata |
 | [review-prompts/domain-review.md](review-prompts/domain-review.md) | Domain review sensor |
 | [review-prompts/security-phi-review.md](review-prompts/security-phi-review.md) | Security and PHI review sensor |
 | [review-prompts/check-docs.md](review-prompts/check-docs.md) | Documentation review sensor |
@@ -101,12 +101,17 @@ Canonical location: `Documentation/SDD/<feature-slug>/reports/sdd-pilot-report-v
 
 Related per-feature calibration output: [../SDD/atendimento-minimal-sql-stabilization/reports/governance-improvement-plan.md](../SDD/atendimento-minimal-sql-stabilization/reports/governance-improvement-plan.md) (instance template: [template/governance/governance-improvement-plan.md](template/governance/governance-improvement-plan.md)).
 
-## Cursor Artifacts
+## Machine-Facing Artifacts
+
+Harness rules and skills are projected into each tool's native format. See [harness-architecture.md](Harness-Design/harness-architecture.md) §Multi-Tool Architectural Foundation for the ownership taxonomy.
 
 | Path | Purpose |
 |------|---------|
-| [../../.cursor/rules/](../../.cursor/rules/) | Short persistent guardrails |
-| [../../.cursor/skills/](../../.cursor/skills/) | Repeatable workflows |
+| [../../.cursor/rules/](../../.cursor/rules/) | Short persistent guardrails (Cursor format) |
+| [../../.cursor/skills/](../../.cursor/skills/) | Repeatable workflows (Cursor format) |
+| `../../.clinerules/` | Short persistent guardrails (Cline format) |
+| `../../.cline/skills/` | Repeatable workflows (Cline format) |
+| `../../.clineignore` | Cline context exclusion (optional optimization) |
 
 ## Ownership Reminder
 

@@ -85,6 +85,9 @@ These items are intentionally outside the MVP2 product scope until the clinical 
 - Characterization tests, targeted behavior comparison, and verification evidence provide confidence that migrated workflows preserve the intended clinical and administrative outcomes.
 - MVP2 reliability depends on keeping product intent, implementation planning, verification evidence, and documentation follow-up traceable without turning product documents into workflow manuals.
 - Documentation must preserve enough product intent, architectural context, and decision continuity for human contributors, AI-assisted sessions, and future project phases.
+- The AI Harness methodology (SDD lifecycle, verification governance, documentation routing, authority hierarchy) is defined in tool-agnostic terms in principle, while its current machine-facing implementation uses Cursor-specific conventions.
+- The current Cursor implementation is the reference implementation of the Harness; any evaluation of multi-tool support must preserve it without regression.
+- Additional AI tools (e.g., Cline) may have different rule/skill loading mechanisms than Cursor; the feasibility of multi-tool support is subject to Research.
 
 ## 9. User Stories
 
@@ -131,6 +134,8 @@ These items are intentionally outside the MVP2 product scope until the clinical 
 - E2E tests or equivalent smoke tests cover the core clinical flows.
 - No patient-identifiable or clinical data exposed in commits, logs, prompts, or documentation examples.
 - Feature planning, verification evidence, and documentation follow-up remain traceable enough to support safe clinical migration and future maintenance.
+- The AI Harness can be evaluated for multi-tool support without duplicating rules, skills, or governance documentation per tool.
+- Existing Cursor-based workflows continue to function without regression during and after any multi-tool evolution.
 
 ## 11. Constraints
 
@@ -141,6 +146,9 @@ These items are intentionally outside the MVP2 product scope until the clinical 
 - Current backend stack is ASP.NET Core, .NET 7, EF Core 7, and SQL Server.
 - SQL Server runs locally through Docker during development.
 - Financial tables may exist in the schema, but the Financial domain should not be expanded until the clinical migration is stable.
+- Multi-tool Harness evaluation must not break existing Cursor-based workflows.
+- Multi-tool Harness evaluation must not duplicate rules, skills, or governance documentation per tool.
+- Multi-tool Harness evaluation must preserve the authority hierarchy, SDD lifecycle, and verification governance.
 
 ## 12. Open Questions
 
@@ -149,6 +157,9 @@ These items are intentionally outside the MVP2 product scope until the clinical 
 - Which legacy Atendimento validations should become domain invariants, and which should become application use cases?
 - When should the product introduce configurable clinical checklists instead of hard-coded validations?
 - What level of verification evidence is required before a migrated clinical workflow can be considered equivalent to its legacy behavior?
+- What rule/skill formats can multiple AI tools consume, and does Cline support concepts equivalent to Cursor's `alwaysApply` rules and `glob` scoping?
+- Does ADR-003 (documentation taxonomy) require revision, supersession, or accommodation to support multi-tool architecture?
+- Can the AI Harness evolve to support multiple AI tools while preserving the current Cursor implementation as the reference implementation?
 
 ## 13. Reference Links
 
@@ -160,3 +171,4 @@ These items are intentionally outside the MVP2 product scope until the clinical 
 - AI research and harness planning: [AI-Research.md](../AI-Harness/research/AI-Research.md)
 - AI harness governance: [harness-architecture.md](../AI-Harness/Harness-Design/harness-architecture.md)
 - SDD operational governance: [sdd-operational.md](../AI-Harness/Harness-Design/sdd-operational.md)
+- Multi-tool Harness documentation review: [review-tool-agnostic-harness.md](../AI-Harness/research/review-tool-agnostic-harness.md)

@@ -17,6 +17,243 @@ It does not rewrite operational artifacts and does not create feature implementa
 7. **Adoption should stay incremental.** The harness should mature around the active SQL migration and clinical MVP, not introduce broad process overhead before it is useful.
 8. **Authority must be explicit.** When harness artifacts conflict, agents should know which source owns architecture truth, operational truth, feature truth, and machine-facing guidance.
 
+## Multi-Tool Architectural Foundation
+
+### Three-Layer Ownership Taxonomy
+
+The Harness architecture is organized into three layers, distinguished by ownership:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    HARNESS ASSETS                            │
+│  (Tool-agnostic governance — defined once, consumed by all)  │
+│                                                             │
+│  • Authority hierarchy (ADRs > Arch docs > State > SDD >   │
+│    Rules > Skills)                                          │
+│  • SDD lifecycle (Research → Specify → Design → Tasks →     │
+│    Pre-Execution Review → Execute → Verify → Follow-Up →    │
+│    Reporting → Teacher Guide)                               │
+│  • Verification governance                                  │
+│  • Documentation routing                                    │
+│  • Calibration workflow                                     │
+│  • Rule content (guardrail text)                             │
+│  • Skill content (workflow procedures)                       │
+│  • Rule scoping intent (always-on vs file-scoped)           │
+│  • Context loading strategy (what to load)                  │
+│  • Knowledge transfer strategy                              │
+│  • Artifact ownership model                                  │
+│  • Adaptive sizing model                                    │
+│  • ADR governance policy                                    │
+│  • Definition of Done                                       │
+└─────────────────────────────────────────────────────────────┘
+           │                    │
+           │ consumed by        │ consumed by
+           ▼                    ▼
+┌──────────────────────┐  ┌──────────────────────┐
+│   SHARED ASSETS      │  │    TOOL ASSETS        │
+│  (Both tools load    │  │  (Per-tool format,    │
+│   identically)       │  │   path, frontmatter)  │
+│                      │  │                      │
+│  • AGENTS.md         │  │  Cursor:              │
+│    (bootstrap)       │  │  • .cursor/rules/*.mdc│
+│                      │  │  • .cursor/skills/    │
+│                      │  │  • alwaysApply/globs  │
+│                      │  │  • .mdc extension     │
+│                      │  │                      │
+│                      │  │  Cline:               │
+│                      │  │  • .clinerules/*.md   │
+│                      │  │  • .cline/skills/     │
+│                      │  │  • paths frontmatter  │
+│                      │  │  • .md extension     │
+│                      │  │  • .clineignore       │
+└──────────────────────┘  └──────────────────────┘
+```
+
+### Layer Definitions
+
+#### Harness Assets
+
+Harness Assets are capabilities and artifacts owned by the Harness methodology, defined in tool-agnostic terms. They are authored once and consumed by all supported tools through their respective format adaptations.
+
+| Asset | Description | Why it is Harness-owned |
+|------|-------------|------------------------|
+| Rule content | The guardrail text of each rule (e.g., "Never commit real patient names...") | Content is pure markdown, portable, and expresses governance intent — not tool mechanics |
+| Skill content | The workflow procedures in each `SKILL.md` body | Content is pure markdown, portable, and encodes Harness workflows — not tool loading |
+| Authority hierarchy | ADRs > Architecture docs > State > SDD > Rules > Skills | Governance structure is tool-agnostic by design |
+| SDD lifecycle | Research → Specify → Design → Tasks → … → Teacher Guide | Lifecycle is tool-agnostic by design |
+| Verification governance | Gate selection, review sensors, residual risk, skipped-gate reasoning | Verification model is tool-agnostic by design |
+| Documentation routing | Path-drift checks, follow-up routing | Routing is a Harness process, not a tool mechanism |
+| Calibration workflow | Pilot Execution → Pilot Report → Implementation Plan → Review → Phased Update → Consistency Audit → Next Pilot | Process is tool-agnostic |
+| Rule scoping intent | Whether a rule is always-on or file-scoped | The *intent* is governance; the *expression* is tool-specific |
+| Context loading strategy | What context to load for each task type | The *strategy* is governance; the *mechanism* is tool-specific |
+| Knowledge transfer strategy | Teacher Guides, concept classification, study paths | Tool-agnostic by design |
+| Artifact ownership model | Who owns what truth | Tool-agnostic by design |
+| Adaptive sizing model | Small/Medium/Large/Complex | Tool-agnostic by design |
+| ADR governance policy | Creation criteria, conflict resolution, escalation | Tool-agnostic by design |
+| Definition of Done | Completion criteria for SDD-backed work | Tool-agnostic by design |
+
+#### Tool Assets
+
+Tool Assets are capabilities and artifacts owned by a specific AI tool's implementation. Each tool has its own set of Tool Assets. Tool Assets serve the Harness methodology, not the reverse.
+
+| Asset | Cursor implementation | Cline implementation |
+|------|----------------------|---------------------|
+| Rule storage location | `.cursor/rules/` | `.clinerules/` |
+| Rule file extension | `.mdc` | `.md` or `.txt` |
+| Rule frontmatter schema | `alwaysApply: true/false`, `globs: pattern`, `description` | `paths: [patterns]` (conditional) or no frontmatter (always-on) |
+| Skill storage location | `.cursor/skills/` | `.cline/skills/` |
+| Skill format | `SKILL.md` with `name`/`description` | `SKILL.md` with `name`/`description` (identical) |
+| Context management mechanism | `token-economy.mdc` rule | `.clineignore`, `/smol`, `/newtask`, Memory Bank |
+| Rule loading mechanism | Auto-injection of `alwaysApply: true` rules; `globs` for file-scoped | Context-aware dynamic evaluation of `paths`; always-on for no-frontmatter |
+| Tool-specific optimizations | — | `.clineignore`, slash commands, Plan/Act mode, skill/rule toggles, global scope |
+
+#### Shared Assets
+
+Shared Assets are artifacts that are both Harness-owned in content and consumed identically by all tools. They sit at the intersection of Harness and Tool layers.
+
+| Asset | Description | Why it is shared |
+|------|-------------|------------------|
+| `AGENTS.md` | Cross-tool bootstrap file | Both Cursor and Cline auto-load it identically. Content is Harness-authored; loading is tool-native. |
+
+### Ownership Responsibilities
+
+**Harness governance owns:**
+
+- Defining rule content and skill content (the canonical guardrail text and workflow procedures).
+- Defining the authority hierarchy, SDD lifecycle, verification governance, documentation routing, and calibration workflow.
+- Maintaining `AGENTS.md` as a shared bootstrap.
+- Maintaining Harness Design docs (`harness-architecture.md`, `rules-strategy.md`, `skills-strategy.md`, `sdd-operational.md`).
+- Ensuring governance documentation references tool-agnostic concepts by default.
+
+**Each tool implementation owns:**
+
+- The tool's directory structure (`.cursor/` for Cursor, `.clinerules/` + `.cline/` for Cline).
+- The tool's file format (`.mdc` for Cursor, `.md` for Cline).
+- The tool's frontmatter schema (`alwaysApply`/`globs` for Cursor, `paths` for Cline).
+- Tool-specific optimizations (`.clineignore`, slash commands, Plan/Act mode for Cline).
+- Ensuring that tool-specific projections faithfully reproduce the canonical governance content.
+
+**The relationship is asymmetric:** Harness governance defines what governance should be; tool implementations provide how it is loaded and applied. Tool implementations serve the methodology, not the reverse. Tool Assets are implementation details, not governance authorities. The authority hierarchy remains tool-agnostic — Tool Assets do not compete with ADRs, Architecture docs, or Rules.
+
+### Artifact Classification
+
+Every existing artifact is classified under this taxonomy. Cursor artifacts carry a dual classification during the transition period: they are Tool Assets by format and location, and their *content* (rule guardrail text, skill workflow procedures) is Harness Asset content. No file is moved or modified — classification is conceptual.
+
+| Artifact | Location | Layer | Notes |
+|----------|----------|-------|-------|
+| Rule guardrail text (6 rules) | `.cursor/rules/*.mdc` (content) | Harness Asset | Content is canonical governance; format is Cursor Tool Asset |
+| Rule format/frontmatter | `.cursor/rules/*.mdc` (format, frontmatter) | Tool Asset (Cursor) | `.mdc` extension, `alwaysApply`/`globs` frontmatter |
+| Skill workflow procedures (7 skills) | `.cursor/skills/*/SKILL.md` (content) | Harness Asset | Content is canonical governance; location is Cursor Tool Asset |
+| Skill storage location | `.cursor/skills/` | Tool Asset (Cursor) | Cursor-specific directory |
+| `AGENTS.md` | Repository root | Shared Asset | Harness-owned content; auto-loaded by both tools |
+| Authority hierarchy | `harness-architecture.md` §Artifact Authority Hierarchy | Harness Asset | Tool-agnostic by design |
+| SDD lifecycle | `sdd-operational.md` | Harness Asset | Tool-agnostic by design |
+| Verification governance | `verification-governance.md` | Harness Asset | Tool-agnostic by design |
+| Documentation routing | `documentation-update` skill, `CONTRIBUTING-AI.md` | Harness Asset | Routing is a Harness process |
+| Calibration workflow | `CONTRIBUTING-AI.md` | Harness Asset | Process is tool-agnostic |
+| Governance documentation | `Documentation/AI-Harness/Harness-Design/` | Harness Asset | Defines Harness methodology |
+| SDD templates | `Documentation/AI-Harness/template/sdd/` | Harness Asset | Tool-agnostic templates |
+| Review prompts | `Documentation/AI-Harness/review-prompts/` | Harness Asset | Tool-agnostic sensors |
+| Cline rule projections | `.clinerules/*.md` (new) | Tool Asset (Cline) | Cline-specific format, frontmatter, and directory |
+| Cline skill projections | `.cline/skills/*/SKILL.md` (new) | Tool Asset (Cline) | Cline-specific location; content is Harness Asset |
+| `.clineignore` | Repository root (new, optional) | Tool Asset (Cline) | Cline-specific context optimization |
+
+### Canonical Content Principle
+
+**Content is canonical; format is tool-specific.** This principle means:
+
+- There is one authoritative version of each rule's guardrail text.
+- There is one authoritative version of each skill's workflow procedures.
+- Each tool consumes that content through its own format, frontmatter, and directory.
+- The adaptation mechanism (how content moves from canonical to tool-specific) is an implementation concern, not a governance concern.
+
+"Canonical" refers to the governance-level truth that all Tool Assets must faithfully reproduce. During the transition, the Cursor projection serves as the de facto canonical source. The Target Architecture aims for governance content to be independently definable, at which point the canonical source is the Harness governance documentation itself.
+
+### Transition Architecture vs Target Architecture
+
+**Transition Architecture (Current):** Cursor is the Initial Reference Implementation. The canonical governance content exists within Cursor's Tool Assets (`.cursor/rules/*.mdc`, `.cursor/skills/*/SKILL.md`). Cursor artifacts serve a dual role: they are both Tool Assets (by format and location) and the de facto source of Harness Asset content.
+
+**Target Architecture:** The Harness governance is independent of any specific AI tool. Harness Asset content (rule guardrail text, skill workflow procedures) is defined in tool-agnostic terms. Each tool — Cursor, Cline, and future tools — provides its own Tool Assets (format, frontmatter, directory) that project the same canonical governance content.
+
+The transition is additive: Cursor remains fully operational throughout, and Cline support is added alongside it.
+
+### Implementation Model
+
+An AI Harness implementation is a **tool-specific projection of the Harness's canonical governance content into a tool's native format, directory, and loading mechanism**. An implementation consists of:
+
+1. **Rule projections** — Each Harness rule content expressed in the tool's file format, frontmatter schema, and storage directory.
+2. **Skill projections** — Each Harness skill content placed in the tool's skill directory using the tool's `SKILL.md` format.
+3. **Bootstrap consumption** — The tool auto-loads `AGENTS.md` as the shared entry point.
+4. **Context management** — The tool applies its native context loading mechanisms to achieve the Harness's context loading strategy.
+5. **Tool-specific optimizations** — The tool may offer capabilities not present in other tools (e.g., Cline's `.clineignore`, slash commands). These are Tool Assets that complement but do not alter Harness governance.
+
+### Future Tool Compliance
+
+To become a compliant Harness implementation, a future AI tool must provide:
+
+1. **Rule loading mechanism** — Load persistent rules from markdown files in a tool-specific directory.
+2. **Skill loading mechanism** — Load skills on-demand from `SKILL.md` files with `name`/`description` frontmatter.
+3. **Bootstrap loading** — Auto-load `AGENTS.md` as the shared cross-tool entry point (or equivalent).
+4. **Non-conflicting coexistence** — Directory structure must not conflict with existing tool directories.
+5. **Content fidelity** — Rule and skill projections must faithfully reproduce canonical governance content.
+6. **Context loading** — Implement the Harness's context loading strategy through native mechanisms.
+
+What a future tool may optionally provide: tool-specific optimizations (context exclusions, slash commands, Plan/Act mode), global scope for rules and skills, toggle capabilities.
+
+What the architecture does not require: a specific file format, a specific frontmatter schema, a specific directory name, a specific loading mechanism, or a specific invocation method.
+
+### Rule and Skill Projection Architecture
+
+Rule content (guardrail text) is a Harness Asset. Rule format (file extension, frontmatter schema) and rule storage location are Tool Assets.
+
+| Rule | Scoping intent | Cursor format | Cline format |
+|------|---------------|---------------|--------------|
+| `security-phi` | Always-on | `alwaysApply: true` | No frontmatter |
+| `token-economy` | Always-on | `alwaysApply: true` | No frontmatter |
+| `update-doc` | Always-on | `alwaysApply: true` | No frontmatter |
+| `backend-architecture` | File-scoped (`DocAPI/**/*.cs`) | `globs: "DocAPI/**/*.cs"` | `paths: ["DocAPI/**/*.cs"]` |
+| `ef-migrations` | File-scoped (`DocAPI/**/*.cs`) | `globs: "DocAPI/**/*.cs"` | `paths: ["DocAPI/**/*.cs"]` |
+| `blazor-front` | File-scoped (`DocFront.Web/**/*`) | `globs: "DocFront.Web/**/*"` | `paths: ["DocFront.Web/**/*"]` |
+
+Skill content (workflow procedures) is a Harness Asset. Skill storage location is a Tool Asset. Skill format (`SKILL.md` with `name`/`description`) is shared.
+
+| Skill | Purpose |
+|-------|---------|
+| `doc-organo-context` | Session orientation |
+| `codebase-decomposition` | DDD and technical debt analysis |
+| `effective-harness-planning` | Harness review and planning |
+| `verifier` | Verification workflow |
+| `documentation-update` | Documentation routing and Follow-Up |
+| `sql-migration-workflow` | SQL migration workflow |
+| `not-a-teacher` | Teacher Guide generation |
+
+Cross-skill references use **skill names**, not tool-specific paths (e.g., "See the `documentation-update` skill"). When a path is essential, both tool paths are provided in parenthetical disambiguation.
+
+### Path Reference Strategy
+
+Governance documentation references **tool-agnostic concepts by default**, with **tool-specific paths in parenthetical disambiguation** when implementation detail is needed:
+
+| Context | Pattern | Example |
+|---------|---------|---------|
+| Governance concept (default) | Tool-agnostic concept name | "Harness rules" |
+| Implementation detail needed | Concept + parenthetical paths | "Harness rules (Cursor: `.cursor/rules/*.mdc`; Cline: `.clinerules/*.md`)" |
+| Single-tool context | Tool-specific path is acceptable | "Cursor loads rules from `.cursor/rules/*.mdc`" |
+| Historical artifact | No change — preserve original reference | SDD instances with `.cursor/` references remain as-is |
+
+### Tool-Specific Optimizations Governance
+
+Tool-specific optimizations are **encouraged as implementation optimizations** but are **not adopted as Harness governance**. The Harness defines what context should be loaded; each tool provides how.
+
+| Mechanism | Tool | Classification | Treatment |
+|-----------|------|----------------|-----------|
+| `token-economy` rule | Cursor | Harness Asset (content) + Tool Asset (mechanism) | Existing — unchanged |
+| `.clineignore` | Cline | Tool Asset (Cline-specific) | Documented as a recommended Cline optimization; not a Harness governance requirement |
+| `/smol`, `/newtask` | Cline | Tool Asset (Cline-specific) | Documented as Cline context management features |
+| Memory Bank | Cline (tool-agnostic methodology) | Not adopted | `State.md` + durable documentation achieves the same goal |
+| Plan/Act mode | Cline | Tool Asset (Cline-specific) | Complements the SDD lifecycle |
+| Global scope | Cline | Tool Asset (Cline-specific) | Not a Harness governance concern; all Harness artifacts are project-scoped |
+| Toggle capabilities | Cline | Tool Asset (Cline-specific) | Deferred — Harness does not define toggle policy |
+
 ## Current State Assessment
 
 The harness has completed first-pilot calibration (Paciente SQL Stabilization) and Wave 1–2 governance alignment. It is operational for forward SDD work; CI enforcement and some secondary docs remain incremental improvements.

@@ -14,6 +14,8 @@
 | **Phase covered** | SDD Review / Execute / Execute + Verify / Full lifecycle |
 | **Status** | In progress / Complete |
 | **Supersedes** | [Prior version or N/A] |
+| **Tool Used** | Cursor / Cline / Other |
+| **Tool-Specific Observations** | [Any tool-specific observations, if applicable] |
 | **Sources** | specify, design, tasks, verification, session notes |
 
 ### Supersession Rule

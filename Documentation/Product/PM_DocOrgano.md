@@ -177,6 +177,7 @@ Esta iniciativa é uma capacidade de suporte para o MVP2, não um novo domínio 
 | AI Harness Foundation | P1 | Planejado | Governança, documentação, regras, skills, índices e caminhos alinhados aos artefatos canônicos |
 | AI Harness Adoption | P1 | Calibração concluída | Piloto Paciente verificado; Atendimento Minimal verificado (segundo forward SDD); próximo: Prontuario |
 | AI Harness Evolution | P2 | Planejado | Estratégia leve para reporting futuro, session handoff, feature reports, lessons learned e preparação para observabilidade de workflow |
+| AI Harness Multi-Tool Evaluation | P2 | Planejado | Avaliar viabilidade de evolução do Harness para suportar múltiplas ferramentas de IA (Cursor, Cline e futuras), preservando a implementação Cursor atual como referência e a governança existente |
 | Verification Adoption | P1 | Verificado (piloto) | Verifier aplicado no piloto Paciente SQL Stabilization; `verification.md` gerado |
 
 Itens planejados para MVP2:
@@ -189,6 +190,9 @@ Itens planejados para MVP2:
 - Avaliar necessidade futura de skill SDD somente depois da validação prática do workflow.
 - Manter reporting em nível leve durante MVP2: session handoff, feature reports e lessons learned, sem criar formatos pesados antes da prática estabilizar.
 - Adotar a governança aprovada do Verifier em execuções reais, sem recriar o modelo no PM.
+- Avaliar viabilidade de evolução do AI Harness para suportar múltiplas ferramentas de IA, preservando a implementação Cursor atual como referência.
+- Realizar Cline Capability Research para documentar capacidades da ferramenta Cline em relação a rules, skills e context loading.
+- Documentar achados da pesquisa em artefato de research sob `Documentation/AI-Harness/research/`.
 
 Fora do MVP2, salvo decisão explícita:
 
@@ -231,6 +235,9 @@ Itens que devem permanecer fora do MVP2, salvo decisão explícita:
 | Front avançar antes dos contratos backend estabilizarem | Média | Médio | Planejar UI por vertical slice e validar contra API real |
 | Governança SDD/verificação existir nos documentos mas não ser adotada nas fatias reais | Média | Alto | Validar com forward SDDs na sequência aprovada; usar Verifier e Documentation Update como gates de conclusão |
 | Reporting virar histórico solto ou duplicar State/Verifier | Média | Médio | Manter reporting leve no MVP2 e limitar seu papel a handoff, feature reports e lessons learned |
+| Acoplamento do Harness a convenções específicas do Cursor | Média | Médio | Preservar implementação Cursor como referência; avaliar evolução via Research antes de decisões arquiteturais |
+| Duplicação de regras, skills ou documentação ao suportar múltiplas ferramentas | Média | Médio | Avaliar separação entre metodologia do Harness e implementação da ferramenta durante a Research |
+| ADR-003 estabelece `.cursor/` para artefatos do Cursor; evolução multi-tool pode requerer revisão | Baixa | Médio | Tratar como open question na Research; não modificar ADR sem avaliação formal |
 
 ## 8. Informações Preservadas
 
@@ -245,3 +252,4 @@ A versão anterior do PM continha backlog bruto, sprints antigas, itens de front
 - Migração SQL: [../Technical/migration-sql.md](../Technical/migration-sql.md)
 - Governança AI Harness: [../AI-Harness/Harness-Design/harness-architecture.md](../AI-Harness/Harness-Design/harness-architecture.md)
 - Governança SDD: [../AI-Harness/Harness-Design/sdd-operational.md](../AI-Harness/Harness-Design/sdd-operational.md)
+- Review de documentação multi-tool: [../AI-Harness/research/review-tool-agnostic-harness.md](../AI-Harness/research/review-tool-agnostic-harness.md)
