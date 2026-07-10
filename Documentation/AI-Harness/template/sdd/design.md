@@ -108,6 +108,21 @@ Document acceptable gaps explicitly when residual risk is accepted during SDD Pr
 | Soft-deleted parent FK negative test | Create depends on parent FK | Recommended when parent uses global soft-delete filter |
 | Controller HTTP integration tests | Critical status codes beyond unit mocks | Optional when Verify HTTP smoke covers routes |
 
+## Fixture Chain (optional — for composite aggregates)
+
+When the aggregate depends on prerequisite entities for integration tests, document the ordered creation chain. Prevents ad hoc fixture design during Execute. Mark N/A for simple aggregates without nested prerequisites.
+
+| Step | Entity | Prerequisite | Notes |
+|------|--------|-------------|-------|
+| 1 | `Paciente` | None | Required for FK |
+| 2 | `Atendimento` | `Paciente` | Validates `PacienteId` |
+| 3 | `<Aggregate>` v1 | `Paciente`, `Atendimento` | Initial create |
+| 4 | Correction | v1 | PUT in-place |
+| 5 | Evolution | v1 | POST `/versoes` v2 |
+| ... | ... | ... | ... |
+
+Prontuario SQL Stabilization is the first exemplar: full chain Paciente → Atendimento → Prontuario v1 → correction → evolution → v2 covered in a single integration test.
+
 ## Testing Approach
 
 Describe testability and expected implementation-time tests.

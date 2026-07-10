@@ -1,9 +1,13 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
-using DocAPI.Data;
-using DocAPI.Data.Dtos.ProntuarioDtos;
 using DocAPI.Core.Entities;
+using DocAPI.Core.Interfaces.Repositories;
+using DocAPI.Data.Dtos.ProntuarioDtos;
+using DocAPI.Infrastructure.SqlDb.Context;
 using DocAPI.Interfaces.Repositories;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,218 +17,333 @@ namespace DocAPI.Controllers;
 [Route("[controller]")]
 public class ProntuarioController : ControllerBase
 {
-    //private PacienteContext _context;
     private readonly IProntuarioRepository _repository;
-    private IMapper _mapper;
+    private readonly IPacienteRepository _pacienteRepository;
+    private readonly IAtendimentoRepository _atendimentoRepository;
+    private readonly DocDbContext _context;
+    private readonly IMapper _mapper;
 
-    public ProntuarioController(IProntuarioRepository repository, IMapper mapper)
+    public ProntuarioController(
+        IProntuarioRepository repository,
+        IPacienteRepository pacienteRepository,
+        IAtendimentoRepository atendimentoRepository,
+        DocDbContext context,
+        IMapper mapper)
     {
-        //_context = context;
         _repository = repository;
+        _pacienteRepository = pacienteRepository;
+        _atendimentoRepository = atendimentoRepository;
+        _context = context;
         _mapper = mapper;
     }
+
+    // ── Create v1 ──────────────────────────────────────────
+
     [HttpPost]
     public async Task<IActionResult> PostProntuario([FromBody] CreateProntuarioDto dto)
     {
-        var prontuario = _mapper.Map<Prontuario>(dto);
+        // FK validation: Atendimento exists, not soft-deleted, PacienteId match
+        var atendimento = await _atendimentoRepository.GetByIdAsync(dto.AtendimentoId);
+        if (atendimento == null)
+            return NotFound();
 
-        await _repository.CreateAsync(prontuario);
-        Console.WriteLine($"O prontuário d@ {prontuario.DescricaoBasica!.NomePaciente} foi efetuado ");
-        Console.WriteLine($"foi criado o ID: {prontuario.ID}");
-        var prontuarioDto = _mapper.Map<ReadProntuarioDto>(prontuario);
-        return CreatedAtAction(nameof(GetByID), new { id = prontuario.ID }, prontuarioDto);
-        // return CreatedAtAction(nameof(GetByID), new { id = prontuario.ID }, prontuario);
+        if (atendimento.PacienteId != dto.PacienteId)
+            return NotFound();
+
+        // Load Paciente for identity snapshot
+        var paciente = await _pacienteRepository.GetByIdAsync(dto.PacienteId);
+        if (paciente == null)
+            return NotFound();
+
+        // CID validation when Internacao present (REQ-010)
+        if (dto.SolicitacaoInternacao != null)
+        {
+            var cidExists = await _context.CIDs
+                .AnyAsync(c => c.Codigo == dto.SolicitacaoInternacao.CIDCodigo);
+            if (!cidExists)
+                return BadRequest("CID não encontrado para a internação solicitada.");
+        }
+
+        // Build clinical sections from DTOs
+        var descBasica = MapDtoToDescricaoBasica(dto.DescricaoBasica, paciente);
+        var ago = MapDtoToAGO(dto.AGO);
+        var antecedentes = MapDtoToAntecedentes(dto.Antecedentes);
+        var antFamiliares = MapDtoToAntecedentesFamiliares(dto.AntecedentesFamiliares);
+        var posOp = MapDtoToPosOp(dto.PosOperatorio);
+        var acoesCD = MapDtoToAcoesCD(dto.CD);
+        var exames = MapDtoToExames(dto.Exames);
+        var internacao = MapDtoToInternacao(dto.SolicitacaoInternacao);
+
+        // Create aggregate
+        var prontuario = new Prontuario(dto.PacienteId, dto.AtendimentoId);
+        prontuario.AplicarCriacao(
+            dto.DataConsulta, dto.Tipo, dto.InformacoesExtras,
+            descBasica, ago, antecedentes, antFamiliares,
+            posOp, acoesCD, exames, internacao);
+
+        await _repository.AddAsync(prontuario);
+
+        var readDto = _mapper.Map<ReadProntuarioDto>(prontuario);
+        return CreatedAtAction(nameof(GetByID), new { id = prontuario.ID }, readDto);
     }
-    [HttpPost("from-pdf")] // Use uma rota mais descritiva
-    public async Task<IActionResult> PostFromPDF([FromForm] string pacienteId, [FromForm] IFormFile pdfFile)
-    {
-        if (pdfFile == null || pdfFile.Length == 0)
-        {
-            return BadRequest("Nenhum arquivo PDF foi enviado.");
-        }
 
-        if (string.IsNullOrWhiteSpace(pacienteId))
-        {
-            return BadRequest("O ID do paciente é obrigatório.");
-        }
+    // ── PDF (out of scope) ─────────────────────────────────
 
-        // Aqui você precisará de um caminho temporário ou de um Stream para passar para o repositório
-        // Geralmente, para processamento imediato, um MemoryStream é uma boa opção.
-        // Se o seu repositório espera um 'pdfPath' (caminho físico), você precisará salvar o arquivo temporariamente.
-        string tempFilePath = null!;
-        Prontuario prontuario = null!;
+    [HttpPost("from-pdf")]
+    public IActionResult PostFromPDF()
+        => StatusCode(501);
 
-        try
-        {
-            // Opção A: Passar um Stream diretamente (melhor se seu repositório puder lidar com Stream)
-            // using (var stream = pdfFile.OpenReadStream())
-            // {
-            //     prontuario = await _repository.CreateFromPdfStreamAsync(pacienteId, stream);
-            // }
+    // ── Reads ──────────────────────────────────────────────
 
-            // Opção B: Salvar temporariamente para passar o caminho (se seu repositório espera um path)
-            // Certifique-se de ter uma forma de gerar um caminho temporário seguro
-            tempFilePath = Path.GetTempFileName();
-            using (var stream = new FileStream(tempFilePath, FileMode.Create))
-            {
-                await pdfFile.CopyToAsync(stream);
-            }
-
-            prontuario = await _repository.CreateFromPdfAsync(pacienteId, tempFilePath);
-
-            if (prontuario == null)
-            {
-                return StatusCode(500, "Erro ao processar o PDF e criar o prontuário.");
-            }
-
-            Console.WriteLine($"O prontuário d@ {prontuario.DescricaoBasica!.NomePaciente} foi efetuado ");
-            Console.WriteLine($"foi criado o ID: {prontuario.ID}");
-
-            // Mapeie para um DTO de leitura se necessário
-            var prontuarioDto = _mapper.Map<ReadProntuarioDto>(prontuario);
-
-            // Retorna 201 Created
-            return CreatedAtAction(nameof(GetByID), new { id = prontuario.ID }, prontuarioDto);
-        }
-        catch (Exception ex)
-        {
-            Console.Error.WriteLine($"Erro ao processar PDF: {ex.Message}");
-            return StatusCode(500, $"Erro interno do servidor: {ex.Message}");
-        }
-        finally
-        {
-            // Garante que o arquivo temporário seja excluído, se foi criado
-            if (tempFilePath != null && System.IO.File.Exists(tempFilePath))
-            {
-                System.IO.File.Delete(tempFilePath);
-            }
-        }
-    }
     [HttpGet]
     public async Task<IActionResult> GetProntuarios([FromQuery] int skip = 0, [FromQuery] int take = 10)
     {
-        if(_repository == null) return NotFound();
         var prontuarios = await _repository.GetAllAsync(skip, take);
         return Ok(_mapper.Map<IEnumerable<ReadProntuarioDto>>(prontuarios));
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetByID(string id)
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetByID(Guid id)
     {
         var prontuario = await _repository.GetByIdAsync(id);
         if (prontuario == null) return NotFound();
         return Ok(_mapper.Map<ReadProntuarioDto>(prontuario));
     }
-    [HttpGet("paciente/{pacienteId}")]
-    public async Task<IActionResult> GetByPacienteId(string pacienteId)
+
+    [HttpGet("paciente/{pacienteId:guid}")]
+    public async Task<IActionResult> GetByPacienteId(Guid pacienteId)
     {
-        if(_repository == null) return NotFound();
-        var prontuarios = await _repository.GetProntuariosOfPacienteAsync(pacienteId);
+        var prontuarios = await _repository.GetByPacienteIdAsync(pacienteId);
         return Ok(_mapper.Map<IEnumerable<ReadProntuarioDto>>(prontuarios));
     }
-    // [HttpGet("{id}/report-id")]
-    // public async Task<IActionResult> GetPatientReportPdf(string id)
-    // {
-    //     // 1. Validação de entrada (Ex: se o ID não é vazio)
-    //     if (string.IsNullOrWhiteSpace(id))
-    //     {
-    //         return BadRequest("O ID do paciente não pode ser vazio.");
-    //     }
 
-    //     try
-    //     {
-    //         // 2. Chama o repositório que contém a lógica de negócio e as validações
-    //         var pdfStream = await _repository.CreateReportByIdAsync(id);
-
-    //         // 3. Retorna o resultado (se nenhuma exceção foi lançada)
-    //         string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-    //         return File(pdfStream, "application/pdf", $"RelatorioPaciente_{id}.pdf");
-    //     }
-    //     catch (InvalidOperationException ex) // Captura a exceção de negócio
-    //     {
-    //         return NotFound(ex.Message); // Retorna 404 Not Found
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         // Logar o erro completo para depuração (ex: via ILogger)
-    //         Console.Error.WriteLine($"Erro inesperado ao gerar relatório PDF para paciente ID {id}: {ex.Message} - {ex.StackTrace}");
-    //         return StatusCode(500, "Erro interno do servidor ao gerar o relatório."); // Retorna 500 Internal Server Error
-    //     }
-    // }
-
-    // // Você pode ter um endpoint similar para CPF
-    // [HttpGet("{cpf}/report-cpf")]
-    // public async Task<IActionResult> GetPatientReportPdfByCpf(string cpf)
-    // {
-    //     if (string.IsNullOrWhiteSpace(cpf))
-    //     {
-    //         return BadRequest("O CPF não pode ser vazio.");
-    //     }
-    //     // Validação de formato de CPF (ex: regex) aqui no controller
-    //     // if (!IsValidCpfFormat(cpf)) { return BadRequest("Formato de CPF inválido."); }
-
-    //     try
-    //     {
-    //         var pdfStream = await _repository.CreateReportByCpfAsync(cpf);
-    //         string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-    //         return File(pdfStream, "application/pdf", $"RelatorioPaciente_{cpf}.pdf");
-    //     }
-    //     catch (InvalidOperationException ex)
-    //     {
-    //         return NotFound(ex.Message);
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         Console.Error.WriteLine($"Erro inesperado ao gerar relatório PDF para CPF {cpf}: {ex.Message} - {ex.StackTrace}");
-    //         return StatusCode(500, "Erro interno do servidor ao gerar o relatório.");
-    //     }
-    // }
-
-
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateProntuario(string id, [FromBody] UpdateProntuarioDto dto)
+    [HttpGet("paciente/{pacienteId:guid}/atual")]
+    public async Task<IActionResult> GetLatestByPacienteId(Guid pacienteId)
     {
-        try
-        {
-            // 1. Verifica se o ID foi fornecido
-            if (string.IsNullOrEmpty(id))
-                return BadRequest("O ID do prontuario é obrigatório.");
-            if (dto == null)
-                return BadRequest("O corpo da requisição está vazio ou inválido.");
-            // 2. Mapeia o DTO para a entidade Paciente
-            var prontuarioAtualizado = _mapper.Map<Prontuario>(dto);
-
-            // 3. Atualiza o paciente na planilha
-            await _repository.UpdateAsync(prontuarioAtualizado, id);
-
-            // 4. Retorna sucesso
-            return NoContent();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Erro ao atualizar prontuario: {ex.Message}");
-            return StatusCode(500, "Erro interno ao atualizar prontuario.");
-        }
+        var prontuario = await _repository.GetLatestByPacienteIdAsync(pacienteId);
+        if (prontuario == null) return NotFound();
+        return Ok(_mapper.Map<ReadProntuarioDto>(prontuario));
     }
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteProntuario(string id)
+    [HttpGet("atendimento/{atendimentoId:guid}/atual")]
+    public async Task<IActionResult> GetLatestByAtendimentoId(Guid atendimentoId)
     {
+        var prontuario = await _repository.GetLatestByAtendimentoIdAsync(atendimentoId);
+        if (prontuario == null) return NotFound();
+        return Ok(_mapper.Map<ReadProntuarioDto>(prontuario));
+    }
+
+    // ── Correction (PUT) ───────────────────────────────────
+
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> UpdateProntuario(Guid id, [FromBody] UpdateProntuarioDto dto)
+    {
+        if (dto == null)
+            return BadRequest();
+
+        var existing = await _repository.GetByIdAsync(id);
+        if (existing == null)
+            return NotFound();
+
+        existing.AplicarCorrecao(
+            dto.InformacoesExtras,
+            dto.Profissao,
+            dto.Religiao,
+            dto.AtividadeFisica);
+
+        await _repository.UpdateAsync(existing);
+        return NoContent();
+    }
+
+    // ── Clinical Evolution (POST /versoes) ─────────────────
+
+    [HttpPost("{id:guid}/versoes")]
+    public async Task<IActionResult> CriarNovaVersao(Guid id, [FromBody] CreateVersaoProntuarioDto dto)
+    {
+        var source = await _repository.GetByIdAsync(id);
+        if (source == null)
+            return NotFound();
+
+        // CID validation when Internacao present (REQ-010)
+        if (dto.SolicitacaoInternacao != null)
+        {
+            var cidExists = await _context.CIDs
+                .AnyAsync(c => c.Codigo == dto.SolicitacaoInternacao.CIDCodigo);
+            if (!cidExists)
+                return BadRequest("CID não encontrado para a internação solicitada.");
+        }
+
+        // D-02: Application obtains max Versao from persistence lookup
+        var maxVersao = await _repository.GetMaxVersaoForPacienteAsync(source.PacienteId);
+        var nextVersao = maxVersao + 1;
+
+        // Build clinical sections
+        var paciente = await _pacienteRepository.GetByIdAsync(source.PacienteId);
+        var descBasica = MapDtoToDescricaoBasica(dto.DescricaoBasica, paciente);
+        var ago = MapDtoToAGO(dto.AGO);
+        var antecedentes = MapDtoToAntecedentes(dto.Antecedentes);
+        var antFamiliares = MapDtoToAntecedentesFamiliares(dto.AntecedentesFamiliares);
+        var posOp = MapDtoToPosOp(dto.PosOperatorio);
+        var acoesCD = MapDtoToAcoesCD(dto.CD);
+        var exames = MapDtoToExames(dto.Exames);
+        var internacao = MapDtoToInternacao(dto.SolicitacaoInternacao);
+
+        Prontuario novaVersao;
         try
         {
-            if (string.IsNullOrEmpty(id))
-            return BadRequest("O ID do prontuario é obrigatório.");
-            await _repository.DeleteAsync(id);
-            return NoContent();
+            novaVersao = source.CriarNovaVersao(
+                nextVersao, dto.DataConsulta, dto.Tipo, dto.InformacoesExtras,
+                descBasica, ago, antecedentes, antFamiliares,
+                posOp, acoesCD, exames, internacao);
         }
-        catch (Exception ex)
+        catch (InvalidOperationException)
         {
-            Console.WriteLine($"Erro ao excluir prontuario: {ex.Message}");
-            return NotFound("Prontuario não encontrado.");
+            return Conflict();
         }
+
+        try
+        {
+            await _repository.AddAsync(novaVersao);
+        }
+        catch (DbUpdateException ex)
+            when (ex.InnerException?.Message.Contains("UNIQUE", StringComparison.OrdinalIgnoreCase) == true
+               || ex.InnerException?.Message.Contains("IX_Prontuario", StringComparison.OrdinalIgnoreCase) == true)
+        {
+            // D-06: concurrent evolution → 409
+            return Conflict();
+        }
+
+        var readDto = _mapper.Map<ReadProntuarioDto>(novaVersao);
+        return CreatedAtAction(nameof(GetByID), new { id = novaVersao.ID }, readDto);
     }
-    
 
+    // ── Soft Delete ────────────────────────────────────────
 
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> DeleteProntuario(Guid id)
+    {
+        var existing = await _repository.GetByIdAsync(id);
+        if (existing == null)
+            return NotFound();
 
+        existing.MarcarComoExcluido();
+        await _repository.DeleteAsync(existing);
+        return NoContent();
+    }
+
+    // ── DTO → Entity mapping helpers (no AutoMapper on write) ──
+
+    private static DescricaoBasica MapDtoToDescricaoBasica(
+        DescricaoBasicaDto? dto, Paciente? paciente)
+    {
+        var nome = paciente?.Nome ?? dto?.NomePaciente ?? string.Empty;
+        var cpf = paciente?.CPF ?? dto?.Cpf ?? string.Empty;
+        var idade = paciente != null
+            ? DateTime.Today.Year - paciente.Nascimento.Year
+            : dto?.Idade ?? 0;
+
+        return new DescricaoBasica(
+            nome,
+            cpf,
+            idade,
+            dto?.Profissao ?? string.Empty,
+            dto?.Religiao ?? string.Empty,
+            dto?.QD ?? string.Empty,
+            dto?.AtividadeFisica);
+    }
+
+    private static AGO MapDtoToAGO(AGODto? dto)
+    {
+        if (dto == null)
+            return new AGO("", "", "", "", StatusVacinaHPV.SemInfo, "", "");
+
+        return new AGO(
+            dto.Menarca,
+            dto.DUM,
+            dto.Paridade,
+            dto.DesejoGestacao,
+            dto.VacinaHPV,
+            dto.CCO,
+            dto.MAC_TRH,
+            dto.Intercorrencias,
+            dto.Amamentacao,
+            dto.VidaSexual,
+            dto.Relacionamento,
+            dto.Parceiros,
+            dto.Coitarca,
+            dto.IST);
+    }
+
+    private static Antecedentes MapDtoToAntecedentes(AntecedentesDto? dto)
+    {
+        if (dto == null)
+            return new Antecedentes("", "", "", "", "", "");
+
+        return new Antecedentes(
+            dto.Comorbidades,
+            dto.Medicacao,
+            dto.Neoplasias,
+            dto.Cirurgias,
+            dto.Alergias,
+            dto.Vicios,
+            dto.HabitoIntestinal,
+            dto.Vacinas);
+    }
+
+    private static AntecedentesFamiliares MapDtoToAntecedentesFamiliares(AntecedentesFamiliaresDto? dto)
+    {
+        if (dto == null) return new AntecedentesFamiliares("", "");
+        return new AntecedentesFamiliares(dto.Neoplasias, dto.Comorbidades);
+    }
+
+    private static PosOp? MapDtoToPosOp(PosOpDto? dto)
+    {
+        if (dto == null) return null;
+        return new PosOp(dto.PeriodoSeguimento, dto.Conclusao, dto.ExameMacro);
+    }
+
+    private static List<ProntuarioAcaoCD>? MapDtoToAcoesCD(List<AcoesCDDto>? dtos)
+    {
+        if (dtos == null) return null;
+        return dtos.Select(d => new ProntuarioAcaoCD(Guid.Empty, d.Tipo)).ToList();
+    }
+
+    private static List<Exame>? MapDtoToExames(List<ExameDto>? dtos)
+    {
+        if (dtos == null) return null;
+        return dtos.Select(d => new Exame(
+            Guid.Empty, d.Codigo, d.Nome,
+            d.Status, d.DataSolicitacao, d.DataResultado)).ToList();
+    }
+
+    private static Internacao? MapDtoToInternacao(SolicitacaoInternacaoDto? dto)
+    {
+        if (dto == null) return null;
+
+        var internacao = new Internacao(
+            Guid.Empty,
+            dto.Data,
+            dto.IndicacaoClinica,
+            dto.Observacao,
+            dto.CIDCodigo,
+            dto.TempoDoenca,
+            dto.Diarias,
+            dto.Tipo,
+            dto.Regime,
+            dto.Carater,
+            dto.UsaOPME,
+            dto.Local,
+            dto.Guia);
+
+        if (dto.Procedimentos != null)
+        {
+            foreach (var procDto in dto.Procedimentos)
+            {
+                internacao.Procedimentos.Add(
+                    new ProcedimentoInternacao(internacao.ID, procDto.CodigoProcedimento, procDto.Descricao));
+            }
+        }
+
+        return internacao;
+    }
 }

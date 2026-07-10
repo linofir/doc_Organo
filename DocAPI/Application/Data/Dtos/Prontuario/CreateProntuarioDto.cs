@@ -1,152 +1,142 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-using DocAPI.Core.Entities;
 
-namespace DocAPI.Data.Dtos.ProntuarioDtos
+namespace DocAPI.Data.Dtos.ProntuarioDtos;
+
+public class CreateProntuarioDto
 {
-    public class CreateProntuarioDto
-    {
-        [Required]
-        public DateOnly? DataConsulta { get; set; }
-        public string? Tipo {get; set; }
+    /// <summary>Root FK — Patient who owns this clinical record.</summary>
+    public Guid PacienteId { get; set; }
 
-        [Required]
-        public DescricaoBasica? DescricaoBasica { get; set; }
+    /// <summary>Root FK — Care journey this version belongs to.</summary>
+    public Guid AtendimentoId { get; set; }
 
-        [Required]
-        public AGO? AGO { get; set; }
+    public DateOnly DataConsulta { get; set; }
 
-        [Required]
-        public Antecedentes? Antecedentes { get; set; }
+    /// <summary>Clinical classification (int per canonical type).</summary>
+    public int Tipo { get; set; }
 
-        [Required]
-        public AntecedentesFamiliares? AntecedentesFamiliares { get; set; }
+    public string? InformacoesExtras { get; set; }
 
-        public List<AcoesCD>? CD { get; set; }
+    // ── Clinical sections (dedicated DTOs — no domain entity types) ──
 
-        public string InformacoesExtras { get; set; } = string.Empty;
-        public List<Exame>? Exames { get; set; }
-        public Internacao? SolicitacaoInternacao { get; set; }
-        public PosOp? PosOperatorio { get; set; }
-    }
+    public DescricaoBasicaDto? DescricaoBasica { get; set; }
+    public AGODto? AGO { get; set; }
+    public AntecedentesDto? Antecedentes { get; set; }
+    public AntecedentesFamiliaresDto? AntecedentesFamiliares { get; set; }
+    public PosOpDto? PosOperatorio { get; set; }
+
+    public List<AcoesCDDto>? CD { get; set; }
+    public List<ExameDto>? Exames { get; set; }
+    public SolicitacaoInternacaoDto? SolicitacaoInternacao { get; set; }
 }
-    /* ============ Dtos aninhados ============ */
 
-    // public class DescricaoBasicaDto
-    // {
-    //     [Required]                               // virá do Paciente pré‑selecionado (no controller/service)
-    //     public string? PacienteId { get; set; }   // ID do paciente que está criando o prontuário
-    //     [Required(ErrorMessage = "O nome do paciente é obrigatório")]
-    //     public string NomePaciente { get; set; } = string.Empty;
-    //     public string? Cpf { get; set; }
+public class CreateVersaoProntuarioDto
+{
+    public DateOnly DataConsulta { get; set; }
+    public int Tipo { get; set; }
+    public string? InformacoesExtras { get; set; }
 
-    //     [Required(ErrorMessage = "A idade é obrigatória")]
-    //     public int Idade { get; set; }
+    public DescricaoBasicaDto? DescricaoBasica { get; set; }
+    public AGODto? AGO { get; set; }
+    public AntecedentesDto? Antecedentes { get; set; }
+    public AntecedentesFamiliaresDto? AntecedentesFamiliares { get; set; }
+    public PosOpDto? PosOperatorio { get; set; }
 
-    //     [Required(ErrorMessage = "O campo profissão é obrigatório")]
-    //     public string Profissao { get; set; } = string.Empty;
+    public List<AcoesCDDto>? CD { get; set; }
+    public List<ExameDto>? Exames { get; set; }
+    public SolicitacaoInternacaoDto? SolicitacaoInternacao { get; set; }
+}
 
-    //     [Required(ErrorMessage = "O campo religião é obrigatório")]
-    //     public string Religiao { get; set; } = string.Empty;
+// ── Nested DTOs ──────────────────────────────────────────
 
-    //     [Required(ErrorMessage = "O campo queixa/encaminhamento é obrigatório")]
-    //     public string QD { get; set; } = string.Empty;
-    //     public string AtividadeFisica { get; set; } = string.Empty;
-    // }
+public class DescricaoBasicaDto
+{
+    public string NomePaciente { get; set; } = string.Empty;
+    public string Cpf { get; set; } = string.Empty;
+    public int Idade { get; set; }
+    public string Profissao { get; set; } = string.Empty;
+    public string Religiao { get; set; } = string.Empty;
+    public string QD { get; set; } = string.Empty;
+    public string? AtividadeFisica { get; set; }
+}
 
-    // public class AGODto
-    // {
-    //     public string Menarca { get; set; } = string.Empty;
-    //     [Required(ErrorMessage = "O campo DUM é obrigatório")]
-    //     public string DUM { get; set; } = string.Empty;
+public class AGODto
+{
+    public string Menarca { get; set; } = string.Empty;
+    public string DUM { get; set; } = string.Empty;
+    public string Paridade { get; set; } = string.Empty;
+    public string DesejoGestacao { get; set; } = string.Empty;
+    public Core.Entities.StatusVacinaHPV VacinaHPV { get; set; }
+    public string CCO { get; set; } = string.Empty;
+    public string MAC_TRH { get; set; } = string.Empty;
+    public string Intercorrencias { get; set; } = string.Empty;
+    public string Amamentacao { get; set; } = string.Empty;
+    public string VidaSexual { get; set; } = string.Empty;
+    public string Relacionamento { get; set; } = string.Empty;
+    public string Parceiros { get; set; } = string.Empty;
+    public string Coitarca { get; set; } = string.Empty;
+    public string IST { get; set; } = string.Empty;
+}
 
-    //     [Required(ErrorMessage = "O campo Paridade é obrigatório")]
-    //     public string Paridade { get; set; } = string.Empty;
+public class AntecedentesDto
+{
+    public string Comorbidades { get; set; } = string.Empty;
+    public string Medicacao { get; set; } = string.Empty;
+    public string Neoplasias { get; set; } = string.Empty;
+    public string Cirurgias { get; set; } = string.Empty;
+    public string Alergias { get; set; } = string.Empty;
+    public string Vicios { get; set; } = string.Empty;
+    public string HabitoIntestinal { get; set; } = string.Empty;
+    public string Vacinas { get; set; } = string.Empty;
+}
 
-    //     [Required(ErrorMessage = "O campo Desejo de Gestação é obrigatório")]
-    //     public string DesejoGestacao { get; set; } = string.Empty;
+public class AntecedentesFamiliaresDto
+{
+    public string Neoplasias { get; set; } = string.Empty;
+    public string Comorbidades { get; set; } = string.Empty;
+}
 
-    //     [Required(ErrorMessage = "O campo Vacina HPV é obrigatório")]
-    //     public StatusVacinaHPV VacinaHPV { get; set; }
+public class PosOpDto
+{
+    public string? PeriodoSeguimento { get; set; }
+    public string? Conclusao { get; set; }
+    public string? ExameMacro { get; set; }
+}
 
-    //     [Required(ErrorMessage = "O campo CCO é obrigatório")]
-    //     public string CCO { get; set; } = string.Empty;
+public class ExameDto
+{
+    public string Codigo { get; set; } = string.Empty;
+    public string Nome { get; set; } = string.Empty;
+    public string? Status { get; set; }
+    public DateOnly? DataSolicitacao { get; set; }
+    public DateOnly? DataResultado { get; set; }
+}
 
-    //     [Required(ErrorMessage = "O campo MAC/TRH é obrigatório")]
-    //     public string MAC_TRH { get; set; } = string.Empty;
+public class AcoesCDDto
+{
+    public Core.Entities.AcoesCD Tipo { get; set; }
+}
 
-    //     public string Intercorrencias { get; set; } = string.Empty;
-    //     public string Amamentacao   { get; set; } = string.Empty;
-    //     public string VidaSexual    { get; set; } = string.Empty;
-    //     public string Relacionamento { get; set; } = string.Empty;
-    //     public string Parceiros      { get; set; } = string.Empty;
-    //     public string Coitarca       { get; set; } = string.Empty;
-    //     public string IST            { get; set; } = string.Empty;
-    // }
+public class SolicitacaoInternacaoDto
+{
+    public List<ProcedimentoInternacaoDto>? Procedimentos { get; set; }
+    public DateOnly Data { get; set; }
+    public string IndicacaoClinica { get; set; } = string.Empty;
+    public string Observacao { get; set; } = string.Empty;
+    public string CIDCodigo { get; set; } = string.Empty;
+    public string TempoDoenca { get; set; } = string.Empty;
+    public int Diarias { get; set; }
+    public string Tipo { get; set; } = string.Empty;
+    public string Regime { get; set; } = string.Empty;
+    public string Carater { get; set; } = string.Empty;
+    public bool UsaOPME { get; set; }
+    public string Local { get; set; } = string.Empty;
+    public string? Guia { get; set; }
+}
 
-    // public class AntecedentesDto
-    // {
-    //     [Required(ErrorMessage = "O campo Comorbidades é obrigatório")]
-    //     public string Comorbidades { get; set; } = string.Empty;
-
-    //     [Required(ErrorMessage = "O campo Medicação em uso é obrigatório")]
-    //     public string Medicacao { get; set; } = string.Empty;
-
-    //     [Required(ErrorMessage = "O campo Neoplasias é obrigatório")]
-    //     public string Neoplasias { get; set; } = string.Empty;
-
-    //     [Required(ErrorMessage = "O campo Cirurgias é obrigatório")]
-    //     public string Cirurgias { get; set; } = string.Empty;
-
-    //     [Required(ErrorMessage = "O campo Alergias é obrigatório")]
-    //     public string Alergias { get; set; } = string.Empty;
-
-    //     [Required(ErrorMessage = "O campo Vícios é obrigatório")]
-    //     public string Vicios { get; set; } = string.Empty;
-
-    //     public string HabitoIntestinal { get; set; } = string.Empty;
-    //     public string Vacinas          { get; set; } = string.Empty;
-    // }
-
-    // public class AntecedentesFamiliaresDto
-    // {
-    //     [Required(ErrorMessage = "O campo Neoplasias (familiares) é obrigatório")]
-    //     public string Neoplasias { get; set; } = string.Empty;
-
-    //     [Required(ErrorMessage = "O campo Comorbidades (familiares) é obrigatório")]
-    //     public string Comorbidades { get; set; } = string.Empty;
-    // }
-
-    // public class ExameDto
-    // {
-    //     public string Codigo { get; set; } = string.Empty;
-    //     public string Nome { get; set; } = string.Empty;
-    // }
-
-    // public class SolicitacaoInternacaoDto
-    // {
-    //     public List<string> Procedimentos { get; set; } = new();
-
-    //     public DateTime? Data { get; set; }
-    //     public string IndicacaoClinica { get; set; } = string.Empty;
-
-    //     public string Observacao { get; set; } = string.Empty;
-
-    //     public string CID { get; set; } = string.Empty;
-    //     public string TempoDoenca { get; set; } = string.Empty;
-    //     public string Diarias { get; set; } = string.Empty;
-    //     public string Tipo { get; set; } = string.Empty;
-
-    //     public string Regime { get; set; } = string.Empty;
-
-    //     public string Carater { get; set; } = string.Empty;
-
-    //     public bool UsaOPME { get; set; }
-
-    //     public string Local { get; set; } = string.Empty;
-
-    //     public long? Guia { get; set; }
-    // }
-
+public class ProcedimentoInternacaoDto
+{
+    public string CodigoProcedimento { get; set; } = string.Empty;
+    public string Descricao { get; set; } = string.Empty;
+}

@@ -19,6 +19,7 @@ The operational model establishes these foundations:
 - Legacy Codebase behavior, SQL migration, clinical/security risk, and cross-layer changes are strong SDD triggers.
 - Adaptive workflow depth prevents low-risk work from inheriting unnecessary ceremony while keeping risky work explicit.
 - Phase entry and exit criteria prevent agents from claiming completion without evidence.
+- Context Acquisition Governance defines expected context depth per phase and governs how context is expanded incrementally, preventing context exhaustion during execution.
 - SDD hands off to existing governance workflows instead of replacing them.
 
 ## Conflict Analysis
@@ -154,6 +155,22 @@ If a phase is skipped, the next phase must explicitly carry the missing responsi
 
 ## Phase Entry And Exit Criteria
 
+### Research
+
+The Research phase is not a mandatory SDD stage with formal entry/exit criteria — it is an exploration phase that may produce a `research.md` artifact. When prerequisites complete or `State.md` sequencing changes after initial Research, a **Research Delta** (new `Part N` in `research.md`) reconciles stale findings against the new operational truth without repeating full discovery.
+
+Research Delta trigger:
+- A prerequisite SDD reaches Verify after initial Research completed.
+- `Documentation/State.md` sequencing changes after initial Research.
+- The latest `Part N` in `research.md` governs operational status and supersedes earlier parts where they conflict. Earlier parts govern domain decisions unless explicitly superseded.
+
+Research Delta exit criteria:
+- Stale operational claims identified and reconciled.
+- Prerequisite status verified (consumed as **verified prerequisite**, not re-implemented).
+- **READY FOR SPECIFY** declared with reconciled scope, or a second discovery pass is warranted.
+
+Prontuario SQL Stabilization Research Part 3 is the first exemplar of a Research Delta triggered by Atendimento Minimal reaching Verify mid-discovery.
+
 ### Specify
 
 Entry criteria:
@@ -224,7 +241,10 @@ Exit criteria:
 - API contract ambiguities are resolved or explicitly deferred with human approval and residual risk.
 - Design prescriptions that belong in Execute are removed or reframed as outcomes.
 - Backend Stabilization scope is confirmed when the feature is a backend aggregate stabilization slice.
+- **Cross-Artifact Consistency:** specify.md and design.md do not make conflicting authority claims about the same domain decision (e.g., version generation, FK validation ownership, ID strategy). If conflicts exist, they are resolved before Execute authorization. Prontuario D-02 (version generation authority) is the first exemplar — specify.md and design.md initially diverged; reconciled in favor of design.md + ADR-006 at Pre-Execution Review.
 - Execute readiness is explicitly declared or escalation is triggered.
+
+Pre-Execution Review is a durable phase boundary. Multi-session gaps and intervening SDDs do not invalidate it — Prontuario maintained a clean Execute after a 19-day gap and the intervening AI Harness Multi-Tool SDD. On resume, re-run Credential Probe and baseline tests; no other re-validation is required.
 
 ### Execute
 
@@ -235,7 +255,7 @@ Entry criteria:
 - SDD Pre-Execution Review exit criteria are satisfied for Large and Complex work, or inline review checks are documented for Medium work.
 - Execution Prerequisites are satisfied or explicitly accepted with documented residual risk, including infrastructure, credentials, and baseline build/test evidence when required.
 - If Tasks are skipped, atomic implementation steps have been listed before editing.
-- Task-specific context and rules/skills are loaded without broad unnecessary context.
+- Task-specific context and rules/skills are loaded without broad unnecessary context, following Context Acquisition Governance: acquire context only for the current task, expand incrementally, and stop when a context stop condition is satisfied.
 
 Exit criteria:
 
@@ -342,16 +362,40 @@ Escalate to formal `tasks.md` before continuing if the inline step list reveals:
 
 This safety valve prevents under-scoped work. Escalation is not process failure; it is the expected correction when actual complexity is higher than initial sizing.
 
-## Context Loading Strategy
+## Context Acquisition Governance
 
-SDD should support large-context AI workflows without encouraging indiscriminate loading.
+### Purpose
 
-Always load or consider:
+The existing governance specifies WHAT artifacts are authoritative but must also govern HOW context is acquired during execution. During the first real Multi-Tool Execute session, an agent exhausted its context budget before completing a single implementation task by aggressively loading large portions of the repository — approximately 180 files including architectural documents, templates, ADRs, business documentation, legacy repositories, the entire frontend, and the entire backend. No implementation task was completed before the context limit was reached.
+
+Context Acquisition Governance is a transversal operational concept that applies to every SDD phase. It defines expected context depth per phase, governs incremental expansion, and prevents context exhaustion during execution. This governance is tool-independent and improves execution quality for Cursor, Cline, future agents, and future AI tools.
+
+### Context Budget
+
+Each phase has an expected context depth. The budget is guidance, not a hard limit, but agents should stay within the expected range unless implementation genuinely requires expansion.
+
+| Phase | Expected Context | Rationale |
+|-------|-----------------|-----------|
+| Research | High | Research intentionally explores architecture, domain, Legacy behavior, and technical constraints to inform planning. Broad loading is expected here. |
+| Specify | Medium | Specify needs product intent, domain rules, and scope boundaries, but not implementation details. |
+| Design | Medium | Design needs architecture, ADRs, and integration points, but not full codebase or unrelated features. |
+| Tasks | Low | Tasks work from accepted Specify and Design. Implementation code is not needed at this phase. |
+| Execute | Very Low (incremental) | Execute acquires context only for the current task. This is the most constrained phase. |
+| Verify | Medium | Verify needs implementation diff, acceptance criteria, test evidence, and review prompts. |
+| Documentation Follow-Up | Low | Documentation Follow-Up needs verification results and the mandatory checklist targets. |
+| Reporting | Low | Reporting needs synchronized operational truth and feature summary inputs. |
+| Knowledge | Medium | Teacher Guide generation needs verified implementation knowledge, code evidence, and domain context. |
+
+### Context Loading Strategy
+
+Every phase must define what should be loaded, what may be loaded, and what should not be loaded.
+
+#### Primary Context — Always Load
 
 - `Documentation/State.md` for current operational truth.
 - `AGENTS.md` for stable bootstrap, authority hierarchy, and routing.
 
-Load on demand:
+#### Secondary Context — Load Only If Required
 
 - Active SDD artifacts for the current feature.
 - Accepted ADRs when architecture, persistence, security, API, ownership, runtime, or irreversible decisions are relevant.
@@ -362,7 +406,17 @@ Load on demand:
 - Task-specific workflows, such as Documentation Update, Verifier, SQL migration, codebase decomposition, or Legacy Codebase behavior workflows.
 - Targeted Legacy methods only when behavior migration or characterization is in scope.
 
-Context priorities:
+#### Forbidden Context — Do Not Load Unless Explicitly Justified
+
+- Entire Legacy folders (`DocAPI/Legacy/_LegacySheetsDb/`). Load targeted methods only.
+- Multiple unrelated feature SDDs in one implementation session.
+- The entire frontend (`DocFront.Web/`) when the current task touches backend only.
+- The entire backend (`DocAPI/`) when the current task touches frontend only.
+- All ADRs when only one or two are relevant to the current decision.
+- All architecture and technical documents for a Small change.
+- Full chat history as a durable source of truth. Summarize findings into SDD, ADRs, State, or owning docs instead.
+
+#### Context Priorities
 
 1. Current truth and authority: `Documentation/State.md`, `AGENTS.md`, accepted ADRs.
 2. Feature truth: active SDD artifacts.
@@ -371,7 +425,7 @@ Context priorities:
 5. Review and verification sensors: review prompts and verifier workflow.
 6. Research or methodology notes only when creating or revising governance.
 
-Context boundaries:
+#### Context Boundaries
 
 - Load the minimum set needed to decide or execute the current phase.
 - Prefer targeted files and methods over entire folders.
@@ -379,13 +433,91 @@ Context boundaries:
 - Do not load full Legacy folders; Legacy is behavioral reference, not implementation to revive.
 - Do not use long chat history as the durable source of truth; summarize important findings into SDD, ADRs, State, or owning docs.
 
-Context anti-patterns:
+#### Context Anti-Patterns
 
 - Treating SDD as a place to paste all research.
 - Loading every architecture and technical document for a Small change.
 - Carrying stale roadmap assumptions instead of checking `Documentation/State.md`.
 - Using review prompts as policy sources instead of sensors.
 - Reading broad Legacy files when a targeted method is enough.
+- Aggressively loading large portions of the repository before beginning execution.
+- Preloading implementation context for future tasks during the current task.
+- Repository-wide exploration when a targeted search would identify the needed artifact.
+- Continuing to search after the required information has been found.
+
+### Progressive Context Expansion
+
+Context acquisition must be incremental, not preemptive.
+
+- Never acquire additional context until the current information becomes insufficient.
+- Expand incrementally — one artifact, one method, one file at a time.
+- Stop expansion immediately after the missing information is found.
+- Avoid repository-wide exploration. Use targeted search before broad listing.
+- Each expansion must have a specific question it is trying to answer.
+
+### Task-Oriented Context
+
+During Execute, context acquisition is task-oriented, not feature-oriented.
+
+- The agent shall acquire context only for the current task.
+- Future tasks must not preload their implementation context.
+- Each task starts with a fresh context acquisition process.
+- When a task is complete, commit progress before starting the next task's context acquisition.
+- Do not carry context from a completed task into the next task unless it is explicitly shared infrastructure.
+
+### Context Stop Conditions
+
+Context acquisition ends when a specific condition is satisfied. Once satisfied, stop searching and begin implementation.
+
+Stop conditions:
+
+- Required implementation artifact identified — the file, class, or method to modify is known.
+- Required dependency identified — the upstream or downstream component that the current task interacts with is known.
+- Required interface identified — the API contract, DTO, repository interface, or service interface the current task implements or consumes is known.
+- Required behavioral reference identified — the Legacy method, business rule, or domain behavior the current task preserves, adapts, or replaces is known.
+
+Once any stop condition is satisfied for the current task:
+
+- Stop searching.
+- Begin implementation.
+- Expand further only if implementation reveals a new unknown.
+
+### Legacy Loading
+
+The existing governance states that Legacy implementations are reference sources, not primary context. This is strengthened operationally:
+
+- Legacy shall only be loaded when the current task requires behavioral comparison.
+- Never preload legacy repositories.
+- Load targeted methods only — the specific method that contains the behavior being preserved, adapted, or replaced.
+- Do not load entire Legacy folders or multiple Legacy repositories for a single task.
+- Legacy loading must be justified by a specific behavioral question, not general familiarity.
+
+### Implementation Batching Guidance
+
+The Execute phase explicitly recommends batching for large features.
+
+- Large features should be executed in small implementation batches.
+- Each batch should:
+  - implement a coherent subset of tasks;
+  - validate (build, test, or smoke check as appropriate);
+  - commit progress;
+  - start a new execution session if necessary.
+- The workflow discourages attempting to execute an entire feature within one long-running AI session.
+- Batching protects against context exhaustion, lost progress, and incomplete implementation.
+- Each batch boundary is a natural checkpoint for State.md updates and session handoff.
+
+### Flexibility Preservation
+
+This governance does not forbid reading additional documentation. It governs how context is acquired, not whether it can be acquired.
+
+The agent may expand context whenever implementation genuinely requires additional information. The expansion must be:
+
+- **Purpose-driven:** There is a specific question or unknown that requires the additional context.
+- **Minimal:** The smallest set of artifacts that answers the question.
+- **Temporary:** The context serves the current task, not future tasks.
+- **Proportional:** The context depth matches the phase budget and the task complexity.
+
+If expansion is needed, state what is unknown, load the minimum artifact that resolves it, and continue.
 
 ## Ownership Model
 
@@ -741,7 +873,7 @@ Legacy Codebase behavior migration expectations:
 - Legacy Codebase behavior may be preserved, adapted, or intentionally abandoned when the decision is explicit and traceable.
 - For Legacy-behavior migration SDDs, include a Legacy characterization step before implementation — preserve/adapt/abandon table, targeted method reads, and characterization tests when clinical rules are material.
 - Record whether each material behavior is preserved, adapted, or abandoned in Specify, Design, Tasks, verification evidence, or documentation follow-up as appropriate.
-- Read targeted Legacy methods, not broad folders.
+- Read targeted Legacy methods, not broad folders. See Context Acquisition Governance for Legacy loading rules: Legacy shall only be loaded when the current task requires behavioral comparison, never preloaded.
 - Capture the behavior being preserved or intentionally changed.
 - Add characterization tests or explicit behavior comparison for critical clinical rules.
 - Port business rules into domain methods or application use cases, not controllers or repositories.
@@ -765,7 +897,7 @@ Use this decision flow:
    - Medium: brief Specify; Design and Tasks only when risk or dependency requires them; inline review before Execute when Large phases are skipped.
    - Large: full Specify, Design, Tasks, SDD Pre-Execution Review, Execute, Verify, Documentation Follow-Up, Reporting, Teacher Guide when warranted.
    - Complex: full lifecycle with scope monitoring during Execute and explicit residual risk during Verify.
-4. Load only task-specific context needed for the current phase.
+4. Load only task-specific context needed for the current phase, following Context Acquisition Governance: start with primary context, expand progressively only when current information is insufficient, stop immediately when a context stop condition is satisfied, and never preload context for future tasks.
 5. Complete phase entry and exit criteria before moving forward.
 6. Pause for escalation when authority, architecture, requirement, technical constraint, Legacy Codebase, or verification conflicts cannot be resolved safely.
 7. If Tasks are skipped, list atomic implementation steps before editing.
@@ -786,6 +918,10 @@ Current improvements reduce ownership overlap by assigning:
 - Documentation routing and authority validation to Documentation Update.
 - Durable architecture decisions to ADR governance.
 - Current branch and runtime truth to `Documentation/State.md`.
+
+Resolved gaps:
+
+- Context Acquisition Governance now defines expected context depth per phase, progressive expansion, task-oriented context, stop conditions, Legacy loading rules, and implementation batching — addressing the context exhaustion observed during the first real Multi-Tool Execute session.
 
 Remaining gaps to monitor:
 

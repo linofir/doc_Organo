@@ -18,7 +18,7 @@
 | Implementation diff | Received / Missing | ... |
 | Build / test output | Received / Missing | ... |
 | SQL integration | Received / Missing / Re-confirmed in Verify | ... |
-| Runtime validation (TASK-008) | Received / **Verify will record** | Execute records intent; Verify owns durable table below |
+| TASK-008/009 session notes | Received / Missing | Execute must record Swagger/smoke results for Verify handoff — do not rely on chat history. If missing, Verify populates Runtime Validation table independently. |
 | Execute deviations | None / Documented | ... |
 
 ## Gate Results

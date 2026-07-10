@@ -6,8 +6,6 @@
 #
 # Cursor does not read this file; it is safe to maintain alongside Cursor artifacts.
 
-# Legacy reference code — loaded only for targeted behavioral research
-DocAPI/Legacy/_LegacySheetsDb/
 
 # Financial domain — out of scope until clinical migration completes
 DocAPI/Core/Finance/

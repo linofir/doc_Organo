@@ -38,17 +38,29 @@ Use simple requirement IDs for Medium, Large, and Complex work when traceability
 - [ ] `REQ-001` - ...
 - [ ] `REQ-002` - ...
 
+## Prerequisite SDDs
+
+When upstream SDDs are prerequisites for this feature, distinguish their status. This prevents downstream SDDs from incorrectly embedding upstream requirements.
+
+| Prerequisite SDD | Status | Contract |
+|------------------|--------|----------|
+| `<feature-slug>` | Verified / In progress / Not started | **Verified** — consume contracts only (repository interfaces, API routes, entity types). Do not re-implement. **In-scope** — this feature implements the upstream behavior. |
+
+Prontuario SQL Stabilization Research Part 3 is the first exemplar: Atendimento Minimal was classified as **Verified** (consume only); Prontuario did not re-implement Atendimento.
+
 ## Execution Prerequisites
 
 Document infrastructure, credentials, and baseline evidence before Execute. Required for Large and Complex work.
 
+**Inherit from prior verified SDDs:** Link to their runbook sections, credential scripts, and infrastructure setup rather than rewriting. Reference `Documentation/Technical/runbook.md` for shared infrastructure. Credential Probe must still be executed for this feature — inheritance avoids documentation duplication, not verification.
+
 | Prerequisite | Status | Notes |
-|--------------|--------|-------|
-| Docker SQL Server (`docorgano-sql`) | Required / N/A | ... |
-| `SA_PASSWORD` available | Required / N/A | ... |
-| `DOCORGANO_TEST_CONNECTION` when SQL integration tests apply | Required / N/A | ... |
-| Baseline `dotnet build` | Pass / Not run | ... |
-| Baseline `dotnet test` count | ... tests | Capture count before Execute for measurable progress |
+| |--------------|--------|-------|
+| | Docker SQL Server (`docorgano-sql`) | Required / N/A | ... |
+| | `SA_PASSWORD` available | Required / N/A | ... |
+| | `DOCORGANO_TEST_CONNECTION` when SQL integration tests apply | Required / N/A | ... |
+| | Baseline `dotnet build` | Pass / Not run | ... |
+| | Baseline `dotnet test` count | ... tests | Capture count before Execute for measurable progress |
 
 Cross-reference `Documentation/Technical/runbook.md` for local setup steps.
 

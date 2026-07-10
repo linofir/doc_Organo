@@ -1,37 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using DocAPI.Core.Entities;
+namespace DocAPI.Data.Dtos.ProntuarioDtos;
 
-namespace DocAPI.Data.Dtos.ProntuarioDtos
+/// <summary>
+/// Correction-safe fields only — per D-01.
+/// Evolution-only properties (Tipo, DataConsulta, AGO, collections, Internacao, etc.)
+/// are structurally absent from this DTO.
+/// </summary>
+public class UpdateProntuarioDto
 {
-    public class UpdateProntuarioDto
-    {
-        // [Required(ErrorMessage = "Este campo é obrigatório")]
-        public string? ID { get; set; }
-        // [Required]
-        public DateOnly? DataConsulta { get; set; }
-        public string? Tipo {get; set; }
+    /// <summary>Administrative / non-clinical notes; typo fixes.</summary>
+    public string? InformacoesExtras { get; set; }
 
-        // [Required]
-        public DescricaoBasica? DescricaoBasica { get; set; }
-
-        // [Required]
-        public AGO? AGO { get; set; }
-
-        // [Required]
-        public Antecedentes? Antecedentes { get; set; }
-
-        // [Required]
-        public AntecedentesFamiliares? AntecedentesFamiliares { get; set; }
-
-        public List<AcoesCD>? CD { get; set; }
-
-        public string InformacoesExtras { get; set; } = string.Empty;
-
-        public List<Exame>? Exames { get; set; }
-
-        public Internacao? SolicitacaoInternacao { get; set; }
-        public PosOp? PosOperatorio { get; set; }
-    }
+    /// <summary>Demographic snapshot corrections — Profissao, Religiao, AtividadeFisica only.
+    /// Identity fields (NomePaciente, Cpf, Idade) and clinical narrative (QD)
+    /// are immutable via correction.</summary>
+    public string? Profissao { get; set; }
+    public string? Religiao { get; set; }
+    public string? AtividadeFisica { get; set; }
 }

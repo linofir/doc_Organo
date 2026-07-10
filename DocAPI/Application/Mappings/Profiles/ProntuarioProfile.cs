@@ -2,63 +2,47 @@ using AutoMapper;
 using DocAPI.Core.Entities;
 using DocAPI.Data.Dtos.ProntuarioDtos;
 
-namespace DocAPI.Profiles
+namespace DocAPI.Profiles;
+
+/// <summary>
+/// Read-only projection profile for Prontuario.
+/// Create / update / evolution write paths use domain factories and explicit mapping — no AutoMapper.
+/// </summary>
+public class ProntuarioProfile : Profile
 {
-    public class ProntuarioProfile : Profile
+    public ProntuarioProfile()
     {
-        public ProntuarioProfile()
-        {
-            /* ---------- Prontuário ---------- */
-            CreateMap<CreateProntuarioDto, Prontuario>();
-            // CreateMap<DescricaoBasicaDto, Core.Models.DescricaoBasica>();
-            // CreateMap<AGODto, Core.Models.AGO>();
-            // CreateMap<AntecedentesDto, Core.Models.Antecedentes>();
-            // CreateMap<AntecedentesFamiliaresDto, Core.Models.AntecedentesFamiliares>();
-            // CreateMap<ExameDto, Core.Models.Exame>();
-            // CreateMap<SolicitacaoInternacaoDto, Core.Models.Internacao>();
-            CreateMap<UpdateProntuarioDto, Prontuario>()
-                // .ForMember(dest => dest.ID, opt => opt.Ignore())
-                .ForMember(dest => dest.DescricaoBasica, opt => opt.MapFrom(src => src.DescricaoBasica))
-                .ForMember(dest => dest.AGO, opt => opt.MapFrom(src => src.AGO))
-                .ForMember(dest => dest.Antecedentes, opt => opt.MapFrom(src => src.Antecedentes))
-                .ForMember(dest => dest.AntecedentesFamiliares, opt => opt.MapFrom(src => src.AntecedentesFamiliares))
-                .ForMember(dest => dest.Exames, opt => opt.MapFrom(src => src.Exames))
-                .ForMember(dest => dest.InformacoesExtras, opt => opt.MapFrom(src => src.SolicitacaoInternacao));
-            // CreateMap<UpdateProntuarioDto, Prontuario>()
-            //     .ForPath(dest => dest.ID,   opt => opt.Ignore())               // chave não muda
-            //     .ForPath(dest => dest.DescricaoBasica!.NomePaciente,
-            //              opt => opt.Ignore()) 
-            //     .ForPath(dest => dest.DescricaoBasica!.PacienteId,
-            //              opt => opt.Ignore())                                 // vem do paciente
-            //     .ForPath(dest => dest.DescricaoBasica!.Idade,
-            //             opt => opt.Ignore())
-            //     .ForPath(dest => dest.DescricaoBasica!.Cpf,
-            //             opt => opt.Ignore());
-            CreateMap<Prontuario, ReadProntuarioDto>();
+        // ── Nested entity → DTO maps ──────────────────────────
+        CreateMap<DescricaoBasica, DescricaoBasicaDto>();
+        CreateMap<AGO, AGODto>();
+        CreateMap<Antecedentes, AntecedentesDto>();
+        CreateMap<AntecedentesFamiliares, AntecedentesFamiliaresDto>();
+        CreateMap<PosOp, PosOpDto>();
+        CreateMap<ProntuarioAcaoCD, AcoesCDDto>();
+        CreateMap<Exame, ExameDto>();
+        CreateMap<Internacao, SolicitacaoInternacaoDto>();
+        CreateMap<ProcedimentoInternacao, ProcedimentoInternacaoDto>();
 
-            // /* ---------- Descrição Básica ---------- */
-            // CreateMap<DescricaoBasicaDto, DescricaoBasica>();
-            // CreateMap<DescricaoBasica, DescricaoBasicaDto>();
-
-            // /* ---------- AGO ---------- */
-            // CreateMap<AgoDto, AGO>();
-            // CreateMap<AGO, AgoDto>();
-
-            // /* ---------- Antecedentes (AP) ---------- */
-            // CreateMap<AntecedentesDto, Antecedentes>();
-            // CreateMap<Antecedentes, AntecedentesDto>();
-
-            // /* ---------- Antecedentes Familiares (AF) ---------- */
-            // CreateMap<AntecedentesFamiliaresDto, AntecedentesFamiliares>();
-            // CreateMap<AntecedentesFamiliares, AntecedentesFamiliaresDto>();
-
-            // /* ---------- Exame ---------- */
-            // CreateMap<ExameDto, Exame>();
-            // CreateMap<Exame, ExameDto>();
-
-            // /* ---------- Internação ---------- */
-            // CreateMap<InternacaoDto, Internacao>();
-            // CreateMap<Internacao, InternacaoDto>();
-        }
+        // ── Prontuario → ReadProntuarioDto ────────────────────
+        CreateMap<Prontuario, ReadProntuarioDto>()
+            .ForMember(d => d.Id, o => o.MapFrom(s => s.ID))
+            .ForMember(d => d.PacienteId, o => o.MapFrom(s => s.PacienteId))
+            .ForMember(d => d.AtendimentoId, o => o.MapFrom(s => s.AtendimentoId))
+            .ForMember(d => d.Versao, o => o.MapFrom(s => s.Versao))
+            .ForMember(d => d.ProntuarioAnteriorId, o => o.MapFrom(s => s.ProntuarioAnteriorId))
+            .ForMember(d => d.CriadoEm, o => o.MapFrom(s => s.CriadoEm))
+            .ForMember(d => d.AtualizadoEm, o => o.MapFrom(s => s.AtualizadoEm))
+            .ForMember(d => d.Deletado, o => o.MapFrom(s => s.Deletado))
+            .ForMember(d => d.DataConsulta, o => o.MapFrom(s => s.DataConsulta))
+            .ForMember(d => d.Tipo, o => o.MapFrom(s => s.Tipo))
+            .ForMember(d => d.InformacoesExtras, o => o.MapFrom(s => s.InformacoesExtras))
+            .ForMember(d => d.DescricaoBasica, o => o.MapFrom(s => s.DescricaoBasica))
+            .ForMember(d => d.AGO, o => o.MapFrom(s => s.AGO))
+            .ForMember(d => d.Antecedentes, o => o.MapFrom(s => s.Antecedentes))
+            .ForMember(d => d.AntecedentesFamiliares, o => o.MapFrom(s => s.AntecedentesFamiliares))
+            .ForMember(d => d.PosOperatorio, o => o.MapFrom(s => s.PosOperatorio))
+            .ForMember(d => d.CD, o => o.MapFrom(s => s.AcoesCD))
+            .ForMember(d => d.Exames, o => o.MapFrom(s => s.Exames))
+            .ForMember(d => d.SolicitacaoInternacao, o => o.MapFrom(s => s.Internacao));
     }
 }

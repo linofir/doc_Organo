@@ -2,17 +2,17 @@
 
 Operational snapshot for agents and developers. Update at the end of each work session or merged PR.
 
-**Last updated:** 2026-07-08 (AI Harness Multi-Tool Evaluation — Verified Approved with Minor Findings; Documentation Follow-Up in progress)
+**Last updated:** 2026-07-09 (Prontuario SQL Stabilization verified — Documentation Follow-Up active)
 
 ## Current branch
 
-`feature/harness` — AI Harness Multi-Tool Evaluation implementation complete and verified (Approved with Minor Findings). Three-layer Harness Asset / Tool Asset / Shared Asset taxonomy established as architectural boundary. Cline first-class support implemented (`.clinerules/`, `.cline/skills/`, `.clineignore`). Clinical SQL migration work intentionally paused.
+`feature/harness` — AI Harness Multi-Tool Evaluation implementation complete and verified (Approved with Minor Findings). Three-layer Harness Asset / Tool Asset / Shared Asset taxonomy established as architectural boundary. Cline first-class support implemented (`.clinerules/`, `.cline/skills/`, `.clineignore`). Clinical SQL migration work **resumed** — Prontuario SQL Stabilization **verified** (Verified with Minor Findings, 2026-07-09); Agendamento next.
 
 ## Runtime status
 
 | Component | Status |
 |-----------|--------|
-| DocAPI (SQL) | **Paciente** backend stabilized — full-field CRUD, collection search, soft delete, duplicate CPF 409, PHI-safe controller (14 unit + 1 SQL integration). **Atendimento Minimal** backend stabilized — CRUD, Paciente FK validation, Guid contracts, soft delete, PHI-safe controller, 501 report routes preserved (11 unit + 1 SQL integration). Prontuario/Agendamento stubbed (DI resolves, throws until migrated). **27 tests** total (Verify 2026-06-18) |
+| DocAPI (SQL) | **Paciente** backend stabilized — full-field CRUD, collection search, soft delete, duplicate CPF 409, PHI-safe controller (14 unit + 1 SQL integration). **Atendimento Minimal** backend stabilized — CRUD, Paciente FK validation, Guid contracts, soft delete, PHI-safe controller, 501 report routes preserved (11 unit + 1 SQL integration). **Prontuario** backend stabilized — dual-mode versioning API (PUT correction + POST `/versoes` evolution), full nested graph CRUD, Atendimento FK validation, soft delete, PHI-safe controller, 10 endpoints, 11 unit + 27 controller + 1 SQL integration tests. Agendamento stubbed (DI resolves, throws until migrated). **79 tests** total (Verify 2026-07-09) |
 | DocAPI (`main`) | Functional with Google Sheets (reference only) |
 | DocFront.Web | Blazor Server; expects API at `https://localhost:7004`. Still calls retired `paciente/nome/{nome}` — WS07 debt |
 | SQL Server | Docker `docorgano-sql`; requires `SA_PASSWORD` env var |
@@ -20,17 +20,17 @@ Operational snapshot for agents and developers. Update at the end of each work s
 
 ## Active epic
 
-**AI Harness Multi-Tool Evaluation** — SDD phases complete through Verify. Status: **Approved with Minor Findings**. Documentation Follow-Up in progress; Reporting and Teacher Guide evaluation pending.
+**Infraestrutura SQL** — vertical slices **Paciente**, **Atendimento Minimal**, and **Prontuario** backend verified. **Agendamento SQL Migration & Stabilization** next. ADR-006 (dual-mode versioning API) accepted and honored. Prontuario verified (2026-07-09) — 79 tests, REQ-001–REQ-018 satisfied.
 
-**Infraestrutura SQL** — vertical slices **Paciente** and **Atendimento Minimal** backend verified. **Ready to resume** Prontuario SQL Stabilization Execute — Harness evaluation complete.
+**AI Harness Multi-Tool Evaluation** — SDD phases complete through Verify. Status: **Approved with Minor Findings**. Documentation Follow-Up, Reporting, and Teacher Guide evaluation pending (background priority — does not block clinical development).
 
-**Approved migration sequencing (resumes after Harness evaluation):**
+**Approved migration sequencing:**
 
 ```text
 Paciente → Atendimento Minimal → Prontuario → Agendamento → Atendimento Workflow → WS07 Frontend
 ```
 
-**Next planned implementation:** Prontuario SQL Stabilization — **Execute** (Pre-Execution Review complete 2026-06-19; Harness evaluation complete — unblocked). ADR-006 (dual-mode versioning API) accepted.
+**Current implementation:** Prontuario SQL Stabilization — **verified** (2026-07-09). Next: **Agendamento SQL Migration & Stabilization**.
 
 ## SDD research status
 
@@ -39,7 +39,7 @@ Paciente → Atendimento Minimal → Prontuario → Agendamento → Atendimento 
 | [paciente-sql-stabilization](SDD/paciente-sql-stabilization/) | Complete (pre-calibration) | Complete — verified | — | — | — |
 | [atendimento-minimal-sql-stabilization](SDD/atendimento-minimal-sql-stabilization/) | **Complete** | Complete — verified | — | — | — |
 | [atendimento-workflow-stabilization](SDD/atendimento-workflow-stabilization/research.md) | **Complete** | Not ready — blocked on Prontuario + Agendamento Verify | — | — | — |
-| [prontuario-sql-stabilization](SDD/prontuario-sql-stabilization/) | **Complete** (Part 3 delta) | **Complete** | **Complete** | **Complete** | **Complete (2026-06-19)** — Execute authorized |
+| [prontuario-sql-stabilization](SDD/prontuario-sql-stabilization/) | **Complete** (Part 3 delta) | **Complete** | **Complete** | **Complete** | **Complete (2026-06-19)** — Execute authorized; **Verified with Minor Findings (2026-07-09)** |
 | [ai-harness-multi-tool](SDD/ai-harness-multi-tool/) | **Complete** | **Complete** | **Complete** | **Complete** | **Complete (2026-07-08)** — Execute complete; Verify Approved with Minor Findings |
 
 ## Recent decisions
@@ -62,8 +62,10 @@ Paciente → Atendimento Minimal → Prontuario → Agendamento → Atendimento 
 | 2026-06-19 | **ADR-006 accepted:** Prontuario dual-mode versioning API (PUT correction vs POST `/versoes` evolution); Prontuario SDD Pre-Execution Review complete; Credential Probe pass (27/27 baseline, 2/2 SQL integration); Execute authorized |
 | 2026-07-07 | **AI Harness Multi-Tool:** Documentation review completed ([review-tool-agnostic-harness.md](AI-Harness/research/review-tool-agnostic-harness.md)); PM, PRD, and State updated to formally incorporate the feature |
 | 2026-07-08 | **AI Harness Multi-Tool:** SDD Execute and Verify complete — Approved with Minor Findings. Three-layer Harness Asset / Tool Asset / Shared Asset taxonomy established as architectural boundary. Cline first-class support implemented (`.clinerules/` with 6 rules, `.cline/skills/` with 7 skills, `.clineignore`). Cursor compatibility preserved. Governance documentation generalized for multi-tool. |
+| 2026-07-09 | **Prontuario SQL Stabilization:** Execute phase resumed; Execution Readiness Check passed. Pre-Execution Review (2026-06-19) confirmed valid after AI Harness Multi-Tool Evaluation. |
+| 2026-07-09 | **Prontuario SQL Stabilization:** Verified with Minor Findings — 79 tests (+52 from 27 baseline); all 18 REQs satisfied; ADR-006 dual-mode versioning API honored; third SQL vertical confirmed. F-01: TASK-009 Swagger smoke pending (low severity; 27 controller unit tests provide strong mitigation). Next: Agendamento SQL Migration & Stabilization. |
 
-- Prontuario and Agendamento repositories still stubbed — **Atendimento Minimal** prerequisite satisfied; forward SDDs can proceed.
+- **Atendimento Minimal** prerequisite satisfied for Prontuario and Agendamento; forward SDDs can proceed.
 - Atendimento workflow rules (~700 LOC Legacy) port deferred to **atendimento-workflow-stabilization** — requires Prontuario + Agendamento SQL verified first.
 - Financial tables in schema — out of scope until clinical migration completes.
 - Frontend/API contract drift on Paciente nome search until WS07 aligns with collection search route.
@@ -74,18 +76,21 @@ Paciente → Atendimento Minimal → Prontuario → Agendamento → Atendimento 
 |---------|----------|-----------|
 | Paciente SQL Stabilization | Complete with accepted residual risk | [verification.md](SDD/paciente-sql-stabilization/verification.md) |
 | Atendimento Minimal SQL Stabilization | Complete with accepted residual risk | [verification.md](SDD/atendimento-minimal-sql-stabilization/verification.md) |
+| Prontuario SQL Stabilization | Verified with Minor Findings | [verification.md](SDD/prontuario-sql-stabilization/verification.md) |
 | AI Harness Multi-Tool Evaluation | Approved with Minor Findings | [verification.md](SDD/ai-harness-multi-tool/verification.md) |
 
-Residual risk (accepted): SQL integration environment-dependent; optional mapping/negative tests deferred; WS07 frontend alignment pending; `AtualizadoPor` unset; report routes 501-only; workflow port deferred to separate SDD.
+Residual risk (accepted): SQL integration environment-dependent; optional mapping/negative tests deferred; WS07 frontend alignment pending; `AtualizadoPor` unset; report routes 501-only; workflow port deferred to separate SDD; Prontuario TASK-009 Swagger smoke pending (F-01, low severity); CID catalog absent in production.
 
 ## Next steps
 
-1. **Complete Documentation Follow-Up** for ai-harness-multi-tool — ADR-003 revision and new taxonomy ADR preparation; SDD template updates.
-2. **Reporting** and **Teacher Guide evaluation** for ai-harness-multi-tool.
-3. **Resume Prontuario SQL Stabilization** — Execute [tasks.md](SDD/prontuario-sql-stabilization/tasks.md) starting **TASK-001** (legacy sign-off). Harness evaluation complete — unblocked.
-4. Complete **Teacher Guide** for Atendimento Minimal if not already generated (`teacher-guide.md`).
-5. Optional test debt: soft-deleted PacienteId → 404 on POST; `AtendimentoMappingTests`.
-6. Plan WS07 frontend alignment for retired `GET /Paciente/nome/{nome}` → collection search and Atendimento UI (after Workflow SDD).
+1. **Agendamento SQL Migration & Stabilization** — next vertical slice after Prontuario verified. Atendimento Minimal prerequisite satisfied.
+2. **TASK-009 Swagger smoke** for Prontuario per F-01 — execute manual checklist from [specify.md](SDD/prontuario-sql-stabilization/specify.md) Runtime Validation Environment; record results.
+3. **Complete Documentation Follow-Up** for ai-harness-multi-tool — ADR-003 revision and new taxonomy ADR preparation; SDD template updates (background — does not block clinical development).
+4. **Reporting** and **Teacher Guide evaluation** for ai-harness-multi-tool (background).
+5. **Reporting** and **Teacher Guide evaluation** for Prontuario SQL Stabilization.
+6. Complete **Teacher Guide** for Atendimento Minimal if not already generated (`teacher-guide.md`).
+7. Optional test debt: soft-deleted PacienteId → 404 on POST; `AtendimentoMappingTests`; Prontuario two-atendimento patient-wide Versao scenario (D-03).
+8. Plan WS07 frontend alignment for retired `GET /Paciente/nome/{nome}` → collection search and Atendimento UI (after Workflow SDD).
 
 ## Task management
 

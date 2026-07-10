@@ -11,7 +11,7 @@ Approved sequencing (2026-06 — Research consolidation: Paciente, Atendimento M
 |-------|-------------------|------------|------------------|---------------|--------|
 | 1 | **Paciente** | `PacienteRepository` | `PacienteSheetsRepository.cs` | CRUD + SQL test + Swagger | **Backend verified** (2026-06) — WS07 frontend alignment pending |
 | 2 | **Atendimento Minimal** | `AtendimentoRepository` | `AtendimentoSheetsRepository.cs` (CRUD only) | CRUD + Paciente FK + Guid + SQL test + Swagger | **Backend verified** (2026-06) — WS07 frontend alignment pending |
-| 3 | **Prontuario** | `ProntuarioRepository` | `ProntuarioSheetsRepository.cs` | CRUD + versioning + nested children + SQL test | Not started — **Atendimento Minimal prerequisite satisfied** — [research.md](../SDD/prontuario-sql-stabilization/research.md) |
+| 3 | **Prontuario** | `ProntuarioRepository` | `ProntuarioSheetsRepository.cs` | CRUD + versioning + nested children + SQL test | **Backend verified** (2026-07-09) — 79 tests (11 unit + 27 controller + 1 SQL integration); dual-mode versioning API (ADR-006); REQ-001–REQ-018 — [verification.md](../SDD/prontuario-sql-stabilization/verification.md) |
 | 4 | **Agendamento** | `AgendamentoRepository` | `AgendamentoSheetsRepository.cs` | CRUD + SQL test | Not started — **Atendimento Minimal prerequisite satisfied** |
 | 5 | **Atendimento Workflow** | `AtendimentoRepository` (extended) | `AtendimentoSheetsRepository.cs` (`ValidacaoEtapa*`) | Rules ported + pendências/events + workflow endpoint + characterization tests | Not started — **requires Minimal + Prontuario + Agendamento verified** — [research.md](../SDD/atendimento-workflow-stabilization/research.md) |
 
@@ -83,7 +83,28 @@ Standalone `api-contract.md` remains deferred — migration-sql sections are aut
 - [ ] State.md updated
 ```
 
-### Template for remaining aggregates (Prontuario, Agendamento)
+### Prontuario (Aggregate #3) — verified 2026-07-09
+
+```markdown
+- [x] EF config reviewed (Fluent API) — `ProntuarioConfig`, child configs
+- [x] Repository uses DocDbContext — CRUD + version lookup + includes for nested graph
+- [x] Registered in Program.cs DI
+- [x] Controller IDs aligned (Guid)
+- [x] Integration test(s) — `ProntuarioSqlIntegrationTests` with skip policy; synthetic CID seed
+- [x] Legacy behavior reviewed — preserve/adapt/abandon table in prontuario-sql-stabilization SDD
+- [x] Atendimento Minimal prerequisite satisfied (valid AtendimentoId FK)
+- [x] ADR-006 dual-mode versioning API (PUT correction + POST `/versoes` evolution) honored
+- [x] D-01 structural correction contract (`UpdateProntuarioDto` — correction-safe fields only)
+- [x] D-05 no-merge snapshot semantics for evolution child collections
+- [x] Patient-wide Versao numbering per `PacienteId` (DQ-007 A)
+- [x] PHI-safe controller (no Console.WriteLine)
+- [x] Soft delete per ADR-001 — single version only
+- [x] Swagger smoke checklist — **TASK-009 pending** (F-01, low severity; 27 controller unit tests mitigate)
+- [ ] Front service smoke — deferred to WS07
+- [x] State.md updated
+```
+
+### Template for remaining aggregates (Agendamento)
 
 ```markdown
 - [ ] EF config reviewed (Fluent API)

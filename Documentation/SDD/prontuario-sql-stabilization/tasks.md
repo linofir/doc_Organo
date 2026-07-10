@@ -1,4 +1,6 @@
-# Tasks — Prontuario SQL Stabilization
+
+ ja consolidados
+ # Tasks — Prontuario SQL Stabilization
 
 > Inputs: `specify.md` and `design.md` in `Documentation/SDD/prontuario-sql-stabilization/`  
 > Generated SDD artifacts are written in English.
@@ -62,14 +64,14 @@ Credential Probe executed **2026-06-19** — see [reports/pre-execution-review-2
 
 ### Pre-implementation
 
-- [ ] `TASK-001` — Legacy characterization and field classification sign-off
+- [x] `TASK-001` — Legacy characterization and field classification sign-off
   - **Requirements:** `REQ-014`
   - **Files:** `Documentation/SDD/prontuario-sql-stabilization/specify.md` (Legacy Behavior); `design.md` (Field Classification, D-01–D-06)
   - **Depends on:** None
   - **Tests or checks:** Review preserve/adapt/abandon table; confirm correction vs evolution API semantics; confirm `UpdateProntuarioDto` structural rule
   - **Done when:** Legacy table and design field classification accepted; no code changes required
 
-- [ ] `TASK-002` — Implement Prontuario aggregate domain methods and review EF configuration
+- [x] `TASK-002` — Implement Prontuario aggregate domain methods and review EF configuration
   - **Requirements:** `REQ-001`, `REQ-006`, `REQ-007`, `REQ-008`
   - **Files:** `DocAPI/Core/Entities/Prontuario.cs` (+ owned types as needed), `DocAPI/Infrastructure/SqlDb/Configurations/ProntuarioConfig.cs`, child configs, `DocDbContext`
   - **Depends on:** `TASK-001`
@@ -78,7 +80,7 @@ Credential Probe executed **2026-06-19** — see [reports/pre-execution-review-2
 
 ### Contract and interface
 
-- [ ] `TASK-003` — Align repository interface and dedicated DTOs to Guid; remove AutoMapper write paths
+- [x] `TASK-003` — Align repository interface and dedicated DTOs to Guid; remove AutoMapper write paths
   - **Requirements:** `REQ-011`, `REQ-018`, `REQ-006` (D-01)
   - **Files:** `DocAPI/Core/Interfaces/Repositories/IProntuarioRepository.cs`, `DocAPI/Application/Data/Dtos/Prontuario/` (create/update/createVersao/read DTOs; retire legacy `DocAPI.Data.Dtos.ProntuarioDtos` namespace in touched code), `DocAPI/Application/Mappings/Profiles/ProntuarioProfile.cs`
   - **Depends on:** `TASK-002`
@@ -87,14 +89,14 @@ Credential Probe executed **2026-06-19** — see [reports/pre-execution-review-2
 
 ### Repository
 
-- [ ] `TASK-004` — Implement `ProntuarioRepository` reads and version lookup
+- [x] `TASK-004` — Implement `ProntuarioRepository` reads and version lookup
   - **Requirements:** `REQ-003`, `REQ-004`, `REQ-005`, `REQ-016`, `REQ-007` (lookup half of D-02)
   - **Files:** `DocAPI/Infrastructure/Repositories/ProntuarioRepository.cs`
   - **Depends on:** `TASK-003`, Execution Prerequisites
   - **Tests or checks:** Manual or unit verification before write tasks
   - **Done when:** `GetByIdAsync`, `GetAllAsync`, `GetByPacienteIdAsync` (Versao DESC, CriadoEm DESC), `GetLatestByPacienteIdAsync`, `GetLatestByAtendimentoIdAsync`, `GetMaxVersaoForPacienteAsync` implemented; EF includes load nested graph for workflow-readable reads; soft-deleted rows excluded; **repository returns max Versao fact only — no business policy**
 
-- [ ] `TASK-005` — Implement `ProntuarioRepository` writes (create, correction, evolution, soft delete)
+- [x] `TASK-005` — Implement `ProntuarioRepository` writes (create, correction, evolution, soft delete)
   - **Requirements:** `REQ-001`, `REQ-006`, `REQ-007`, `REQ-008`, `REQ-009`
   - **Files:** `DocAPI/Infrastructure/Repositories/ProntuarioRepository.cs`
   - **Depends on:** `TASK-004`
@@ -103,7 +105,7 @@ Credential Probe executed **2026-06-19** — see [reports/pre-execution-review-2
 
 ### Controller / Application
 
-- [ ] `TASK-006` — `ProntuarioController` orchestration, FK/CID validation, routes, PHI, status codes
+- [x] `TASK-006` — `ProntuarioController` orchestration, FK/CID validation, routes, PHI, status codes
   - **Requirements:** `REQ-001`, `REQ-002`, `REQ-010`, `REQ-012`, `REQ-015`, `REQ-017`, `REQ-018`
   - **Files:** `DocAPI/API/Controllers/ProntuarioController.cs`
   - **Depends on:** `TASK-005`
@@ -112,14 +114,14 @@ Credential Probe executed **2026-06-19** — see [reports/pre-execution-review-2
 
 ### Tests
 
-- [ ] `TASK-007` — Repository and domain unit tests (InMemory)
+- [x] `TASK-007` — Repository and domain unit tests (InMemory)
   - **Requirements:** `REQ-001`, `REQ-003`, `REQ-004`, `REQ-005`, `REQ-006`, `REQ-007`, `REQ-008`, `REQ-009`, `REQ-018`
   - **Files:** `DocAPI.Tests/` (e.g. `ProntuarioRepositoryTests.cs`, domain tests as appropriate)
   - **Depends on:** `TASK-005`
   - **Tests or checks:** `dotnet test --filter Prontuario`
   - **Done when:** Tests cover v1 create, correction (same Id/Versao), evolution (new Id, prior unchanged, patient-wide Versao increment), list ordering, soft-delete exclusion, evolution snapshot without merge (**D-05** example scenario); recommended: `ProntuarioMappingTests` or equivalent for read projection
 
-- [ ] `TASK-008` — SQL integration tests (**required**)
+- [x] `TASK-008` — SQL integration tests (**required**)
   - **Requirements:** `REQ-002`, `REQ-010`, `REQ-013`, `REQ-016`
   - **Files:** `DocAPI.Tests/Integration/ProntuarioSqlIntegrationTests.cs` (+ CID seed helper)
   - **Depends on:** `TASK-007`
@@ -129,14 +131,14 @@ Credential Probe executed **2026-06-19** — see [reports/pre-execution-review-2
 
 ### Runtime validation and gate
 
-- [ ] `TASK-009` — Runtime validation intent (Swagger smoke)
+- [x] `TASK-009` — Runtime validation intent (Swagger smoke) — **session notes not recorded** (F-01); deferred to post-Verify follow-up
   - **Requirements:** `REQ-015` and API-facing REQs
   - **Files:** Session notes only (**not** `verification.md`)
   - **Depends on:** `TASK-006`, `TASK-008`
   - **Tests or checks:** Manual checklist per `specify.md` Runtime Validation Environment
   - **Done when:** Scenarios attempted or explicitly deferred with reason: create, read, list, `/atual` (patient + atendimento), PUT correction, POST `/versoes`, delete, invalid AtendimentoId **404**, paginated list, PUT with non-contract JSON members → **400** (if binding configured); **Verify** owns durable evidence table
 
-- [ ] `TASK-010` — Build and automated test gate
+- [x] `TASK-010` — Build and automated test gate
   - **Requirements:** All (`REQ-001` through `REQ-018`)
   - **Files:** Solution-wide
   - **Depends on:** `TASK-007`, `TASK-008`, `TASK-009`
@@ -147,7 +149,7 @@ Credential Probe executed **2026-06-19** — see [reports/pre-execution-review-2
 
 Workflow preparation for Verify — **not** Execute implementation.
 
-- [ ] `VP-001` — Verification handoff preparation
+- [x] `VP-001` — Verification handoff preparation
   - **Purpose:** Structure and inputs for `verification.md`
   - **Depends on:** `TASK-010`, `TASK-009`
   - **Done when:** Verify phase can populate `Documentation/SDD/prontuario-sql-stabilization/verification.md` with gates, evidence paths, REQ traceability, skipped gates, residual risks, Runtime Validation § (TASK-009 session notes as input)
@@ -163,7 +165,7 @@ Workflow preparation for Verify — **not** Execute implementation.
 
 Workflow preparation for Documentation Follow-Up — **not** Execute implementation.
 
-- [ ] `DF-001` — Documentation follow-up routing
+- [x] `DF-001` — Documentation follow-up routing — executed post-Verify in Documentation Follow-Up phase
   - **Purpose:** Evaluate post-Verify updates per Documentation Integration Model
   - **Depends on:** `VP-001`
   - **Done when:** Candidates evaluated for State, PM, `migration-sql.md`, `runbook.md`, ADR (DQ-009), `erd.dbml`, WS07 drift note, pilot report v0.2; Documentation Update skill routes ownership
@@ -280,7 +282,7 @@ The Verifier selects final gates. This section lists expected evidence from the 
 
 Execute checklist (minimum):
 
-- [ ] `security-phi-review.md` applied or explicitly deferred to Verify with reason
+- [x] `security-phi-review.md` — applied at Verify (verification.md § Security/PHI gate: ✅ Verified)
 
 ## Known Risks And Skipped Checks
 

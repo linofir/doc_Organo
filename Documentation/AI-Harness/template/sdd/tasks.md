@@ -43,9 +43,9 @@ When `design.md` Runtime Validation Environment applies:
 
 - [ ] `TASK-008` - Runtime validation intent (Execute)
   - **Requirements:** ...
-  - **Execute owns:** Environment confirmed; smoke checklist attempted or explicitly deferred with reason in handoff notes.
-  - **Verify owns:** Durable evidence table in `verification.md` § Runtime Validation (HTTP/Swagger scenarios, pass/fail).
-  - **Done when (Execute):** Implementation complete and runtime intent recorded — not when full evidence table exists.
+  - **Execute owns:** Environment confirmed; smoke checklist attempted or explicitly deferred with reason in handoff notes. **Record session notes with Swagger/smoke results for Verify handoff — do not rely on chat history.**
+  - **Verify owns:** Durable evidence table in `verification.md` § Runtime Validation (HTTP/Swagger scenarios, pass/fail). **Verify checks that TASK-008 session notes were provided before populating the Runtime Validation table.**
+  - **Done when (Execute):** Implementation complete, runtime intent recorded, and session notes captured.
   - **Done when (Verify):** Runtime Validation section populated or gate explicitly skipped with reason.
 
 ## Documentation Follow-Up Preparation (DF)
