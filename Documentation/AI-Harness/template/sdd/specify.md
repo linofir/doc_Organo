@@ -12,6 +12,8 @@ Briefly describe why this feature or calibration exists now.
 - Current operational source: `Documentation/State.md`
 - Related SDD, ADR, technical, or architecture docs:
 
+**Context budget for Specify is Medium.** Load product intent, domain rules, and scope boundaries — not implementation details. See `sdd-operational.md` § Context Acquisition Governance.
+
 ## Problem
 
 Describe the current pain, risk, missing behavior, migration gap, or governance gap.

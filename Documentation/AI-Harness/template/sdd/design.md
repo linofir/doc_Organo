@@ -8,6 +8,8 @@
 
 Describe the proposed approach in one or two paragraphs.
 
+**Context budget for Design is Medium.** Load architecture, ADRs, and integration points — not full codebase. See `sdd-operational.md` § Context Acquisition Governance.
+
 **Outcome-oriented design:** State what must be true after implementation — behaviors, contracts, persistence outcomes, and constraints. Avoid prescribing specific classes, methods, factories, or mapping strategies unless an accepted ADR requires them. Execute owns implementation choices that satisfy these outcomes.
 
 ## Requirement Mapping

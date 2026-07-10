@@ -90,6 +90,8 @@ Keep implementation scoped to the accepted plan or active SDD. Use rules for gua
 
 Execute does not produce verification artifacts, reporting, project documentation updates, or Teacher Guides unless explicitly in scope.
 
+During Execute, follow Context Acquisition Governance: acquire context only for the current task, expand incrementally when blocked, stop when the required artifact is identified. For Large features, execute in small implementation batches. See `sdd-operational.md` § Context Acquisition Governance and § Implementation Batching Guidance.
+
 ## Verification
 
 Apply verifier responsibility when implementation is ready for evidence review:

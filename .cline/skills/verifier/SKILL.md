@@ -223,3 +223,11 @@ Use this format for verification handoffs:
 - Do not create ADRs automatically; identify ADR candidates and apply the ADR policy.
 - Do not turn review prompts into rules unless recurring findings justify a concise guardrail.
 - Do not load full Legacy folders; read targeted methods only.
+
+## Context Acquisition Governance Observation
+
+The following are observations for the feature report and governance improvement plan, not verification gates. They do not invalidate implementation. Record findings in the feature report for harness calibration.
+
+1. **Did Execute follow progressive context expansion?** Evaluate whether context was acquired incrementally, one artifact at a time, rather than preemptively loading large portions of the repository.
+2. **Were stop conditions satisfied before implementation began?** Evaluate whether a required artifact (file, class, dependency, interface, or behavioral reference) was identified before implementation started for each task.
+3. **Was context acquisition task-oriented rather than feature-oriented?** Evaluate whether Execute acquired context only for the current task, not preloading context for future tasks.

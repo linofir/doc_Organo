@@ -122,6 +122,10 @@ Documentation Update will decide final routing.
 - Do not commit secrets, `.env` files, credentials, real patient data, or clinical data.
 - Commit message should reflect the change type and scope.
 
+## Execution Batching
+
+For Large features, execute in small implementation batches — implement a coherent subset of tasks, validate (build, test, smoke), commit, then continue. See `sdd-operational.md` § Implementation Batching Guidance and § Context Acquisition Governance for Execute entry context requirements.
+
 ## Completion Handoff
 
 Before marking tasks complete, provide the Verifier with:

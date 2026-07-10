@@ -6,3 +6,6 @@
 - For Legacy behavior, read targeted methods (e.g. `ValidacaoPreProcedimento` in `AtendimentoSheetsRepository.cs`) not the full file.
 - After research/planning, use markdown artifacts (`Documentation/AI-Harness/research/`, active SDD files) — not full chat history.
 - Prefer focused skills for repeatable workflows instead of repeating architecture or procedures in every prompt.
+- Acquire context progressively — start with minimum required context, expand only when blocked, stop when the required artifact is identified. See `sdd-operational.md` § Context Acquisition Governance.
+- During Execute, acquire context per-task, not per-feature. Do not preload context for future tasks.
+- For large features, execute in small implementation batches — implement, validate, commit, continue. See `sdd-operational.md` § Implementation Batching Guidance.
