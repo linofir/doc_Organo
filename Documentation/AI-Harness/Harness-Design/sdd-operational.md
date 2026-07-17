@@ -202,6 +202,7 @@ Exit criteria:
 - Architecture, persistence, API, frontend, security, and migration impacts are described when relevant.
 - Testing approach and testability risks are identified.
 - ADR candidates are identified or explicitly ruled out.
+- Affected Architectural Capabilities are identified, and expected test suites (Repository, SQL Integration, Controller, or future suite types) are listed. For repository tests, architectural decisions from the SDD are mapped to expected test scenarios.
 - Design states outcomes and constraints, not implementation prescriptions. Prefer describing what must be true over naming specific classes, methods, or mapping strategies unless a durable ADR requires them.
 - Design is specific enough to create implementation tasks or execute directly.
 - API contract ambiguities are identified; unresolved contract decisions are flagged for SDD Pre-Execution Review.
@@ -264,6 +265,7 @@ Exit criteria:
 - Known acceptance criteria are addressed.
 - SDD artifacts are updated when implementation reveals scope, design, task, or verification changes.
 - Evidence and skipped checks are ready for verifier review.
+- **Architectural completeness confirmed:** All expected Architectural Capabilities identified during Design are satisfied through corresponding test suites (generated and passing), or their absence is explicitly justified with residual risk. Repository test scenarios are traceable to architectural decisions in design.md.
 - **`TASK-*` checkboxes:** Execute may mark implementation tasks complete when code and tests for that task are done. Execute records runtime validation **intent** for TASK-008; Verify owns durable HTTP evidence.
 
 ### Verify
@@ -753,7 +755,13 @@ For Small work, this can be an inline verifier handoff. For Medium, Large, and C
 
 ## Testing Governance Model
 
-Testing is part of implementation, not a separate phase after implementation.
+The authoritative reference for architectural testing — principles, ownership model, classification taxonomy, scenario vocabulary, design guidelines, and progressive evolution — is `Documentation/AI-Harness/Harness-Design/test-governance.md`. Load it when the current task involves test creation or modification.
+
+Testing is part of implementation, not a separate phase after implementation. The SDD lifecycle integrates testing as follows:
+
+- **Design** identifies affected Architectural Capabilities and which test suites are expected during Execute.
+- **Execute** implements both functionality and test suites. Every expected Architectural Capability is satisfied through automated test suites (Repository Tests for Persistence Intent, SQL Integration Tests for Physical Persistence, Controller Tests for API Contract, or future suite types). A capability whose test suite is absent is explicitly justified with residual risk.
+- **Verify** evaluates test evidence against architectural criteria — ownership, boundary consistency, scenario coverage, and architectural completeness.
 
 Governance principles:
 

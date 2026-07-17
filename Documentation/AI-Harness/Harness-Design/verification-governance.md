@@ -68,7 +68,7 @@ The verifier chooses from these categories based on the change:
 - Security/PHI review.
 - Domain review.
 - Documentation review.
-- Test strategy review.
+- Test strategy review (architectural ownership, boundary consistency, scenario coverage, architectural completeness — criteria defined in `test-governance.md`).
 - ADR evaluation.
 - Legacy behavior characterization or behavior comparison.
 

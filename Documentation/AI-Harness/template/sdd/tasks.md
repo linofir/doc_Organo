@@ -19,6 +19,7 @@ State what this task plan will execute and what it will not execute.
   - **Requirements:** `REQ-001`
   - **Files:** `...`
   - **Depends on:** None / `TASK-...`
+  - **Expected test suite(s):** Repository Tests | SQL Integration Tests | Controller Tests | None (no Architectural Capability affected)
   - **Tests or checks:** ...
   - **Done when:** ...
 - [ ] `TASK-002` - ...
@@ -84,6 +85,7 @@ The Verifier will select final gates. This section lists expected evidence from 
 | Domain review | Expected / Not expected | ... |
 | Documentation review | Expected / Not expected | ... |
 | Test strategy review | Expected / Not expected | ... |
+| Architectural completeness | Expected / Not expected | All Architectural Capabilities from design.md have test suites or justified absence |
 | ADR evaluation | Expected / Not expected | ... |
 | Legacy characterization | Expected / Not expected | ... |
 
@@ -98,9 +100,11 @@ List review prompts expected to apply.
 
 ## Known Risks And Skipped Checks
 
+Missing test suites must be listed here with Architectural Capability and justification.
+
 | Risk or skipped check | Reason | Owner / follow-up |
 |-----------------------|--------|-------------------|
-| ... | ... | ... |
+| [e.g., Controller Tests for `REQ-005`] | [e.g., Endpoint matches existing pattern; covered by SQL integration workflow validation] | [e.g., Accepted residual risk — re-evaluate when API contract diverges] |
 
 ## Documentation Follow-up Candidates
 

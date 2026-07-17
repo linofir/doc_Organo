@@ -3,11 +3,11 @@ name: sql-migration-workflow
 description: EF and SQL migration workflow for Doc Organo. Use when adding or changing migrations, porting an aggregate from Legacy/stub persistence to SQL, or changing EF mappings.
 ---
 
-# SQL Migration Workflow — Doc Organo
+# SQL Migration Workflow -- Doc Organo
 
 ## Purpose
 
-Use this skill for the operational workflow around EF migrations and SQL persistence changes. EF invariants stay in Harness rules (Cursor: `.cursor/rules/ef-migrations.mdc`; Cline: `.clinerules/ef-migrations.md`); this skill owns the procedure.
+Use this skill for the operational workflow around EF migrations and SQL persistence changes. EF invariants stay in `.cursor/rules/ef-migrations.mdc`; this skill owns the procedure.
 
 ## Start Here
 
@@ -24,6 +24,7 @@ Use this skill for the operational workflow around EF migrations and SQL persist
 - Compare current SQL behavior with Legacy behavior only by targeted reads.
 - Define characterization tests before porting critical Legacy behavior.
 - Check whether the change affects public API contracts or frontend expectations.
+- Load `Documentation/AI-Harness/Harness-Design/test-governance.md` when the current task involves test creation. Derive repository test scenarios from architectural decisions documented in the active SDD `design.md`.
 - Run the **Credential Probe** from SDD Execution Prerequisites before Execute when SQL integration tests apply (see `Documentation/AI-Harness/template/sdd/specify.md`).
 
 ## Local Credentials And Scripts
@@ -34,23 +35,23 @@ Single canonical credential source: repo-root `.env` (`SA_PASSWORD`), loaded via
 |-----------|------|
 | `DocAPI/Infrastructure/SqlDb/SqlConnectionResolver.cs` | Resolves connection for tests, EF, and local runs |
 | `scripts/load-env.ps1` | Loads `.env` into the current PowerShell session |
-| `scripts/sql-integration-test.ps1` | Docker up → migrate → `dotnet test` filter `Sql` |
+| `scripts/sql-integration-test.ps1` | Docker up -> migrate -> `dotnet test` filter `Sql` |
 | `scripts/api-smoke-atendimento.ps1` | HTTP smoke for Atendimento Minimal (TASK-008 helper; DocAPI must be running) |
 
-Connection resolution order: `DOCORGANO_TEST_CONNECTION` → `SA_PASSWORD` (env or `.env`) → user-secrets fallback.
+Connection resolution order: `DOCORGANO_TEST_CONNECTION` -> `SA_PASSWORD` (env or `.env`) -> user-secrets fallback.
 
-If integration tests skip with a **login** message, fix password alignment — do not assume Docker is down. See `Documentation/Technical/runbook.md`.
+If integration tests skip with a **login** message, fix password alignment -- do not assume Docker is down. See `Documentation/Technical/runbook.md`.
 
-## Repeatable Backend Stabilization Pattern (Aggregates #1–#2)
+## Repeatable Backend Stabilization Pattern (Aggregates #1-#2)
 
 Proven on Paciente and Atendimento Minimal:
 
-1. **Domain** — factory/create methods; soft delete via `MarcarComoExcluido()` (ADR-001); narrow update methods (no workflow in minimal slice).
-2. **Repository** — persistence-only CRUD; global query filter for soft delete; no FK validation in repository when parent FK is validated upstream.
-3. **Controller** — Guid routes; validate parent FK via repository lookup before create when required; PHI-safe errors (no `Console.WriteLine`).
-4. **DTOs / mapping** — slim create/read/update; watch DTO namespace vs entity name collisions.
-5. **Tests** — repository unit tests; optional controller unit tests with mocks for FK paths; one `*SqlIntegrationTests` class using `SqlIntegrationTestGate`.
-6. **Deferred routes** — preserve report/workflow routes as 501 when out of scope rather than deleting them.
+1. **Domain** -- factory/create methods; soft delete via `MarcarComoExcluido()` (ADR-001); narrow update methods (no workflow in minimal slice).
+2. **Repository** -- persistence-only CRUD; global query filter for soft delete; no FK validation in repository when parent FK is validated upstream.
+3. **Controller** -- Guid routes; validate parent FK via repository lookup before create when required; PHI-safe errors (no `Console.WriteLine`).
+4. **DTOs / mapping** -- slim create/read/update; watch DTO namespace vs entity name collisions.
+5. **Tests** -- repository unit tests derived from architectural decisions in `design.md` (see `test-governance.md` for Repository Test ownership: protect Persistence Intent, validate persistence contracts, update semantics, query semantics). Optional controller unit tests with mocks for FK paths; one `*SqlIntegrationTests` class using `SqlIntegrationTestGate`.
+6. **Deferred routes** -- preserve report/workflow routes as 501 when out of scope rather than deleting them.
 
 **Atendimento-specific additions:** `GetByPacienteIdAsync`; multiple concurrent active journeys per patient; Paciente FK on POST.
 
@@ -79,7 +80,7 @@ Route final gate selection to verifier responsibility. Typical gates include:
 - `dotnet build`
 - `dotnet test`
 - SQL integration or repository tests when persistence behavior changes
-- Swagger/API smoke when API behavior changes — **Verify records durable evidence** in `verification.md`
+- Swagger/API smoke when API behavior changes -- **Verify records durable evidence** in `verification.md`
 - Blazor smoke when frontend behavior changes
 - Domain or security/PHI review prompts when clinical data or auth assumptions are touched
 

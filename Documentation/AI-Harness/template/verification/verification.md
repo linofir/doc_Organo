@@ -72,6 +72,21 @@ Populate when API smoke, Swagger checklist, or manual runtime gates apply. This 
 - Missing or deferred tests:
 - Synthetic data confirmed: Yes / No / Not applicable
 
+### Architectural Completeness
+
+| Architectural Capability (from design.md) | Expected test suite | Present? | Evidence or justification |
+|--------------------------------------------|--------------------|----------|---------------------------|
+| Persistence Intent | Repository Tests | Yes / No / Not expected | [e.g., ProntuarioRepositoryTests.cs — 27 tests] |
+| Physical Persistence | SQL Integration Tests | Yes / No / Not expected | [e.g., ProntuarioSqlIntegrationTests.cs — 1 test] |
+| API Contract | Controller Tests | Yes / No / Not expected | [e.g., ProntuarioControllerTests.cs — 27 tests] |
+
+Missing suites justified with residual risk:
+- [e.g., No Controller Tests for `REQ-005` — endpoint matches existing pattern; accepted residual risk]
+
+Architectural ownership validation:
+- [e.g., Repository Tests own Persistence Intent — no overlap with SQL Integration Tests]
+- [e.g., All suites have explicit Protected Capability per test-governance.md ownership model]
+
 ## Residual Risk
 
 - Rating: Low / Medium / High

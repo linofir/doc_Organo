@@ -91,6 +91,7 @@ Objetivos do MVP2:
 | P0 | Testes SQL de integração para Paciente | Verificado | `PacienteSqlIntegrationTests` com skip policy; 15 testes no total (14 unit + 1 SQL) |
 | P0 | Atendimento Minimal SQL Integration Tests | Verificado | `AtendimentoSqlIntegrationTests` — CRUD round-trip contra Docker SQL; 27 testes no total (Verify 2026-06-18) |
 | P0 | Atendimento Workflow Characterization Tests | Planejado | Regras legadas `ValidacaoEtapa*` documentadas por testes de caracterização antes do Execute do workflow SDD |
+| P1 | Test Governance Adoption | Verificado (PASS WITH OBSERVATIONS, 2026-07-16) | `test-governance.md` created — 14 AD-TG decisions codified; `sdd-operational.md`, `verification-governance.md`, 2 skills (Cursor+Cline), 3 templates, 3 reference docs updated. One non-blocking observation (O-001) |
 | P1 | CI mínimo com `dotnet test` | Planejado | Feedback automático antes de merge |
 | P1 | Smoke tests Swagger/Blazor | Planejado | Validação manual orientada por checklist |
 | P2 | E2E tests dos fluxos clínicos | MVP3 candidato | Cobertura ponta a ponta quando UI/API estabilizarem |
@@ -168,7 +169,7 @@ Documentos e capacidades a planejar:
 | P2 | Skill de acompanhamento de evolução | Planejado | Skill futura para sugerir posts, demos e documentação a partir do progresso |
 | P3 | Posts LinkedIn/currículo | Futuro | Separar de backlog técnico principal |
 
-### Iniciativa de Governança — Adoção do AI Harness no MVP2
+### WS09 Iniciativa de Governança — Adoção do AI Harness no MVP2
 
 Esta iniciativa é uma capacidade de suporte para o MVP2, não um novo domínio do produto. Ela organiza o trabalho necessário para que a migração SQL clínica use planejamento, verificação, rastreabilidade e documentação de forma consistente. Os detalhes operacionais permanecem nos documentos de governança do AI Harness.
 
@@ -179,6 +180,7 @@ Esta iniciativa é uma capacidade de suporte para o MVP2, não um novo domínio 
 | AI Harness Evolution | P2 | Planejado | Estratégia leve para reporting futuro, session handoff, feature reports, lessons learned e preparação para observabilidade de workflow |
 | AI Harness Multi-Tool Evaluation | P2 | Planejado | Avaliar viabilidade de evolução do Harness para suportar múltiplas ferramentas de IA (Cursor, Cline e futuras), preservando a implementação Cursor atual como referência e a governança existente |
 | Verification Adoption | P1 | Verificado (piloto) | Verifier aplicado no piloto Paciente SQL Stabilization; `verification.md` gerado |
+| Test Governance Adoption | P1 | Verificado (PASS WITH OBSERVATIONS, 2026-07-16) | 14 AD-TG decisions codified; governance consistency confirmed across 16 documents; skills, templates, and review prompts synchronized. One non-blocking observation (O-001) |
 
 Itens planejados para MVP2:
 

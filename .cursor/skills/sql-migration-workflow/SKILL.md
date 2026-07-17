@@ -24,6 +24,7 @@ Use this skill for the operational workflow around EF migrations and SQL persist
 - Compare current SQL behavior with Legacy behavior only by targeted reads.
 - Define characterization tests before porting critical Legacy behavior.
 - Check whether the change affects public API contracts or frontend expectations.
+- Load `Documentation/AI-Harness/Harness-Design/test-governance.md` when the current task involves test creation. Derive repository test scenarios from architectural decisions documented in the active SDD `design.md`.
 - Run the **Credential Probe** from SDD Execution Prerequisites before Execute when SQL integration tests apply (see `Documentation/AI-Harness/template/sdd/specify.md`).
 
 ## Local Credentials And Scripts
@@ -49,7 +50,7 @@ Proven on Paciente and Atendimento Minimal:
 2. **Repository** — persistence-only CRUD; global query filter for soft delete; no FK validation in repository when parent FK is validated upstream.
 3. **Controller** — Guid routes; validate parent FK via repository lookup before create when required; PHI-safe errors (no `Console.WriteLine`).
 4. **DTOs / mapping** — slim create/read/update; watch DTO namespace vs entity name collisions.
-5. **Tests** — repository unit tests; optional controller unit tests with mocks for FK paths; one `*SqlIntegrationTests` class using `SqlIntegrationTestGate`.
+5. **Tests** — repository unit tests derived from architectural decisions in `design.md` (see `test-governance.md` for Repository Test ownership: protect Persistence Intent, validate persistence contracts, update semantics, query semantics). Optional controller unit tests with mocks for FK paths; one `*SqlIntegrationTests` class using `SqlIntegrationTestGate`.
 6. **Deferred routes** — preserve report/workflow routes as 501 when out of scope rather than deleting them.
 
 **Atendimento-specific additions:** `GetByPacienteIdAsync`; multiple concurrent active journeys per patient; Paciente FK on POST.

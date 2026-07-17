@@ -133,6 +133,31 @@ Describe testability and expected implementation-time tests.
 |-------------|------------------------|-------|
 | `REQ-001` | ... | ... |
 
+## Architectural Capabilities And Expected Test Suites
+
+Identify which Architectural Capabilities are affected by this feature and which test suites are expected during Execute. See `test-governance.md` for capability definitions and test suite ownership.
+
+| Architectural Capability | Expected test suite | Rationale |
+|--------------------------|--------------------|-----------|
+| Persistence Intent | Repository Tests | [e.g., New aggregate with versioning semantics] |
+| Physical Persistence | SQL Integration Tests | [e.g., Schema changes, migration] |
+| API Contract | Controller Tests | [e.g., New endpoints, DTO changes] |
+
+For each Architectural Capability that is NOT expected, state why:
+
+| Architectural Capability | Not expected because |
+|--------------------------|---------------------|
+| [e.g., Business Invariants] | [e.g., No new domain invariants — existing aggregate invariants already covered] |
+
+### Architectural Decision To Test Scenario Mapping
+
+Map architectural decisions from this design to expected repository test scenarios. This satisfies AD-TG-011: repository test scenarios shall be derived from SDD architectural decisions.
+
+| Architectural decision | Expected repository test scenario(s) |
+|------------------------|--------------------------------------|
+| [e.g., Version immutability — created versions never mutate] | [e.g., Update after version creation preserves all fields] |
+| [e.g., Soft delete excludes from reads but preserves for version queries] | [e.g., SoftDelete excludes from GetById; SoftDelete preserves version for MaxVersao] |
+
 ## Verification Handoff Notes
 
 List expected verifier inputs. The Verifier will select final gates.

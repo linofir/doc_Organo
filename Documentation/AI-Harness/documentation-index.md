@@ -65,6 +65,7 @@ Canonical documentation lives under `Documentation/`.
 | [Harness-Design/sdd-pilot-report-governance.md](Harness-Design/sdd-pilot-report-governance.md) | SDD Pilot Report governance: phased workflow calibration, versioning, findings registry, and boundary vs Reporting Strategy |
 | [Harness-Design/knowledge-strategy.md](Harness-Design/knowledge-strategy.md) | Knowledge-transfer governance for Teacher Guides: boundaries, mandatory sections, lifecycle, and study roadmap policy |
 | [../../.cursor/skills/not-a-teacher/SKILL.md](../../.cursor/skills/not-a-teacher/SKILL.md) | Operational workflow to generate or update `teacher-guide.md` from verified implementation |
+| [Harness-Design/test-governance.md](Harness-Design/test-governance.md) | Architectural testing authority — principles, ownership model, classification, design guidelines |
 | [Harness-Design/template-architecture.md](Harness-Design/template-architecture.md) | Template ecosystem, Feature SDD folder structure, dependencies, creation order, and validation order |
 
 ## AI Harness Operations

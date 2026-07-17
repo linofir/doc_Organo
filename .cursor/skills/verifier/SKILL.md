@@ -56,6 +56,8 @@ Baseline gates:
 - ADR evaluation: apply ADR criteria when a durable decision may affect boundaries, persistence, schema lifecycle, security/auth, API contracts, cross-context ownership, major runtime choices, or irreversible migration decisions.
 - Legacy characterization: targeted characterization tests or explicit behavior comparison when Legacy behavior is ported.
 
+The test strategy review gate evaluates architectural criteria from `test-governance.md` — architectural ownership, boundary consistency, progressive evolution, architectural completeness, behavior-oriented naming, and scenario coverage.
+
 When a gate is skipped, record a concrete reason. "Not needed" is acceptable only when tied to the classification, such as "No runtime or code behavior changed."
 
 ### Environment-Dependent Evidence
@@ -91,7 +93,7 @@ Use prompts under `Documentation/AI-Harness/review-prompts/` when relevant:
 - `domain-review.md`: domain language, clinical business rules, entity/use-case placement, Financial deferral, Legacy behavior porting.
 - `security-phi-review.md`: PHI exposure, credentials, secrets, logs, files, auth/authz assumptions, synthetic test data.
 - `check-docs.md`: State, ADR, durable docs, SDD alignment, path drift, authority boundaries.
-- `test-strategy.md`: automated coverage for new behavior, meaningful test names, synthetic data, explicit missing-test debt.
+- `test-strategy.md`: automated coverage for new behavior, meaningful test names, synthetic data, explicit missing-test debt. **Architectural criteria from `test-governance.md`:** architectural ownership of each suite, boundary consistency (no overlapping responsibilities), progressive evolution (complexity proportional to maturity), architectural completeness (expected suites present or justified absent), behavior-oriented naming, scenario coverage (Happy Path, Boundary, Failure, Business Rule, Planned Behavior).
 
 For each selected sensor, record why it applies and whether findings are Critical, Suggestion, or OK.
 

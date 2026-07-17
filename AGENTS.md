@@ -39,6 +39,7 @@ doc_Organo/
 | Front architecture | `Documentation/Technical/front-architecture.md` |
 | Local runbook | `Documentation/Technical/runbook.md` |
 | Harness navigation | `Documentation/AI-Harness/documentation-index.md` |
+| Test governance | `Documentation/AI-Harness/Harness-Design/test-governance.md` |
 
 ## Authority Hierarchy
 
