@@ -1,23 +1,42 @@
 using System;
-using System.ComponentModel.DataAnnotations;
-using  DocAPI.Core.Entities;
+using DocAPI.Core.Entities;
 
-public class ReadAgendamentoDto
+namespace DocAPI.Data.Dtos.AgendamentoDtos
+{
+    public class ReadAgendamentoDto
     {
-        public string ID { get; set; } = string.Empty;
-        public string PacienteID { get; set; } = string.Empty;
+        public Guid ID { get; set; }
+
+        public Guid AtendimentoId { get; set; }
+
+        public Guid InternacaoId { get; set; }
+
+        public Guid? PacienteId { get; set; }
+
         public string Nome { get; set; } = string.Empty;
-        public string? Aviso { get; set; }  
-        public DateOnly? Data { get; set; }
+
+        public string? Aviso { get; set; }
+
+        public DateOnly Data { get; set; }
+
         public TimeOnly Horario { get; set; }
-        public string Procedimento { get; set; } = string.Empty;
+
         public string Local { get; set; } = string.Empty;
+
         public string? Sala { get; set; }
+
         public SenhaAgendamento? SenhaAgendamento { get; set; }
-        public StatusAgendamento?  Status { get; set; }
-        public string StatusInstrucoes { get; set; } = string.Empty;
-        public string StatusAtestado { get; set; } = string.Empty;
-        public DateOnly DataConsulta { get; set; } = DateOnly.MinValue;
 
+        public StatusAgendamento Status { get; set; }
+
+        public StatusInstrucoes InstrucaoStatus { get; set; }
+
+        public StatusAtestado AtestadoStatus { get; set; }
+
+        public DateOnly DataConsulta { get; set; }
+
+        public DateTime CriadoEm { get; set; }
+
+        public DateTime? AtualizadoEm { get; set; }
     }
-
+}

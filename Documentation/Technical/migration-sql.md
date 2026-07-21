@@ -12,8 +12,8 @@ Approved sequencing (2026-06 — Research consolidation: Paciente, Atendimento M
 | 1 | **Paciente** | `PacienteRepository` | `PacienteSheetsRepository.cs` | CRUD + SQL test + Swagger | **Backend verified** (2026-06) — WS07 frontend alignment pending |
 | 2 | **Atendimento Minimal** | `AtendimentoRepository` | `AtendimentoSheetsRepository.cs` (CRUD only) | CRUD + Paciente FK + Guid + SQL test + Swagger | **Backend verified** (2026-06) — WS07 frontend alignment pending |
 | 3 | **Prontuario** | `ProntuarioRepository` | `ProntuarioSheetsRepository.cs` | CRUD + versioning + nested children + SQL test | **Backend verified** (2026-07-09) — 79 tests (11 unit + 27 controller + 1 SQL integration); dual-mode versioning API (ADR-006); REQ-001–REQ-018 — [verification.md](../SDD/prontuario-sql-stabilization/verification.md) |
-| 4 | **Agendamento** | `AgendamentoRepository` | `AgendamentoSheetsRepository.cs` | CRUD + SQL test | Not started — **Atendimento Minimal prerequisite satisfied** |
-| 5 | **Atendimento Workflow** | `AtendimentoRepository` (extended) | `AtendimentoSheetsRepository.cs` (`ValidacaoEtapa*`) | Rules ported + pendências/events + workflow endpoint + characterization tests | Not started — **requires Minimal + Prontuario + Agendamento verified** — [research.md](../SDD/atendimento-workflow-stabilization/research.md) |
+| 4 | **Agendamento** | `AgendamentoRepository` | `AgendamentoSheetsRepository.cs` | CRUD + SQL test | **Backend verified** (2026-07-20) — 30 tests (entity + repository + controller + SQL integration); 6 endpoints with Guid routing, 3-FK validation, PHI-safe controller; Approved with Findings (F-01, F-02 low severity). WS07 frontend alignment deferred. — [verification.md](../SDD/Agendamento_Stabilization/verification.md) |
+| 5 | **Atendimento Workflow** | `AtendimentoRepository` (extended) | `AtendimentoSheetsRepository.cs` (`ValidacaoEtapa*`) | Rules ported + pendências/events + workflow endpoint + characterization tests | Not started — **all prerequisites verified (Minimal + Prontuario + Agendamento)** — [research.md](../SDD/atendimento-workflow-stabilization/research.md) |
 
 > **Prerequisite clarification:** Only **Atendimento Minimal** (order 2) is required before Prontuario and Agendamento. **Atendimento Workflow** (order 5) is **not** a prerequisite for Prontuario or Agendamento — it extends persistence with journey orchestration after those aggregates are SQL-stable.
 
@@ -104,18 +104,22 @@ Standalone `api-contract.md` remains deferred — migration-sql sections are aut
 - [x] State.md updated
 ```
 
-### Template for remaining aggregates (Agendamento)
+### Agendamento (Aggregate #4) — verified 2026-07-20
 
 ```markdown
-- [ ] EF config reviewed (Fluent API)
-- [ ] Repository uses DocDbContext
-- [ ] Registered in Program.cs DI
-- [ ] Controller IDs aligned (Guid)
-- [ ] Integration test(s)
-- [ ] Legacy behavior reviewed
-- [ ] Atendimento Minimal prerequisite satisfied (valid AtendimentoId FK)
-- [ ] Front service smoke (if applicable) — deferred to WS07
-- [ ] State.md updated
+- [x] EF config reviewed (Fluent API) — `AgendamentoConfig`
+- [x] Repository uses DocDbContext — CRUD + soft delete + query by name/pacienteId
+- [x] Registered in Program.cs DI
+- [x] Controller IDs aligned (Guid)
+- [x] Integration test(s) — `AgendamentoSqlIntegrationTests` with skip policy
+- [x] Legacy behavior reviewed — preserve/adapt/abandon in agendamento-sql-stabilization SDD
+- [x] Atendimento Minimal prerequisite satisfied (valid AtendimentoId FK)
+- [x] PHI-safe controller (no Console.WriteLine)
+- [x] FK validation on create (AtendimentoId, InternacaoId, PacienteId) — 404 with structured body
+- [x] Soft delete per ADR-001
+- [x] Two low-severity findings (F-01, F-02) — Paciente navigation + EF relationship accepted
+- [ ] Front service smoke — deferred to WS07
+- [x] State.md updated
 ```
 
 ## Paciente API contract (backend verified)

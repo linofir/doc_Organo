@@ -1,0 +1,494 @@
+##  Research Part 1 v3
+	### Session Type
+	Feature Discovery & Scope Decomposition (Research Part 1)
+	### Lifecycle Position
+	```Research Part 1 (this session)
+→ Research Part 2 Consolidation (codebase + governance validation; approved decisions)
+→ [Research Delta — only if prerequisites, State.md, or PM sequencing changed since prior research]
+→ Specify
+→ Design
+→ Tasks
+→ SDD Pre-Execution Review
+→ Execute
+→ Verify
+→ Documentation Follow-Up
+→ Reporting
+→ Teacher Guide (when applicable)
+→ Governance Improvement Plan (Optional)
+
+```
+	### Current Phase
+	Research Part 1 — planning and analysis only.
+	### Feature Workspace Bootstrap
+	Before starting the analysis:
+	If Documentation/SDD/<feature-slug>/ does not exist:
+	- Create the standard feature workspace structure.
+	- Initialize the standard SDD documents according to project conventions.
+	- Register the feature in Documentation/State.md as Research Phase, preserving approved project sequencing.
+	- Continue with Research Part 1.
+	If the workspace already exists:
+	- Continue from existing artifacts.
+	- Preserve previously approved documentation and decisions.
+	- Do not overwrite existing content unless explicitly requested.
+	### Session Rules (Mandatory)
+	- Do NOT implement code.
+	- Do NOT modify production files, tests, migrations, or configuration.
+	- Do NOT update owning documentation ( State.md, PM, PRD, ADRs, architecture/technical docs, rules, skills). Identify update candidates only, except for the Feature Workspace Bootstrap registration in State.md.
+	- Do NOT create SDD artifacts such as specify.md, design.md, tasks.md, or verification.md.
+	- Do NOT produce numbered implementation lists ( TASK-*, VP-*, DF-*). Classify candidate work types only.
+	- Do NOT self-certify verification gates. Identify expectations only; Verifier owns final gate selection.
+	- Do NOT paste long chat history as durable truth.
+	- Output is a handoff input for research.md Part 1 when persisted by the user.
+	### Output Language
+	If the user will save output to Documentation/SDD/<feature-slug>/research.md, write all deliverables in English.
+	### Context Loading (Read Before Analysis)
+	Follow the principle:
+	> Load the minimum set needed. Prefer targeted files and methods over folders.
+	#### Always Read First
+	1. Documentation/State.md
+		- Current branch
+		- Runtime status
+		- Blockers
+		- Sequencing
+		- Verification status
+	2. AGENTS.md
+		- Authority hierarchy
+		- Routing rules
+	#### Load on Demand (Authority Order)
+	1. Accepted ADRs (when architecture, persistence, security, API, migration, or irreversible decisions apply)
+	2. Active SDD for this feature under Documentation/SDD/<feature-slug>/
+	3. Verified prerequisite SDDs (if upstream work exists)
+	4. Product documents:
+		- PRD.md
+		- PM_DocOrgano.md
+		- RoadMap.md
+	5. Domain / architecture:
+		- Domain_Overview_Business_Rules.md
+		- Architecture_Overview.md
+		- erd.dbml
+	6. Technical:
+		- migration-sql.md (mandatory for SQL / persistence slices)
+		- front-architecture.md
+		- runbook.md
+	7. Harness governance:
+		- sdd-operational.md
+	8. Skills when relevant:
+	- codebase-decomposition
+	- doc-organo-context
+	- sql-migration-workflow
+	#### Legacy Reference
+	- Read targeted methods in DocAPI/Legacy/_LegacySheetsDb/ only when behavior porting is in scope.
+	- Do NOT load entire Legacy folders.
+	- Legacy is behavioral reference, not authority.
+	- ADRs, domain docs, and security requirements override Legacy when conflicts exist.
+	#### External References
+	- External references are secondary inspiration only.
+	- Do not override local governance.
+	#### Do Not Repeat Completed Work
+	- If research.md already exists and operational truth has not changed, treat prior research as input; do not redo full Discovery.
+	- If prerequisites completed Verify, State.md sequencing changed, or PM order changed since prior research, run Research Delta reconciliation instead of full Part 1.
+	- Explicitly state what supersedes prior findings.
+	### Feature Context
+				Field
+				Value
+				Feature
+				<FEATURE_NAME>
+				Suggested feature slug
+				<feature-slug>
+				PM Reference
+				<PM_ITEM>
+				Target Domain / Bounded Context
+				<Clinical / Support / Financial — note if Financial is out of scope>
+				Active epic / sequencing context
+				From State.md
+				Related SDDs / ADRs
+				<links or paths>
+	### Objective
+	Determine the real implementation boundary of the feature before SDD planning begins.
+	Do not assume the PM item represents the complete scope.
+	Produce recommendations and candidates, not final SDD decisions. Specify owns final scope, requirements, and acceptance criteria.
+	Identify:
+	- Hidden dependencies and cross-workstream impacts
+	- Required supporting work (including separate features or SDDs)
+	- Validation, governance, documentation, and verification expectations
+	- Unknowns that must be resolved in Research Part 2 before Specify
+	Purpose:
+	> Prevent under-scoped SDDs and hidden Execute scope.___
+	### Adaptive Depth
+	Choose analysis depth based on feature type and state which mode applies.
+				Mode
+				When
+				Full Sections Required
+				Full
+				SQL migration vertical, Legacy behavior port, cross-layer, PHI/clinical, API contract change
+				All Discovery sections + full WS01–WS08 matrix
+				Standard
+				Medium behavior change, limited layers, no Legacy port
+				Domain, Architecture, API, Security, Verification, Documentation; shorten Legacy/Data if no persistence
+				Light
+				Small, low-risk, no persistence/API/clinical impact
+				Executive Summary, Feature Boundary, Sizing, Readiness; skip Legacy and Workstream Matrix unless touched
+	Default for DocOrgano brownfield clinical work: prefer Full or Standard when in doubt.
+	### SDD Necessity & Sizing Pre-Check
+	#### SDD Trigger Evaluation
+	Does this work require SDD per sdd-operational.md?
+	Consider:
+	- Large / cross-layer / multi-session
+	- Persistence, schema, EF, or migration
+	- Legacy behavior port or characterization
+	- Clinical behavior or PHI/security sensitivity
+	- API contract or consumer impact
+	- ADR candidate
+	- Irreversible or hard-to-reverse decision
+	Preliminary SDD decision:
+	- Required
+	- Optional (inline Specify)
+	- Not required
+	Provide rationale.
+	#### Initial Sizing Hypothesis
+				Size
+				Preliminary rationale
+				Small / Medium / Large / Complex
+				...
+	Brownfield bias:
+	A change that looks small by file count may still be Medium, Large, or Complex if it touches clinical behavior, PHI, persistence, Legacy, schema, API contracts, or ADR criteria.
+	SQL calibration:
+	For the first SQL migration vertical in a bounded context, default to Large unless explicitly justified otherwise.
+	### Prerequisite & Sequencing Check
+	From State.md, migration-sql.md, and PM-approved order:
+				Prerequisite
+				Required
+				Status
+				Impact if Missing
+				...
+				Yes / No
+				Verified / In Progress / Stubbed / Blocked
+				...
+	Answer explicitly:
+	- Does this feature depend on upstream SDDs that must be verified first?
+	- Does this feature change approved migration sequencing? If yes, escalate.
+	- Is there stale prior research that assumes blockers still exist? If yes, flag Research Delta.
+	### Historical Evidence Discovery
+	Before analyzing the current feature, identify previously completed SDDs that may contain implementation evidence capable of reducing uncertainty.
+	Potential evidence sources (load only when relevant):
+	- reports/feature-report.md
+	- reports/session-handoff.md
+	- verification.md
+	- design.md (only when implementation patterns are directly reusable)
+	- ADRs created during previous features
+	Examples may include previous features that share:
+	- The same domain or bounded context
+	- Related business workflows
+	- Shared architectural patterns
+	- Reusable implementation strategies
+	- Common infrastructure or integration mechanisms
+	- Similar validation or verification approaches
+	For each candidate:
+				SDD
+				Why Relevant
+				Evidence Source
+				Should Load
+				...
+				...
+				...
+				Yes / No
+	Load only the minimum evidence necessary.
+	Previous SDDs provide implementation evidence, not architectural authority.
+	Accepted ADRs, current governance, and domain documentation remain authoritative.
+	### Escalation Triggers
+	Pause and surface for human decision when:
+	- Findings conflict with an accepted ADR
+	- Findings conflict with State.md and ownership is unclear
+	- Domain docs conflict with Legacy behavior and scope does not authorize adapt/abandon
+	- Design would require schema migration, API breaking change, or Financial domain expansion without explicit approval
+	- Prerequisite sequencing would need to change
+	- Material unknowns remain while Specify readiness is being considered
+	Use:
+	> Conflict → Options → Trade-offs → Recommendation → Required Human Decision___
+	### Discovery Analysis
+	Mark each finding as:
+	- Fact
+	- Inference
+	- Unknown
+	#### Domain Discovery
+	Identify:
+	- Business capability affected
+	- Domain entities and aggregates affected
+	- Existing business rules, validations, and invariants (cite owning docs)
+	For each material behavior:
+	- Preserve
+	- Adapt
+	- Abandon
+	- Unknown
+	Do not infer clinical rules.
+	#### Legacy Characterization Discovery
+	(Skip or shorten in Light/Standard mode when no Legacy port.)
+	Identify:
+	- Repositories
+	- Services
+	- Controllers
+	- DTOs
+	- Frontend dependencies
+	- Integrations
+	Classify each material Legacy behavior:
+	- Preserve
+	- Adapt
+	- Abandon
+	- Unknown
+	Read targeted Legacy methods only.
+	#### Architecture Discovery
+	Identify:
+	- Layers affected
+	- Dependencies and infrastructure affected
+	- Components involved
+	- Components explicitly not involved
+	Avoid scope inflation.
+	#### Data Discovery (Mandatory for persistence work)
+	Identify:
+	- Tables
+	- Entities
+	- EF mappings
+	- Migration concerns
+	Determine:
+	- Data compatibility risks
+	- Integrity risks
+	- Whether migration is an ADR/escalation candidate
+	#### API Discovery
+	Identify:
+	- Existing endpoints
+	- Contracts
+	- Consumers
+	- Frontend drift
+	Determine:
+	- Likely contract changes
+	- Contract ambiguities
+	Unresolved ambiguities block Specify readiness.
+	#### Frontend Discovery
+	Apply Backend Stabilization Rule when applicable:
+	- Frontend validation is out of Execute scope by default.
+	- Document frontend/API drift as follow-up or out-of-scope work.
+	Classify frontend impact:
+	- Required
+	- Optional
+	- Deferred (default for backend stabilization)
+	#### Security & PHI Discovery
+	Identify:
+	- Sensitive data exposure
+	- Logging risks
+	- PHI handling
+	- Auth/AuthZ impact
+	Determine:
+	- Whether Security/PHI review is likely required at Verify
+	Do not reproduce real patient data.
+	#### Verification Discovery
+	Identify expected evidence (not final gates):
+	- Build validation
+	- Unit tests
+	- SQL integration tests
+	- API smoke tests
+	- Review prompts
+	Identify:
+	- Environment dependencies (e.g., SA_PASSWORD, Docker SQL, credentials)
+	- Manual validation needs
+	- Testability limits
+	- Deferred-test risks
+	Reminder:
+	> Verifier selects and evaluates gates.
+	#### Documentation Discovery
+	Identify candidates only:
+				Candidate
+				Why It Might Need Update
+				State.md
+				...
+				PM / PRD / RoadMap
+				...
+				ADRs
+				...
+				Architecture / Technical docs
+				...
+				Rules / Skills / Harness docs
+				...
+				Active SDD artifacts
+				...
+	Documentation Update owns routing.
+	### Workstream Impact Analysis
+	(Abbreviate in Light mode.)
+				Workstream
+				Impact
+				Notes
+				WS01 — SQL & Infrastructure
+				Direct / Supporting / None
+				...
+				WS02 — Domain & Architecture
+				Direct / Supporting / None
+				...
+				WS03 — Testing & Verification
+				Direct / Supporting / None
+				...
+				WS04 — Security & PHI
+				Direct / Supporting / None
+				...
+				WS05 — Code Quality & Standards
+				Direct / Supporting / None
+				...
+				WS06 — Legacy Services & Integrations
+				Direct / Supporting / None
+				...
+				WS07 — Frontend
+				Direct / Supporting / None
+				...
+				WS08 — AI Harness & Governance
+				Direct / Supporting / None
+				...
+	### Scope Decomposition
+	#### Core Feature
+	The primary feature that should receive the forward SDD (name + slug).
+	#### Supporting Work
+				Item
+				Candidate Classification
+				Separate SDD
+				Rationale
+				...
+				Requirement / TASK candidate / VP candidate / DF candidate / Separate Feature
+				Yes / No
+				...
+	Classification legend:
+	- Requirement → future specify.md
+	- TASK candidate → likely Execute implementation slice
+	- VP candidate → Verify preparation
+	- DF candidate → Documentation Follow-Up preparation
+	- Separate Feature → own SDD or PM item
+	Do not hide separate features inside the core SDD.
+	### Dependency Analysis
+	#### Upstream
+				Dependency
+				Status
+				Blocks
+				...
+				...
+				...
+	#### Downstream
+				Enabled Work
+				Workstream
+				...
+				...
+	#### Blocking Dependencies
+				Blocker
+				Impact
+				Resolution Owner
+				...
+				Research Part 2 / Specify / Human
+				...
+	### Risk Analysis
+	Cap to material risks only.
+				Description
+				Class
+				Probability
+				Impact
+				Mitigation
+				...
+				Technical / Domain / Data / Security / Verification / Governance
+				L / M / H
+				L / M / H
+				...
+	### Breaking Change Assessment
+				Change Type
+				Impact
+				Notes
+				Mitigation
+				User-visible
+				Low / Medium / High
+				...
+				...
+				API
+				Low / Medium / High
+				...
+				...
+				Database
+				Low / Medium / High
+				...
+				...
+				Operational
+				Low / Medium / High
+				...
+				...
+	### Feature Sizing (Discovery Recommendation)
+				Field
+				Recommendation
+				Size
+				Small / Medium / Large / Complex
+				Rationale
+				Include brownfield, clinical, Legacy, cross-layer, and harness calibration factors
+				Calibration Reference
+				Comparable completed SDD, if any
+				Escalation to Larger Size If
+				List triggers that would upsize during Part 2
+	### Readiness Decision
+	Choose exactly one primary outcome:
+				Decision
+				Meaning
+				Needs Research Part 2
+				Boundaries are directionally clear, but unknowns require codebase validation, approved decisions, or Legacy characterization
+				Needs Research Delta
+				Prior Part 1/2 exists but State.md, prerequisites, or PM sequencing changed
+				Ready for Specify
+				Boundaries clear, no material unknowns, prerequisites satisfied or accepted with documented risk
+	Justification:
+	...
+	Open questions for Part 2 (required if not Ready for Specify):
+	1. ...
+	2. ...
+	Blockers that must not carry into Specify unresolved:
+	- ...
+	### Ready for Specify Gate
+	Specify may begin only if all conditions below are true:
+	- No unresolved architectural ambiguity.
+	- No unresolved prerequisite dependency.
+	- No unresolved API or integration contract ambiguity.
+	- No unresolved implementation or migration strategy ambiguity.
+	- Feature boundaries are sufficiently understood.
+	- Required historical implementation evidence has been reviewed.
+	Otherwise:
+	> Recommend continuing with Research Part 2.___
+	### Deliverables
+	Return the following sections.
+	Label content as Recommendation unless citing verified facts from docs/code.
+	#### Executive Summary
+	- PM item vs real boundary
+	- Core recommendation
+	- Preliminary sizing and SDD necessity
+	- Primary readiness decision
+	#### Feature Boundary
+	- In boundary
+	- Out of boundary
+	- Ambiguous (default recommendation + what Part 2 must decide)
+	#### Domain Discovery
+	#### Legacy Characterization (if applicable)
+	#### Architecture Discovery
+	#### Data Discovery (if applicable)
+	#### API Discovery
+	#### Frontend Discovery
+	#### Security & PHI Discovery
+	#### Verification Discovery
+	#### Documentation Discovery
+	#### Workstream Impact Matrix
+	#### Core Feature
+	#### Supporting Features / Work Packages
+	#### Scope Decomposition
+	#### Dependency Analysis
+	#### Risk Analysis
+	#### Breaking Change Assessment
+	#### Feature Sizing
+	#### Recommended PM Updates (candidates — PM owns acceptance)
+	#### Recommended SDD Scope (input for Specify — not final scope)
+	#### Readiness Decision
+	### Explicit Exclusions (Do Not Produce)
+	- specify.md, design.md, tasks.md, verification.md
+	- Numbered TASK-*, VP-*, or DF-* implementation lists
+	- Code changes, migrations, or documentation edits
+	- Final verification gate selection or completion judgment
+	- Teacher Guide, feature report, or pilot report (unless explicitly requested in a separate step)
+	 Reseach consolidation
+	 Aplicar um research Delta se necessário
+	
+	

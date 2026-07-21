@@ -2,17 +2,17 @@
 
 Operational snapshot for agents and developers. Update at the end of each work session or merged PR.
 
-**Last updated:** 2026-07-16 (Test Governance Adoption — Verified PASS WITH OBSERVATIONS; Documentation Follow-Up complete; ready for Reporting)
+**Last updated:** 2026-07-20 (Agendamento Stabilization — Verified Approved with Findings; Documentation Follow-Up in progress)
 
 ## Current branch
 
-`feature/harness` — AI Harness Multi-Tool Evaluation implementation complete and verified (Approved with Minor Findings). Three-layer Harness Asset / Tool Asset / Shared Asset taxonomy established as architectural boundary. Cline first-class support implemented (`.clinerules/`, `.cline/skills/`, `.clineignore`). Clinical SQL migration work **paused** — Prontuario SQL Stabilization **verified** (Verified with Minor Findings, 2026-07-09); Agendamento deferred. **Active feature: Test Governance Adoption (WS03/WS09)** — **Verified (PASS WITH OBSERVATIONS, 2026-07-16)**. All 13 TASKs implemented, all 31 REQs satisfied, all 14 AD-TG decisions codified. One non-blocking observation (O-001: PM_DocOrgano.md modified outside planned Affected Components). Documentation Follow-Up complete — State.md and PM_DocOrgano.md synchronized. Ready for Reporting.
+`feature/harness` — AI Harness Multi-Tool Evaluation implementation complete and verified (Approved with Minor Findings). Three-layer Harness Asset / Tool Asset / Shared Asset taxonomy established as architectural boundary. Cline first-class support implemented (`.clinerules/`, `.cline/skills/`, `.clineignore`). Clinical SQL migration — Prontuario SQL Stabilization **verified** (Verified with Minor Findings, 2026-07-09). **Agendamento Stabilization — Verified (Approved with Findings, 2026-07-20).** Test Governance Adoption (WS03/WS09) **Verified (PASS WITH OBSERVATIONS, 2026-07-16)** — ready for Reporting.
 
 ## Runtime status
 
 | Component | Status |
 |-----------|--------|
-| DocAPI (SQL) | **Paciente** backend stabilized — full-field CRUD, collection search, soft delete, duplicate CPF 409, PHI-safe controller (14 unit + 1 SQL integration). **Atendimento Minimal** backend stabilized — CRUD, Paciente FK validation, Guid contracts, soft delete, PHI-safe controller, 501 report routes preserved (11 unit + 1 SQL integration). **Prontuario** backend stabilized — dual-mode versioning API (PUT correction + POST `/versoes` evolution), full nested graph CRUD, Atendimento FK validation, soft delete, PHI-safe controller, 10 endpoints, 11 unit + 27 controller + 1 SQL integration tests. Agendamento stubbed (DI resolves, throws until migrated). **79 tests** total (Verify 2026-07-09) |
+| DocAPI (SQL) | **Paciente** backend stabilized — full-field CRUD, collection search, soft delete, duplicate CPF 409, PHI-safe controller (14 unit + 1 SQL integration). **Atendimento Minimal** backend stabilized — CRUD, Paciente FK validation, Guid contracts, soft delete, PHI-safe controller, 501 report routes preserved (11 unit + 1 SQL integration). **Prontuario** backend stabilized — dual-mode versioning API (PUT correction + POST `/versoes` evolution), full nested graph CRUD, Atendimento FK validation, soft delete, PHI-safe controller, 10 endpoints, 11 unit + 27 controller + 1 SQL integration tests. **Agendamento** backend stabilized — full CRUD + 3-FK validation + soft delete + PHI-safe controller, 6 endpoints, Guid routing (Approved with Findings, 2026-07-20). **109 tests** total (79 baseline + 30 Agendamento) |
 | DocAPI (`main`) | Functional with Google Sheets (reference only) |
 | DocFront.Web | Blazor Server; expects API at `https://localhost:7004`. Still calls retired `paciente/nome/{nome}` — WS07 debt |
 | SQL Server | Docker `docorgano-sql`; requires `SA_PASSWORD` env var |
@@ -20,9 +20,11 @@ Operational snapshot for agents and developers. Update at the end of each work s
 
 ## Active epic
 
-**Test Governance Adoption (WS03/WS09)** — **current active feature**. **Verified (PASS WITH OBSERVATIONS, 2026-07-16)**. All 13 TASKs implemented, all 31 REQs satisfied, all 14 AD-TG decisions codified. Governance consistency confirmed across 16 documents. One non-blocking observation (O-001: PM_DocOrgano.md modified outside planned Affected Components — minor update, does not introduce governance inconsistency). Documentation Follow-Up complete. Next lifecycle phase: Reporting.
+**Agendamento Stabilization** — **verified (Approved with Findings, 2026-07-20).** Fourth SQL vertical complete. 30 tests (entity + repository + controller + SQL integration). Two low-severity findings (F-01: missing Paciente navigation, F-02: missing Paciente EF relationship mapping) — accepted, do not affect functional correctness. Six endpoints with Guid routing, 3-FK validation, PHI-safe controller. SDD folder: `Documentation/SDD/Agendamento_Stabilization/`. Next lifecycle phase: Documentation Follow-Up → Reporting.
 
-**Infraestrutura SQL** — vertical slices **Paciente**, **Atendimento Minimal**, and **Prontuario** backend verified. **Agendamento SQL Migration & Stabilization** deferred while Test Governance Adoption is active. ADR-006 (dual-mode versioning API) accepted and honored. Prontuario verified (2026-07-09) — 79 tests, REQ-001–REQ-018 satisfied.
+**Infraestrutura SQL** — vertical slices **Paciente**, **Atendimento Minimal**, **Prontuario**, and **Agendamento** backend verified. ADR-006 (dual-mode versioning API) accepted and honored. Prontuario verified (2026-07-09) — 79 tests, REQ-001–REQ-018 satisfied. Agendamento verified (2026-07-20) — 30 tests, REQ-001–REQ-013 satisfied, 2 low-severity findings accepted.
+
+**Test Governance Adoption (WS03/WS09)** — **Verified (PASS WITH OBSERVATIONS, 2026-07-16)**. All 13 TASKs implemented, all 31 REQs satisfied, all 14 AD-TG decisions codified. Governance consistency confirmed across 16 documents. One non-blocking observation (O-001). Documentation Follow-Up complete. Next lifecycle phase: Reporting.
 
 **AI Harness Multi-Tool Evaluation** — SDD phases complete through Verify. Status: **Approved with Minor Findings**. Documentation Follow-Up, Reporting, and Teacher Guide evaluation pending (background priority — does not block clinical development).
 
@@ -32,15 +34,16 @@ Operational snapshot for agents and developers. Update at the end of each work s
 Paciente → Atendimento Minimal → Prontuario → Agendamento → Atendimento Workflow → WS07 Frontend
 ```
 
-**Current implementation:** Test Governance Adoption (WS03/WS09) — **Verified (PASS WITH OBSERVATIONS, 2026-07-16)**. Previous: Prontuario SQL Stabilization — **verified** (2026-07-09). Next after Test Governance: **Agendamento SQL Migration & Stabilization**.
+**Current implementation:** Agendamento Stabilization — **verified (Approved with Findings, 2026-07-20).** Previous: Prontuario SQL Stabilization — **verified** (2026-07-09). Test Governance Adoption — **verified** (2026-07-16).
 
 ## SDD research status
 
 | Feature SDD | Research | Specify | Design | Tasks | Pre-Exec Review |
 |-------------|----------|---------|--------|-------|-----------------|
+| [agendamento-sql-stabilization](SDD/Agendamento_Stabilization/) | **Complete** — verified (Approved with Findings, 2026-07-20) | **Complete** | **Complete** | **Complete** | Not started (not required) |
 | [paciente-sql-stabilization](SDD/paciente-sql-stabilization/) | Complete (pre-calibration) | Complete — verified | — | — | — |
 | [atendimento-minimal-sql-stabilization](SDD/atendimento-minimal-sql-stabilization/) | **Complete** | Complete — verified | — | — | — |
-| [atendimento-workflow-stabilization](SDD/atendimento-workflow-stabilization/research.md) | **Complete** | Not ready — blocked on Prontuario + Agendamento Verify | — | — | — |
+| [atendimento-workflow-stabilization](SDD/atendimento-workflow-stabilization/research.md) | **Complete** | Not ready — Prontuario + Agendamento verified, unblocked | — | — | — |
 | [prontuario-sql-stabilization](SDD/prontuario-sql-stabilization/) | **Complete** (Part 3 delta) | **Complete** | **Complete** | **Complete** | **Complete (2026-06-19)** — Execute authorized; **Verified with Minor Findings (2026-07-09)** |
 | [ai-harness-multi-tool](SDD/ai-harness-multi-tool/) | **Complete** | **Complete** | **Complete** | **Complete** | **Complete (2026-07-08)** — Execute complete; Verify Approved with Minor Findings |
 | [test-governance-adoption](SDD/test-governance-adoption/) | **Complete** — research.md produced | **Complete** | **Complete** | **Complete** — all 13 TASKs implemented; Execute phase complete | Not started (Execute was governance-only — no Pre-Exec Review required) — **Verified (PASS WITH OBSERVATIONS, 2026-07-16)** |
@@ -72,9 +75,11 @@ Paciente → Atendimento Minimal → Prontuario → Agendamento → Atendimento 
 | 2026-07-14 | **Test Governance Adoption (WS03/WS09):** Research phase **complete**. `research.md` consolidates validated evidence from 10 Engineering Review Reports (v0.1–v0.8.3) into 14 architectural decisions (AD-TG-001 through AD-TG-014), evidence maturity assessment classifying 27 findings, full impact analysis across all AI Harness components, and recommended implementation scope (15 items in-scope, 11 items out-of-scope). **READY FOR SPECIFY.** |
 | 2026-07-15 | **Test Governance Adoption (WS03/WS09):** Execute phase **complete**. All 13 TASKs implemented — new `test-governance.md` created; `sdd-operational.md`, `verification-governance.md`, `test-strategy.md` review prompt, verifier skill (Cursor + Cline), sql-migration-workflow skill (Cursor + Cline), design.md/tasks.md/verification.md templates, documentation-index.md, AGENTS.md, harness-architecture.md, and State.md all updated. Ready for Verify. |
 | 2026-07-16 | **Test Governance Adoption (WS03/WS09):** **Verified (PASS WITH OBSERVATIONS)**. All 31 REQs satisfied, all 14 AD-TG decisions codified. Governance consistency confirmed across 16 documents. Skill projections identical (Cursor/Cline). One non-blocking observation (O-001: PM_DocOrgano.md modified outside planned Affected Components). Documentation Follow-Up executed — State.md and PM_DocOrgano.md synchronized. Ready for Reporting. |
+| 2026-07-17 | **Agendamento Stabilization:** Research Part 1 Feature Discovery & Scope Decomposition **complete**. `research.md` identifies entity-schema mismatch (PacienteId, Procedimento), Internacao FK nullability ambiguity, frontend enum drift, and 6 open questions requiring Research Part 2 resolution. |
+| 2026-07-20 | **Agendamento Stabilization:** **Verified (Approved with Findings).** Fourth SQL vertical complete — 30 tests (entity + repository + controller + SQL integration), 6 endpoints with Guid routing, 3-FK validation, PHI-safe controller. Two low-severity findings (F-01: missing Paciente navigation property, F-02: missing Paciente EF relationship mapping) accepted — FK value persists correctly, no functional impact, no migration delta needed. SQL integration and Swagger smoke skipped during Verify (environment unavailable) — accepted residual risk per Environment-Dependent Evidence Policy. |
 
 - **Atendimento Minimal** prerequisite satisfied for Prontuario and Agendamento; forward SDDs can proceed.
-- Atendimento workflow rules (~700 LOC Legacy) port deferred to **atendimento-workflow-stabilization** — requires Prontuario + Agendamento SQL verified first.
+- Atendimento workflow rules (~700 LOC Legacy) port deferred to **atendimento-workflow-stabilization** — requires Prontuario + Agendamento SQL verified first. **Agendamento verified — Atendimento Workflow now unblocked.**
 - Financial tables in schema — out of scope until clinical migration completes.
 - Frontend/API contract drift on Paciente nome search until WS07 aligns with collection search route.
 
@@ -88,22 +93,25 @@ Paciente → Atendimento Minimal → Prontuario → Agendamento → Atendimento 
 | AI Harness Multi-Tool Evaluation | Approved with Minor Findings | [verification.md](SDD/ai-harness-multi-tool/verification.md) |
 | Harness Governance Execution Plan (HGEP) | Phases A-D implemented (2026-07-10) | [harness-governance-execution-plan.md](SDD/ai-harness-multi-tool/reports/harness-governance-execution-plan.md) |
 | Test Governance Adoption | Verified (PASS WITH OBSERVATIONS, 2026-07-16) | [verification.md](SDD/test-governance-adoption/verification.md) |
+| Agendamento SQL Stabilization | Approved with Findings (2026-07-20) | [verification.md](SDD/Agendamento_Stabilization/verification.md) |
 
-Residual risk (accepted): SQL integration environment-dependent; optional mapping/negative tests deferred; WS07 frontend alignment pending; `AtualizadoPor` unset; report routes 501-only; workflow port deferred to separate SDD; Prontuario TASK-009 Swagger smoke pending (F-01, low severity); CID catalog absent in production.
+Residual risk (accepted): SQL integration environment-dependent; optional mapping/negative tests deferred; WS07 frontend alignment pending; `AtualizadoPor` unset; report routes 501-only; workflow port deferred to separate SDD; Prontuario TASK-009 Swagger smoke pending (F-01, low severity); CID catalog absent in production; Agendamento SQL integration + Swagger smoke skipped (environment unavailable); Agendamento F-01/F-02 (Paciente navigation + EF relationship) accepted as low-severity deviations.
 
 ## Next steps
 
-1. **Test Governance Adoption (WS03/WS09)** — **Verified (PASS WITH OBSERVATIONS, 2026-07-16).** Next action: **Reporting** phase. SDD folder: `Documentation/SDD/test-governance-adoption/`. Observation O-001 (PM_DocOrgano.md scope) resolved during Documentation Follow-Up — PM_DocOrgano.md status entries synchronized.
-2. **Agendamento SQL Migration & Stabilization** — deferred while Test Governance Adoption is active. Atendimento Minimal prerequisite satisfied.
+1. **Agendamento Stabilization** — **Verified (Approved with Findings, 2026-07-20).** Next action: **Documentation Follow-Up** → **Reporting**. SDD folder: `Documentation/SDD/Agendamento_Stabilization/`. Optional follow-up commit for F-01/F-02 (Paciente navigation + EF relationship) — low severity, no functional impact, no migration delta. Atendimento Workflow SDD is next in migration sequence (requires Agendamento verified — now satisfied).
+2. **Test Governance Adoption (WS03/WS09)** — **Verified (PASS WITH OBSERVATIONS, 2026-07-16).** Next action: **Reporting** phase. SDD folder: `Documentation/SDD/test-governance-adoption/`. Observation O-001 (PM_DocOrgano.md scope) resolved during Documentation Follow-Up — PM_DocOrgano.md status entries synchronized.
 3. **Harness Governance Execution Plan (HGEP)** — Phases A-D complete (2026-07-10). Phase E (HGEP-016 Cline runtime, HGEP-017 Cursor skill invocation, HGEP-018 .clineignore review) partially validated during implementation session. Remaining Phase E items documented below.
 4. **TASK-009 Swagger smoke** for Prontuario per F-01 — execute manual checklist from [specify.md](SDD/prontuario-sql-stabilization/specify.md) Runtime Validation Environment; record results.
 5. **Complete Documentation Follow-Up** for ai-harness-multi-tool — ADR-003 revision and new taxonomy ADR preparation; SDD template updates (background — does not block clinical development).
 6. **Reporting** and **Teacher Guide evaluation** for ai-harness-multi-tool (background).
 7. **Reporting** and **Teacher Guide evaluation** for Prontuario SQL Stabilization.
-8. Complete **Teacher Guide** for Atendimento Minimal if not already generated (`teacher-guide.md`).
-9. Optional test debt: soft-deleted PacienteId → 404 on POST; `AtendimentoMappingTests`; Prontuario two-atendimento patient-wide Versao scenario (D-03).
-10. Plan WS07 frontend alignment for retired `GET /Paciente/nome/{nome}` → collection search and Atendimento UI (after Workflow SDD).
-11. **HGEP completion:** Run HGEP-017 (Cursor verifier skill invocation) and finalize HGEP-016/018 observations in Agendamento session notes. HGEP Phase E completion does not block Agendamento as per §6 Harness Readiness for Next Feature.
+8. **Reporting** and **Teacher Guide evaluation** for Agendamento Stabilization.
+9. Complete **Teacher Guide** for Atendimento Minimal if not already generated (`teacher-guide.md`).
+10. Optional test debt: soft-deleted PacienteId → 404 on POST; `AtendimentoMappingTests`; Prontuario two-atendimento patient-wide Versao scenario (D-03); Agendamento F-01/F-02 follow-up commit (Paciente navigation + EF relationship).
+11. Plan WS07 frontend alignment for retired `GET /Paciente/nome/{nome}` → collection search and Atendimento UI (after Workflow SDD).
+12. **HGEP completion:** Run HGEP-017 (Cursor verifier skill invocation) and finalize HGEP-016/018 observations in Agendamento session notes. HGEP Phase E completion does not block Agendamento as per §6 Harness Readiness for Next Feature.
+13. **Atendimento Workflow Stabilization** — now unblocked (all three prerequisites verified: Atendimento Minimal, Prontuario, Agendamento). Research phase already complete.
 
 ## Task management
 

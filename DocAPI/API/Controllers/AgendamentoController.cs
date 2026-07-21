@@ -1,12 +1,11 @@
 using AutoMapper;
-using DocAPI.Data;
-using DocAPI.Data.Dtos;
 using DocAPI.Core.Entities;
+using DocAPI.Core.Interfaces.Repositories;
+using DocAPI.Data.Dtos.AgendamentoDtos;
+using DocAPI.Infrastructure.SqlDb.Context;
 using DocAPI.Interfaces.Repositories;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using DocAPI.Data.Dtos.AgendamentoDtos;
 
 namespace DocAPI.Controllers;
 
@@ -14,129 +13,154 @@ namespace DocAPI.Controllers;
 [Route("[controller]")]
 public class AgendamentoController : ControllerBase
 {
-    //private PacienteContext _context;
     private readonly IAgendamentoRepository _repository;
     private readonly IMapper _mapper;
+    private readonly IAtendimentoRepository _atendimentoRepository;
+    private readonly IPacienteRepository _pacienteRepository;
+    private readonly DocDbContext _context;
 
-    public AgendamentoController(IAgendamentoRepository repository, IMapper mapper)
+    public AgendamentoController(
+        IAgendamentoRepository repository,
+        IMapper mapper,
+        IAtendimentoRepository atendimentoRepository,
+        IPacienteRepository pacienteRepository,
+        DocDbContext context)
     {
-        //_context = context;
         _repository = repository;
         _mapper = mapper;
+        _atendimentoRepository = atendimentoRepository;
+        _pacienteRepository = pacienteRepository;
+        _context = context;
     }
+
     [HttpGet]
     public async Task<IActionResult> GetAgendamentos([FromQuery] int skip = 0, [FromQuery] int take = 10)
     {
         var agendamentos = await _repository.GetAllAsync(skip, take);
         return Ok(_mapper.Map<IEnumerable<ReadAgendamentoDto>>(agendamentos));
     }
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetByID(string id)
+
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetByID(Guid id)
     {
-        if (string.IsNullOrEmpty(id))
-            return BadRequest("O ID do agendamento é obrigatório.");
-        
         var agendamento = await _repository.GetByIdAsync(id);
         if (agendamento == null) return NotFound();
-        Console.WriteLine($"teste controller:{agendamento.ID}");
         return Ok(_mapper.Map<ReadAgendamentoDto>(agendamento));
     }
+
     [HttpGet("by-name")]
-    public async Task<IActionResult> GetByName([FromQuery]string nome)
+    public async Task<IActionResult> GetByName([FromQuery] string nome)
     {
         if (string.IsNullOrEmpty(nome))
-            return BadRequest("O Nome do paciente é obrigatório.");
+            return BadRequest("O nome é obrigatório.");
+
         string nomeLimpo = nome.Trim().Replace("\"", "");
         var agendamentos = await _repository.GetByNameAsync(nomeLimpo);
-        if (agendamentos == null || !agendamentos.Any()) return NotFound();
         return Ok(_mapper.Map<IEnumerable<ReadAgendamentoDto>>(agendamentos));
     }
+
     [HttpGet("by-pacientId")]
-    public async Task<IActionResult> GetByPacienteId([FromQuery]string pacienteId)
+    public async Task<IActionResult> GetByPacienteId([FromQuery] Guid pacienteId)
     {
-        if (string.IsNullOrEmpty(pacienteId))
-            return BadRequest("O pacienteId do agendamento é obrigatório.");
-        string pacienteIdLimpo = pacienteId.Trim().Replace("\"", "");
-        var agendamentos = await _repository.GetByPacienteIdAsync(pacienteIdLimpo);
-        if (agendamentos == null || !agendamentos.Any()) return NotFound();
+        var agendamentos = await _repository.GetByPacienteIdAsync(pacienteId);
         return Ok(_mapper.Map<IEnumerable<ReadAgendamentoDto>>(agendamentos));
     }
+
     [HttpPost]
     public async Task<IActionResult> PostAgendamento([FromBody] CreateAgendamentoDto dto)
     {
-        var agendamento = _mapper.Map<Agendamento>(dto);
+        // FK validation: AtendimentoId
+        var atendimento = await _atendimentoRepository.GetByIdAsync(dto.AtendimentoId);
+        if (atendimento == null)
+            return NotFound(new
+            {
+                title = "Foreign key reference not found",
+                status = 404,
+                field = "atendimentoId",
+                detail = "The referenced resource was not found or has been removed."
+            });
+
+        // FK validation: InternacaoId
+        var internacao = await _context.Set<Internacao>()
+            .FirstOrDefaultAsync(i => i.ID == dto.InternacaoId);
+        if (internacao == null)
+            return NotFound(new
+            {
+                title = "Foreign key reference not found",
+                status = 404,
+                field = "internacaoId",
+                detail = "The referenced resource was not found or has been removed."
+            });
+
+        // FK validation: PacienteId (optional)
+        if (dto.PacienteId.HasValue)
+        {
+            var paciente = await _pacienteRepository.GetByIdAsync(dto.PacienteId.Value);
+            if (paciente == null)
+                return NotFound(new
+                {
+                    title = "Foreign key reference not found",
+                    status = 404,
+                    field = "pacienteId",
+                    detail = "The referenced resource was not found or has been removed."
+                });
+        }
+
+        var agendamento = new Agendamento(
+            internacaoId: dto.InternacaoId,
+            atendimentoId: dto.AtendimentoId,
+            data: dto.Data,
+            horario: dto.Horario,
+            pacienteID: dto.PacienteId,
+            nome: dto.Nome,
+            aviso: dto.Aviso,
+            local: dto.Local,
+            sala: dto.Sala,
+            dataConsulta: dto.DataConsulta,
+            instrucaoStatus: dto.InstrucaoStatus,
+            atestadoStatus: dto.AtestadoStatus,
+            senhaAgendamento: dto.SenhaAgendamento);
 
         await _repository.CreateAsync(agendamento);
-        Console.WriteLine($"O agendamento d@ {agendamento.Nome} foi efetuado ");
-        Console.WriteLine($"Foi criado o ID: {agendamento.ID}");
+
         var agendamentoDto = _mapper.Map<ReadAgendamentoDto>(agendamento);
         return CreatedAtAction(nameof(GetByID), new { id = agendamento.ID }, agendamentoDto);
     }
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateAgendamento(string id, [FromBody] UpdateAgendamentoDto dto)
+
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> UpdateAgendamento(Guid id, [FromBody] UpdateAgendamentoDto dto)
     {
-        Console.WriteLine("teste no Update controller, ativo");
-        try
+        var agendamento = await _repository.GetByIdAsync(id);
+        if (agendamento == null) return NotFound();
+
+        agendamento.Update(
+            nome: dto.Nome,
+            aviso: dto.Aviso,
+            data: dto.Data,
+            horario: dto.Horario,
+            local: dto.Local,
+            sala: dto.Sala,
+            status: dto.Status,
+            instrucaoStatus: dto.InstrucaoStatus,
+            atestadoStatus: dto.AtestadoStatus,
+            dataConsulta: dto.DataConsulta);
+
+        if (dto.SenhaAgendamento is not null || dto.SenhaAgendamento != agendamento.SenhaAgendamento)
         {
-            if (!ModelState.IsValid)
-                {
-                    foreach (var error in ModelState)
-                    {
-                        Console.WriteLine($"{error.Key}: {string.Join(", ", error.Value.Errors.Select(e => e.ErrorMessage))}");
-                    }
-
-                    return BadRequest(ModelState);
-                }
-            // 1. Verifica se o ID foi fornecido
-            if (string.IsNullOrEmpty(id))
-                return BadRequest("O ID do prontuario é obrigatório.");
-            if (dto == null)
-                return BadRequest("O corpo da requisição está vazio ou inválido.");
-            // 2. Mapeia o DTO para a entidade Paciente
-            var agendamentoAtualizado = _mapper.Map<Agendamento>(dto);
-            // agendamentoAtualizado.ID = id.ToString().Trim();
-
-            // 3. Atualiza o paciente na planilha
-            await _repository.UpdateAsync(agendamentoAtualizado, id);
-
-            // 4. Retorna sucesso
-            return NoContent();
+            agendamento.SetSenha(dto.SenhaAgendamento);
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Erro ao atualizar agendamento: {ex.Message}");
-            return StatusCode(500, "Erro interno ao atualizar agendamento.");
-        }
+
+        await _repository.UpdateAsync(agendamento, id);
+        return NoContent();
     }
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteAgendamento(string id)
+
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> DeleteAgendamento(Guid id)
     {
-        try
-        {
-            if (string.IsNullOrEmpty(id))
-            return BadRequest("O ID do Agendamento é obrigatório.");
-            await _repository.DeleteAsync(id);
-            return NoContent();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Erro ao excluir prontuario: {ex.Message}");
-            return NotFound("Prontuario não encontrado.");
-        }
+        var agendamento = await _repository.GetByIdAsync(id);
+        if (agendamento == null) return NotFound();
+
+        await _repository.DeleteAsync(id);
+        return NoContent();
     }
-    
-    // método generalista
-    // [HttpGet("by-filter")]
-    // public async Task<IActionResult> GetByFilter([FromQuery]string filterCondition, string filter )
-    // {
-    //     if (string.IsNullOrEmpty(filter))
-    //         return BadRequest("O filtro selecionado para busca é nulo ou está em branco.");
-    //     _repository.FilterValidation()
-    //     if (string.IsNullOrEmpty(filterCondition))
-    //         return BadRequest("O valor do filtro para busca é nulo ou está em branco.");
-    //     string nomeLimpo = nome.Trim().Replace("\"", "");
-    //     var agendamentos = await _repository.GetByNameAsync(nomeLimpo);
-    //     if (agendamentos == null || !agendamentos.Any()) return NotFound();
-    //     return Ok(_mapper.Map<IEnumerable<ReadAgendamentoDto>>(agendamentos));
-    // }
 }
